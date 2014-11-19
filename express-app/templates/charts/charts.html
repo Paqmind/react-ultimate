@@ -1,0 +1,22 @@
+<div class="ui grid">
+  <div class="two columns row">
+    <div class="column">
+      <div id="vis-lines" style="background-color: white"></div>
+      <br/>
+      <div id="vis-columns" style="background-color: white"></div>
+      <br/>
+      <div id="vis-bars" style="background-color: white"></div>
+    </div>
+    <div class="column">
+      <div id="hc-lines"></div>
+      <br/>
+      <div id="hc-columns"></div>
+      <br/>
+      <div id="hc-bars"></div>
+    </div>
+  </div>
+</div>
+
+{% include "charts/vis.html" %}
+
+{% include "charts/hc.html" %}

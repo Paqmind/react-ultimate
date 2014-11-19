@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <title>Choosing a color palette</title>
+  <link rel="stylesheet" href="/assets/vendors/semantic-ui/semantic.min.css"/>
+{% endblock %}
+
+{% block body %}
+  {% include "palettes/text.md" %}
+  <p style="text-align: center">* * *</p>
+  {% include "palettes/palettes.html" %}
+{% endblock %}

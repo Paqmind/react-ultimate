@@ -1,0 +1,39 @@
+{
+  // ENVIRONMENT
+  "browser": true,  // Standard browser globals e.g. `window`, `document`.
+  "node": true,     // Node.js
+  "jquery": true,   // jQuery
+  "esnext": true,   // ES6 / ES7
+  "devel": true,    // allow `console.log` etc.
+
+  // ENFORCING
+  "strict": true,    // require "use strict"
+  "eqeqeq": true,    // require triple equals i.e. `===`.
+  "noarg": true,     // prohibit use of `arguments.caller` and `arguments.callee`.
+  "newcap": true,    // require capitalization of all constructor functions e.g. `new F()`.
+  "undef": true,     // require all non-global variables be declared before they are used.
+  "noempty": true,   // prohibit use of empty blocks
+  "bitwise": true,   // prohibit bitwise operators (&, |, ^, etc.)
+  "curly": true,     // require {} for every new block or scope.
+  "plusplus": true,  // prohibit use of `++` & `--`.
+  "nonew": true,     // prohibit side-only constructor usage
+
+  // RELAXING
+  "-W079": false,        // allow `$` override (TODO find key-name for this)
+  "sub": true,           // allow bracket notation where dotted can be used
+  "boss": true,          // allow assignments inside if & while
+  "globalstrict": true,  // allow global "use strict"
+
+  // PREDEFINED GLOBALS
+  "predef": [
+    "$", "_"
+  ],
+
+  // STYLING
+  "indent": 2,
+  "quotmark": "double",
+
+  // BEHAVIOR
+  "passfail": false,  // stop on first error.
+  "maxerr": 100       // maximum error before stopping.
+}
