@@ -6,6 +6,6 @@ var app = require("../express-app/app");
 
 app.set("port", process.env.PORT || 3000);
 
-var server = app.listen(app.get("port"), function() {
+var server = app.listen(app.get("port"), "127.0.0.1", function() {
   debug("Express server listening on port " + server.address().port);
 });
