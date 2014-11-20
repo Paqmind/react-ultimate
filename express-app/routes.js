@@ -7,16 +7,12 @@ router.get("/", function(req, res) {
   res.render("home.html");
 });
 
-router.get("/designs", function(req, res) {
-  res.render("designs/index.html");
+router.get("/palette", function(req, res) {
+  res.render("palette/index.html");
 });
 
-router.get("/palettes", function(req, res) {
-  res.render("palettes/index.html");
-});
-
-router.get("/charts", function(req, res) {
-  res.render("charts/index.html");
+router.get("/chartlib", function(req, res) {
+  res.render("chartlib/index.html");
 });
 
 module.exports = router;

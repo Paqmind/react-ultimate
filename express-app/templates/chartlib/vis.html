@@ -32,7 +32,7 @@
     {id: 1, content: "New York"}
   ]);
 
-  var lineChart = new vis.Graph2d(
+  {#var lineChart = new vis.Graph2d(
     document.getElementById("vis-lines"),
     dataset,
     groups,
@@ -41,9 +41,9 @@
         style: "circle"
       },
     }
-  );
+  );#}
 
-  var columnChart = new vis.Graph2d(
+  {#var columnChart = new vis.Graph2d(
     document.getElementById("vis-columns"),
     dataset,
     groups,
@@ -54,5 +54,5 @@
         handleOverlap: "sideBySide"
       },
     }
-  );
+  );#}
 </script>

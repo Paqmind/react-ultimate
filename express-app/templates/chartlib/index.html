@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <title>Choosing a chart library</title>
+  <link rel="stylesheet" href="/assets/vendors/vis/dist/vis.min.css"/>
+  <link rel="stylesheet" href="/assets/vendors/semantic-ui/semantic.min.css"/>
+{% endblock %}
+
+{% block body %}
+  <script src="/assets/vendors/jquery/dist/jquery.min.js"></script>
+  <script src="/assets/vendors/semantic-ui/semantic.min.js"></script>
+
+  <div class="ui grid">
+    <div class="two columns row">
+      <div class="column">
+        <div id="vis-lines" style="background-color: white"></div>
+        <br/>
+        <div id="vis-columns" style="background-color: white"></div>
+        <br/>
+        <div id="vis-bars" style="background-color: white"></div>
+      </div>
+      <div class="column">
+        <div id="hc-lines"></div>
+        <br/>
+        <div id="hc-columns"></div>
+        <br/>
+        <div id="hc-bars"></div>
+      </div>
+    </div>
+  </div>
+
+  {% include "chartlib/vis.html" %}
+
+  {% include "chartlib/hc.html" %}
+{% endblock %}

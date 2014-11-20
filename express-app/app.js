@@ -62,3 +62,15 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+
+/*
+app.configure('development', function () {
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  mongo.connect('development',logger); // mongodb initialization
+});
+
+app.configure('production', function () {
+  app.use(express.errorHandler());
+  mongo.connect('production',logger); // mongodb initialization
+});*/
