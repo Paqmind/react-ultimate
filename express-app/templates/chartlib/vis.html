@@ -43,6 +43,9 @@
     );
 
     var columnChart = new vis.Graph2d(
+      document.getElementById("vis-lines"),
+      dataset,
+      groups,
       {
         style: "bar",
         orientation: "top",
