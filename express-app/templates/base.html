@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  {% block head %}
-  {% endblock %}
+  {% block head %}{% endblock %}
+
+  {% block styles %}{% endblock %}
   <link rel="stylesheet" href="/assets/vendors/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/vendors/semantic-ui/dist/semantic.min.css"/>
   <link rel="stylesheet" href="/assets/styles/theme.css"/>
 </head>
 <body>
-  {% block body %}
-  {% endblock %}
+  <script src="/assets/vendors/jquery/dist/jquery.min.js"></script>
+  {% block body %}{% endblock %}
+
+  <script src="/assets/vendors/semantic-ui/dist/semantic.min.js"></script>
+  {% block scripts %}{% endblock %}
 </body>
 </html>
