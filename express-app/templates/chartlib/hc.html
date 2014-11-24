@@ -1,84 +1,84 @@
-<script src="/assets/vendors/highcharts/js/highcharts.js"></script>
-
 <script>
-  var series = [
-  {
-    name: "Tokyo",
-    data: [
-      [Date.UTC(2014, 6, 11), 10],
-      [Date.UTC(2014, 6, 13), 30],
-      [Date.UTC(2014, 6, 14), 10],
-      [Date.UTC(2014, 6, 15), 15],
-      [Date.UTC(2014, 6, 16), 30],
-    ]
-  },
-
-  {
-    name: "New York",
-    data: [
-      [Date.UTC(2014, 6, 11), 12],
-      [Date.UTC(2014, 6, 12), 15],
-      [Date.UTC(2014, 6, 13), 34],
-      [Date.UTC(2014, 6, 14), 24],
-      [Date.UTC(2014, 6, 15), 5]
-    ]
-  }];
-
-  var colors = ["rgba(0, 170, 255, 0.75)", "rgba(255, 170, 0, 0.75)"];
-
-  $(document.getElementById("hc-lines")).highcharts({
-    colors: colors,
-
-    chart: {
-      type: "spline"
+  $(document).ready(function() {
+    var series = [
+    {
+      name: "Tokyo",
+      data: [
+        [Date.UTC(2014, 6, 11), 10],
+        [Date.UTC(2014, 6, 13), 30],
+        [Date.UTC(2014, 6, 14), 10],
+        [Date.UTC(2014, 6, 15), 15],
+        [Date.UTC(2014, 6, 16), 30],
+      ]
     },
 
-    xAxis: {
-        type: "datetime",
-    },
+    {
+      name: "New York",
+      data: [
+        [Date.UTC(2014, 6, 11), 12],
+        [Date.UTC(2014, 6, 12), 15],
+        [Date.UTC(2014, 6, 13), 34],
+        [Date.UTC(2014, 6, 14), 24],
+        [Date.UTC(2014, 6, 15), 5]
+      ]
+    }];
 
-    series: series
-  });
+    var colors = ["rgba(0, 170, 255, 0.75)", "rgba(255, 170, 0, 0.75)"];
 
-  $(document.getElementById("hc-columns")).highcharts({
-    colors: colors,
+    $(document.getElementById("hc-lines")).highcharts({
+      colors: colors,
 
-    chart: {
-      type: "column"
-    },
+      chart: {
+        type: "spline"
+      },
 
-    xAxis: {
-        type: "datetime",
-    },
+      xAxis: {
+          type: "datetime",
+      },
 
-    plotOptions: {
-      column: {
-        pointPadding: 0,
-        borderWidth: 0
-      }
-    },
+      series: series
+    });
 
-    series: series
-  });
+    $(document.getElementById("hc-columns")).highcharts({
+      colors: colors,
 
-  $(document.getElementById("hc-bars")).highcharts({
-    colors: colors,
+      chart: {
+        type: "column"
+      },
 
-    chart: {
-      type: "bar"
-    },
+      xAxis: {
+          type: "datetime",
+      },
 
-    xAxis: {
-        type: "datetime",
-    },
+      plotOptions: {
+        column: {
+          pointPadding: 0,
+          borderWidth: 0
+        }
+      },
 
-    plotOptions: {
-      bar: {
-        pointPadding: 0,
-        borderWidth: 0
-      }
-    },
+      series: series
+    });
 
-    series: series
+    $(document.getElementById("hc-bars")).highcharts({
+      colors: colors,
+
+      chart: {
+        type: "bar"
+      },
+
+      xAxis: {
+          type: "datetime",
+      },
+
+      plotOptions: {
+        bar: {
+          pointPadding: 0,
+          borderWidth: 0
+        }
+      },
+
+      series: series
+    });
   });
 </script>
