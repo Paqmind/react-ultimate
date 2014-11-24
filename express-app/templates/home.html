@@ -1,12 +1,16 @@
+{% extends "base.html" %}
+
 {% block head %}
   <title>Home</title>
 {% endblock %}
 
 {% block body %}
-  {% include "requirements.md" %}
-  <hr/>
-  <ul>
-    <li><a href="/palette">Choosing Palette</a></li>
-    <li><a href="/chartlib">Choosing Chart Library</a></li>
-  </ul>
+  <div class="container">
+    {% include "requirements.md" %}
+    <hr/>
+    <ul>
+      <li><a href="/palette">Choosing Palette</a></li>
+      <li><a href="/chartlib">Choosing Chart Library</a></li>
+    </ul>
+  </div>
 {% endblock %}
