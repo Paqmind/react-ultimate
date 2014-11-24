@@ -15,4 +15,8 @@ router.get("/chartlib", function(req, res) {
   res.render("chartlib/index.html");
 });
 
+router.get("/timeline", function(req, res) {
+  res.render("timeline/index.html");
+});
+
 module.exports = router;
