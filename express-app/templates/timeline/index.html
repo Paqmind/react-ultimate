@@ -62,29 +62,30 @@
 
         var timeline = new vis.Timeline(timelineNode);
 
-  {#      console.log(window.twttr);#}
-  {#      console.log(window.twttr.ready());#}
-  {#      console.log(window.twttr.widgets);#}
-  {#      console.log(window.twttr.widgets.load());#}
-  {#      console.log(window.twttr.widgets);#}
-
-        window.twttr.widgets.createTweet(
-          '536588490436526080',
-          document.getElementById('tweetDetail'),
-          {
-            theme: 'dark'
-          }
-        );
-
-    {#    536588490436526080#}
+{#        To unselect all selected items, call `setSelection([])#}
 
         timeline.on('select', function(properties) {
           // TODO disable selection of more than one item?
-          console.log(properties); // .items contain a list of ids of selected items
-          console.log(properties.items[0]);
-          console.log(timeline.itemsData);
-          console.log(timeline.itemsData._data);
-          console.log(timeline.itemsData._data[properties.items[0]]);
+          // console.log(properties); // .items contain a list of ids of selected items
+          // console.log(properties.items[0]);
+          // console.log(timeline.itemsData);
+          // console.log(timeline.itemsData._data);
+          // console.log(timeline.itemsData._data[properties.items[0]]);
+          // console.log(timeline.itemsData._data[properties.items[0]].replyID);
+          // console.log(timeline.itemsData._data[properties.items[0]].tweetID);
+          // exact documentation: https://dev.twitter.com/web/javascript/creating-widgets
+          var replyID = timeline.itemsData._data[properties.items[0]].replyID; // TODO: is corrupted because it was an Integer!!!
+          var tweetID = timeline.itemsData._data[properties.items[0]].tweetID;
+
+          $('#tweetDetail').html('');
+          window.twttr.widgets.createTweet(
+            tweetID,
+            document.getElementById('tweetDetail'),
+            {
+              theme: 'light',   // TODO: move to meta-tags
+              linkColor: "#f00" // --||--
+            }
+          );
         });
 
         timeline.move = function(percentage) {
@@ -116,6 +117,8 @@
             var date = new Date(dateParts[5], months[dateParts[1]], dateParts[2], timeParts[0], timeParts[1], timeParts[2]);
             items.add({
               id: i,
+              tweetID: data[i]._id.toString(),
+              replyID: data[i].replyID.toString(),
               content: data[i]['username'],
               start: date,
               tweet: data[i]['tweet']
@@ -130,35 +133,33 @@
           console.log(err);
         }
 
-    {#    jQuery.ajax({#}
-    {#      type: "GET",#}
-    {#      crossDomain: true,#}
-    {#      url: "http://ec2-54-86-62-51.compute-1.amazonaws.com:8080/ReplyTweets/" + userID,#}
-    {#      dataType: "json",#}
-    {#      success: success,#}
-    {#      error: error#}
-    {#    });#}
+        jQuery.ajax({
+          type: "GET",
+          crossDomain: true,
+          url: "http://ec2-54-86-62-51.compute-1.amazonaws.com:8080/ReplyTweets/" + userID,
+          dataType: "json",
+          success: success,
+          error: error
+        });
 
         // Create a Timeline
-    {#    var timeline = new vis.Timeline(container, items, groups, options);#}
+        $("#moveLeft").on("click", function () {
+          timeline.move(0.2);
+        });
 
-    {#    $("#moveLeft").on("click", function () {#}
-    {#      timeline.move(0.2);#}
-    {#    });#}
-    {##}
-    {#    $("#moveRight").on("click", function () {#}
-    {#      timeline.move(-0.2);#}
-    {#    });#}
-    {##}
-    {#    $("#zoomIn").on("click", function () {#}
-    {#      console.log("zoomIn");#}
-    {#      timeline.zoom(-0.2);#}
-    {#    });#}
-    {##}
-    {#    $("#zoomOut").on("click", function () {#}
-    {#      console.log("zoomOut");#}
-    {#      timeline.zoom(0.2);#}
-    {#    });#}
+        $("#moveRight").on("click", function () {
+          timeline.move(-0.2);
+        });
+
+        $("#zoomIn").on("click", function () {
+          console.log("zoomIn");
+          timeline.zoom(-0.2);
+        });
+
+        $("#zoomOut").on("click", function () {
+          console.log("zoomOut");
+          timeline.zoom(0.2);
+        });
 
         var months = {
           Jan: 1,
@@ -178,16 +179,3 @@
     });
   </script>
 {% endblock %}
-
-{#
-$("div#selectedItem").html("");
-var i = parseInt(properties['items']);
-var username = data[i]['username'];
-var id = data[i]['_id'];
-$("div#selectedItem" + divname).html(" ");
-console.log(username + " " + id);
-var returnData = '<script async src="http://platform.twitter.com/widgets.js" charset="utf-8"></script>\n' ;
-  returnData += '<blockquote class="twitter-tweet" lang="en"><a href="https://twitter.com/' + username + '/statuses/' + id + '"';
-  returnData+= '</a></blockquote>';
-  $("#" + divname).html(returnData);
-#}
