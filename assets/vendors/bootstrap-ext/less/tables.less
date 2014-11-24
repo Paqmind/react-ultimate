@@ -1,0 +1,84 @@
+/*******************************************************************************
+  BOOTSTRAP-EXT. TABLES
+*******************************************************************************/
+
+/*
+Table
+*/
+.table {
+    > thead, > tbody {
+        > tr {
+            > th, > td {
+                border-width: 0;
+            }
+        }
+    }
+    th {
+        font-size: 1.15em;
+        font-weight: normal; // Bold-headers don't look good
+//        dl, ul, ol { why ? what about nav?
+//            margin-bottom: 0;
+//        }
+    }
+    td {
+        line-height: @line-height-computed * 1.2;
+        dl, ul, ol {
+            margin-bottom: 0;
+        }
+    }
+    .table {
+        th {
+            font-size: 0.95em;
+        }
+    }
+}
+
+.table-condensed th {
+    font-weight: @font-weight-base;
+    font-size: @font-size-base;
+}
+
+/*
+Table-bordered
+*/
+.table-bordered {
+    > thead, > tbody {
+        > tr {
+            > th, > td {
+                border-width: 1px;
+            }
+        }
+    }
+}
+
+/*
+Zebra-striping
+*/
+.table-striped-manual {
+    tbody {
+        tr.accent {
+            td, th {
+                background-color: @table-bg-accent;
+            }
+        }
+    }
+}
+
+/*
+Cell sizing
+*/
+th.width-by-content,
+td.width-by-content {
+    width: 1%;
+    white-space: nowrap;
+}
+
+/*
+Align
+*/
+.table-header-left th {
+    text-align: left;
+}
+.table-header-right th {
+    text-align: right;
+}

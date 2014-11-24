@@ -1,0 +1,111 @@
+/*******************************************************************************
+  BOOTSTRAP-EXT. DROPDOWNS
+*******************************************************************************/
+
+.dropdown-menu {
+  .box-shadow(@dropdown-shadow);
+    > li {
+        > a {
+            padding: 6px 20px;
+        }
+    }
+}
+
+/*
+Dropdown-block
+*/
+.dropdown-block {
+    .dropdown-block-padding {
+        padding: @line-height-computed/2 @line-height-computed;
+    }
+    .nav {
+        > li {
+            > a {
+                display: block;
+                padding: 6px 20px;
+                clear: both;
+                font-weight: normal;
+                line-height: @line-height-base;
+                color: @dropdown-link-color;
+                white-space: nowrap; // prevent links from randomly breaking onto new lines
+                &:hover,
+                &:focus {
+                    text-decoration: none;
+                    color: @dropdown-link-hover-color;
+                    background-color: @dropdown-link-hover-bg;
+                }
+            }
+            &.active > a {
+                &,
+                &:hover,
+                &:focus {
+                    color: @dropdown-link-active-color;
+                    text-decoration: none;
+                    outline: 0;
+                    background-color: @dropdown-link-active-bg;
+                }
+            }
+            &.disabled > a {
+                &,
+                &:hover,
+                &:focus {
+                    color: @dropdown-link-disabled-color;
+                }
+                &:hover,
+                &:focus {
+                    text-decoration: none;
+                    background-color: transparent;
+                    background-image: none; // Remove CSS gradient
+                    .reset-filter();
+                    cursor: not-allowed;
+                }
+            }
+        }
+    }
+}
+
+/*
+Dropdown-header
+*/
+.dropdown-header {
+    text-transform: uppercase;
+}
+
+/*
+Dropdown-submenu
+*/
+//http://stackoverflow.com/questions/18023493/bootstrap-3-dropdown-sub-menu-missing
+.dropdown-submenu {
+    position:relative;
+    > a:after {
+        display: block;
+        content: " ";
+        float: right;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        border-left-color: #ccc;
+        margin-top: 5px;
+        margin-right: -10px;
+    }
+    &:hover {
+        > a:after {
+            border-left-color: @white;
+        }
+    }
+    > .dropdown-menu {
+        top: 0;
+        left: 100%;
+        border-radius: 0 @border-radius-base @border-radius-base @border-radius-base;
+    }
+    &.dropdown-submenu-left {
+        >.dropdown-menu {
+            left: -100%;
+            right: auto;
+            margin-right: 2px;
+            border-radius: @border-radius-base 0 @border-radius-base @border-radius-base;
+        }
+    }
+}

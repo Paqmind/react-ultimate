@@ -2,7 +2,7 @@
 
 var gulp = require("gulp");
 var less = require('gulp-less');
-var concat = require("gulp-concat");
+//var concat = require("gulp-concat");
 //var gulpIgnore = require("gulp-ignore");
 //var stripDebug = require("gulp-strip-debug");
 //var uglify = require("gulp-uglify");
@@ -57,13 +57,13 @@ var concat = require("gulp-concat");
 //});
 
 gulp.task("compile-less", function() {
-  return gulp.src(["assets/styles/*.less"])
+  return gulp.src(["assets/styles/src/theme.less"])
     .pipe(less())
-    .pipe(gulp.dest("assets/styles/"));
+    .pipe(gulp.dest("assets/styles/dist"));
 });
 
 gulp.task("watch", function() {
-  gulp.watch("assets/styles/*.less", ["compile-less"]);
+  gulp.watch("assets/styles/src/**/*", ["compile-less"]);
 });
 
 gulp.task("default", ["watch", "compile-less"]);

@@ -1,0 +1,115 @@
+/*******************************************************************************
+  BOOTSTRAP-EXT. UTILITIES
+*******************************************************************************/
+
+*[align=top]    { margin-bottom: @line-height-computed; }
+*[align=right]  { margin-left: @line-height-computed; }
+*[align=bottom] { margin-top: @line-height-computed; }
+*[align=left]   { margin-right: @line-height-computed; }
+
+.margin-bottom { margin-bottom: @line-height-computed; }
+.margin-left   { margin-left: @line-height-computed; }
+.margin-top    { margin-top: @line-height-computed; }
+.margin-right  { margin-right: @line-height-computed; }
+
+.margin-bottom-xlg { margin-bottom: @line-height-computed * 2; }
+.margin-left-xlg   { margin-left: @line-height-computed * 2; }
+.margin-top-xlg    { margin-top: @line-height-computed * 2; }
+.margin-right-xlg  { margin-right: @line-height-computed * 2; }
+
+.margin-bottom-lg { margin-bottom: @line-height-computed * 1.5; }
+.margin-left-lg   { margin-left: @line-height-computed * 1.5; }
+.margin-top-lg    { margin-top: @line-height-computed * 1.5; }
+.margin-right-lg  { margin-right: @line-height-computed * 1.5; }
+
+.margin-bottom-sm { margin-bottom: @line-height-computed / 2; }
+.margin-left-sm   { margin-left: @line-height-computed / 2; }
+.margin-top-sm    { margin-top: @line-height-computed / 2; }
+.margin-right-sm  { margin-right: @line-height-computed / 2; }
+
+.margin-bottom-xs { margin-bottom: @line-height-computed / 4; }
+.margin-left-xs   { margin-left: @line-height-computed / 4; }
+.margin-top-xs    { margin-top: @line-height-computed / 4; }
+.margin-right-xs  { margin-right: @line-height-computed / 4; }
+
+.nomargin        { margin: 0!important; }
+.nomargin-top    { margin-top: 0!important; }
+.nomargin-left   { margin-left: 0!important; }
+.nomargin-bottom { margin-bottom: 0!important; }
+.nomargin-right  { margin-right: 0!important; }
+
+.nopadding        { padding: 0!important; }
+.nopadding-top    { padding-top: 0!important; }
+.nopadding-left   { padding-left: 0!important; }
+.nopadding-bottom { padding-bottom: 0!important; }
+.nopadding-right  { padding-right: 0!important; }
+
+.text-left   td, .text-left   th, .text-left   { text-align: left!important; }
+.text-center td, .text-center th, .text-center { text-align: center!important; }
+.text-right  td, .text-right  th, .text-right  { text-align: right!important; }
+
+td.text-left,   th.text-left   { text-align: left!important; }
+td.text-center, th.text-center { text-align: center!important; }
+td.text-right,  th.text-right  { text-align: right!important; }
+
+.text-top    th, .text-top    td, .text-top    { vertical-align: top!important; }
+.text-middle th, .text-middle td, .text-middle { vertical-align: middle!important; }
+.text-bottom th, .text-bottom td, .text-bottom { vertical-align: bottom!important; }
+
+th.text-top,    .text-top    td { vertical-align: top!important; }
+th.text-middle, .text-middle td { vertical-align: middle!important; }
+th.text-bottom, .text-bottom td { vertical-align: bottom!important; }
+
+.width-full { width: 100%; }
+.width-auto { width: auto!important; }
+
+.hidden {
+    display: none!important;
+    visibility: hidden!important;
+}
+.inline-block {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    vertical-align: middle;
+}
+.nowrap {
+    white-space: nowrap;
+}
+.pre-wrap {
+    white-space: pre-wrap;
+}
+
+.lh100, ul.lh100 li, table.lh100 th, table.lh100 td, tr.lh100 th, tr.lh100 td { line-height: @line-height-computed; }
+.lh120, ul.lh120 li, table.lh120 th, table.lh120 td, tr.lh120 th, tr.lh120 td { line-height: @line-height-computed * 1.2; }
+.lh150, ul.lh150 li, table.lh150 th, table.lh150 td, tr.lh150 th, tr.lh150 td { line-height: @line-height-computed * 1.5; }
+.lh200, ul.lh200 li, table.lh200 th, table.lh200 td, tr.lh200 th, tr.lh200 td { line-height: @line-height-computed * 2; }
+
+// Pull need to have margin by default. Is you don't need, use .nomargin
+.pull-left {
+    margin-right: @line-height-computed;
+}
+.pull-right {
+    margin-left: @line-height-computed;
+}
+
+// Row-Pull: for quick pulling one row blocks, in case columns can not be used
+.row-pull {
+    &:extend(.clearfix all);
+    @media (max-width: @grid-float-breakpoint) {
+        .pull-left, .pull-right {
+            float: none!important;
+            margin-bottom: @line-height-computed/2;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+        .pull-left {
+            margin-right: 0;
+        }
+        .pull-right {
+            margin-left: 0;
+        }
+    }
+}

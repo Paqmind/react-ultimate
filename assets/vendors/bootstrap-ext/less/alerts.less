@@ -1,0 +1,47 @@
+/*******************************************************************************
+  BOOTSTRAP-EXT. ALERTS
+*******************************************************************************/
+
+/*
+Alerts
+*/
+#alerts {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: @zindex-modal;
+    font-size: @font-size-base*1.15;
+    > .alert {
+        > .close {
+            font-size: @font-size-base*2;
+        }
+        > .wrapper {
+            .container;
+        }
+    }
+}
+
+/*
+Alert-block
+*/
+// `.alert` is a block with inline-elements inside. It need bottom padding!
+// `.alert-block` is a block with block-elements inside (that have margin-bottom).
+.alert-block {
+    p, ul, ol, dl {
+        margin-bottom: @line-height-computed / 2;
+    }
+    p + p {
+        margin-top: 0;
+    }
+    p:last-child {
+        margin-bottom: 0;
+    }
+    .close {
+        line-height: @font-size-base;
+    }
+}
+
+.alert-error {
+  .alert-variant(@alert-error-bg; @alert-error-border; @alert-error-text);
+}
