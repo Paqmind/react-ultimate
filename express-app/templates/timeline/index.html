@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <title>Trying out Timeline</title>
+{% endblock %}
+
+{% block body %}
+  <div id="visualization">
+    <div class="menu">
+      <input type="button" id="zoomIn" value="Zoom in"/>
+      <input type="button" id="zoomOut" value="Zoom out"/>
+      <input type="button" id="moveLeft" value="Move left"/>
+      <input type="button" id="moveRight" value="Move right"/>
+    </div>
+  </div>
+  <div id="tweetDetail"></div>
+{% endblock %}
+
+{% block styles %}
+  <link rel="stylesheet" href="/assets/vendors/vis/dist/vis.min.css"/>
+{% endblock %}
+
+{% block scripts %}
+  <script src="/assets/vendors/vis/dist/vis.js"></script>
+
+  <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      window.twttr.ready(function() {
+        // DOM element where the Timeline will be attached
+        var timelineNode = document.getElementById('visualization');
+
+        // Configuration for the Timeline
+        var options = {
+          zoomable: true,
+          zoomMin: 60 * 60 * 1000,
+    {#      start: "2013-04-10",#}
+    {#      end: "2013-04-30",#}
+    {#      type: "range",#}
+    {#      margin.item.horizontal: 30,#}
+    {#      orientation: "top",#}
+    {#      editable: true,#}
+    {#      showCurrentTime: true,#}
+    {#      groupOrder: function (a, b) { return a.value - b.value; },#}
+          clickToUse: true,
+    {#      end: new Date(2013, 5, 28),#}
+        };
+
+        function getUrlVars() {
+          var vars = [], hash;
+          var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+          for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+          }
+          return vars;
+        }
+
+        var userID = getUrlVars()["username"] || "BarclaysOnline";
+
+        var timeline = new vis.Timeline(timelineNode);
+
+  {#      console.log(window.twttr);#}
+  {#      console.log(window.twttr.ready());#}
+  {#      console.log(window.twttr.widgets);#}
+  {#      console.log(window.twttr.widgets.load());#}
+  {#      console.log(window.twttr.widgets);#}
+
+        window.twttr.widgets.createTweet(
+          '536588490436526080',
+          document.getElementById('tweetDetail'),
+          {
+            theme: 'dark'
+          }
+        );
+
+    {#    536588490436526080#}
+
+        timeline.on('select', function(properties) {
+          // TODO disable selection of more than one item?
+          console.log(properties); // .items contain a list of ids of selected items
+          console.log(properties.items[0]);
+          console.log(timeline.itemsData);
+          console.log(timeline.itemsData._data);
+          console.log(timeline.itemsData._data[properties.items[0]]);
+        });
+
+        timeline.move = function(percentage) {
+          // Q: better move by days?
+          var range = this.getWindow();
+          var interval = range.end - range.start;
+          this.setWindow({
+            start: range.start.valueOf() + interval * percentage,
+            end:   range.end.valueOf()   + interval * percentage
+          });
+        };
+
+        timeline.zoom = function(percentage) {
+          console.log("zoom?");
+          var range = this.getWindow();
+          var interval = range.end - range.start;
+          this.setWindow({
+            start: range.start.valueOf() - interval * percentage,
+            end:   range.end.valueOf()   + interval * percentage
+          });
+        };
+
+        function success(data, status, jqXHR) {
+          console.log(data);
+          var items = new vis.DataSet({});
+          for (var i = 0; i < data.length; i++) {
+            var dateParts = data[i]['date'].split(" ");
+            var timeParts = dateParts[3].split(":");
+            var date = new Date(dateParts[5], months[dateParts[1]], dateParts[2], timeParts[0], timeParts[1], timeParts[2]);
+            items.add({
+              id: i,
+              content: data[i]['username'],
+              start: date,
+              tweet: data[i]['tweet']
+            });
+          }
+
+          timeline.setItems(items);
+        }
+
+        function error(event, jqXHR, status, error) {
+          var err = event + jqXHR + ", " + status + ", " + error;
+          console.log(err);
+        }
+
+    {#    jQuery.ajax({#}
+    {#      type: "GET",#}
+    {#      crossDomain: true,#}
+    {#      url: "http://ec2-54-86-62-51.compute-1.amazonaws.com:8080/ReplyTweets/" + userID,#}
+    {#      dataType: "json",#}
+    {#      success: success,#}
+    {#      error: error#}
+    {#    });#}
+
+        // Create a Timeline
+    {#    var timeline = new vis.Timeline(container, items, groups, options);#}
+
+    {#    $("#moveLeft").on("click", function () {#}
+    {#      timeline.move(0.2);#}
+    {#    });#}
+    {##}
+    {#    $("#moveRight").on("click", function () {#}
+    {#      timeline.move(-0.2);#}
+    {#    });#}
+    {##}
+    {#    $("#zoomIn").on("click", function () {#}
+    {#      console.log("zoomIn");#}
+    {#      timeline.zoom(-0.2);#}
+    {#    });#}
+    {##}
+    {#    $("#zoomOut").on("click", function () {#}
+    {#      console.log("zoomOut");#}
+    {#      timeline.zoom(0.2);#}
+    {#    });#}
+
+        var months = {
+          Jan: 1,
+          Feb: 2,
+          Mar: 3,
+          Apr: 4,
+          May: 5,
+          Jun: 6,
+          Jul: 7,
+          Aug: 8,
+          Sep: 9,
+          Oct: 10,
+          Nov: 11,
+          Dec: 12,
+        };
+      });
+    });
+  </script>
+{% endblock %}
+
+{#
+$("div#selectedItem").html("");
+var i = parseInt(properties['items']);
+var username = data[i]['username'];
+var id = data[i]['_id'];
+$("div#selectedItem" + divname).html(" ");
+console.log(username + " " + id);
+var returnData = '<script async src="http://platform.twitter.com/widgets.js" charset="utf-8"></script>\n' ;
+  returnData += '<blockquote class="twitter-tweet" lang="en"><a href="https://twitter.com/' + username + '/statuses/' + id + '"';
+  returnData+= '</a></blockquote>';
+  $("#" + divname).html(returnData);
+#}
