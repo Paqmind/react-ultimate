@@ -1,0 +1,38 @@
+/*******************************************************************************
+  BOOTSTRAP-EXT. MEDIA
+*******************************************************************************/
+
+// media-sm = media by default
+.media-lg, .media-list-lg .media {
+    > .pull-left {
+        margin-right: @line-height-computed * 1.5;
+    }
+    > .pull-right {
+        margin-left: @line-height-computed * 1.5;
+    }
+}
+.media-md, .media-list-md .media,
+.media, .media-list .media { // by default
+    > .pull-left {
+        margin-right: @line-height-computed;
+    }
+    > .pull-right {
+        margin-left: @line-height-computed;
+    }
+}
+.media-sm, .media-list-sm .media {
+    > .pull-left {
+        margin-right: @line-height-computed/2;
+    }
+    > .pull-right {
+        margin-left: @line-height-computed/2;
+    }
+}
+.media-xs, .media-list-xs .media {
+    > .pull-left {
+        margin-right: @line-height-computed / 4;
+    }
+    > .pull-right {
+        margin-left: @line-height-computed / 4;
+    }
+}

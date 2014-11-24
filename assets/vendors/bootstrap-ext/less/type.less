@@ -1,0 +1,223 @@
+/*******************************************************************************
+  BOOTSTRAP-EXT. TYPE
+*******************************************************************************/
+
+/*
+Emphasis
+*/
+big, .big {
+    font-size: 1.15em;
+}
+b, strong {
+    font-weight: @font-weight-base;
+}
+.mono {
+    font-family: @font-family-monospace;
+    font-size: 0.9em;
+}
+.comment {
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+
+/*
+Colors
+*/
+.text-black        { color: @black; }
+.text-gray-darker  { color: @gray-darker; }
+.text-gray-dark    { color: @gray-dark; }
+.text-gray         { color: @gray; }
+.text-gray-light   { color: @gray-light; }
+.text-gray-lighter { color: @gray-lighter; }
+.text-white        { color: @white; }
+
+.text-red          { color: @red; }
+.text-pink         { color: @pink; }
+.text-orange       { color: @orange; }
+.text-brown        { color: @brown; }
+.text-yellow       { color: @yellow; }
+.text-yellow-light { color: @yellow-light; }
+.text-green        { color: @green; }
+.text-blue-light   { color: @blue-light; }
+.text-blue         { color: @blue; }
+.text-blue-dark    { color: @blue-dark; }
+.text-purple       { color: @purple; }
+.text-secondary      { .text-emphasis-variant(@color-secondary); }
+
+.bg-black        { background: @black ; }
+.bg-gray-darker  { background: @gray-darker; }
+.bg-gray-dark    { background: @gray-dark; }
+.bg-gray         { background: @gray; }
+.bg-gray-light   { background: @gray-light; }
+.bg-gray-lighter { background: @gray-lighter; }
+.bg-white        { background: @white; }
+
+.bg-red          { background: @red; }
+.bg-pink         { background: @pink; }
+.bg-orange       { background: @orange; }
+.bg-brown        { background: @brown; }
+.bg-yellow       { background: @yellow; }
+.bg-yellow-light { background: @yellow-light; }
+.bg-green        { background: @green; }
+.bg-blue-light   { background: @blue-light; }
+.bg-blue         { background: @blue; }
+.bg-blue-dark    { background: @blue-dark; }
+.bg-purple       { background: @purple; }
+
+.bg-white,
+.bg-gray,
+.bg-gray-light,
+.bg-gray-lighter,
+.bg-yellow,
+.bg-yellow-light,{
+    color: @text-color;
+}
+
+.bg-secondary {
+  color: #fff;
+  .bg-variant(@color-secondary);
+}
+
+.border-black        { border-color: @black; }
+.border-gray-darker  { border-color: @gray-darker; }
+.border-gray-dark    { border-color: @gray-dark; }
+.border-gray         { border-color: @gray; }
+.border-gray-light   { border-color: @gray-light; }
+.border-gray-lighter { border-color: @gray-lighter; }
+.border-white        { border-color: @white; }
+
+.border-red          { border-color: @red; }
+.border-pink         { border-color: @pink; }
+.border-orange       { border-color: @orange; }
+.border-brown        { border-color: @brown; }
+.border-yellow       { border-color: @yellow; }
+.border-yellow-light { border-color: @yellow-light; }
+.border-green        { border-color: @green; }
+.border-blue-light   { border-color: @blue; }
+.border-blue         { border-color: @blue; }
+.border-blue-dark    { border-color: @blue-dark; }
+.border-purple       { border-color: @purple; }
+
+.checked, tr.checked td, tr.checked th {
+    background-color: @yellow-light!important;
+}
+
+.text-error:extend(.text-danger all){}
+
+/*
+Font-sizes
+*/
+// USEFULL? EM?
+.fs12 { font-size: 12px; }
+.fs13 { font-size: 13px; }
+.fs14 { font-size: 14px; }
+.fs15 { font-size: 15px; }
+.fs16 { font-size: 16px; }
+.fs17 { font-size: 17px; }
+.fs18 { font-size: 18px; }
+.fs19 { font-size: 19px; }
+.fs20 { font-size: 20px; }
+.fs30 { font-size: 30px; }
+.fs40 { font-size: 40px; }
+.fs50 { font-size: 50px; }
+.fs60 { font-size: 60px; }
+.fs70 { font-size: 70px; }
+.fs80 { font-size: 80px; }
+.fs90 { font-size: 90px; }
+
+/*
+Heading
+*/
+#pagetitle {
+    .page-header;
+    .badge, .label {
+        font-size: 50%;
+    }
+}
+
+/*
+Lists
+*/
+ul.nobull {
+    list-style: none;
+}
+p + ul, p + ol {
+    margin-top: -(@line-height-computed / 2);
+}
+p + ul.norel, p + ol.norel {
+    margin-top: @line-height-computed / 2;
+}
+dl {
+    margin-bottom: @line-height-computed / 2;
+    line-height: @line-height-computed * 1.2;
+}
+dt {
+    font-size: 115%;
+    font-weight: normal;
+    line-height: @line-height-computed * 1.2;
+}
+dd {
+    margin-bottom: @line-height-computed / 2;
+    line-height: @line-height-computed * 1.2;
+}
+
+/*
+Blockquotes
+*/
+blockquote {
+    p {
+        margin-bottom: @line-height-computed / 2;
+        font-size: @font-size-base;
+        font-weight: normal;
+        line-height: @line-height-computed;
+    }
+}
+
+/*
+Hr
+*/
+.hr-lg {
+    margin: @line-height-computed * 1.5 0;
+}
+.hr-sm {
+    margin: @line-height-computed / 2 0;
+}
+.hr-xs {
+    margin: @line-height-computed / 4 0;
+}
+.hr-primary {
+    border-color: @color-primary;
+}
+.hr-secondary {
+    border-color: @color-secondary;
+}
+.hr-light {
+    border-color: @gray-lighter;
+}
+.hr-dark {
+    border-color: @gray-darker;
+}
+
+/*
+Hightlight
+*/
+.highlight {
+    padding: 2px 4px;
+}
+.highlight-primary:extend(.highlight) {
+    color: @white;
+    background-color: @color-primary;
+}
+.highlight-secondary:extend(.highlight) {
+    color: @white;
+    background-color: @color-secondary;
+}
+.highlight-light:extend(.highlight) {
+    color: @text-color;
+    background-color: @gray-light;
+}
+.highlight-dark:extend(.highlight) {
+    color: @white;
+    background-color: @gray-darker;
+}

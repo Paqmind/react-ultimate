@@ -1,0 +1,259 @@
+/*******************************************************************************
+  BOOTSTRAP-EXT. FORMS
+*******************************************************************************/
+
+/*
+Label
+*/
+label {
+    font-weight: normal;
+}
+label[required='1'] {
+    font-weight: @font-weight-base;
+}
+.control-label {
+    .descr, .icon-tooltip {
+        margin-left: @line-height-computed/4;
+    }
+    .descr {
+        color: @gray-light;
+    }
+}
+@media (max-width: @grid-float-breakpoint) {
+    .nocaption {
+        > .control-label {
+            display: none;
+        }
+    }
+}
+
+/*
+Elements
+*/
+textarea.mono {
+    white-space: pre-wrap;
+}
+// By default textarea's height is too small
+textarea.form-control {
+    height: 150px;
+}
+// Reset width since input has size or textarea has cols
+input[size], textarea[cols] {
+    width: auto;
+}
+select[size], textarea[rows] {
+    height: auto;
+}
+
+/*
+Status
+*/
+.has-info {
+  .form-control-validation(@state-info-text; @state-info-text; @state-info-bg);
+}
+
+/*
+Fieldset
+*/
+.fieldset-bordered {
+    padding: 0 @line-height-computed @line-height-computed @line-height-computed;
+    border: 1px solid #ddd;
+    border-radius: @border-radius-base;
+    > legend {
+        display: inline;
+        width: auto;
+        border-bottom: 0;
+        padding-right: @padding-small-horizontal;
+        padding-left: @padding-small-horizontal;
+    }
+}
+
+/*
+Form-control
+*/
+.form-control {
+    .box-shadow(@input-box-shadow);
+    &:focus {
+        .box-shadow(@input-box-shadow);
+    }
+}
+
+/*
+Form-group, Sizes
+*/
+.form-group-xs   { width: 60px; }
+.form-group-sm   { width: 100px; }
+.form-group-md   { width: 150px; }
+.form-group-lg   { width: 210px; }
+.form-group-xlg  { width: 270px; }
+.form-group-xxlg { width: 530px; }
+
+.form-group-xs, .form-group-sm,
+.form-group-md, .form-group-lg,
+.form-group-xlg, .form-group-xxlg {
+    .input-group-addon,
+    .input-group-btn {
+        width: auto;
+    }
+}
+
+/*
+Form-row
+*/
+.form-row {
+    margin-left: -@grid-gutter-width-form/2;
+    margin-right: -@grid-gutter-width-form/2;
+    > .col-xs-1, > .col-sm-1, > .col-md-1, > .col-lg-1,
+    > .col-xs-2, > .col-sm-2, > .col-md-2, > .col-lg-2,
+    > .col-xs-3, > .col-sm-3, > .col-md-3, > .col-lg-3,
+    > .col-xs-4, > .col-sm-4, > .col-md-4, > .col-lg-4,
+    > .col-xs-5, > .col-sm-5, > .col-md-5, > .col-lg-5,
+    > .col-xs-6, > .col-sm-6, > .col-md-6, > .col-lg-6,
+    > .col-xs-7, > .col-sm-7, > .col-md-7, > .col-lg-7,
+    > .col-xs-8, > .col-sm-8, > .col-md-8, > .col-lg-8,
+    > .col-xs-9, > .col-sm-9, > .col-md-9, > .col-lg-9,
+    > .col-xs-10, > .col-sm-10, > .col-md-10, > .col-lg-10,
+    > .col-xs-11, > .col-sm-11, > .col-md-11, > .col-lg-11,
+    > .col-xs-12, > .col-sm-12, > .col-md-12, > .col-lg-12 {
+        padding-left: @grid-gutter-width-form/2;
+        padding-right: @grid-gutter-width-form/2;
+    }
+}
+
+/*
+Form-group, Statuses
+*/
+.form-group {
+    &.error {
+        .control-label {
+            color: @state-error-text;
+        }
+        .form-control {
+            border-color: @state-error-border;
+            color: @state-error-text;
+            .form-control-focus(@state-error-border);
+        }
+    }
+    &.warning {
+        .control-label {
+            color: @state-warning-text;
+        }
+        .form-control {
+            border-color: @state-warning-border;
+            color: @state-warning-text;
+            .form-control-focus(@state-warning-border);
+        }
+    }
+    &.success {
+        .control-label {
+            color: @state-success-text;
+        }
+        .form-control {
+            border-color: @state-success-border;
+            color: @state-success-text;
+            .form-control-focus(@state-success-border);
+        }
+    }
+    &.info {
+        .control-label {
+            color: @state-info-text;
+        }
+        .form-control {
+            border-color: @state-info-border;
+            color: @state-info-text;
+            .form-control-focus(@state-info-border);
+        }
+    }
+}
+
+// Overwrite Bs orginal class, they use .checkbox instead of form-group
+// We don't need this mess, use previos structure: form-group > controls > label.checkbox > input[type=checkbox]
+label.radio,
+label.checkbox {
+    padding-left: 20px;
+    cursor: pointer;
+}
+
+/*
+Form-horizontal
+*/
+// added class to not implement "col"-classes in python code
+@media (min-width: @grid-float-breakpoint) {
+    .form-horizontal-auto {
+        > .form-group {
+            > .control-label {
+                float: left;
+                position: relative;
+                width: 18%;
+                margin-right: 2%;
+                margin-bottom: 0;
+                text-align: right;
+                line-height: 30px;
+            }
+            > .controls {
+                margin-left: 20%;
+            }
+        }
+        > fieldset,
+        > .form-group[data-widget="MultiCheckbox"] > fieldset,
+        > .form-group[data-widget="MultiRadio"] > fieldset {
+            > legend {
+                float: left;
+                position: relative;
+                width: 18%;
+                margin-right: 2%;
+                margin-bottom: 0;
+                text-align: right;
+                border-bottom: none;
+                > .checkbox, > .control-label {
+                    float: right;
+                }
+            }
+            > .controls {
+                margin-left: 20%;
+            }
+        }
+    }
+}
+
+/*
+Form-inline
+*/
+@media (min-width: @grid-float-breakpoint) {
+    .form-inline {
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .input-group-addon,
+        .input-group-btn {
+            width: auto;
+        }
+    }
+    .form-group {
+        .form-inline {
+            .form-group {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+/*
+Form-compact  (to make label and controls in line)
+*/
+@media (min-width: @grid-float-breakpoint) {
+    .form-compact > .form-group, .form-compact.form-group {
+        > .control-label {
+            line-height: 30px;
+        }
+        > .controls {
+            display: inline-block;
+            vertical-align: top; // otherwise elements have extra height -> http://robertnyman.com/2010/02/24/css-display-inline-block-why-it-rocks-and-why-it-sucks/
+        }
+        &.nocaption {
+            > .control-label {
+                display: none;
+            }
+        }
+    }
+}

@@ -1,0 +1,146 @@
+/*******************************************************************************
+  BOOTSTRAP-EXT. NAVS
+*******************************************************************************/
+
+/*
+Nav-tabs
+*/
+.nav-tabs {
+    > li {
+        > a {
+            &:hover,
+            &:focus,
+            &:active {
+                border-color: @nav-tabs-border-color;
+                border-bottom-color: transparent;
+                color: @text-color;
+            }
+        }
+        &.open > a {
+            &,
+            &:hover,
+            &:focus,
+            &:active {
+                border-color: @nav-tabs-border-color;
+                border-bottom-color: transparent;
+            }
+        }
+    }
+}
+
+/*
+Tabs
+*/
+.tabs {
+    margin-bottom: @line-height-computed;
+    .tab-content {
+        padding: @tabs-content-padding;
+    }
+    &.tabs-left {
+        .clearfix;
+        position: relative;
+        .nav-tabs {
+            position: relative;
+            z-index: 10;
+            float: left;
+            margin-right: 0;
+            border: none;
+            > li {
+                float: none;
+                margin-bottom: 0;
+                > a {
+                    margin-right: 0;
+                    margin-bottom: 2px;
+                    border-radius: @border-radius-base 0 0 @border-radius-base;
+                    &:hover, &:focus, &:active {
+                        border-color: transparent;
+                    }
+                }
+                &.active {
+                    > a {
+                        border: 1px solid @nav-tabs-border-color;
+                        border-right: transparent;
+                        margin-right: -1px;
+                        &:hover, &:focus, &:active {
+                        }
+                    }
+                }
+                &.error a { background: @state-error-bg; }
+                &.warning a { background: @state-warning-bg; }
+                &.success a { background: @state-success-bg; }
+                &.info    a { background: @state-info-bg; }
+            }
+        }
+        .tab-content {
+            padding: 0
+        }
+    }
+    &.tabs-bordered {
+        .tab-content {
+            padding: @tabs-bordered-content-padding;
+            border: 1px solid @nav-tabs-border-color;
+            border-top: 0;
+            border-radius: 0 0 @border-radius-base @border-radius-base;
+
+        }
+        &.tabs-left {
+            .tab-content {
+                border-radius: 0 @border-radius-base @border-radius-base 0;
+                > .tab-pane {
+                    padding: 0 30px;
+                }
+            }
+        }
+    }
+}
+
+/*
+Icons in nav
+*/
+.nav, .dropdown-menu, .dropdown-submenu {
+    > li {
+        > a, > span {
+            .fa {
+                width: @font-size-base * 1.2;
+                margin-right: @font-size-base / 2;
+            }
+        }
+    }
+}
+
+/*
+Navs-pills
+*/
+.nav-pills > li + li {
+    margin-left: @line-height-computed / 2;
+}
+.nav-pills.nav-stacked > li + li {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: @line-height-computed / 4;
+}
+.nav-pills-filled:extend(.nav-pills all) {
+    .nav-color-schema(@link-color, @nav-pills-filled-bg, @nav-pills-active-link-hover-color, @nav-pills-active-link-hover-bg);
+}
+.nav-pills-joined {
+    @media (min-width: @grid-float-breakpoint) {
+        > li + li {
+            margin-right: 1px;
+            margin-left: 1px;
+        }
+        > li {
+            &:first-child {
+                > a {
+                    border-top-right-radius: 0;
+                    border-bottom-right-radius: 0;
+                }
+            }
+            &:last-child {
+                > a {
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                }
+            }
+        }
+    }
+}

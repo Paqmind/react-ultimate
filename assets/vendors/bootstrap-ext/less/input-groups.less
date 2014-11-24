@@ -1,0 +1,44 @@
+/*******************************************************************************
+  BOOTSTRAP-EXT. INPUT-GROUPS
+*******************************************************************************/
+
+.input-group {
+    .input-group-addon{
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+/*
+Append, Prepend
+*/
+// need with because of dynamic form changes, like showpassword
+.input-group-append {
+    .form-control:not(:first-child):not(:last-child) {
+        .border-left-radius(@border-radius-base);
+    }
+}
+.input-group-prepend {
+    .form-control:not(:first-child):not(:last-child) {
+        .border-right-radius(@border-radius-base);
+    }
+}
+.input-group-append.input-group-append {
+    .form-control:not(:first-child):not(:last-child) {
+        .border-left-radius(0);
+        .border-right-radius(0);
+    }
+}
+
+/*
+Select2
+*/
+.input-group-append {
+    .select2-container {
+        .select2-choice {
+            border-bottom-right-radius: 0;
+            border-top-right-radius: 0;
+        }
+    }
+}
