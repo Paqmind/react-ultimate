@@ -1,69 +1,86 @@
-"use strict";
+/**
+ * http://io.pellucid.com/blog/tips-and-tricks-for-faster-front-end-builds
+ *
+*/
+let faker = require("faker");
+let gulp = require("gulp");
+let gulpUtil = require("gulp-util");
+let browserify = require("browserify");
+let watchify = require("watchify");
+let runSequence = require("run-sequence");
+let jshintStylish = require("jshint-stylish");
+let gulpJshint = require("gulp-jshint");
+let gulpCached = require("gulp-cached");
+let gulpLess = require("gulp-less");
+let gulpConcat = require("gulp-concat");
+let gulpRename = require("gulp-rename");
+let gulp6to5 = require("gulp-6to5");
+let source = require("vinyl-source-stream");
 
-var gulp = require("gulp");
-var less = require('gulp-less');
-//var concat = require("gulp-concat");
+let prod = gulpUtil.env.prod; // .pipe(prod ? stream(uglify()) : gutil.noop())
+
 //var gulpIgnore = require("gulp-ignore");
 //var stripDebug = require("gulp-strip-debug");
 //var uglify = require("gulp-uglify");
-//var react = require("gulp-react");
-//var browserify = require("gulp-browserify");
-//var nunjucks = require("gulp-nunjucks");
 
-//gulp.task("dist-css", function() {
-//    return gulp.src(['src/**/*.css'])
-//      .pipe(gulp.dest('dist'));
-//});
-
-//gulp.task("build-label", function () {
-//    return gulp.src("src/components/Label.jsx")
-//      .pipe(react())
-//      .pipe(gulp.dest('build'));
-//});
-
-//gulp.task("build-js", function () {
-//    return gulp.src("src/**/*.js")
-//      .pipe(gulpIgnore.exclude(/~.*\.js$/))
-//      .pipe(gulp.dest("build"));
-//});
-
-//gulp.task("build-jsx", function () {
-//    return gulp.src("src/**/*.jsx")
-//      .pipe(gulpIgnore.exclude(/~.*\.jsx$/))
-//      .pipe(react({harmony: true}))
-//      .pipe(gulp.dest("build"));
-//});
-
-//gulp.watch("src/**/*.css", ["dist-css"]);
-//gulp.task("watch", function() {
-//  gulp.watch("src/**/*.jsx", ["dist-js"]);
-//  gulp.watch("src/**/*.js", ["dist-js"]);
-//});
-
-//gulp.task("dist-js", ["build-js", "build-jsx"], function() {
-//    return gulp.src(["build/**/*.js"])
-//      .pipe(browserify()) // debug: !gulp.env.production TODO wtf??
-//      //.pipe(concat('theme.js'))
-//      //.pipe(stripDebug())
-//      //.pipe(uglify())
-//      .pipe(gulp.dest("dist"));
-//});
-
-//gulp.task("precompile-nunjucks", function () {
-//  return gulp.src("express-app/templates/*.html")
-//    .pipe(nunjucks())
-//    .pipe(concat("templates.js"))
-//    .pipe(gulp.dest("express-app/templates"));
-//});
-
+// TODO: fix and update this
 gulp.task("compile-less", function() {
-  return gulp.src(["assets/styles/src/theme.less"])
-    .pipe(less())
-    .pipe(gulp.dest("assets/styles/dist"));
+  return gulp.src(["./src/styles/theme.less"])
+    .pipe(gulpLess())
+    .pipe(gulpRename("bundle.css"))
+    .pipe(gulp.dest("./static/styles"));
+});
+
+gulp.task("lint-react", function() {
+  return gulp.src(["./src/app_react/**/*.js"])
+//    .pipe(cached("lint-react"))
+    .pipe(gulpJshint())
+    .pipe(gulpJshint.reporter(jshintStylish));
+});
+
+gulp.task("lint-express", function() {
+  return gulp.src(["./src/app_express/**/*.js"])
+//    .pipe(cached("lint-express"))
+    .pipe(gulpJshint())
+    .pipe(gulpJshint.reporter(jshintStylish));
+});
+
+gulp.task("build-react", function() {
+  return gulp.src(["./src/app_react/**/*.js?(x)"])
+    .pipe(gulp6to5())
+    .pipe(gulpRename(function (path) {
+      if (path.extname == ".jsx")
+        path.extname = ".js"
+    }))
+    .pipe(gulp.dest("./build/app_react"));
+});
+
+gulp.task("dist-react", ["build-react"], function() {
+  return browserify("./build/app_react/app.js", {debug: true}) // debug: !prod
+    .bundle()
+    .pipe(source("bundle.js"))
+    .pipe(gulp.dest("./static/scripts"));
 });
 
 gulp.task("watch", function() {
-  gulp.watch("assets/styles/src/**/*", ["compile-less"]);
+  //gulp.watch("./src/styles/**/*.less", "compile-less");
+  gulp.watch("./src/app_react/**/*.js?(x)", ["dist-react"]);
 });
 
-gulp.task("default", ["watch", "compile-less"]);
+gulp.task("dist", ["compile-less", "dist-react"]);
+
+//gulp.task("lint", ["lint-express", "lint-react"]);
+
+gulp.task("dev", function () {
+  return runSequence(
+    "dist",
+    "watch"
+  );
+});
+
+gulp.task("prod", function () {
+  return runSequence(
+    "lint",
+    "dist"
+  );
+});

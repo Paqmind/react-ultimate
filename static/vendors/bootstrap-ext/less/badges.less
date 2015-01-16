@@ -1,0 +1,53 @@
+/*******************************************************************************
+  BOOTSTRAP-EXT. BADGES
+*******************************************************************************/
+
+.badge {
+    font-weight: normal;
+    font-size: 0.85em;
+}
+
+.badge-variant(@color) {
+    background-color: @color;
+    &[href] {
+        &:hover,
+        &:focus {
+            background-color: darken(@color, 10%);
+        }
+    }
+}
+
+/*
+Colors
+*/
+.badge-primary { .badge-variant(@color-primary); }
+.badge-secondary { .badge-variant(@color-secondary); }
+.badge-success { .badge-variant(@color-success); }
+.badge-warning { .badge-variant(@color-warning); }
+.badge-danger { .badge-variant(@color-danger); }
+.badge-error { .badge-variant(@color-error); }
+.badge-info { .badge-variant(@color-info); }
+
+.badge-red { .badge-variant(@red); }
+.badge-pink { .badge-variant(@pink); }
+.badge-orange { .badge-variant(@orange); }
+.badge-yellow { .badge-variant(@yellow); }
+.badge-yellow-light { .badge-variant(@yellow-light); }
+.badge-brown { .badge-variant(@brown); }
+.badge-green { .badge-variant(@green); }
+.badge-blue-light { .badge-variant(@blue-light); }
+.badge-blue { .badge-variant(@blue); }
+.badge-blue-dark { .badge-variant(@blue-dark); }
+.badge-purple { .badge-variant(@purple); }
+
+.badge-black { .badge-variant(@black); }
+.badge-gray-darker { .badge-variant(@gray-darker); }
+.badge-gray-dark { .badge-variant(@gray-dark); }
+.badge-gray { .badge-variant(@gray); }
+.badge-gray-light { .badge-variant(@gray-light); }
+.badge-gray-lighter { .badge-variant(@gray-lighter); }
+.badge-white { .badge-variant(@white); }
+
+.badge-yellow-light, .badge-gray-lighter, .badge-white {
+    color: @black;
+}

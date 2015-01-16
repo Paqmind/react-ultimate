@@ -1,0 +1,58 @@
+{
+  "name": "semantic",
+  "version": "1.0.0",
+  "title": "Semantic UI",
+  "description": "Semantic empowers designers and developers by creating a shared vocabulary for UI.",
+  "homepage": "http://www.semantic-ui.com",
+  "author": "Jack Lukic <jack@semantic-ui.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Semantic-Org/Semantic-UI.git#1.0"
+  },
+  "bugs": {
+    "url": "https://github.com/Semantic-Org/Semantic-UI/issues"
+  },
+  "dependencies": {
+    "jquery": "x.x.x"
+  },
+  "devDependencies": {
+    "better-console": "x.x.x",
+    "del": "x.x.x",
+    "extend": "x.x.x",
+    "github": "x.x.x",
+    "gulp": "x.x.x",
+    "gulp-autoprefixer": "x.x.x",
+    "gulp-batch": "x.x.x",
+    "gulp-clone": "x.x.x",
+    "gulp-concat": "x.x.x",
+    "gulp-concat-css": "x.x.x",
+    "gulp-copy": "x.x.x",
+    "gulp-csscomb": "x.x.x",
+    "gulp-debug": "x.x.x",
+    "gulp-flatten": "x.x.x",
+    "gulp-git": "x.x.x",
+    "gulp-header": "x.x.x",
+    "gulp-help": "x.x.x",
+    "gulp-json-editor": "x.x.x",
+    "gulp-karma": "x.x.x",
+    "gulp-less": "x.x.x",
+    "gulp-minify-css": "x.x.x",
+    "gulp-notify": "x.x.x",
+    "gulp-plumber": "x.x.x",
+    "gulp-print": "x.x.x",
+    "gulp-prompt": "x.x.x",
+    "gulp-rename": "x.x.x",
+    "gulp-replace": "x.x.x",
+    "gulp-sourcemaps": "x.x.x",
+    "gulp-uglify": "x.x.x",
+    "gulp-util": "x.x.x",
+    "gulp-watch": "x.x.x",
+    "rtlcss": "x.x.x",
+    "run-sequence": "x.x.x",
+    "wrench": "x.x.x"
+  }
+}

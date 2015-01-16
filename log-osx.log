@@ -1,0 +1,6 @@
+Processes: 171 total, 2 running, 5 stuck, 164 sleeping, 948 threads 
+
+PID    COMMAND          %CPU TIME     #TH  #WQ #PORTS #MREGS MEM    RPRVT  PURG   CMPRS VPRVT  VSIZE  PGRP  PPID  STATE    UID FAULTS   COW      MSGSENT   MSGRECV   SYSBSD    SYSMACH   CSW       PAGEINS KPRVT  KSHRD  IDLEW   POWER USER           
+85799  DocumentPopoverV 0.0  00:00.93 3    0   179+   109+   6480K+ 4452K+ 0B     0B    53M+   2485M+ 85799 1     sleeping 501 8251+    468+     13619+    4309+     19004+    21922+    18175+    15+     549K+  -611K+ 222     0.0   ivankleshnin   
+84931  Google Chrome He 0.0  00:04.59 11   0   118+   429+   69M+   69M+   816K+  0B    197M+  3432M+ 1117  1117  sleeping 501 50546+   1557+    11052+    4894+     43052+    277406+   16983+    7405+   1846K+ 146K+  442     0.0   ivankleshnin   
+84094  Google Chrome He 0.0  00:02.22 11   0   118+   409+   58M+   57M+   620K+  0B    185M+  3334M+ 1117  1117  sleeping 501 37646+   1563+    3539+     1041+     28725+    251363+   9734+     4761+   1758K+ 83K+   153     0.0   ivankleshnin   

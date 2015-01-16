@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <title>Dashboard</title>
+{% endblock %}
+
+{% block body %}
+  <div id="dashboard"></div>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+
+  <script src="/static/scripts/templates.js"></script>
+  <script src="/static/scripts/bundle.js"></script>
+{% endblock %}

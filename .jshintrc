@@ -7,7 +7,6 @@
   "devel": true,    // allow `console.log` etc.
 
   // ENFORCING
-  "strict": true,    // require "use strict"
   "eqeqeq": true,    // require triple equals i.e. `===`.
   "noarg": true,     // prohibit use of `arguments.caller` and `arguments.callee`.
   "newcap": true,    // require capitalization of all constructor functions e.g. `new F()`.
@@ -19,6 +18,7 @@
   "nonew": true,     // prohibit side-only constructor usage
 
   // RELAXING
+  "strict": false,       // require "use strict"
   "-W079": false,        // allow `$` override (TODO find key-name for this)
   "sub": true,           // allow bracket notation where dotted can be used
   "boss": true,          // allow assignments inside if & while

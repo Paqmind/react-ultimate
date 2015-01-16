@@ -1,0 +1,40 @@
+/*******************************************************************************
+  BOOTSTRAP-EXT. BUTTONS
+*******************************************************************************/
+
+/*
+Colors
+*/
+.btn-red { .button-variant(@white; @red; @red); }
+.btn-pink { .button-variant(@white; @pink; @pink); }
+.btn-orange { .button-variant(@white; @orange; @orange); }
+.btn-yellow { .button-variant(@white; @yellow; @yellow); }
+.btn-yellow-light { .button-variant(@black; @yellow-light; @yellow-light); }
+.btn-green { .button-variant(@white; @green; @green); }
+.btn-blue-light { .button-variant(@white; @blue-light; @blue-light); }
+.btn-blue { .button-variant(@white; @blue; @blue); }
+.btn-blue-dark { .button-variant(@white; @blue-dark; @blue-dark); }
+.btn-purple { .button-variant(@white; @purple; @purple); }
+.btn-brown { .button-variant(@white; @brown; @brown); }
+.btn-black { .button-variant(@white; @black; @black); }
+.btn-gray-darker { .button-variant(@white; @gray-darker; @gray-darker); }
+.btn-gray-dark { .button-variant(@white; @gray-dark; @gray-dark); }
+.btn-gray { .button-variant(@white; @gray; @gray); }
+.btn-gray-light { .button-variant(@black; @gray-light; @gray-light); }
+.btn-gray-lighter { .button-variant(@black; @gray-lighter; @gray-lighter); }
+.btn-white { .button-variant(@black; @white; @white); }
+
+.btn-error { .button-variant(@btn-error-color; @btn-error-bg; @btn-error-border); }
+.btn-secondary { .button-variant(@btn-secondary-color; @btn-secondary-bg; @btn-secondary-border); }
+
+/*
+Groups
+*/
+.btn-group, .btn-group-vertical {
+    white-space: nowrap;
+    font-size: 0;
+    > .btn {
+        float: none;
+        display: inline-block;
+    }
+}

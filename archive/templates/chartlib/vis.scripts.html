@@ -1,0 +1,44 @@
+<script>
+  var dataset = new vis.DataSet([
+    {x: Date.UTC(2014, 6, 11), y: 10, group: 0},
+    {x: Date.UTC(2014, 6, 13), y: 30, group: 0},
+    {x: Date.UTC(2014, 6, 14), y: 10, group: 0},
+    {x: Date.UTC(2014, 6, 15), y: 15, group: 0},
+    {x: Date.UTC(2014, 6, 16), y: 30, group: 0},
+
+    {x: Date.UTC(2014, 6, 11), y: 12, group: 1},
+    {x: Date.UTC(2014, 6, 12), y: 15, group: 1},
+    {x: Date.UTC(2014, 6, 13), y: 34, group: 1},
+    {x: Date.UTC(2014, 6, 14), y: 24, group: 1},
+    {x: Date.UTC(2014, 6, 15), y: 5, group: 1},
+  ]);
+
+  var groups = new vis.DataSet([
+    {id: 0, content: "Tokyo"},
+    {id: 1, content: "New York"}
+  ]);
+
+  var lineChart = new vis.Graph2d(
+    document.getElementById("vis-lines"),
+    dataset,
+    groups,
+    {
+      drawPoints: {
+        style: "circle"
+      },
+    }
+  );
+
+  var columnChart = new vis.Graph2d(
+    document.getElementById("vis-bars"),
+    dataset,
+    groups,
+    {
+      style: "bar",
+      orientation: "top",
+      barChart: {
+        handleOverlap: "sideBySide"
+      },
+    }
+  );
+</script>
