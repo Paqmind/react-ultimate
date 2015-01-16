@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
 let Reflux = require("reflux");
-let Actions = require("./actions");
+let Actions = require("./../src/app_react/actions");
 
 // some variables and helpers for our fake database stuff
 function getItemByKey(list,itemKey){
