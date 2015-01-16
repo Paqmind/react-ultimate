@@ -3,7 +3,7 @@ let React = require("react");
 let Router = require("react-router");
 let {Link, RouteHandler} = Router;
 let DocumentTitle = require("react-document-title");
-let router = require("../router");
+//let router = require("../router");
 
 // EXPORTS =========================================================================================
 module.exports = React.createClass({
@@ -14,7 +14,9 @@ module.exports = React.createClass({
   },
 
   onEdit() {
-    router.transitionTo('robots-edit', {id: this.getParams().id});
+    //require('../router').transitionTo('robots-edit', {id: this.getParams().id});
+    this.transitionTo('robots-edit', {id: this.getParams().id});
+    //router.transitionTo('robots-edit', {id: this.getParams().id});
   },
 
   onRemove() {
@@ -30,7 +32,8 @@ module.exports = React.createClass({
           <h2>Robot Detail {this.getParams().id}</h2>
           <img src="" alt="" width="80"  height="80"/>
           <div className="buttons">
-            <a className="btn" href="" onClick={this.onEdit}>Edit</a>
+            {/*<Link className="btn" to="robots-edit" params={{id: this.getParams().id}}>Edit</Link>*/}
+            <a className="btn" href="" to="robots-edit" onClick={this.onEdit}>Edit</a>
             <button className="btn" onClick={this.onRemove}>Remove</button>
           </div>
         </section>

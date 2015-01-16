@@ -6,7 +6,7 @@ var Router = require("react-router");
 var Link = Router.Link;
 var RouteHandler = Router.RouteHandler;
 var DocumentTitle = require("react-document-title");
-var router = require("../router");
+//let router = require("../router");
 
 // EXPORTS =========================================================================================
 module.exports = React.createClass({
@@ -18,7 +18,9 @@ module.exports = React.createClass({
   },
 
   onEdit: function onEdit() {
-    router.transitionTo("robots-edit", { id: this.getParams().id });
+    //require('../router').transitionTo('robots-edit', {id: this.getParams().id});
+    this.transitionTo("robots-edit", { id: this.getParams().id });
+    //router.transitionTo('robots-edit', {id: this.getParams().id});
   },
 
   onRemove: function onRemove() {
@@ -46,7 +48,7 @@ module.exports = React.createClass({
           { className: "buttons" },
           React.createElement(
             "a",
-            { className: "btn", href: "", onClick: this.onEdit },
+            { className: "btn", href: "", to: "robots-edit", onClick: this.onEdit },
             "Edit"
           ),
           React.createElement(
@@ -59,3 +61,4 @@ module.exports = React.createClass({
     );
   }
 });
+/*<Link className="btn" to="robots-edit" params={{id: this.getParams().id}}>Edit</Link>*/
