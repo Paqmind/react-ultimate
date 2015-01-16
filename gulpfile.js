@@ -80,7 +80,7 @@ gulp.task("dev", function () {
 
 gulp.task("prod", function () {
   return runSequence(
-    "lint",
+    //"lint",
     "dist"
   );
 });
