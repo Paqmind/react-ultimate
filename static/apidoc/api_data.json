@@ -68,7 +68,7 @@
         }
       ]
     },
-    "filename": "src/app_express/routes/api.js",
+    "filename": "backend/routes/api.js",
     "groupTitle": "Robot"
   },
   {
@@ -98,7 +98,7 @@
         }
       ]
     },
-    "filename": "src/app_express/_apidoc.js",
+    "filename": "backend/_apidoc.js",
     "groupTitle": "Robot"
   }
 ]

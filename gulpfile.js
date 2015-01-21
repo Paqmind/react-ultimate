@@ -2,6 +2,7 @@
  * http://io.pellucid.com/blog/tips-and-tricks-for-faster-front-end-builds
  *
 */
+//let argv = require("yargs").default("env", "dev").argv;
 let faker = require("faker");
 let gulp = require("gulp");
 let gulpUtil = require("gulp-util");
@@ -11,76 +12,121 @@ let runSequence = require("run-sequence");
 let jshintStylish = require("jshint-stylish");
 let gulpJshint = require("gulp-jshint");
 let gulpCached = require("gulp-cached");
+let gulpSourcemaps = require("gulp-sourcemaps");
 let gulpLess = require("gulp-less");
 let gulpConcat = require("gulp-concat");
 let gulpRename = require("gulp-rename");
 let gulp6to5 = require("gulp-6to5");
-let source = require("vinyl-source-stream");
+let vinylSource = require("vinyl-source-stream");
+let vinylBuffer = require("vinyl-buffer");
+let browserSync = require("browser-sync");
 
-let prod = gulpUtil.env.prod; // .pipe(prod ? stream(uglify()) : gutil.noop())
+let dev = (!process.env.NODE_ENV || process.env.NODE_ENV == "dev");
 
 //var gulpIgnore = require("gulp-ignore");
 //var stripDebug = require("gulp-strip-debug");
 //var uglify = require("gulp-uglify");
 
 // TODO: fix and update this
-gulp.task("compile-less", function() {
-  return gulp.src(["./src/styles/theme.less"])
+gulp.task("frontend:compile-less", function() {
+  return gulp.src(["./frontend/styles/theme.less"])
     .pipe(gulpLess())
     .pipe(gulpRename("bundle.css"))
     .pipe(gulp.dest("./static/styles"));
 });
 
-gulp.task("lint-react", function() {
-  return gulp.src(["./src/app_react/**/*.js"])
+gulp.task("frontend:lint", function() {
+  return gulp.src(["./frontend/**/*.js"])
 //    .pipe(cached("lint-react"))
     .pipe(gulpJshint())
     .pipe(gulpJshint.reporter(jshintStylish));
 });
 
-gulp.task("lint-express", function() {
-  return gulp.src(["./src/app_express/**/*.js"])
-//    .pipe(cached("lint-express"))
+gulp.task("backend:lint", function() {
+  return gulp.src(["./backend/**/*.js"])
+//    .pipe(cached("backend:lint"))
     .pipe(gulpJshint())
     .pipe(gulpJshint.reporter(jshintStylish));
 });
 
-gulp.task("build-react", function() {
-  return gulp.src(["./src/app_react/**/*.js?(x)"])
+gulp.task("frontend:build-app", function() {
+  return gulp.src(["./frontend/**/*.js"])
+    .pipe(gulpSourcemaps.init())
     .pipe(gulp6to5())
-    .pipe(gulpRename(function (path) {
-      if (path.extname == ".jsx")
-        path.extname = ".js"
-    }))
-    .pipe(gulp.dest("./build/app_react"));
+    .pipe(gulpSourcemaps.write())
+    .pipe(gulp.dest("./build/frontend"));
 });
 
-gulp.task("dist-react", ["build-react"], function() {
-  return browserify("./build/app_react/app.js", {debug: true}) // debug: !prod
-    .bundle()
-    .pipe(source("bundle.js"))
+let externals = [
+  "react", "react-router", "react-document-title", "lodash",
+];
+
+let browserifyOpts = Object.assign(watchify.args, {debug: true});
+let appBundler = browserify("./build/frontend/app.js", browserifyOpts);
+appBundler.external(externals);
+let vendorBundler = browserify(browserifyOpts).require(externals);
+appBundler = dev ? watchify(appBundler) : appBundler;
+let bundleApp = function() {
+  gulpUtil.log("Bundle app");
+  return appBundler.bundle()
+    .pipe(vinylSource("bundle.js"))
+    .pipe(vinylBuffer())
+    .pipe(gulpSourcemaps.init({loadMaps: true}))
+    .pipe(gulpSourcemaps.write()) // TODO: or "./"?
+    .pipe(gulp.dest("./static/scripts"))
+    .pipe(browserSync.reload({stream: true}));
+};
+appBundler.on("error", gulpUtil.log.bind(gulpUtil, "Browserify Error")); // TODO: or just `gulpUtil.log`?
+appBundler.on("update", bundleApp);
+
+let bundleVendors = function() {
+  gulpUtil.log("Bundle vendors");
+  return vendorBundler.bundle()
+    .on("error", gulpUtil.log.bind(gulpUtil, "Browserify Error")) // TODO: or just `gulpUtil.log`?
+    .pipe(vinylSource("vendors.js"))
+    .pipe(vinylBuffer())
+    .pipe(gulpSourcemaps.init({loadMaps: true}))
+    .pipe(gulpSourcemaps.write()) // TODO: or "./"?
     .pipe(gulp.dest("./static/scripts"));
+};
+vendorBundler.on("error", gulpUtil.log.bind(gulpUtil, "Browserify Error")); // TODO: or just `gulpUtil.log`?
+
+gulp.task("frontend:dist-vendors", bundleVendors);
+
+gulp.task("frontend:dist-app", ["frontend:build-app"], bundleApp);
+
+//gulp.task("serve", function() {
+//  browserSync.init(null, {
+//    proxy: "http://localhost:3000",
+//    logLevel: "debug",
+//    reloadDelay: 5000,
+//    watchOptions: {
+//      debounceDelay: 1000,
+//    },
+//  });
+//});
+
+gulp.task("watch"/*, ["serve"]*/, function() {
+  //gulp.watch("./frontend/styles/**/*.less", ["frontend:compile-less", browserSync.reload]);
+  gulp.watch("./frontend/**/*.js", ["frontend:build-app"]);
+  //gulp.watch("./static/**/*.js", browserSync.reload);
 });
 
-gulp.task("watch", function() {
-  //gulp.watch("./src/styles/**/*.less", "compile-less");
-  gulp.watch("./src/app_react/**/*.js?(x)", ["dist-react"]);
+gulp.task("dist", ["frontend:compile-less", "frontend:dist-vendors", "frontend:dist-app"]);
+
+//gulp.task("lint", ["backend:lint", "frontend:lint"]);
+
+gulp.task("default", function() {
+  let commands = [];
+  if (dev) {
+    commands = ["dist", "watch"];
+  } else {
+    commands = ["dist"]; // TODO: "lint"
+  }
+  return runSequence(commands);
 });
 
-gulp.task("dist", ["compile-less", "dist-react"]);
-
-//gulp.task("lint", ["lint-express", "lint-react"]);
-
-gulp.task("dev", function () {
-  return runSequence(
-    "dist",
-    "watch"
-  );
-});
-
-gulp.task("prod", function () {
-  return runSequence(
-    //"lint",
-    "dist"
-  );
-});
+//gulp.task("nodemon", function (cb) {
+//	return nodemon({script: "server/server.js"})
+//    .on("start", () => cb());
+//});

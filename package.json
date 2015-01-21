@@ -16,6 +16,7 @@
     "andlog": "*",
     "body-parser": "*",
     "bower": "*",
+    "browser-sync": "^1.9.0",
     "browserify": "*",
     "clientconfig": "*",
     "compression": "*",
@@ -37,8 +38,10 @@
     "gulp-ignore": "*",
     "gulp-jshint": "*",
     "gulp-less": "*",
+    "gulp-livereload": "^3.4.0",
     "gulp-react": "*",
     "gulp-rename": "*",
+    "gulp-sourcemaps": "^1.3.0",
     "gulp-strip-debug": "*",
     "gulp-uglify": "*",
     "gulp-util": "*",
@@ -64,9 +67,12 @@
     "socket.io": "*",
     "socket.io-stream": "*",
     "strip-ansi": "*",
+    "superagent": "^0.21.0",
     "templatizer": "*",
+    "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "*",
-    "vinyl-transform": "*"
+    "vinyl-transform": "*",
+    "yargs": "^1.3.3"
   },
   "devDependencies": {
     "watchify": "^2.2.1"

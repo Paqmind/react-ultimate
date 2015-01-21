@@ -7,7 +7,6 @@
   "devel": true,    // allow `console.log` etc.
 
   // ENFORCING
-  "eqeqeq": true,    // require triple equals i.e. `===`.
   "noarg": true,     // prohibit use of `arguments.caller` and `arguments.callee`.
   "newcap": true,    // require capitalization of all constructor functions e.g. `new F()`.
   "undef": true,     // require all non-global variables be declared before they are used.
@@ -16,6 +15,7 @@
   "curly": true,     // require {} for every new block or scope.
   "plusplus": true,  // prohibit use of `++` & `--`.
   "nonew": true,     // prohibit side-only constructor usage
+  "shadow": false,   // prohibit to redeclare vars
 
   // RELAXING
   "strict": false,       // require "use strict"
@@ -26,7 +26,7 @@
 
   // PREDEFINED GLOBALS
   "predef": [
-    "$", "_"
+    "$",
   ],
 
   // STYLING

@@ -1,7 +1,7 @@
 {
   "verbose": true,
   "watch": [
-    "build/app_express",
-    "src/app_express/templates"
+    "build/backend",
+    "backend/templates"
   ]
 }
