@@ -3,14 +3,15 @@ let React = require("react");
 let Router = require("react-router");
 let {Link, RouteHandler} = Router;
 let DocumentTitle = require("react-document-title");
-let robotActions = require("../actions").robotActions;
+let Helpers = require("../../common/helpers");
+let Actions = require("../actions");
 
 // EXPORTS =========================================================================================
 module.exports = React.createClass({
   mixins: [Router.State, Router.Navigation],
 
   propTypes: {
-    robots: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    models: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   },
 
   componentDidMount() {

@@ -2,26 +2,17 @@
 let React = require("react");
 let Router = require("react-router");
 let {Link, RouteHandler} = Router;
+let Reflux = require("reflux");
 let DocumentTitle = require("react-document-title");
+let Store = require("../store");
 
 // EXPORTS =========================================================================================
 module.exports = React.createClass({
-  mixins: [Router.State],
-
-  propTypes: {
-    models: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  },
-
-  componentDidMount() {
-    console.debug("RobotsIndex.componentDidMount");
-  },
-
-  componentWillUnmount() {
-    console.debug("RobotsIndex.componentWillUnmount");
-  },
+  mixins: [Router.State, Reflux.connect(Store)],
 
   render() {
-    console.debug("RobotsIndex.render", this.getParams());
+    console.debug("RobotIndex.render");
+    console.log("RobotIndex.state:", this.state, this.state.models);
     return (
       <DocumentTitle title="Robots">
         <section>
@@ -41,8 +32,11 @@ module.exports = React.createClass({
 
           <p>Robots</p>
           <ul>
-            {this.props.models.map(robot => {
-              return <li key={robot.id}><Link to="robots-detail" params={{id: robot.id}}>{robot.fullname}</Link></li>;
+            {this.state.models.map(robot => {
+              return <li key={robot.id}>
+                <img src={"http://robohash.org/" + robot.fullname + "?size=40x40"} width="40" height="40"/>
+                <Link to="robots-detail" params={{id: robot.id}}>{robot.fullname}</Link>
+              </li>;
             })}
           </ul>
 
@@ -58,7 +52,7 @@ module.exports = React.createClass({
 
           <Link to="robots-add">Add Robot</Link>
 
-          <RouteHandler robots={this.props.models}/>
+          <RouteHandler models={this.state.models}/>
 
         </section>
       </DocumentTitle>

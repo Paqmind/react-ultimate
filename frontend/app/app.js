@@ -1,7 +1,8 @@
 // IMPORTS =========================================================================================
 let React = require("react");
 let Router = require("./router");
-let Stores = require("./stores");
+let RobotStore = require("./robot/store");
+RobotStore.state = RobotStore.getInitialState(); // TODO: hack
 
 // MAIN ============================================================================================
 Router.run(function(Handler, state) {

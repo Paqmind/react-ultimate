@@ -1,18 +1,17 @@
 // IMPORTS =========================================================================================
-let Faker = require("faker");
 let React = require("react");
 let Router = require("react-router");
 let {Link, RouteHandler} = Router;
 let DocumentTitle = require("react-document-title");
-let Helpers = require("../helpers");
-let robotActions = require("../actions").robotActions;
+let Helpers = require("../../common/helpers");
+let Actions = require("../actions");
 
 // EXPORTS =========================================================================================
 module.exports = React.createClass({
   mixins: [Router.State, Router.ravigation],
 
   propTypes: {
-    robots: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    models: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   },
 
   componentDidMount() {
@@ -27,12 +26,11 @@ module.exports = React.createClass({
     console.debug("RobotsAdd.onAdd");
     event.preventDefault();
     // TODO: what data pass???
-    let robot = {
+    /*let robot = {
       id: Helpers.maxId(this.props.models) + 1,
       fullname: Faker.name.findName(),
-    };
-    console.log(robot);
-    robotActions.addRobot(robot);
+    };*/
+    Actions.addRandom();
   },
 
   render() {

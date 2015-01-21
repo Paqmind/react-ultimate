@@ -62,7 +62,7 @@ let externals = [
 ];
 
 let browserifyOpts = Object.assign(watchify.args, {debug: true});
-let appBundler = browserify("./build/frontend/app.js", browserifyOpts);
+let appBundler = browserify("./build/frontend/app/app.js", browserifyOpts);
 appBundler.external(externals);
 let vendorBundler = browserify(browserifyOpts).require(externals);
 appBundler = dev ? watchify(appBundler) : appBundler;

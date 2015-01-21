@@ -1,25 +1,12 @@
 // IMPORTS =========================================================================================
 let React = require("react");
-let Reflux = require("reflux");
 let Router = require("react-router");
 let {Link, RouteHandler} = Router;
-let robotStore = require("../stores").robotStore;
+let Reflux = require("reflux");
 
 // EXPORTS =========================================================================================
 module.exports = React.createClass({
-  mixins: [Reflux.connect(robotStore)],
-
-  componentDidMount() {
-    console.debug("Body.componentDidMount");
-    console.log("body state:", this.state);
-  },
-
-  componentWillUnmount() {
-    console.debug("Body.componentWillUnmount");
-  },
-
   render() {
-    console.debug("Body.render");
     return (
       <div>
         <header>
@@ -38,7 +25,7 @@ module.exports = React.createClass({
         </header>
 
         <main className="container">
-          <RouteHandler models={this.state.models}/>
+          <RouteHandler/>
         </main>
       </div>
     );

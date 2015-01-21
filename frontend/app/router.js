@@ -2,23 +2,27 @@
 let React = require("react");
 let Router = require("react-router");
 let {Route, DefaultRoute, NotFoundRoute, HistoryLocation} = Router;
-let Body = require("./components/body");
-let Home = require("./components/home");
-let About = require("./components/about");
-let RobotsIndex = require("./components/robots-index");
-let RobotsDetail = require("./components/robots-detail");
-let RobotsAdd = require("./components/robots-add");
-let RobotsEdit = require("./components/robots-edit");
-let NotFound = require("./components/not-found");
+
+// Common components
+let Body = require("./common/components/body");
+let Home = require("./common/components/home");
+let About = require("./common/components/about");
+let NotFound = require("./common/components/not-found");
+
+// Robot components
+let RobotIndex = require("./robot/components/index");
+let RobotDetail = require("./robot/components/detail");
+let RobotAdd = require("./robot/components/add");
+let RobotEdit = require("./robot/components/edit");
 
 // MAIN ============================================================================================
 var routes = (
   <Route handler={Body} path="/">
     <DefaultRoute name="home" handler={Home}/>
-    <Route name="robots-index" path="/robots/" handler={RobotsIndex}>
-      <Route name="robots-add" path="add" handler={RobotsAdd}/>
-      <Route name="robots-detail" path=":id" handler={RobotsDetail}/>
-      <Route name="robots-edit" path=":id/edit" handler={RobotsEdit}/>
+    <Route name="robots-index" path="/robots/" handler={RobotIndex}>
+      <Route name="robots-add" path="add" handler={RobotAdd}/>
+      <Route name="robots-detail" path=":id" handler={RobotDetail}/>
+      <Route name="robots-edit" path=":id/edit" handler={RobotEdit}/>
     </Route>
     <Route name="about" path="/about" handler={About}/>
     <NotFoundRoute handler={NotFound}/>
