@@ -1,0 +1,30 @@
+FIRST RENDER
+  getInitialProps -> getInitialState -> componentWillMount -> render -> componentDidMount (browser only)
+
+PROPS CHANGE
+  componentWillReceiveProps -> shouldComponentUpdate -> componentWillUpdate -> render -> componentDidUpdate (browser only)
+
+STATE CHANGE
+  shouldComponentUpdate -> componentWillUpdate -> render -> componentDidUpdate
+
+UNMOUNT
+  componentWillUnmount
+
+====================================================================================================
+getInitialProps() -- be aware, that mutable objects will be shared across instances
+
+componentWillMount() -- calling `this.setState()` here does not cause re-render
+
+render() -- should be pure! No `this.setState()`, `this.setProps()`, `setTimeout()` etc.
+            just return DOM node (or undefined)
+
+componentDidMount() -- you have access to `this.getDOMNode()`
+                       call `setTimeout()` and other browser-specific stuff here
+
+componentWillReceiveProps(nextProps) -- not called for first render
+                                        current (previous) props are still available at `this.props`
+
+shouldComponentUpdate(nextProps, nextState) -- not called for first render
+                                               return `false` to prevent render, else `true`
+
+componentWillUpdate -- cannot use `setState()` here

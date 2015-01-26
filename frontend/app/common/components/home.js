@@ -6,28 +6,22 @@ let DocumentTitle = require("react-document-title");
 
 // EXPORTS =========================================================================================
 module.exports = React.createClass({
-  componentDidMount() {
-    console.debug("Home.componentDidMount");
-  },
-
-  componentWillUnmount() {
-    console.debug("Home.componentWillUnmount");
-  },
-
   render() {
-    console.debug("Home.render");
     return (
       <DocumentTitle title="Home">
         <section className="page home">
-          <h2>Welcome to a Robots Demo App+ + + + + + + +  </h2>
-          <p>If you "view source" you'll see it's 100% client rendered</p>
-          <p>Click around the site using the nav bar at the top</p>
-          <p>Things to note:</p>
+          <h1>"Robots" demo app. Proof of concepts</h1>
+          <p>Frontend-driven web app</p>
+
+          <p>Proudly build on ES6 with the help of great <a href="#">6to5</a> transpiler</p>
+
+          <h3>Frontend</h3>
           <ul>
-            <li>The url changes, no requests are made to the server</li>
-            <li>Refreshing the page will always get you back to the same page</li>
-            <li>Page changes are nearly instantaneous</li>
-            <li>In development mode, you don't need to restart the server to see changes, just edit and refresh</li>
+            <li><a href="#">React</a></li>
+            <li><a href="#">React-Router</a></li>
+            <li><a href="#">React-Documenent-Title</a></li>
+            <li><a href="#">Browserify</a></li>
+            <li><a href="#">Faker</a></li>
             <li>In production mode, it will serve minfied, uniquely named files with super agressive cache headers. To test:
               <ul>
                 <li>in dev_config.json set <code>isDev</code> to <code>false</code></li>
@@ -38,6 +32,23 @@ module.exports = React.createClass({
                 <li>you should now see that the JS and CSS files were both served from cache without making any request to the server at all</li>
               </ul>
             </li>
+          </ul>
+
+          <h3>Backend</h3>
+          <ul>
+            <li><a href="#">Express</a> framework</li>
+            <li><a href="#">Nunjucks</a> template engine</li>
+          </ul>
+
+          <h3>Common</h3>
+          <ul>
+            <li><a href="#">Gulp</a> streaming build system</li>
+            <li><a href="#">Joi</a> validation library</li>
+          </ul>
+
+          <h3>VCS</h3>
+          <ul>
+            <li><a href="#">Git</a> version control system</li>
           </ul>
         </section>
       </DocumentTitle>

@@ -1,0 +1,18 @@
+0) $ brew install coreutils
+
+1) $ which gulp | xargs greadlink -f
+
+2) atom <path-from-previous-step>
+   #!/usr/bin/env node --> #!/usr/bin/env 6to5-node
+
+3) $ npm install -g nodemon
+   $ npm install -g gulp
+   $ npm install -g 6to5
+
+4) Add to ~/.bash_profile:
+  alias node6='6to5-node --experimental'
+  alias nodemon6='nodemon --exec 6to5-node --experimental'
+
+node6 bin/www    (run backend, raw) (+systemd = production)
+nodemon6 bin/www (run backend with reload) (production)
+gulp

@@ -11,8 +11,6 @@ module.exports = React.createClass({
   mixins: [Router.State, Reflux.connect(Store)],
 
   render() {
-    console.debug("RobotIndex.render");
-    console.log("RobotIndex.state:", this.state, this.state.models);
     return (
       <DocumentTitle title="Robots">
         <section>
