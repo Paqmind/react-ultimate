@@ -72,8 +72,7 @@ let bundleApp = function() {
     .pipe(vinylBuffer())
     .pipe(gulpSourcemaps.init({loadMaps: true}))
     .pipe(gulpSourcemaps.write()) // TODO: or "./"?
-    .pipe(gulp.dest("./static/scripts"))
-    .pipe(browserSync.reload({stream: true}));
+    .pipe(gulp.dest("./static/scripts"));
 };
 appBundler.on("error", gulpUtil.log.bind(gulpUtil, "Browserify Error")); // TODO: or just `gulpUtil.log`?
 appBundler.on("update", bundleApp);
@@ -94,21 +93,8 @@ gulp.task("frontend:dist-vendors", bundleVendors);
 
 gulp.task("frontend:dist-app", ["frontend:build-app"], bundleApp);
 
-//gulp.task("serve", function() {
-//  browserSync.init(null, {
-//    proxy: "http://localhost:3000",
-//    logLevel: "debug",
-//    reloadDelay: 5000,
-//    watchOptions: {
-//      debounceDelay: 1000,
-//    },
-//  });
-//});
-
 gulp.task("watch"/*, ["serve"]*/, function() {
-  //gulp.watch("./frontend/styles/**/*.less", ["frontend:compile-less", browserSync.reload]);
   gulp.watch("./frontend/**/*.js", ["frontend:build-app"]);
-  //gulp.watch("./static/**/*.js", browserSync.reload);
 });
 
 gulp.task("dist", ["frontend:compile-less", "frontend:dist-vendors", "frontend:dist-app"]);
