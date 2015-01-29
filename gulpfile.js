@@ -19,7 +19,6 @@ let gulpRename = require("gulp-rename");
 let gulp6to5 = require("gulp-6to5");
 let vinylSource = require("vinyl-source-stream");
 let vinylBuffer = require("vinyl-buffer");
-let browserSync = require("browser-sync");
 
 let dev = (!process.env.NODE_ENV || process.env.NODE_ENV == "dev");
 
