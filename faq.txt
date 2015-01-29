@@ -1,18 +1,34 @@
-0) $ brew install coreutils
+0) OSX
+   $ brew install coreutils
+   $ which gulp | xargs greadlink -f
 
-1) $ which gulp | xargs greadlink -f
+   DEBIAN
+   $ which gulp | xargs readlink -f
+
+1) $ cp <gulp file> <gulp6 file>
+   $ ln -s <gulp6 file> <gulp6 link path> (in nvm bin folder)
 
 2) atom <path-from-previous-step>
    #!/usr/bin/env node --> #!/usr/bin/env 6to5-node
 
-3) $ npm install -g nodemon
-   $ npm install -g gulp
-   $ npm install -g 6to5
+3)
+  $ rm -fr .git
+  $ git init
+  $ git remote add origin your-git-url
+  $ git fetch
+  $ git reset --hard origin/master
 
-4) Add to ~/.bash_profile:
+3) .
+  $ npm install -g nodemon
+  $ npm install -g gulp
+  $ npm install -g 6to5
+
+4) Add to ~/.bashrc:
   alias node6='6to5-node --experimental'
   alias nodemon6='nodemon --exec 6to5-node --experimental'
 
 node6 bin/www    (run backend, raw) (+systemd = production)
 nodemon6 bin/www (run backend with reload) (production)
 gulp
+
+
