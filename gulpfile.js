@@ -2,7 +2,6 @@
  * http://io.pellucid.com/blog/tips-and-tricks-for-faster-front-end-builds
  *
 */
-//let argv = require("yargs").default("env", "dev").argv;
 let faker = require("faker");
 let gulp = require("gulp");
 let gulpUtil = require("gulp-util");
@@ -19,8 +18,6 @@ let gulpRename = require("gulp-rename");
 let gulp6to5 = require("gulp-6to5");
 let vinylSource = require("vinyl-source-stream");
 let vinylBuffer = require("vinyl-buffer");
-
-let dev = (!process.env.NODE_ENV || process.env.NODE_ENV == "dev");
 
 //var gulpIgnore = require("gulp-ignore");
 //var stripDebug = require("gulp-strip-debug");
@@ -64,7 +61,7 @@ let browserifyOpts = Object.assign(watchify.args, {debug: true});
 let appBundler = browserify("./build/frontend/app/app.js", browserifyOpts);
 appBundler.external(externals);
 let vendorBundler = browserify(browserifyOpts).require(externals);
-appBundler = dev ? watchify(appBundler) : appBundler;
+appBundler = (process.env.NODE_ENV == "development") ? watchify(appBundler) : appBundler;
 let bundleApp = function() {
   gulpUtil.log("Bundle app");
   return appBundler.bundle()
@@ -101,17 +98,12 @@ gulp.task("dist", ["frontend:compile-less", "frontend:dist-vendors", "frontend:d
 
 //gulp.task("lint", ["backend:lint", "frontend:lint"]);
 
-gulp.task("default", function() {
-  let commands = [];
-  if (dev) {
-    commands = ["dist", "watch"];
-  } else {
-    commands = ["dist"]; // TODO: "lint"
-  }
-  return runSequence(commands);
+gulp.task("dev", function() {
+  process.env.NODE_ENV = "development";
+  return runSequence(["dist", "watch"]);
 });
 
-//gulp.task("nodemon", function (cb) {
-//	return nodemon({script: "server/server.js"})
-//    .on("start", () => cb());
-//});
+gulp.task("prod", function() {
+  process.env.NODE_ENV = "production";
+  return runSequence(["dist"]); // TODO: "lint"
+});
