@@ -1,6 +1,6 @@
 #!/bin/sh
 
-NODE_ENV=production
+export NODE_ENV=production
 
 # Go to project folder
 cd ~/twitto.paqmind.com
