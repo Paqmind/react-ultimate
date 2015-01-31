@@ -14,7 +14,7 @@ npm install
 bower install
 
 # Run gulp prod
-gulp prod
+gulp
 
 # Go to home folder
 cd ~
