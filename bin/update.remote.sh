@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Does not work without it (though this is in loaded ~/.bashrc ...)
-source ~/.nvm/nvm.sh
+#source ~/.nvm/nvm.sh
 
 # Run git pull
 git pull
