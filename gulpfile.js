@@ -28,7 +28,7 @@ let vinylBuffer = require("vinyl-buffer");
 // TODO: fix and update this
 gulp.task("frontend:compile-less", function() {
   return gulp.src(["./frontend/styles/theme.less"])
-    .pipe(gulpLess())
+    .pipe(gulpLess().on("error", function (error) {console.log(error); }))
     .pipe(gulpRename("bundle.css"))
     .pipe(gulp.dest("./static/styles"));
 });
