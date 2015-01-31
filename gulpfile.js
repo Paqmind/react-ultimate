@@ -2,6 +2,8 @@
  * http://io.pellucid.com/blog/tips-and-tricks-for-faster-front-end-builds
  *
 */
+process.env.NODE_ENV = process.env.NODE_ENV || "development";
+
 let faker = require("faker");
 let gulp = require("gulp");
 let gulpUtil = require("gulp-util");
@@ -98,12 +100,10 @@ gulp.task("dist", ["frontend:compile-less", "frontend:dist-vendors", "frontend:d
 
 //gulp.task("lint", ["backend:lint", "frontend:lint"]);
 
-gulp.task("dev", function() {
-  process.env.NODE_ENV = "development";
-  return runSequence(["dist", "watch"]);
-});
-
-gulp.task("prod", function() {
-  process.env.NODE_ENV = "production";
-  return runSequence(["dist"]); // TODO: "lint"
+gulp.task("default", function() {
+  if (process.env.NODE_ENV == "development") {
+    return runSequence(["dist", "watch"]);
+  } else {
+    return runSequence(["dist"]); // TODO: "lint"
+  }
 });

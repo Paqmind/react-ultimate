@@ -3,6 +3,9 @@
 # Go to project folder
 cd ~/twitto.paqmind.com
 
+# Make temp dir
+mkdir -p ~/.temp
+
 # Source functions
 source ./bin/functions.sh
 
@@ -29,8 +32,8 @@ if [[ `uname` == 'Darwin' ]]; then
 else
   gulp_file=`which gulp | xargs readlink -f`
 fi
-sed '1 s/node/6to5-node/' ${gulp_file} > /tmp/gulp.js
-mv /tmp/gulp.js ${gulp_file}
+sed '1 s/node/6to5-node/' ${gulp_file} > ~/.temp/gulp.js
+mv ~/.temp/gulp.js ${gulp_file}
 chmod +x ${gulp_file}
 
 # Git init
@@ -50,8 +53,9 @@ rm -rf node_modules/gulp/node_modules/vinyl-fs/node_modules/glob-watcher/node_mo
 
 # Fix **elliptic** strange import bug
 elliptic_file=node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic.js
-sed 's/elliptic.version = .*;/elliptic.version = "x";/' ${elliptic_file} > /tmp/elliptic.js
-mv /tmp/elliptic.js ${elliptic_file}
+sed 's/elliptic.version = .*;/elliptic.version = "x";/' ${elliptic_file} > ~/.temp/elliptic.js
+mv ~/.temp/elliptic.js ${elliptic_file}
+chmod +x ${elliptic_file}
 
 # Run gulp prod
 gulp prod

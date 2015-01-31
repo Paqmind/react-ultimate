@@ -3,6 +3,9 @@
 # Go to project folder
 cd ~/minimal.paqmind.com
 
+# Make temp dir
+mkdir -p ~/.temp
+
 # Source functions
 source ./bin/functions.sh
 
