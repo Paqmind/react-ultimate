@@ -1,5 +1,4 @@
 /* global debug */
-require("6to5/polyfill");
 
 // IMPORTS
 let fs = require("fs");
