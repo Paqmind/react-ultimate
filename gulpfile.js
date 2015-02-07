@@ -17,6 +17,7 @@ let gulpSourcemaps = require("gulp-sourcemaps");
 let gulpLess = require("gulp-less");
 let gulpConcat = require("gulp-concat");
 let gulpRename = require("gulp-rename");
+var gulpUglify = require('gulp-uglify');
 let gulp6to5 = require("gulp-6to5");
 let vinylSource = require("vinyl-source-stream");
 let vinylBuffer = require("vinyl-buffer");
@@ -90,13 +91,22 @@ vendorBundler.on("error", gulpUtil.log.bind(gulpUtil, "Browserify Error")); // T
 
 gulp.task("frontend:dist-vendors", bundleVendors);
 
+gulp.task("frontend:dist-scripts", function() {
+  return gulp.src(["./frontend/scripts/*.js"])
+    .pipe(gulpConcat('scripts.js'))
+    //.pipe(gulpUglify())
+    .pipe(gulp.dest("./static/scripts"));
+});
+
 gulp.task("frontend:dist-app", ["frontend:build-app"], bundleApp);
 
 gulp.task("watch"/*, ["serve"]*/, function() {
-  gulp.watch("./frontend/**/*.js", ["frontend:build-app"]);
+  gulp.watch("./frontend/app/**/*.js", ["frontend:build-app", "frontend:dist-scripts"]);
+  gulp.watch("./frontend/scripts/**/*.js", ["frontend:dist-scripts"]);
+  gulp.watch("./frontend/styles/**/*.less", ["frontend:compile-less"]);
 });
 
-gulp.task("dist", ["frontend:compile-less", "frontend:dist-vendors", "frontend:dist-app"]);
+gulp.task("dist", ["frontend:compile-less", "frontend:dist-scripts", "frontend:dist-vendors", "frontend:dist-app"]);
 
 //gulp.task("lint", ["backend:lint", "frontend:lint"]);
 
