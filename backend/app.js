@@ -1,5 +1,3 @@
-/* global debug */
-
 // IMPORTS
 let fs = require("fs");
 let path = require("path");
