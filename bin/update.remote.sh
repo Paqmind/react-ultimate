@@ -6,6 +6,7 @@ export NODE_ENV=production
 cd ~/twitto.paqmind.com
 
 # Pull git branch with "force" semantics
+# TODO: consider git clean [-f]
 git fetch --all
 git reset --hard origin/master
 
