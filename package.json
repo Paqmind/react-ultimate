@@ -17,7 +17,6 @@
     "compression": "*",
     "config": "*",
     "cookie-parser": "*",
-    "debug": "*",
     "domify": "^*",
     "domready": "*",
     "event-stream": "*",
