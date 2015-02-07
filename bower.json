@@ -26,6 +26,6 @@
     "vis": "^3.7.0",
     "bootstrap": "^3.3.2",
     "socket.io-client": "^1.2.1",
-    "bootstrap-ext": "git://github.com/Paqmind/bootstrap-ext.git#^0.1.1"
+    "bootstrap-ext": "git://github.com/Paqmind/bootstrap-ext.git#^0.1.2"
   }
 }
