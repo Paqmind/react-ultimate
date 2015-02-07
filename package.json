@@ -73,7 +73,7 @@
     "yargs": "^1.3.3"
   },
   "devDependencies": {
-    "watchify": "^2.2.1"
+    "watchify": "^2.3.0"
   },
   "apidoc": {
     "name": "twitto",
