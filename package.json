@@ -8,7 +8,7 @@
     "dev": "NODE_ENV=development nodemon --exec 6to5-node backend/app.js --experimental"
   },
   "dependencies": {
-    "6to5": "^3.4.0",
+    "6to5": "^3.4.1",
     "andlog": "*",
     "body-parser": "^1.10.2",
     "bower": "*",
