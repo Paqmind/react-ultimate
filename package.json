@@ -4,8 +4,8 @@
   "main": "backend/app",
   "private": true,
   "scripts": {
-    "prod": "NODE_ENV=production 6to5-node --experimental backend/app.js",
-    "dev": "NODE_ENV=development nodemon --exec 6to5-node --experimental backend/app.js"
+    "prod": "NODE_ENV=production 6to5-node backend/app.js --experimental",
+    "dev": "NODE_ENV=development nodemon --exec 6to5-node backend/app.js --experimental"
   },
   "dependencies": {
     "6to5": "^3.0.10",
