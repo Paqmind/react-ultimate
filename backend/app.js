@@ -5,6 +5,7 @@ let fs = require("fs");
 let path = require("path");
 let http = require("http");
 let cp = require("child_process");
+let config = require("config");
 let express = require("express");
 let io = require("socket.io");
 let ss = require("socket.io-stream");
@@ -13,9 +14,10 @@ let logger = require("morgan");
 let cookieParser = require("cookie-parser");
 let bodyParser = require("body-parser");
 let conf = require("config");
-
-let router = require("./router");
-let templater = require("./templater");
+let nunjucks = require("nunjucks");
+let markdown = require("nunjucks-markdown");
+let marked = require("marked");
+let routes = require("./routes/index");
 
 // APPS & SERVERS ----------------------------------------------------------------------------------
 let app = express();
@@ -72,18 +74,64 @@ var exec  = cp.exec,
 //  });
 });*/
 
-let tplEnv = templater(app);
+// TEMPLATES =======================================================================================
+app.set("views", path.join(__dirname, "templates"));
+app.set("view engine", "html");
 
-let _ = router(app);
-
-
-/*
-app.configure('development', function () {
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-  mongo.connect('development',logger); // mongodb initialization
+let nunjucksEnv = nunjucks.configure("backend/templates", {
+  autoescape: true,
+  express: app
 });
 
-app.configure('production', function () {
+nunjucksEnv.lazyRender = function(name) {
+  return nunjucks.render.bind(nunjucks, name);
+};
+
+markdown.register(nunjucksEnv, {
+//  renderer: new marked.Renderer(),
+//  breaks: false,
+//  pedantic: false,
+//  smartLists: true,
+  smartypants: true
+});
+
+// ROUTES ==========================================================================================
+routes.static = express.static("static", {etag: conf.get("use-etag")});
+
+//app.use(favicon(__dirname + "/favicon.ico"));
+app.use("/static", routes.static);
+app.use("/api", routes.api);
+app.use("/", routes.app);
+
+app.use(function(req, res, next) {
+  var err = new Error("Not Found");
+  err.status = 404;
+  next(err);
+});
+
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render("error", {
+    message: err.message,
+    error: (app.get("env") == "development") ? err : {}
+  });
+});
+
+/*
+// all environments
+app.set('title', 'Application Title');
+
+// development only
+if (app.get('env') == "development") {
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  app.set('mongodb_uri', 'mongo://localhost/dev');
+  mongo.connect('development',logger); // mongodb initialization
+}
+
+// production only
+if (app.get('env') == "production") {
   app.use(express.errorHandler());
+  app.set('mongodb_uri', 'mongo://localhost/prod');
   mongo.connect('production',logger); // mongodb initialization
-});*/
+}
+*/
