@@ -14,7 +14,9 @@ module.exports = React.createClass({
     console.debug("NotFound.render");
     return (
       <DocumentTitle title="Not Found">
-        <p>Not Found</p>
+        <div className="container">
+          <p>Not Found</p>
+        </div>
       </DocumentTitle>
     );
   }

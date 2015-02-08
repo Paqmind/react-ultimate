@@ -9,7 +9,7 @@ module.exports = React.createClass({
   render() {
     return (
       <DocumentTitle title="Home">
-        <section className="page home">
+        <section className="container page home">
           <h1>"Robots" demo app. Proof of concepts</h1>
           <p>Frontend-driven web app</p>
 

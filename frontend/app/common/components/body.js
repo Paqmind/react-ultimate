@@ -28,7 +28,7 @@ module.exports = React.createClass({
           </div>
         </header>
 
-        <main className="container" id="page-main">
+        <main id="page-main">
           <RouteHandler/>
         </main>
       </div>

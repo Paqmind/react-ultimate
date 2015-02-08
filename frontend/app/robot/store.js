@@ -36,6 +36,12 @@ module.exports = Reflux.createStore({
       models: [
         this.generateRandom(),
         this.generateRandom(1),
+        this.generateRandom(2),
+        this.generateRandom(3),
+        this.generateRandom(4),
+        this.generateRandom(5),
+        this.generateRandom(6),
+        this.generateRandom(7)
       ]
     };
 
@@ -89,6 +95,10 @@ module.exports = Reflux.createStore({
   editRobot(data) {
     // TODO make model from data ?!
     //localStorage.setItem(localStorageKey, JSON.stringify(list));
+    console.log('edit Robot inm store');
+    this.setState({
+      models: this.state.models.concat([data]),
+    });
     var robot = getModel(this.state.models, data.id);
     if (robot) {
       Helpers.updateModel(this.state.models, data);

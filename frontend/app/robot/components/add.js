@@ -178,45 +178,57 @@ module.exports = React.createClass({
   render() {
     return (
       <DocumentTitle title={"Add robot"}>
-        <section>
-          <h2>Robot Add</h2>
-          <p>This form and all behavior is defined by the form view in <code>components/robots-add.js</code>.</p>
-          <p>The same form-view is used for both adding and creating new robots.</p>
-            <div className="buttons">
-              <form onSubmit={this.onSubmit}>
-                {/*<fieldset>*/}
-                    <Input type="text" ref="serialNumber" label="Serial Number" placeholder="" valueLink={this.linkState("serialNumber")}/>
-                    <Input type="text" ref="assemblyDate" label="Assembly Date" placeholder="" valueLink={this.linkState("assemblyDate")}/>
-                    <Input type="text" ref="manufacturer" label="Manufacturer" placeholder="" valueLink={this.linkState("manufacturer")}/>
-
-                {/*<div className={this.getClasses("email")}>
-                      <label htmlFor="email">Email</label>
-                      <input type="email" id="email" valueLink={this.linkState("email")} className="form-control" placeholder="Email" />
-                      {this.getValidationMessages("email").map(this.renderHelpText)}
-                    </div>
-                    <div className={this.getClasses("username")}>
-                      <label htmlFor="username">Username</label>
-                      <input type="text" id="username" valueLink={this.linkState("username")} className="form-control" placeholder="Username" />
-                      {this.getValidationMessages("username").map(this.renderHelpText)}
-                    </div>
-                    <div className={this.getClasses("password")}>
-                      <label htmlFor="password">Password</label>
-                      <input type="password" id="password" valueLink={this.linkState("password")} className="form-control" placeholder="Password" />
-                      {this.getValidationMessages("password").map(this.renderHelpText)}
-                    </div>
-                    <div className={this.getClasses("verifyPassword")}>
-                      <label htmlFor="verifyPassword">Verify Password</label>
-                      <input type="password" id="verifyPassword" valueLink={this.linkState("verifyPassword")} className="form-control" placeholder="Verify Password" />
-                      {this.getValidationMessages("verifyPassword").map(this.renderHelpText)}
-                    </div>
-                    <div className="text-center form-group">
-                      <button type="submit" className="btn btn-large btn-primary">Sign up</button>
-                    </div>*/}
-                  {/*</fieldset>*/}
-                  <Button type="submit">Submit</Button>
-                </form>
+        <div>
+          <div id="page-actions">
+            <div className="container">
+              <div className="pull-left">
+                <Link to="robots-index" className="btn btn-sm btn-gray-lighter" title="Back to list">
+                  <span className="fa fa-arrow-left"></span>
+                  <span className="hidden-xs margin-left-sm">Back to list</span>
+                </Link>
+              </div>
             </div>
-        </section>
+          </div>
+          <section className="container">
+            <h1>Robot Add</h1>
+            <p>This form and all behavior is defined by the form view in <code>components/robots-add.js</code>.</p>
+            <p>The same form-view is used for both adding and creating new robots.</p>
+              <div className="buttons">
+                <form onSubmit={this.onSubmit}>
+                  {/*<fieldset>*/}
+                      <Input type="text" ref="serialNumber" label="Serial Number" placeholder="" valueLink={this.linkState("serialNumber")}/>
+                      <Input type="text" ref="assemblyDate" label="Assembly Date" placeholder="" valueLink={this.linkState("assemblyDate")}/>
+                      <Input type="text" ref="manufacturer" label="Manufacturer" placeholder="" valueLink={this.linkState("manufacturer")}/>
+
+                  {/*<div className={this.getClasses("email")}>
+                        <label htmlFor="email">Email</label>
+                        <input type="email" id="email" valueLink={this.linkState("email")} className="form-control" placeholder="Email" />
+                        {this.getValidationMessages("email").map(this.renderHelpText)}
+                      </div>
+                      <div className={this.getClasses("username")}>
+                        <label htmlFor="username">Username</label>
+                        <input type="text" id="username" valueLink={this.linkState("username")} className="form-control" placeholder="Username" />
+                        {this.getValidationMessages("username").map(this.renderHelpText)}
+                      </div>
+                      <div className={this.getClasses("password")}>
+                        <label htmlFor="password">Password</label>
+                        <input type="password" id="password" valueLink={this.linkState("password")} className="form-control" placeholder="Password" />
+                        {this.getValidationMessages("password").map(this.renderHelpText)}
+                      </div>
+                      <div className={this.getClasses("verifyPassword")}>
+                        <label htmlFor="verifyPassword">Verify Password</label>
+                        <input type="password" id="verifyPassword" valueLink={this.linkState("verifyPassword")} className="form-control" placeholder="Verify Password" />
+                        {this.getValidationMessages("verifyPassword").map(this.renderHelpText)}
+                      </div>
+                      <div className="text-center form-group">
+                        <button type="submit" className="btn btn-large btn-primary">Sign up</button>
+                      </div>*/}
+                    {/*</fieldset>*/}
+                    <Button type="submit">Submit</Button>
+                  </form>
+              </div>
+          </section>
+        </div>
       </DocumentTitle>
     );
   },

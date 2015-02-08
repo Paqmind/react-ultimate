@@ -5,10 +5,12 @@ let {Link, RouteHandler} = Router;
 let DocumentTitle = require("react-document-title");
 let Helpers = require("../../common/helpers");
 let Actions = require("../actions");
+let Reflux = require("reflux");
+let Store = require("../store");
 
 // EXPORTS =========================================================================================
 module.exports = React.createClass({
-  mixins: [Router.State, Router.Navigation],
+  mixins: [Router.State, Router.Navigation, Reflux.connect(Store)],
 
   propTypes: {
     models: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
@@ -28,18 +30,33 @@ module.exports = React.createClass({
 
   render() {
     console.debug("RobotsDetail.render", this.getParams());
-    console.log(this.props.models);
-    let model = Helpers.getModel(this.props.models, this.getParams().id);
+    let model = Helpers.getModel(this.state.models, this.getParams().id);
     return (
-      <DocumentTitle title={"Robot " + model.fullname}>
-        <section>
-          <h2>{model.fullname}</h2>
-          <img src="" alt="" width="80"  height="80"/>
-          <div className="buttons">
-            <Link className="btn" to="robots-edit" params={{id: this.getParams().id}}>Edit</Link>
-            <button className="btn" onClick={this.onRemove}>Remove</button>
+      <DocumentTitle title={"Robot " + model.fullname + " (#" + model.id + ")"}>
+        <div>
+          <div id="page-actions">
+            <div className="container">
+              <div className="pull-left">
+                <Link to="robots-index" className="btn btn-sm btn-gray-lighter" title="Back to list">
+                  <span className="fa fa-arrow-left"></span>
+                  <span className="hidden-xs margin-left-sm">Back to list</span>
+                </Link>
+              </div>
+              <div className="btn-group btn-group-sm pull-right">
+                <Link to="robots-edit" params={{id: model.id}}  className="btn btn-blue" title="Edit">
+                  <span className="fa fa-edit"></span>
+                </Link>
+                <a className="btn btn-red" title="Delete" onClick={this.onRemove}><span className="fa fa-times"></span></a>
+              </div>
+            </div>
           </div>
-        </section>
+          <section className="container">
+            <div className="thumbnail pull-left margin-top nopadding">
+              <img src={"http://robohash.org/" + model.fullname + "?size=200x200"} width="200px" height="200px"/>
+            </div>
+            <h1>{model.fullname} ({"#" + model.id})</h1>
+          </section>
+        </div>
       </DocumentTitle>
     );
   },
