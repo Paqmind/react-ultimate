@@ -2,46 +2,51 @@
 let fs = require("fs");
 let path = require("path");
 let http = require("http");
+let util = require("util");
 let cp = require("child_process");
 let config = require("config");
 let express = require("express");
 let io = require("socket.io");
 let ss = require("socket.io-stream");
 let favicon = require("serve-favicon");
-let logger = require("morgan");
+let morgan = require("morgan");
 let cookieParser = require("cookie-parser");
 let bodyParser = require("body-parser");
-let conf = require("config");
 let nunjucks = require("nunjucks");
 let markdown = require("nunjucks-markdown");
 let marked = require("marked");
+let winston = require("winston");
+let _ = require("winston-mail");
+let moment = require("moment");
 let routes = require("./routes/index");
 
 // APPS & SERVERS ----------------------------------------------------------------------------------
 let app = express();
 
 // Configs
-app.set("etag", conf.get("use-etag"));
+app.set("etag", config.get("use-etag"));
 
 // Middlewares
 app.use(bodyParser.json());                        // parse application/json
 app.use(bodyParser.urlencoded({extended: false})); // parse application/x-www-form-urlencoded
 
-//app.use(logger("dev")); TODO
+//app.use(morgan("dev")); TODO
 
 /*app.use(cookieParser());*/
-var server = http.Server(app);
-server.listen(process.env.PORT || 3000);
-console.log("Express server listening on port " + server.address().port);
+let port = process.env.PORT || "3000";
+let server = http.createServer(app);
+server.on("error", onError);
+server.on("listening", onListening);
+server.listen(port);
 //var socketEngine = io(server);
 
 // SOCKET-IO ---------------------------------------------------------------------------------------
-var exec  = cp.exec,
-    spawn = cp.spawn;
+//let exec  = cp.exec,
+//let spawn = cp.spawn;
 
 /*socketEngine.sockets.on("connection", function(socket) {
   console.log("[]-> connection");
-  var logFile = path.join(conf.get("project-dir"), "log-osx.log");
+  var logFile = path.join(config.get("project-dir"), "log-osx.log");
   ss(socket).on("enter", function(stream, data) {
     var top = spawn("top", ["-l 0"]);
     top.stderr.on("data", function(data) {
@@ -50,7 +55,7 @@ var exec  = cp.exec,
     console.log("[]-> enter:");
     console.log(`[]-> piping ${logFile}`);
 //    top.stdout.pipe(stream);
-//    console.log("[]-> enter:", path.join(conf.get("project-dir"), "log-osx.log"));
+//    console.log("[]-> enter:", path.join(config.get("project-dir"), "log-osx.log"));
     fs.createReadStream(logFile).pipe(stream);
   });
 
@@ -94,7 +99,7 @@ markdown.register(nunjucksEnv, {
 });
 
 // ROUTES ==========================================================================================
-routes.static = express.static("static", {etag: conf.get("use-etag")});
+routes.static = express.static("static", {etag: config.get("use-etag")});
 
 //app.use(favicon(__dirname + "/favicon.ico"));
 app.use("/static", routes.static);
@@ -115,6 +120,60 @@ app.use(function(err, req, res, next) {
   });
 });
 
+// LOGGING =========================================================================================
+let customColors = {
+  trace: "white",
+  debug: "blue",
+  info: "green",
+  warn: "yellow",
+  fatal: "red"
+};
+
+let customLevels = {
+  trace: 0,
+  debug: 1,
+  info: 2,
+  warn: 3,
+  error: 4,
+};
+
+winston.addColors(customColors);
+
+let logger = new (winston.Logger)({
+  colors: customColors,
+  levels: customLevels,
+  transports: [
+    new (winston.transports.Console)({
+      level: process.env.NODE_ENV == "development" ? "trace" : "info",
+      colorize: true,
+      timestamp: function() {
+        return moment();
+      },
+      formatter: function(options) {
+        let timestamp = options.timestamp().format("YYYY-MM-DD hh:mm:ss");
+        let level = winston.config.colorize(options.level, options.level.toUpperCase());
+        let message = options.message;
+        let meta = (options.meta && options.meta.stack) ? options.meta.stack : "\n\t" + util.inspect(options.meta);
+        return `${timestamp} ${level} ${message} ${meta}`;
+      }
+    }),
+    //new (winston.transports.File)({
+    //  filename: "somefile.log"
+    //})
+  ],
+});
+
+if (process.env.NODE_ENV == "production") {
+  // https://www.npmjs.com/package/winston-mail
+  logger.add(winston.transports.Mail, {
+    level: "error",
+    from: config.get("mail-robot"),
+    to: config.get("mail-support"),
+    subject: "Application Failed",
+    secure: [],
+  });
+}
+
 /*
 // all environments
 app.set('title', 'Application Title');
@@ -134,6 +193,27 @@ if (app.get('env') == "production") {
 }
 */
 
+function onError(error) {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
+  switch (error.code) {
+    case "EACCES":
+      logger.error(port + " requires elevated privileges");
+      process.exit(1);
+      break;
+    case "EADDRINUSE":
+      logger.error(port + " is already in use");
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+function onListening() {
+  logger.info("Listening on port " + port);
+}
 
 /*process.on('uncaughtException', function (err) {
 console.error('uncaughtException:', err.message)
