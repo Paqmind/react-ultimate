@@ -144,7 +144,7 @@ let logger = new (winston.Logger)({
   levels: customLevels,
   transports: [
     new (winston.transports.Console)({
-      level: process.env.NODE_ENV == "development" ? "trace" : "info",
+      level: process.env.NODE_ENV == "development" ? "info" : "warn",
       colorize: true,
       timestamp: function() {
         return moment();
@@ -167,10 +167,11 @@ if (process.env.NODE_ENV == "production") {
   // https://www.npmjs.com/package/winston-mail
   logger.add(winston.transports.Mail, {
     level: "error",
+    host: config.get("smtp-host"),
+    port: config.get("smtp-port"),
     from: config.get("mail-robot"),
     to: config.get("mail-support"),
     subject: "Application Failed",
-    secure: [],
   });
 }
 
