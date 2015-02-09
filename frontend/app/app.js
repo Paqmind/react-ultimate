@@ -5,7 +5,6 @@ Object.assign = require("object-assign");
 let React = require("react");
 let Router = require("./router");
 let RobotStore = require("./robot/store");
-RobotStore.state = RobotStore.getInitialState(); // TODO: hack
 
 // MAIN ============================================================================================
 Router.run(function(Handler, state) {

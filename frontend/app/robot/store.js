@@ -33,16 +33,7 @@ module.exports = Reflux.createStore({
 
   getInitialState() {
     return {
-      models: [
-        this.generateRandom(),
-        this.generateRandom(1),
-        this.generateRandom(2),
-        this.generateRandom(3),
-        this.generateRandom(4),
-        this.generateRandom(5),
-        this.generateRandom(6),
-        this.generateRandom(7)
-      ]
+      models: [],
     };
 
     /*
