@@ -1,5 +1,4 @@
 // IMPORTS =========================================================================================
-let Request = require("superagent");
 let Reflux = require("reflux");
 let Faker = require("faker");
 let CommonHelpers = require("../../../common/helpers");
@@ -7,22 +6,47 @@ let Helpers = require("../common/helpers");
 let Actions = require("./actions");
 
 // EXPORTS =========================================================================================
-module.exports = Reflux.createStore({
+export default Reflux.createStore({
   // this will set up listeners to all publishers in TodoActions, using onKeyname (or keyname) as callbacks
-  listenables: [Actions],
+  //listenables: [Actions],
 
+  // TODO: this should be at mixin level -----------------------------------------------------------
   init() {
     this.state = {};
+    this.setState(this.getInitialState());
+    console.log("!!!", this.state);
+
+    //this.listenTo(ProfileStore, this.onProfileCompleted);
+    this.listenTo(Actions.load.completed, this.onLoadCompleted);
+    this.listenTo(Actions.load.failed, this.onLoadFailed);
+    Actions.load();
   },
 
-  // called whenever we change a list. normally this would mean a database API call
-  setState(state) {
-    //localStorage.setItem(localStorageKey, JSON.stringify(list));
-    // if we used a real database, we would likely do the below in a callback
-    this.state = state;
-    console.log("!!! state:", this.state);
-    this.trigger(state); // sends the updated list to all listening components (TodoApp)
+  onLoadCompleted(robots) {
+    console.log("on load completed > ", arguments);
+    this.setState({
+      models: robots
+    });
   },
+
+  onLoadFailed() {
+    // TODO what arguments should accept???
+    console.log("on load failed > ", arguments);
+    this.setState({
+      models: robots
+    });
+  },
+
+  setState(state) {
+    this.state = Object.assign(this.state, state);
+    this.trigger(this.state);
+  },
+
+  replaceState(state) {
+    this.state = state;
+    this.trigger(this.state);
+  },
+  //------------------------------------------------------------------------------------------------
 
   onAddRandom() {
     let robot = CommonHelpers.generateRandom(CommonHelpers.maxId(this.state.models) + 1);
