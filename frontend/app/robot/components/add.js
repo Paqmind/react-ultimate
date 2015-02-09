@@ -169,8 +169,8 @@ module.exports = React.createClass({
   //  event.preventDefault();
     // TODO: what data pass???
     /*let robot = {
-      id: Helpers.maxId(this.props.models) + 1,
-      fullname: Faker.name.findName(),
+      id: CommonHelpers.maxId(this.props.models) + 1,
+      name: Faker.name.findName(),
     };*/
     //Actions.addRandom();
   //},

@@ -2,6 +2,7 @@
 let Request = require("superagent");
 let Reflux = require("reflux");
 let Faker = require("faker");
+let CommonHelpers = require("../../../common/helpers");
 let Helpers = require("../common/helpers");
 let Actions = require("./actions");
 
@@ -24,8 +25,7 @@ module.exports = Reflux.createStore({
   },
 
   onAddRandom() {
-    let robot = this.generateRandom(Helpers.maxId(this.state.models));
-    console.log("!!! random robot:", robot);
+    let robot = CommonHelpers.generateRandom(CommonHelpers.maxId(this.state.models) + 1);
     this.setState({
       models: this.state.models.concat([robot])
     });
@@ -137,12 +137,4 @@ module.exports = Reflux.createStore({
   //    return !item.isComplete;
   //  }));
   //},
-
-  // HELPERS ---------------------------------------------------------------------------------------
-  generateRandom(maxId=0) {
-    return {
-      id: maxId + 1,
-      fullname: Faker.name.findName(),
-    };
-  },
 });
