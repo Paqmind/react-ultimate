@@ -51,6 +51,7 @@
     "node-hook": "^0.1.0",
     "nunjucks": "^1.2.0",
     "nunjucks-markdown": "^1.0.0",
+    "object-assign": "^2.0.0",
     "react": "0.12.2",
     "react-bootstrap": "^0.13.3",
     "react-document-title": "^0.1.3",
