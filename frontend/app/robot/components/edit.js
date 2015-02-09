@@ -28,7 +28,7 @@ module.exports = React.createClass({
     console.debug("RobotsEdit.render", this.getParams());
     let model = Helpers.getModel(this.state.models, this.getParams().id);
     return (
-      <DocumentTitle title={"Edit robot " + model.fullname + " (#" + model.id + ")"}>
+      <DocumentTitle title={"Edit robot " + model.name + " (#" + model.id + ")"}>
         <div>
           <div id="page-actions">
             <div className="container">
@@ -47,7 +47,7 @@ module.exports = React.createClass({
             </div>
           </div>
           <section className="container">
-            <h1>Robot Edit {model.fullname} ({"#" + model.id})</h1>
+            <h1>Robot Edit {model.name} ({"#" + model.id})</h1>
             <p>This form and all behavior is defined by the form view in <code>components/robots-edit.js</code>.</p>
             <p>The same form-view is used for both editing and creating new robots.</p>
             <form>

@@ -32,7 +32,7 @@ module.exports = React.createClass({
     console.debug("RobotsDetail.render", this.getParams());
     let model = Helpers.getModel(this.state.models, this.getParams().id);
     return (
-      <DocumentTitle title={"Robot " + model.fullname + " (#" + model.id + ")"}>
+      <DocumentTitle title={"Robot " + model.name + " (#" + model.id + ")"}>
         <div>
           <div id="page-actions">
             <div className="container">
@@ -52,9 +52,9 @@ module.exports = React.createClass({
           </div>
           <section className="container">
             <div className="thumbnail pull-left margin-top nopadding">
-              <img src={"http://robohash.org/" + model.fullname + "?size=200x200"} width="200px" height="200px"/>
+              <img src={"http://robohash.org/" + model.name + "?size=200x200"} width="200px" height="200px"/>
             </div>
-            <h1>{model.fullname} ({"#" + model.id})</h1>
+            <h1>{model.name} ({"#" + model.id})</h1>
           </section>
         </div>
       </DocumentTitle>

@@ -44,11 +44,11 @@ module.exports = React.createClass({
                 return <div className="col-sm-6 col-md-3">
                   <div className="panel panel-default" key={robot.id}>
                     <div className="panel-heading">
-                      <h4 className="panel-title"><Link to="robots-detail" params={{id: robot.id}}>{robot.fullname}</Link></h4>
+                      <h4 className="panel-title"><Link to="robots-detail" params={{id: robot.id}}>{robot.name}</Link></h4>
                     </div>
                     <div className="panel-body text-center nopadding">
                         <Link to="robots-detail" params={{id: robot.id}}>
-                          <img src={'http://robohash.org/' + robot.fullname + '?size=200x200'} width="200px" height="200px"/>
+                          <img src={'http://robohash.org/' + robot.name + '?size=200x200'} width="200px" height="200px"/>
                         </Link>
                     </div>
                     <div className="panel-footer">
