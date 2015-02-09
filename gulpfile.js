@@ -26,6 +26,24 @@ let vinylBuffer = require("vinyl-buffer");
 //var stripDebug = require("gulp-strip-debug");
 //var uglify = require("gulp-uglify");
 
+// COMMON TASKS ====================================================================================
+gulp.task("common:build", function() {
+  return gulp.src(["./common/**/*.js"])
+    .pipe(gulpSourcemaps.init())
+    .pipe(gulp6to5())
+    .pipe(gulpSourcemaps.write())
+    .pipe(gulp.dest("./build/common"));
+});
+
+// BACKEND TASKS ===================================================================================
+gulp.task("backend:lint", function() {
+  return gulp.src(["./backend/**/*.js"])
+//    .pipe(cached("backend:lint"))
+    .pipe(gulpJshint())
+    .pipe(gulpJshint.reporter(jshintStylish));
+});
+
+// FRONTEND TASKS ==================================================================================
 // TODO: fix and update this
 gulp.task("frontend:dist-styles", function() {
   return gulp.src(["./frontend/styles/theme.less"])
@@ -37,13 +55,6 @@ gulp.task("frontend:dist-styles", function() {
 gulp.task("frontend:lint", function() {
   return gulp.src(["./frontend/**/*.js"])
 //    .pipe(cached("lint-react"))
-    .pipe(gulpJshint())
-    .pipe(gulpJshint.reporter(jshintStylish));
-});
-
-gulp.task("backend:lint", function() {
-  return gulp.src(["./backend/**/*.js"])
-//    .pipe(cached("backend:lint"))
     .pipe(gulpJshint())
     .pipe(gulpJshint.reporter(jshintStylish));
 });
@@ -100,15 +111,22 @@ gulp.task("frontend:dist-scripts", function() {
 
 gulp.task("frontend:dist-app", ["frontend:build-app"], bundleApp);
 
+// GENERAL TASKS ===================================================================================
 gulp.task("watch"/*, ["serve"]*/, function() {
   gulp.watch("./frontend/app/**/*.js", ["frontend:build-app"]);
   gulp.watch("./frontend/scripts/**/*.js", ["frontend:dist-scripts"]);
   gulp.watch("./frontend/styles/**/*.less", ["frontend:dist-styles"]);
 });
 
-gulp.task("dist", ["frontend:dist-styles", "frontend:dist-scripts", "frontend:dist-vendors", "frontend:dist-app"]);
+gulp.task("dist", [
+  "common:build",
+  "frontend:dist-styles",
+  "frontend:dist-scripts",
+  "frontend:dist-vendors",
+  "frontend:dist-app",
+]);
 
-//gulp.task("lint", ["backend:lint", "frontend:lint"]);
+//gulp.task("lint", ["common:lint", "backend:lint", "frontend:lint"]);
 
 gulp.task("default", function() {
   if (process.env.NODE_ENV == "development") {
