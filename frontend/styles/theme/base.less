@@ -1,17 +1,30 @@
 /*******************************************************************************
   THEME. LAYOUT
 *******************************************************************************/
-
-
-/*
- Sticky footer styles
-*/
 html {
   position: relative;
   min-height: 100%;
+  overflow-y: scroll;
+  @media (max-width: @screen-sm-min) {
+    overflow-y: auto;
+  }
 }
 body {
+  padding-top: @header-height;
   padding-bottom: @footer-height;
+}
+#page-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: @white;
+  transition: @transition-base;
+  box-shadow: 0 0 1px rgba(0,0,0,0.15);
+  &.navbar-up {
+    top: -@header-height;
+  }
+}
+#page-main {
 }
 #page-footer {
   position: absolute;
@@ -19,11 +32,8 @@ body {
   width: 100%;
   height: @footer-height;
 }
-
-#page-header {
-}
-#page-main {
-}
-
-#page-footer {
+#page-actions {
+  padding-top: @line-height-computed / 2;
+  padding-bottom: @line-height-computed / 2;
+  box-shadow: 0 0 1px rgba(0,0,0,0.15);
 }

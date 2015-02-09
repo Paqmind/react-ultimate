@@ -19,11 +19,10 @@ let RobotEdit = require("./robot/components/edit");
 var routes = (
   <Route handler={Body} path="/">
     <DefaultRoute name="home" handler={Home}/>
-    <Route name="robots-index" path="/robots/" handler={RobotIndex}>
-      <Route name="robots-add" path="add" handler={RobotAdd}/>
-      <Route name="robots-detail" path=":id" handler={RobotDetail}/>
-      <Route name="robots-edit" path=":id/edit" handler={RobotEdit}/>
-    </Route>
+    <Route name="robots-index" path="/robots/" handler={RobotIndex}/>
+    <Route name="robots-add" path="/robots/add" handler={RobotAdd}/>
+    <Route name="robots-detail" path="/robots/:id" handler={RobotDetail}/>
+    <Route name="robots-edit" path="/robots/:id/edit" handler={RobotEdit}/>
     <Route name="about" path="/about" handler={About}/>
     <NotFoundRoute handler={NotFound}/>
   </Route>
