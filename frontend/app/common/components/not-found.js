@@ -5,7 +5,7 @@ let {Link, RouteHandler} = Router;
 let DocumentTitle = require("react-document-title");
 
 // EXPORTS =========================================================================================
-module.exports = React.createClass({
+let NotFound = React.createClass({
   componentDidMount() {
     console.debug("NotFound.componentDidMount");
   },
@@ -21,3 +21,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default NotFound;

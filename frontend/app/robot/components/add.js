@@ -136,7 +136,7 @@ let ExampleInput = React.createClass({
   }
 });
 
-module.exports = React.createClass({
+let Add = React.createClass({
   mixins: [Router.State, Router.navigation, ValidationMixin, React.addons.LinkedStateMixin],
 
   displayName: "RobotAdd",
@@ -272,4 +272,5 @@ module.exports = React.createClass({
   }, 500),
 });
 
+export default Add;
 

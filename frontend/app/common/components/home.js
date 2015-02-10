@@ -5,7 +5,7 @@ let {Link, RouteHandler} = Router;
 let DocumentTitle = require("react-document-title");
 
 // EXPORTS =========================================================================================
-module.exports = React.createClass({
+let Home = React.createClass({
   render() {
     return (
       <DocumentTitle title="Home">
@@ -55,5 +55,7 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default Home;
 
 //seoTitle: "Home SEO title",

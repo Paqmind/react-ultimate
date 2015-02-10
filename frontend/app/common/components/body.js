@@ -5,7 +5,7 @@ let {Link, RouteHandler} = Router;
 let Reflux = require("reflux");
 
 // EXPORTS =========================================================================================
-module.exports = React.createClass({
+let Body = React.createClass({
   render() {
     return (
       <div>
@@ -35,3 +35,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default Body;

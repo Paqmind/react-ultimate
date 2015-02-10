@@ -162,3 +162,5 @@ export default Reflux.createStore({
   //  }));
   //},
 });
+
+export default Store;

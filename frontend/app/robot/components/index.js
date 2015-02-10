@@ -83,3 +83,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default Index;
