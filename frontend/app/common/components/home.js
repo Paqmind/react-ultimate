@@ -19,7 +19,7 @@ let Home = React.createClass({
           <ul>
             <li><a href="#">React</a></li>
             <li><a href="#">React-Router</a></li>
-            <li><a href="#">React-Documenent-Title</a></li>
+            <li><a href="#">React-Document-Title</a></li>
             <li><a href="#">Browserify</a></li>
             <li><a href="#">Faker</a></li>
             <li>In production mode, it will serve minfied, uniquely named files with super agressive cache headers. To test:
