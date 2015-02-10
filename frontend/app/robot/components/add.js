@@ -182,7 +182,7 @@ let Add = React.createClass({
           <div id="page-actions">
             <div className="container">
               <div className="pull-left">
-                <Link to="robots-index" className="btn btn-sm btn-gray-lighter" title="Back to list">
+                <Link to="robot-index" className="btn btn-sm btn-gray-lighter" title="Back to list">
                   <span className="fa fa-arrow-left"></span>
                   <span className="hidden-xs margin-left-sm">Back to list</span>
                 </Link>

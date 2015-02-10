@@ -17,7 +17,7 @@ module.exports = React.createClass({
           <div id="page-actions">
             <div className="container">
               <div className="pull-right">
-                <Link to="robots-add" className="btn btn-sm btn-green" title="Add">
+                <Link to="robot-add" className="btn btn-sm btn-green" title="Add">
                   <span className="fa fa-plus"></span>
                 </Link>
               </div>
@@ -44,17 +44,20 @@ module.exports = React.createClass({
                 return <div className="col-sm-6 col-md-3">
                   <div className="panel panel-default" key={robot.id}>
                     <div className="panel-heading">
-                      <h4 className="panel-title"><Link to="robots-detail" params={{id: robot.id}}>{robot.name}</Link></h4>
+                      <h4 className="panel-title"><Link to="robot-detail" params={{id: robot.id}}>{robot.name}</Link></h4>
                     </div>
                     <div className="panel-body text-center nopadding">
-                      <Link to="robots-detail" params={{id: robot.id}}>
+                      <Link to="robot-detail" params={{id: robot.id}}>
                         <img src={'http://robohash.org/' + robot.id + '?size=200x200'} width="200px" height="200px"/>
                       </Link>
                     </div>
                     <div className="panel-footer">
                       <div className="clearfix">
                         <div className="btn-group btn-group-sm pull-right">
-                          <Link to="robots-edit" params={{id: robot.id}} className="btn btn-blue" title="Edit">
+                          <Link to="robot-detail" params={{id: robot.id}} className="btn btn-blue" title="Detail">
+                            <span className="fa fa-eye"></span>
+                          </Link>
+                          <Link to="robot-edit" params={{id: robot.id}} className="btn btn-blue" title="Edit">
                             <span className="fa fa-edit"></span>
                           </Link>
                           <a className="btn btn-red" title="Delete" onClick={this.onRemove}>

@@ -21,7 +21,7 @@ let Body = React.createClass({
             <nav className="collapse navbar-collapse navbar-page-header">
               <ul className="nav navbar-nav">
                 <li><Link to="home">Home</Link></li>
-                <li><Link to="robots-index">Robots</Link></li>
+                <li><Link to="robot-index">Robots</Link></li>
                 <li><Link to="about">About</Link></li>
               </ul>
             </nav>
