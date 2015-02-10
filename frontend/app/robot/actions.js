@@ -1,5 +1,6 @@
 // IMPORTS =========================================================================================
 let Request = require("superagent");
+let Axios = require("axios");
 let Reflux = require("reflux");
 
 // EXPORTS =========================================================================================
@@ -9,27 +10,81 @@ let Actions = Reflux.createActions({
   //"addItem",        // called by hitting enter in field in TodoHeader
   //"removeItem",     // called by button in TodoItem
   //"clearCompleted", // called by button in TodoFooter
-  "load": {children: ["completed", "failed"]},
-  "add": {},
-  "addRandom": {},
-  "edit": {},
+  "getModels": {asyncResult: true},
+  "getModel": {asyncResult: true},
+  "postModel": {asyncResult: true},
+  "putModel": {asyncResult: true},
+  "deleteModel": {asyncResult: true},
+  "addModel": {},
+  "addRandomModel": {},
+  "editModel": {},
 });
 
-// when 'load' is triggered, call async operation and trigger related actions
-Actions.load.listen(function() {
-  // By default, the listener is bound to the action
-  // so we can access child actions using 'this'
-  Request
-    .get("/api/robots/")
-    .end((res) => {
-      if (res.ok) {
-        console.log("Robot load completed!", res.body);
-        this.completed(res.body);
-      } else {
-        console.log("Robot load failed!");
-        this.failed();
-      }
+// when 'getModels' is triggered, call async operation and trigger related actions
+Actions.getModels.listen(function(opts) {
+  // Child actions are accessible through `this`
+  Axios.get('/api/robots/')
+    .then((res) => {
+      console.log(">>> then >>>", res.status);
+      console.log(">>> then >>>", res.data);
+      this.completed(res.data);
+    })
+    .catch((res) => {
+      console.log(">>> catch >>>", res);
+      console.log(">>> catch >>>", res.status);
+      console.log(">>> catch >>>", res.data);
+      self.failed(res.status);
     });
 });
 
-module.exports = Actions;
+// when 'fetchModel' is triggered, call async operation and trigger related actions
+Actions.getModel.listen(function(opts) {
+  // Child actions are accessible through `this`
+  let {id} = opts;
+  Axios.get(`/api/robots/${id}`)
+    .then((res) => {
+      console.log(">>>", res.status);
+      console.log(">>>", res.data);
+      this.completed(res.data);
+    })
+    .catch((res) => {
+      console.log(">>>", res.status);
+      console.log(">>>", res.data);
+      this.failed(res.status);
+    });
+});
+
+Actions.postModel.listen((opts) => {
+  //opts.headers["Content-Type"] = "application/json";
+  let {headers, data} = opts;
+  Axios.post(`/api/robots/`, {headers, data})
+    .then((res) => {
+      console.log(">>>", res.status);
+      console.log(">>>", res.data);
+      this.completed(res.data);
+    })
+    .catch((res) => {
+      // TODO pull data back ?!
+      console.log(">>>", res.status);
+      console.log(">>>", res.data);
+      this.failed(res.status);
+    });
+});
+
+Actions.putModel.listen((opts) => {
+  //opts.headers["Content-Type"] = "application/json";
+  let {id, headers, data} = opts;
+  Axios.put(`/api/robots/${id}`, {headers, data})
+    .then((res) => {
+      console.log(">>>", res.status);
+      console.log(">>>", res.data);
+      this.completed(res.data);
+    }).catch((res) => {
+      // TODO pull data back ?!
+      console.log(">>>", res.status);
+      console.log(">>>", res.data);
+      this.failed(res.status);
+    });
+});
+
+export default Actions;

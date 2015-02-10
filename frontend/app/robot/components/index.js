@@ -7,10 +7,17 @@ let DocumentTitle = require("react-document-title");
 let Store = require("../store");
 
 // EXPORTS =========================================================================================
-module.exports = React.createClass({
-  mixins: [Router.State, Reflux.connect(Store)],
+let Index = React.createClass({
+  initialize() {
+    //console.log("RobotIndex.initialize");
+  },
+
+  componentDidMount() {
+    //console.log("RobotIndex.componentDidMount");
+  },
 
   render() {
+    //console.log("RobotIndex.render");
     return (
       <DocumentTitle title="Robots">
         <div>
@@ -40,7 +47,7 @@ module.exports = React.createClass({
 
             <h1>Robots</h1>
             <div className="row">
-              {this.state.models.map(robot => {
+              {this.props.models.map((robot) => {
                 return <div className="col-sm-6 col-md-3">
                   <div className="panel panel-default" key={robot.id}>
                     <div className="panel-heading">
@@ -60,9 +67,9 @@ module.exports = React.createClass({
                           <Link to="robot-edit" params={{id: robot.id}} className="btn btn-blue" title="Edit">
                             <span className="fa fa-edit"></span>
                           </Link>
-                          <a className="btn btn-red" title="Delete" onClick={this.onRemove}>
+                          {/*<a className="btn btn-red" title="Delete" onClick={this.onRemove}>
                             <span className="fa fa-times"></span>
-                          </a>
+                          </a>*/}
                         </div>
                       </div>
                     </div>

@@ -9,7 +9,6 @@ let Input = require("react-bootstrap/Input");
 let Button = require("react-bootstrap/Button");
 let ValidationMixin = require("react-validation-mixin");
 let Joi = require("joi");
-let Helpers = require("../../common/helpers");
 let Actions = require("../actions");
 
 // EXPORTS =========================================================================================
