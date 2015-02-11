@@ -6,7 +6,6 @@
   "scripts": {
     "nodemon": "NODE_ENV=development nodemon -e js,html --exec 6to5-node ./backend/app.js --experimental",
     "node": "NODE_ENV=production 6to5-node backend/app.js --experimental",
-    "watchify": "watchify ./build/frontend/app/app.js -o ./static/scripts/bundle.js -v"
   },
   "dependencies": {
     "6to5": "^3.5.3",
