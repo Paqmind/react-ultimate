@@ -4,7 +4,7 @@
 */
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
-let faker = require("faker");
+let ChildProcess = require("child_process");
 let gulp = require("gulp");
 let gulpUtil = require("gulp-util");
 let browserify = require("browserify");
