@@ -1,0 +1,13 @@
+{% extends "errors/base.html" %}
+
+{% set seotitle = "403 Forbidden Page" %}
+
+{% block container %}
+  <h1>Forbidden Page</h1>
+  <p>You have no permission to invoke this action!</p>
+  <script>
+    var GOOG_FIXURL_LANG = (navigator.language || '').slice(0,2);
+    var GOOG_FIXURL_SITE = location.host;
+  </script>
+  <script src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js"></script>
+{% endblock %}
