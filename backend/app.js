@@ -106,10 +106,8 @@ app.use("/static", routes.static);
 app.use("/api", routes.api);
 app.use("/", routes.app);
 
-app.use(function(req, res, next) {
-  var err = new Error("Not Found");
-  err.status = 404;
-  next(err);
+app.use(function(req, res) {
+   return res.status(404).render("errors/404.html");
 });
 
 app.use(function(err, req, res, next) {
