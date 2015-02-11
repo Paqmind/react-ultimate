@@ -1,7 +1,6 @@
 {
   "verbose": true,
   "watch": [
-    "backend",
-    "backend/templates"
+    "./backend"
   ]
 }
