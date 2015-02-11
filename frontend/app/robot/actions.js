@@ -1,5 +1,4 @@
 // IMPORTS =========================================================================================
-let Request = require("superagent");
 let Axios = require("axios");
 let Reflux = require("reflux");
 

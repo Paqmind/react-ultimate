@@ -2,15 +2,23 @@
 let Ld = require("lodash");
 let Express = require("express");
 let CommonHelpers = require("../../common/helpers");
+let Helpers = require("../helpers");
 
 // EXPORTS =========================================================================================
 let router = Express.Router();
 
-let robots = Ld.range(1, 10).map(CommonHelpers.generateRobot);
+let robots = Ld.range(1, 10).map(Helpers.generateRobot);
 
 router.get("/robots/", function(req, res) {
   res.status(200);
   res.send(robots);
+});
+
+router.get("/robots/random", function(req, res) {
+  let maxId = CommonHelpers.maxId(robots);
+  let robot = Helpers.generateRobot(maxId + 1);
+  res.status(200);
+  res.send(robot);
 });
 
 router.post("/robots/", function(req, res) {
@@ -20,6 +28,18 @@ router.post("/robots/", function(req, res) {
   res.status(201);
   res.send(robot);
 });
+
+// EXPORTS =========================================================================================
+export function generateRobot(id) {
+  // no support to pick name by gender for now in Faker :(
+  return {
+    id: id,
+    name: Faker.name.firstName(),
+    serialNumber: Faker.random.uuid(),
+    assemblyDate: Faker.date.between("1970-01-01", "1995-01-01"),
+    manufacturer: Faker.random.array_element(["Russia", "USA", "China"]),
+  };
+}
 
 // TODO add typecheck for :id (on express level)
 router.get("/robots/:id", function(req, res) {

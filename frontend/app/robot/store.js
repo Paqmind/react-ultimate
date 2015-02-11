@@ -1,6 +1,5 @@
 // IMPORTS =========================================================================================
 let Reflux = require("reflux");
-let Faker = require("faker");
 let CommonHelpers = require("../../../common/helpers");
 let Actions = require("./actions");
 
