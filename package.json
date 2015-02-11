@@ -47,6 +47,7 @@
     "jshint-stylish": "*",
     "less-middleware": "*",
     "lodash": "^3.1.0",
+    "lodash.debounce": "^3.0.0",
     "marked": "^0.3.3",
     "moment": "^2.9.0",
     "morgan": "*",
