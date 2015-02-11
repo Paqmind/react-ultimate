@@ -27,14 +27,7 @@ if [ $(npm_package_installed bower -g) == 0 ]; then
 fi
 
 # Replace gulp interpeter to 6to5-node
-if [[ `uname` == 'Darwin' ]]; then
-  gulp_file=`which gulp | xargs greadlink -f`
-else
-  gulp_file=`which gulp | xargs readlink -f`
-fi
-sed '1 s/node/6to5-node/' ${gulp_file} > ~/.temp/gulp.js
-mv ~/.temp/gulp.js ${gulp_file}
-chmod +x ${gulp_file}
+source ./fixes/gulp.sh
 
 # Git init
 rm -fr .git
@@ -49,13 +42,10 @@ npm install
 bower install
 
 # Fix **globule** outdated dependency (**lodash**): remove to use project-level one
-rm -rf node_modules/gulp/node_modules/vinyl-fs/node_modules/glob-watcher/node_modules/gaze/node_modules/globule/node_modules/lodash
+source ./fixes/globule.sh
 
-# Fix **elliptic** strange import bug
-elliptic_file=node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic.js
-sed 's/elliptic.version = .*;/elliptic.version = "x";/' ${elliptic_file} > ~/.temp/elliptic.js
-mv ~/.temp/elliptic.js ${elliptic_file}
-chmod +x ${elliptic_file}
+# Fix **elliptic** strange import bug (mismatch of browserify and wathichify version)
+#source ./fixes/elliptic.sh TODO no longer required?
 
 # Run gulp prod
 gulp prod
