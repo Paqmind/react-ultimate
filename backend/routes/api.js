@@ -9,7 +9,6 @@ let router = Express.Router();
 let robots = Ld.range(1, 10).map(CommonHelpers.generateRobot);
 
 router.get("/robots/", function(req, res) {
-  console.log(robots);
   res.status(200);
   res.send(robots);
 });
