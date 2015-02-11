@@ -10,11 +10,9 @@ let Home = React.createClass({
     return (
       <DocumentTitle title="Home">
         <section className="container page home">
-          <h1>"Robots" demo app. Proof of concepts</h1>
-          <p>Frontend-driven web app</p>
-
-          <p>Proudly build on ES6 with the help of great <a href="#">6to5</a> transpiler</p>
-
+          <h1>R0b0ts demo app. Proof of concepts!</h1>
+          <p>React web app</p>
+          <p>Proudly build on ES6 with the help of <a href="#">6to5</a> transpiler</p>
           <h3>Frontend</h3>
           <ul>
             <li><a href="#">React</a></li>
