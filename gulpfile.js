@@ -44,13 +44,19 @@ gulp.task("backend:lint", function() {
 });
 
 // FRONTEND TASKS ==================================================================================
-// TODO: fix and update this
-gulp.task("frontend:dist-styles", function() {
+gulp.task("frontend:move-css", function() {
+  return gulp.src(["./frontend/styles/**/*.css"])
+    .pipe(gulp.dest("./static/styles"));
+});
+
+gulp.task("frontend:compile-less", function() {
   return gulp.src(["./frontend/styles/theme.less"])
     .pipe(gulpLess().on("error", function (error) {console.log(error); }))
     .pipe(gulpRename("bundle.css"))
     .pipe(gulp.dest("./static/styles"));
 });
+
+gulp.task("frontend:dist-styles", ["frontend:move-css", "frontend:compile-less"]);
 
 gulp.task("frontend:lint", function() {
   return gulp.src(["./frontend/**/*.js"])
