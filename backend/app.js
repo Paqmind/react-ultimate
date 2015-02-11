@@ -153,7 +153,12 @@ let logger = new (winston.Logger)({
         let timestamp = options.timestamp().format("YYYY-MM-DD hh:mm:ss");
         let level = winston.config.colorize(options.level, options.level.toUpperCase());
         let message = options.message;
-        let meta = (options.meta && options.meta.stack) ? options.meta.stack : "\n\t" + util.inspect(options.meta);
+        let meta;
+        if (options.meta instanceof Error) {
+          meta = "\n  " + options.meta.stack;
+        } else {
+          meta = Object.keys(options.meta).length ? util.inspect(options.meta) : "";
+        }
         return `${timestamp} ${level} ${message} ${meta}`;
       }
     }),
