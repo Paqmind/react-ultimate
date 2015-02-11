@@ -250,7 +250,7 @@ let Add = React.createClass({
     this.handleSubmit(event);
   },
 
-  handleSubmit: LD.debounce(function() {
+  handleSubmit: debounce(function() {
     console.debug("RobotAdd.onSubmit");
     console.log("BEFORE VALIDATION");
     console.debug("RobotAdd.state:", this.state);
