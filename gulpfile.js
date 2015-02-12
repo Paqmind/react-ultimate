@@ -113,9 +113,8 @@ gulp.task("frontend:dist-scripts", function() {
     .pipe(gulp.dest("./static/scripts"));
 });
 
-gulp.task("frontend:browserify", function() {
+gulp.task("frontend:browserify-vendors", function() {
   if (process.env.NODE_ENV == "development") {
-    // Browserify vendors
     // $ browserify -d -r react -r reflux [-r ...] -o ./static/scripts/vendors.js
     let browserifyVendorsArgs = ["-d"]
       .concat(interleaveWith(libraries, "-r"))
@@ -127,8 +126,11 @@ gulp.task("frontend:browserify", function() {
     process.on("exit", function () {
       browserifyVendors.kill();
     });
+  }
+});
 
-    // Browserify app
+gulp.task("frontend:browserify-app", function() {
+  if (process.env.NODE_ENV == "development") {
     // $ browserify -d -x react -x reflux [-x ...] ./build/frontend/app/app.js -o ./static/scripts/app.js
     let browserifyAppArgs = ["-d"]
       .concat(interleaveWith(libraries, "-x"))
@@ -174,7 +176,7 @@ gulp.task("frontend:build", [
 
 gulp.task("frontend:dist", [
   "frontend:build",
-  "frontend:browserify",
+  "frontend:browserify-app",
   "frontend:dist-scripts",
   "frontend:dist-styles",
 ]);
