@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "nodemon": "NODE_ENV=development nodemon -e js,html --exec 6to5-node ./backend/app.js --experimental",
-    "node": "NODE_ENV=production 6to5-node backend/app.js --experimental",
+    "node": "NODE_ENV=production 6to5-node backend/app.js --experimental"
   },
   "dependencies": {
     "6to5": "^3.5.3",
