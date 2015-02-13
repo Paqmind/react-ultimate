@@ -8,7 +8,7 @@
     "node": "NODE_ENV=production 6to5-node backend/app.js --experimental"
   },
   "dependencies": {
-    "6to5": "^3.5.3",
+    "6to5": "^3.6.0",
     "andlog": "*",
     "axios": "^0.5.0",
     "body-parser": "^1.10.2",
