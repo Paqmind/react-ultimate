@@ -15,15 +15,13 @@ router.get("/robots/", function(req, res) {
 });
 
 router.get("/robots/random", function(req, res) {
-  let maxId = CommonHelpers.maxId(robots);
-  let robot = Helpers.generateRobot(maxId + 1);
+  let robot = Helpers.generateRobot();
   res.status(200);
   res.send(robot);
 });
 
 router.post("/robots/", function(req, res) {
   let robot = req.body;
-  robot.id = Ld.last(robots).id + 1;
   robots.push(robot);
   res.status(201);
   res.send(robot);
@@ -33,9 +31,8 @@ router.post("/robots/", function(req, res) {
 export function generateRobot(id) {
   // no support to pick name by gender for now in Faker :(
   return {
-    id: id,
+    id: Faker.random.uuid(),
     name: Faker.name.firstName(),
-    serialNumber: Faker.random.uuid(),
     assemblyDate: Faker.date.between("1970-01-01", "1995-01-01"),
     manufacturer: Faker.random.array_element(["Russia", "USA", "China"]),
   };
@@ -43,7 +40,7 @@ export function generateRobot(id) {
 
 // TODO add typecheck for :id (on express level)
 router.get("/robots/:id", function(req, res) {
-  var robot = Ld.findWhere(robots, {id: parseInt(req.params.id)});
+  var robot = Ld.findWhere(robots, {id: req.params.id});
   if (robot) {
     res.status(200);
     res.send(robot);
@@ -54,7 +51,7 @@ router.get("/robots/:id", function(req, res) {
 
 // TODO add typecheck for :id (on express level)
 router.delete("/robots/:id", function(req, res) {
-  var robot = Ld.findWhere(robots, {id: parseInt(req.params.id)});
+  var robot = Ld.findWhere(robots, {id: req.params.id});
   if (robot) {
     robots = Ld.without(robots, robot);
     res.status(200);
@@ -66,7 +63,7 @@ router.delete("/robots/:id", function(req, res) {
 
 // TODO add typecheck for :id (on express level)
 router.put("/robots/:id", function(req, res) {
-  var robot = Ld.findWhere(robots, {id: parseInt(req.params.id)});
+  var robot = Ld.findWhere(robots, {id: req.params.id});
   if (robot) {
     Ld.extend(robot, req.body);
     res.status(200);

@@ -142,7 +142,7 @@ let Add = React.createClass({
 
   validatorTypes() {
     return {
-      serialNumber: Joi.number().integer().min(7).max(7).required(),
+      id: Joi.string().required(), // TODO uuid
       assemblyDate: Joi.date().max("now").required(),
       manufacturer: Joi.string().required(),
     };
@@ -150,8 +150,7 @@ let Add = React.createClass({
 
   getInitialState() {
     return {
-      errors: undefined,
-      serialNumber: undefined,
+      id: undefined,
       assemblyDate: undefined,
       manufacturer: undefined,
     };
@@ -162,7 +161,7 @@ let Add = React.createClass({
   //  event.preventDefault();
     // TODO: what data pass???
     /*let robot = {
-      id: CommonHelpers.maxId(this.props.models) + 1,
+      id: TODO use backend API instead
       name: Faker.name.findName(),
     };*/
     //Actions.addRandom();
@@ -189,7 +188,7 @@ let Add = React.createClass({
               <div className="buttons">
                 <form onSubmit={this.onSubmit}>
                   {/*<fieldset>*/}
-                      <Input type="text" ref="serialNumber" label="Serial Number" placeholder="" valueLink={this.linkState("serialNumber")}/>
+                      <Input type="text" ref="id" label="Serial Number" placeholder="" valueLink={this.linkState("id")}/>
                       <Input type="text" ref="assemblyDate" label="Assembly Date" placeholder="" valueLink={this.linkState("assemblyDate")}/>
                       <Input type="text" ref="manufacturer" label="Manufacturer" placeholder="" valueLink={this.linkState("manufacturer")}/>
 
@@ -250,14 +249,14 @@ let Add = React.createClass({
     console.debug("RobotAdd.state:", this.state);
     console.debug("RobotAdd.isValid():", this.isValid());
     console.debug("RobotAdd.getValidationMessages():", this.getValidationMessages());
-    console.debug("RobotAdd.getValidationMessages('serialNumber'):", this.getValidationMessages("serialNumber"));
+    console.debug("RobotAdd.getValidationMessages('id'):", this.getValidationMessages("id"));
 
     console.log("AFTER VALIDATION");
     this.validate();
     console.debug("RobotAdd.state:", this.state);
     console.debug("RobotAdd.isValid():", this.isValid());
     console.debug("RobotAdd.getValidationMessages():", this.getValidationMessages());
-    console.debug("RobotAdd.getValidationMessages('serialNumber'):", this.getValidationMessages("serialNumber"));
+    console.debug("RobotAdd.getValidationMessages('id'):", this.getValidationMessages("id"));
 
     //if (this.isValid()) {
     //  UserAction.signup(this.state);

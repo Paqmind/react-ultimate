@@ -11,7 +11,7 @@ let Store = require("../store");
 let Detail = React.createClass({
   mixins: [Router.State, Router.Navigation, Reflux.connectFilter(Store, "model", function(models) {
     return models.filter(function(model) {
-      return model.id === Number(this.getParams().id);
+      return model.id === this.getParams().id;
     }.bind(this))[0];
   })],
 
@@ -47,7 +47,7 @@ let Detail = React.createClass({
               </div>
               <h1>{model.name}</h1>
               <dl>
-                <dt>Serial Number</dt><dd>{model.serialNumber}</dd>
+                <dt>Serial Number</dt><dd>{model.id}</dd>
                 <dt>Assembly Date</dt><dd>{model.assemblyDate}</dd>
                 <dt>Manufacturer</dt><dd>{model.manufacturer}</dd>
               </dl>
