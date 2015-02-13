@@ -2,32 +2,26 @@
 let React = require("react");
 let Router = require("react-router");
 let {Link, RouteHandler} = Router;
+let Reflux = require("reflux");
 let DocumentTitle = require("react-document-title");
 let Actions = require("../actions");
-let Reflux = require("reflux");
 let Store = require("../store");
 
 // EXPORTS =========================================================================================
 let Detail = React.createClass({
-  mixins: [Router.State, Router.Navigation],
+  mixins: [Router.State, Router.Navigation, Reflux.connectFilter(Store, "model", function(models) {
+    return models.filter(function(model) {
+      return model.id === Number(this.getParams().id);
+    }.bind(this))[0];
+  })],
 
   componentDidMount() {
-    console.debug("RobotsDetail.componentDidMount");
-  },
-
-  componentWillUnmount() {
-    console.debug("RobotsDetail.componentWillUnmount");
-  },
-
-  onRemove() {
-    console.debug("RobotsDetail.onRemove");
+    Actions.entryIndex();
   },
 
   render() {
-    console.debug("RobotsDetail.render", this.getParams());
-    let model = Store.getModel(this.getParams().id);
-    console.debug("model:", model);
-    if (model) {
+    if (this.state.model) {
+      let model = this.state.model;
       return (
         <DocumentTitle title={"Robot " + model.name + " (#" + model.id + ")"}>
           <div>
