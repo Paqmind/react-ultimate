@@ -1,6 +1,14 @@
 // SHIMS ===========================================================================================
 Object.assign = require("object-assign");
 
+Promise.prototype.done = function(onFulfilled, onRejected) {
+  this
+    .then(onFulfilled, onRejected)
+    .catch(function(e) {
+      setTimeout(function() { throw e; }, 1);
+    });
+};
+
 // IMPORTS =========================================================================================
 let React = require("react");
 let Router = require("./router");
