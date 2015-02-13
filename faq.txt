@@ -1,4 +1,1 @@
-npm run prod
-npm run dev
-gulp prod
-gulp dev
+gulp | NODE_END=production gulp
