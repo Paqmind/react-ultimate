@@ -19,6 +19,7 @@ let gulpConcat = require("gulp-concat");
 let gulpRename = require("gulp-rename");
 var gulpUglify = require("gulp-uglify");
 let gulp6to5 = require("gulp-6to5");
+let gulpPlumber = require("gulp-plumber");
 let vinylSource = require("vinyl-source-stream");
 let vinylBuffer = require("vinyl-buffer");
 
@@ -48,6 +49,7 @@ function interleaveWith(array, prefix) {
 // COMMON TASKS ====================================================================================
 gulp.task("common:build", function() {
   return gulp.src(["./common/**/*.js"])
+    .pipe(gulpPlumber())
     .pipe(gulpSourcemaps.init())
     .pipe(gulp6to5())
     .pipe(gulpSourcemaps.write())
@@ -57,6 +59,7 @@ gulp.task("common:build", function() {
 // BACKEND TASKS ===================================================================================
 gulp.task("backend:lint", function() {
   return gulp.src(["./backend/**/*.js"])
+    .pipe(gulpPlumber())
 //    .pipe(cached("backend:lint"))
     .pipe(gulpJshint())
     .pipe(gulpJshint.reporter(jshintStylish));
@@ -67,25 +70,27 @@ gulp.task("backend:nodemon", function() {
     let nodemon = ChildProcess.spawn("npm", ["run", "nodemon"]);
     nodemon.stdout.pipe(process.stdout);
     nodemon.stderr.pipe(process.stderr);
-    process.on("exit", () => nodemon.kill());
-    process.on("uncaughtException", () => nodemon.kill());
-    process.on("uncaughtException", function(err) {
-      console.log("uncaughtException", err);
-    });
-    setTimeout(function() {
-      throw Error("test");
-    }, 5000);
+    //process.on("exit", () => nodemon.kill());
+    //process.on("uncaughtException", () => nodemon.kill());
+    //process.on("uncaughtException", function(err) {
+    //  console.log("uncaughtException", err);
+    //});
+    //setTimeout(function() {
+    //  throw Error("test");
+    //}, 5000);
   }
 });
 
 // FRONTEND TASKS ==================================================================================
 gulp.task("frontend:move-css", function() {
   return gulp.src(["./frontend/styles/**/*.css"])
+    .pipe(gulpPlumber())
     .pipe(gulp.dest("./static/styles"));
 });
 
 gulp.task("frontend:compile-less", function() {
   return gulp.src(["./frontend/styles/theme.less"])
+    .pipe(gulpPlumber())
     .pipe(gulpLess().on("error", function (error) {console.log(error); }))
     .pipe(gulpRename("bundle.css"))
     .pipe(gulp.dest("./static/styles"));
@@ -98,6 +103,7 @@ gulp.task("frontend:dist-styles", [
 
 gulp.task("frontend:lint", function() {
   return gulp.src(["./frontend/**/*.js"])
+    .pipe(gulpPlumber())
 //    .pipe(cached("lint-react"))
     .pipe(gulpJshint())
     .pipe(gulpJshint.reporter(jshintStylish));
@@ -105,6 +111,7 @@ gulp.task("frontend:lint", function() {
 
 gulp.task("frontend:build-app", function() {
   return gulp.src(["./frontend/**/*.js"])
+    .pipe(gulpPlumber())
     .pipe(gulpSourcemaps.init())
     .pipe(gulp6to5())
     .pipe(gulpSourcemaps.write())
@@ -113,6 +120,7 @@ gulp.task("frontend:build-app", function() {
 
 gulp.task("frontend:dist-scripts", function() {
   return gulp.src(["./frontend/scripts/*.js"])
+    .pipe(gulpPlumber())
     .pipe(gulpConcat("scripts.js"))
     .pipe(gulpUglify())
     .pipe(gulp.dest("./static/scripts"));
