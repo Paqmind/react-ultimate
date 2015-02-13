@@ -60,7 +60,7 @@
     "react-router": "^0.12.0",
     "react-validation-mixin": "^3.0.3",
     "readable-stream": "^1.1.13",
-    "reflux": "^0.2.4",
+    "reflux": "git://github.com/spoike/refluxjs.git",
     "require-directory": "*",
     "run-sequence": "*",
     "semi-static": "*",
@@ -75,7 +75,7 @@
     "vinyl-source-stream": "*",
     "vinyl-transform": "*",
     "winston": "^0.9.0",
-    "winston-mail": "^0.3.0",
+    "winston-mail": "^0.3.1",
     "yargs": "^2.3.0"
   },
   "devDependencies": {

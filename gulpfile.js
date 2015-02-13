@@ -128,8 +128,8 @@ gulp.task("frontend:browserify-vendors", function() {
     let browserifyVendors = ChildProcess.spawn("browserify", browserifyVendorsArgs);
     browserifyVendors.stdout.pipe(process.stdout);
     browserifyVendors.stderr.pipe(process.stderr);
-    process.on("exit", () => browserifyVendors.kill());
-    process.on("uncaughtException", () => browserifyVendors.kill());
+    //process.on("exit", () => browserifyVendors.kill());
+    //process.on("uncaughtException", () => browserifyVendors.kill());
   }
 });
 
@@ -144,8 +144,8 @@ gulp.task("frontend:browserify-app", function() {
     let browserifyApp = ChildProcess.spawn("browserify", browserifyAppArgs);
     browserifyApp.stdout.pipe(process.stdout);
     browserifyApp.stderr.pipe(process.stderr);
-    process.on("exit", () => browserifyApp.kill());
-    process.on("uncaughtException", () => browserifyApp.kill());
+    //process.on("exit", () => browserifyApp.kill());
+    //process.on("uncaughtException", () => browserifyApp.kill());
   }
 });
 
@@ -161,8 +161,8 @@ gulp.task("frontend:watchify", function() {
     let watchifyApp = ChildProcess.spawn("watchify", watchifyAppArgs);
     watchifyApp.stdout.pipe(process.stdout);
     watchifyApp.stderr.pipe(process.stderr);
-    process.on("exit", () => watchifyApp.kill());
-    process.on("uncaughtException", () => watchifyApp.kill());
+    //process.on("exit", () => watchifyApp.kill());
+    //process.on("uncaughtException", () => watchifyApp.kill());
   }
 });
 

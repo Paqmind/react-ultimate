@@ -136,13 +136,7 @@ let ExampleInput = React.createClass({
 });
 
 let Add = React.createClass({
-  mixins: [Router.State, Router.navigation, ValidationMixin, React.addons.LinkedStateMixin],
-
-  displayName: "RobotAdd",
-
-  //propTypes: {
-  //  models: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  //},
+  mixins: [Router.State, Router.Navigation, ValidationMixin, React.addons.LinkedStateMixin],
 
   autoLabel: true,
 

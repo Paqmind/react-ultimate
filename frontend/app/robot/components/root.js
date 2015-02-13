@@ -7,20 +7,12 @@ let Store = require("../store");
 
 // EXPORTS =========================================================================================
 let Root = React.createClass({
-  mixins: [Reflux.connect(Store)],
-
-  initialize() {
-    //console.log("RobotRoot.initialize");
-  },
-
   componentDidMount() {
-    //console.log("RobotRoot.componentDidMount");
   },
 
   render() {
-    //console.log("RobotRoot.render");
     return (
-      <RouteHandler models={this.state.models}/>
+      <RouteHandler/>
     );
   }
 });
