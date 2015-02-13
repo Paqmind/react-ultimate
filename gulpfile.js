@@ -69,6 +69,12 @@ gulp.task("backend:nodemon", function() {
     nodemon.stderr.pipe(process.stderr);
     process.on("exit", () => nodemon.kill());
     process.on("uncaughtException", () => nodemon.kill());
+    process.on("uncaughtException", function(err) {
+      console.log("uncaughtException", err);
+    });
+    setTimeout(function() {
+      throw Error("test");
+    }, 5000);
   }
 });
 
@@ -189,7 +195,7 @@ gulp.task("frontend:watch", function() {
 gulp.task("default", function() {
   if (process.env.NODE_ENV == "development") {
     return runSequence(
-      ["frontend:dist", "backend:nodemon"],
+      ["backend:nodemon", "frontend:dist"],
       ["common:watch", "frontend:watch", "frontend:watchify"]
     );
   } else {
