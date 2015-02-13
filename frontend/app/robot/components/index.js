@@ -47,24 +47,24 @@ let Index = React.createClass({
 
             <h1>Robots</h1>
             <div className="row">
-              {this.props.models.map((robot) => {
-                return <div className="col-sm-6 col-md-3">
-                  <div className="panel panel-default" key={robot.id}>
+              {this.state.models.map((model) => {
+                return <div key={model.id} className="col-sm-6 col-md-3">
+                  <div className="panel panel-default" key={model.id}>
                     <div className="panel-heading">
-                      <h4 className="panel-title"><Link to="robot-detail" params={{id: robot.id}}>{robot.name}</Link></h4>
+                      <h4 className="panel-title"><Link to="robot-detail" params={{id: model.id}}>{model.name}</Link></h4>
                     </div>
                     <div className="panel-body text-center nopadding">
-                      <Link to="robot-detail" params={{id: robot.id}}>
-                        <img src={'http://robohash.org/' + robot.id + '?size=200x200'} width="200px" height="200px"/>
+                      <Link to="robot-detail" params={{id: model.id}}>
+                        <img src={'http://robohash.org/' + model.id + '?size=200x200'} width="200px" height="200px"/>
                       </Link>
                     </div>
                     <div className="panel-footer">
                       <div className="clearfix">
                         <div className="btn-group btn-group-sm pull-right">
-                          <Link to="robot-detail" params={{id: robot.id}} className="btn btn-blue" title="Detail">
+                          <Link to="robot-detail" params={{id: model.id}} className="btn btn-blue" title="Detail">
                             <span className="fa fa-eye"></span>
                           </Link>
-                          <Link to="robot-edit" params={{id: robot.id}} className="btn btn-blue" title="Edit">
+                          <Link to="robot-edit" params={{id: model.id}} className="btn btn-blue" title="Edit">
                             <span className="fa fa-edit"></span>
                           </Link>
                           {/*<a className="btn btn-red" title="Delete" onClick={this.onRemove}>
