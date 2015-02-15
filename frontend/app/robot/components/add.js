@@ -3,20 +3,134 @@ let debounce = require("lodash.debounce");
 let React = require("react");
 let Router = require("react-router");
 let {Link, RouteHandler} = Router;
+let Reflux = require("reflux");
 let DocumentTitle = require("react-document-title");
 let Alert = require("react-bootstrap/Alert");
 let Input = require("react-bootstrap/Input");
 let Button = require("react-bootstrap/Button");
 let ValidationMixin = require("react-validation-mixin");
 let Joi = require("joi");
+let Loading = require("../../common/components/loading");
 let Actions = require("../actions");
+let Store = require("../store");
 
 // EXPORTS =========================================================================================
+let Add = React.createClass({
+  mixins: [
+    Router.State,
+    Router.Navigation,
+    React.addons.LinkedStateMixin,
+    ValidationMixin,
+  ],
 
-//let UserAction = require("../actions/UserAction");
+  componentDidMount() {
+    Actions.entryIndex();
+    //Actions.entryAdd();
+  },
+
+  validatorTypes() {
+    return {
+      id: Joi.string().required(), // TODO uuid
+      assemblyDate: Joi.date().max("now").required(),
+      manufacturer: Joi.string().required(),
+    };
+  },
+
+  getInitialState() {
+    return {
+      id: undefined,
+      assemblyDate: undefined,
+      manufacturer: undefined,
+    };
+  },
+
+  render() {
+    if (true) {
+      return (
+        <DocumentTitle title={"Add robot"}>
+          <div>
+            <div id="page-actions">
+              <div className="container">
+                <div className="pull-left">
+                  <Link to="robot-index" className="btn btn-sm btn-gray-lighter" title="Back to list">
+                    <span className="fa fa-arrow-left"></span>
+                    <span className="hidden-xs margin-left-sm">Back to list</span>
+                  </Link>
+                </div>
+                <div className="btn-group btn-group-sm pull-right">
+                  <Link to="robot-detail" params={{id: model.id}} className="btn btn-blue" title="Detail">
+                    <span className="fa fa-eye"></span>
+                  </Link>
+                  <a className="btn btn-red" title="Delete" onClick={this.onRemove}>
+                    <span className="fa fa-times"></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <section className="container">
+              <div className="thumbnail pull-left margin-top nopadding">
+                <img src={"http://robohash.org/" + model.id + "?size=200x200"} width="200px" height="200px"/>
+              </div>
+              <h1>Add robot</h1>
+              <form onSubmit={this.handleSubmit}>
+                <fieldset>
+                  <div className={this.getClasses("id")}>
+                    <label htmlFor="id">Serial Number</label>
+                    <input type="id" id="id" valueLink={this.linkState("id")} onBlur={this.handleUnfocusFor("id")} className="form-control" placeholder="serialNumber"/>
+                    {this.getValidationMessages("id").map(this.renderHelpText)}
+                  </div>
+
+                  <div className={this.getClasses("assemblyDate")}>
+                    <label htmlFor="assemblyDate">Assembly Date</label>
+                    <input type="assemblyDate" id="assemblyDate" valueLink={this.linkState("assemblyDate")} onBlur={this.handleUnfocusFor("assemblyDate")} className="form-control" placeholder="Assembly Date" />
+                    {this.getValidationMessages("assemblyDate").map(this.renderHelpText)}
+                  </div>
+
+                  <div className={this.getClasses("manufacturer")}>
+                    <label htmlFor="manufacturer">Manufacturer</label>
+                    <input type="manufacturer" id="manufacturer" valueLink={this.linkState("manufacturer")} onBlur={this.handleUnfocusFor("password")} className="form-control" placeholder="Manufacturer" />
+                    {this.getValidationMessages("manufacturer").map(this.renderHelpText)}
+                  </div>
+                </fieldset>
+
+                <div className="buttons">
+                  <button className="btn" type="button" onClick={this.handleReset}>Reset</button>
+                  <button className="btn" type="submit">Submit</button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </DocumentTitle>
+      );
+    } else {
+      return <Loading/>;
+    }
+  },
+
+  renderHelpText: function(message) {
+    return (
+      <span className="help-block">{message}</span>
+    );
+  },
+
+  getClasses: function(key) {
+    return React.addons.classSet({
+      'form-group': true,
+      'has-error': !this.isValid(key)
+    });
+  },
+
+
+});
+
+export default Add;
+
 
 let ExampleInput = React.createClass({
-  //mixins: [LinkedStateMixin],
+  mixins: [
+    Router.Navigation,
+    ValidationMixin,
+  ],
 
   //propTypes: {
     //name: React.PropTypes.string.isRequired,
@@ -135,115 +249,8 @@ let ExampleInput = React.createClass({
   }
 });
 
-let Add = React.createClass({
-  mixins: [Router.State, Router.Navigation, ValidationMixin, React.addons.LinkedStateMixin],
-
-  autoLabel: true,
-
-  validatorTypes() {
-    return {
-      id: Joi.string().required(), // TODO uuid
-      assemblyDate: Joi.date().max("now").required(),
-      manufacturer: Joi.string().required(),
-    };
-  },
-
-  getInitialState() {
-    return {
-      id: undefined,
-      assemblyDate: undefined,
-      manufacturer: undefined,
-    };
-  },
-
-  //onAdd(event) {
-  //  console.debug("RobotsAdd.onAdd");
-  //  event.preventDefault();
-    // TODO: what data pass???
-    /*let robot = {
-      id: TODO use backend API instead
-      name: Faker.name.findName(),
-    };*/
-    //Actions.addRandom();
-  //},
-
-  render() {
-    return (
-      <DocumentTitle title={"Add robot"}>
-        <div>
-          <div id="page-actions">
-            <div className="container">
-              <div className="pull-left">
-                <Link to="robot-index" className="btn btn-sm btn-gray-lighter" title="Back to list">
-                  <span className="fa fa-arrow-left"></span>
-                  <span className="hidden-xs margin-left-sm">Back to list</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-          <section className="container">
-            <h1>Robot Add</h1>
-            <p>This form and all behavior is defined by the form view in <code>components/robots-add.js</code>.</p>
-            <p>The same form-view is used for both adding and creating new robots.</p>
-              <div className="buttons">
-                <form onSubmit={this.onSubmit}>
-                  {/*<fieldset>*/}
-                      <Input type="text" ref="id" label="Serial Number" placeholder="" valueLink={this.linkState("id")}/>
-                      <Input type="text" ref="assemblyDate" label="Assembly Date" placeholder="" valueLink={this.linkState("assemblyDate")}/>
-                      <Input type="text" ref="manufacturer" label="Manufacturer" placeholder="" valueLink={this.linkState("manufacturer")}/>
-
-                  {/*<div className={this.getClasses("email")}>
-                        <label htmlFor="email">Email</label>
-                        <input type="email" id="email" valueLink={this.linkState("email")} className="form-control" placeholder="Email" />
-                        {this.getValidationMessages("email").map(this.renderHelpText)}
-                      </div>
-                      <div className={this.getClasses("username")}>
-                        <label htmlFor="username">Username</label>
-                        <input type="text" id="username" valueLink={this.linkState("username")} className="form-control" placeholder="Username" />
-                        {this.getValidationMessages("username").map(this.renderHelpText)}
-                      </div>
-                      <div className={this.getClasses("password")}>
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" valueLink={this.linkState("password")} className="form-control" placeholder="Password" />
-                        {this.getValidationMessages("password").map(this.renderHelpText)}
-                      </div>
-                      <div className={this.getClasses("verifyPassword")}>
-                        <label htmlFor="verifyPassword">Verify Password</label>
-                        <input type="password" id="verifyPassword" valueLink={this.linkState("verifyPassword")} className="form-control" placeholder="Verify Password" />
-                        {this.getValidationMessages("verifyPassword").map(this.renderHelpText)}
-                      </div>
-                      <div className="text-center form-group">
-                        <button type="submit" className="btn btn-large btn-primary">Sign up</button>
-                      </div>*/}
-                    {/*</fieldset>*/}
-                    <Button type="submit">Submit</Button>
-                  </form>
-              </div>
-          </section>
-        </div>
-      </DocumentTitle>
-    );
-  },
-
-  renderHelpText: function(message) {
-    return (
-      <span className="help-block">{message}</span>
-    );
-  },
-
-  //getClasses: function(field) {
-  //  return React.addons.classSet({
-  //    "form-group": true,
-  //    "has-error": !this.isValid(field)
-  //  });
-  //},
-
-  onSubmit(event) {
-    event.preventDefault();
-    this.handleSubmit(event);
-  },
-
-  handleSubmit: debounce(function() {
+/*
+handleSubmit: debounce(function() {
     console.debug("RobotAdd.onSubmit");
     console.log("BEFORE VALIDATION");
     console.debug("RobotAdd.state:", this.state);
@@ -261,8 +268,11 @@ let Add = React.createClass({
     //if (this.isValid()) {
     //  UserAction.signup(this.state);
     //}
-  }, 500),
-});
+  }, 500),*/
 
-export default Add;
-
+/*
+<Input type="text" ref="id" label="Serial Number" placeholder="" valueLink={this.linkState("id")}/>
+<Input type="text" ref="assemblyDate" label="Assembly Date" placeholder="" valueLink={this.linkState("assemblyDate")}/>
+<Input type="text" ref="manufacturer" label="Manufacturer" placeholder="" valueLink={this.linkState("manufacturer")}/>
+<Button type="submit">Submit</Button>
+ */

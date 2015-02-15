@@ -7,21 +7,62 @@ let Actions = require("./actions");
 // EXPORTS =========================================================================================
 let Store = Reflux.createStore({
   // this will set up listeners to all publishers in TodoActions, using onKeyname (or keyname) as callbacks
-  //listenables: [Actions],
+  listenables: [Actions],
+
+  getInitialState() {
+    return [];
+  },
 
   // TODO: this should be at mixin level -----------------------------------------------------------
   init() {
-    console.debug("RobotStore.init");
-    this.state = {};
+    this.state = [];
     this.setState(this.getInitialState());
-    this.listenTo(Actions.getModels.completed, this.onFetchCompleted);
-    this.listenTo(Actions.getModels.failed, this.onLoadFailed);
-    Actions.getModels({name: "jac"});
+    //this.listenTo(Actions.getModels.completed, this.onFetchCompleted);
+    //this.listenTo(Actions.getModels.failed, this.onLoadFailed);
+    //Actions.getModels({name: "jac"});
+  },
+
+  entryIndex() {
+    if (this.state.length) {
+      this.shareState();
+    } else {
+      // TODO check local storage
+      Axios.get('/api/robots/')
+        .catch((res) => {
+          this.resetModels();
+        })
+        .done((res) => {
+          this.setModels(res.data);
+        });
+    }
+  },
+
+  /*entryDetail(id) {
+    if (this.state.length && this.getModel(id)) {
+      this.shareState();
+    } else {
+      // TODO check local storage
+      Axios.get(`/api/robots/${id}`)
+        .catch((res) => {
+          this.resetModels();
+        })
+        .done((res) => {
+          this.addModel(res.data);
+        });
+    }
+  },*/
+
+  resetModels() {
+    this.setState(this.getInitialState());
+  },
+
+  setModels(models) {
+    this.setState(models);
   },
 
   getModel(id) {
-    for (let model of this.state.models) {
-      if (model.id == id) {
+    for (let model of this.state) {
+      if (model.id === id) {
         return model;
       }
     }
@@ -29,61 +70,46 @@ let Store = Reflux.createStore({
   },
 
   addModel(model) {
-    let models = this.state.models.concat([model]);
-    this.setState({models});
+    this.setState(
+      this.state.concat([model])
+    );
   },
 
   updateModel(model) {
-    let models = this.state.models;
+    let models = [].concat(this.state);
     for (let i=0; i < models.length; i++) {
       if (models[i].id == model.id) {
         models[i] = model;
         break;
       }
     }
-    this.setState({models});
+    this.setState(models);
   },
 
   removeModel(id) {
-    let models = this.state.models.filter(model => model.id != id);
-    this.setState({models});
+    this.setState(
+      this.state.filter(model => model.id != id)
+    );
   },
 
-  onFetchCompleted(models) {
-    console.debug("RobotModes.onFetchCompleted", models);
-    this.setState({models: models});
-  },
-
-  onFetchFailed(status) {
-    // TODO ???
-    this.setState(this.getInitialState());
-  },
-
-  setState(state) {
-    this.state = Object.assign(this.state, state);
+  shareState() {
     this.trigger(this.state);
   },
 
-  replaceState(state) {
+  setState(state) {
     this.state = state;
     this.trigger(this.state);
   },
   //------------------------------------------------------------------------------------------------
 
-  onAddRandom() {
-    let robot = CommonHelpers.generateRandom(CommonHelpers.maxId(this.state.models) + 1);
+  /*onAddRandom() {
+    let robot = CommonHelpers.generateRandom(); // TODO use backend API instead
     this.setState({
       models: this.state.models.concat([robot])
     });
-  },
+  },*/
 
-  getInitialState() {
-    return {
-      models: [],
-    };
-  },
-
-  addRobot(data) {
+  /*addRobot(data) {
     if (data) {
       let model = this.addModel(data);
       Actions.postModel.triggerPromise(model) // TODO should be in 0.2.6 by default for async actions
@@ -93,9 +119,9 @@ let Store = Reflux.createStore({
     } else {
       alert("Empty data!");
     }
-  },
+  },*/
 
-  editRobot(id, data) {
+  /*editRobot(id, data) {
     let model = this.getModel(id);
     if (model) {
       let model = this.updateModel(data);
@@ -106,9 +132,9 @@ let Store = Reflux.createStore({
     } else {
       alert(`Not found robot with id ${id}!`);
     }
-  },
+  },*/
 
-  removeRobot(id) {
+  /*removeRobot(id) {
     let model = this.getModel(id);
     if (model) {
       let model = this.removeModel(data);
@@ -119,7 +145,7 @@ let Store = Reflux.createStore({
     } else {
       alert(`Not found robot with id ${id}!`);
     }
-  },
+  },*/
 
   //onRemoveItem(itemKey) {
   //  this.updateList(_.filter(this.list,function(item){

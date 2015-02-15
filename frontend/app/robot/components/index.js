@@ -4,20 +4,18 @@ let Router = require("react-router");
 let {Link, RouteHandler} = Router;
 let Reflux = require("reflux");
 let DocumentTitle = require("react-document-title");
+let Actions = require("../actions");
 let Store = require("../store");
 
 // EXPORTS =========================================================================================
 let Index = React.createClass({
-  initialize() {
-    //console.log("RobotIndex.initialize");
-  },
+  mixins: [Reflux.connect(Store, "models")],
 
   componentDidMount() {
-    //console.log("RobotIndex.componentDidMount");
+    Actions.entryIndex();
   },
 
   render() {
-    //console.log("RobotIndex.render");
     return (
       <DocumentTitle title="Robots">
         <div>

@@ -4,26 +4,32 @@ let Router = require("react-router");
 let {Link, RouteHandler} = Router;
 let Reflux = require("reflux");
 let DocumentTitle = require("react-document-title");
+let Loading = require("../../common/components/loading");
 let Actions = require("../actions");
 let Store = require("../store");
 
 // EXPORTS =========================================================================================
 let Detail = React.createClass({
-  mixins: [Router.State, Router.Navigation, Reflux.connectFilter(Store, "model", function(models) {
-    return models.filter(function(model) {
-      return model.id === this.getParams().id;
-    }.bind(this))[0];
-  })],
+  mixins: [
+    Router.State,
+    Router.Navigation,
+    Reflux.connectFilter(Store, "model", function(models) {
+      return models.filter(function(model) {
+        return model.id === this.getParams().id;
+      }.bind(this))[0];
+    })
+  ],
 
   componentDidMount() {
     Actions.entryIndex();
+    //Actions.entryDetail(this.getParams().id);
   },
 
   render() {
     if (this.state.model) {
       let model = this.state.model;
       return (
-        <DocumentTitle title={"Robot " + model.name + " (#" + model.id + ")"}>
+        <DocumentTitle title={"Detail " + model.name}>
           <div>
             <div id="page-actions">
               <div className="container">
@@ -34,7 +40,7 @@ let Detail = React.createClass({
                   </Link>
                 </div>
                 <div className="btn-group btn-group-sm pull-right">
-                  <Link to="robot-edit" params={{id: model.id}}  className="btn btn-blue" title="Edit">
+                  <Link to="robot-edit" params={{id: model.id}} className="btn btn-blue" title="Edit">
                     <span className="fa fa-edit"></span>
                   </Link>
                   <a className="btn btn-red" title="Delete" onClick={this.onRemove}><span className="fa fa-times"></span></a>
@@ -56,15 +62,7 @@ let Detail = React.createClass({
         </DocumentTitle>
       );
     } else {
-      return (
-        <DocumentTitle title="Robot loading...">
-          <div>
-            <section className="container">
-              ...
-            </section>
-          </div>
-        </DocumentTitle>
-      );
+      return <Loading/>;
     }
   },
 });
