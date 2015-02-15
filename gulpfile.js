@@ -23,9 +23,14 @@ let gulpPlumber = require("gulp-plumber");
 let vinylSource = require("vinyl-source-stream");
 let vinylBuffer = require("vinyl-buffer");
 
-//var gulpIgnore = require("gulp-ignore");
-//var stripDebug = require("gulp-strip-debug");
-//var uglify = require("gulp-uglify");
+//let gulpIgnore = require("gulp-ignore");
+//let stripDebug = require("gulp-strip-debug");
+//let uglify = require("gulp-uglify");
+function gulpTo5(opts) {
+  return gulp6to5(Object.assign({
+    experimental: true
+  }, opts));
+}
 
 // CONFIG ==========================================================================================
 let libraries = [
@@ -51,7 +56,7 @@ gulp.task("common:build", function() {
   return gulp.src(["./common/**/*.js"])
     .pipe(gulpPlumber())
     .pipe(gulpSourcemaps.init())
-    .pipe(gulp6to5())
+    .pipe(gulpTo5())
     .pipe(gulpSourcemaps.write())
     .pipe(gulp.dest("./build/common"));
 });
@@ -113,7 +118,7 @@ gulp.task("frontend:build-app", function() {
   return gulp.src(["./frontend/**/*.js"])
     .pipe(gulpPlumber())
     .pipe(gulpSourcemaps.init())
-    .pipe(gulp6to5())
+    .pipe(gulpTo5())
     .pipe(gulpSourcemaps.write())
     .pipe(gulp.dest("./build/frontend"));
 });
