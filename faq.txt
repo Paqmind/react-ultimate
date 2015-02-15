@@ -1,1 +1,16 @@
-gulp | NODE_END=production gulp
+PRODUCTION
+  NODE_END=production gulp
+
+DEVELOPMENT
+  gulp
+
+NPM
+  npm install          // installs locally according to package.json
+  npm install gulp -g  // installs globally according to package.json
+  npm install 6to5 -g  // --||--
+  npm install bower -g // --||--
+
+  npm outdated --depth 0
+  npm outdated --depth 0 -g
+  npm update <package> --save
+  npm update <package> --save -g
