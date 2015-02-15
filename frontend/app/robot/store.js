@@ -29,7 +29,7 @@ let Store = Reflux.createStore({
       // TODO check local storage
       Axios.get('/api/robots/')
         .catch((res) => {
-          this.resetModels();
+          this.resetState();
         })
         .done((res) => {
           this.setModels(res.data);
@@ -44,20 +44,21 @@ let Store = Reflux.createStore({
       // TODO check local storage
       Axios.get(`/api/robots/${id}`)
         .catch((res) => {
-          this.resetModels();
+          this.resetState();
         })
         .done((res) => {
-          this.addModel(res.data);
+          this.updateState({$push: res.data});
         });
     }
   },*/
 
-  resetModels() {
-    this.setState(this.getInitialState());
+  updateState(query) {
+    this.state = React.addons.update(this.state, query);
+    this.trigger(this.state);
   },
 
-  setModels(models) {
-    this.setState(models);
+  resetState() {
+    this.setState(this.getInitialState());
   },
 
   getModel(id) {
@@ -67,12 +68,6 @@ let Store = Reflux.createStore({
       }
     }
     return undefined;
-  },
-
-  addModel(model) {
-    this.setState(
-      this.state.concat([model])
-    );
   },
 
   updateModel(model) {
@@ -111,7 +106,7 @@ let Store = Reflux.createStore({
 
   /*addRobot(data) {
     if (data) {
-      let model = this.addModel(data);
+      let model = this.updateState({$push: data});
       Actions.postModel.triggerPromise(model) // TODO should be in 0.2.6 by default for async actions
         .catch((status) => {
           this.removeModel(id);
@@ -124,7 +119,7 @@ let Store = Reflux.createStore({
   /*editRobot(id, data) {
     let model = this.getModel(id);
     if (model) {
-      let model = this.updateModel(data);
+      let model = this.updateState()updateModel(data);
       Actions.putModel.triggerPromise(model) // TODO should be in 0.2.6 by default for async actions
         .catch((status) => {
           this.removeModel(id);
@@ -140,7 +135,7 @@ let Store = Reflux.createStore({
       let model = this.removeModel(data);
       Actions.deleteModel.triggerPromise(model) // TODO should be in 0.2.6 by default for async actions
         .catch((status) => {
-          this.addModel(model);
+          this.updateState({$push: model});
         });
     } else {
       alert(`Not found robot with id ${id}!`);
