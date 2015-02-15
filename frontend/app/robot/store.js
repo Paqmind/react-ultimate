@@ -1,8 +1,9 @@
 // IMPORTS =========================================================================================
-let Axios = require("axios");
-let Reflux = require("reflux");
-let CommonHelpers = require("../../../common/helpers");
-let Actions = require("./actions");
+import {List, OrderedMap as OM} from "immutable";
+import Axios from "axios";
+import Reflux from "reflux";
+import CommonHelpers from "../../../common/helpers";
+import Actions from "./actions";
 
 // EXPORTS =========================================================================================
 let Store = Reflux.createStore({
@@ -10,20 +11,16 @@ let Store = Reflux.createStore({
   listenables: [Actions],
 
   getInitialState() {
-    return [];
+    return OM();
   },
 
   // TODO: this should be at mixin level -----------------------------------------------------------
   init() {
-    this.state = [];
-    this.setState(this.getInitialState());
-    //this.listenTo(Actions.getModels.completed, this.onFetchCompleted);
-    //this.listenTo(Actions.getModels.failed, this.onLoadFailed);
-    //Actions.getModels({name: "jac"});
+    this.resetState();
   },
 
   entryIndex() {
-    if (this.state.length) {
+    if (this.state.size) {
       this.shareState();
     } else {
       // TODO check local storage
@@ -32,7 +29,8 @@ let Store = Reflux.createStore({
           this.resetState();
         })
         .done((res) => {
-          this.setModels(res.data);
+          let models = List(res.data).sortBy((model) => model.id);
+          this.setState(OM([for (model of models) [model.id, model]]));
         });
     }
   },
@@ -47,52 +45,22 @@ let Store = Reflux.createStore({
           this.resetState();
         })
         .done((res) => {
-          this.updateState({$push: res.data});
+          let model = Map(res.data);
+          this.setState(this.state.set(model.id, model));
         });
     }
   },*/
-
-  updateState(query) {
-    this.state = React.addons.update(this.state, query);
-    this.trigger(this.state);
-  },
 
   resetState() {
     this.setState(this.getInitialState());
   },
 
-  getModel(id) {
-    for (let model of this.state) {
-      if (model.id === id) {
-        return model;
-      }
-    }
-    return undefined;
-  },
-
-  updateModel(model) {
-    let models = [].concat(this.state);
-    for (let i=0; i < models.length; i++) {
-      if (models[i].id == model.id) {
-        models[i] = model;
-        break;
-      }
-    }
-    this.setState(models);
-  },
-
-  removeModel(id) {
-    this.setState(
-      this.state.filter(model => model.id != id)
-    );
-  },
-
-  shareState() {
+  setState(state) {
+    this.state = state;
     this.trigger(this.state);
   },
 
-  setState(state) {
-    this.state = state;
+  shareState() {
     this.trigger(this.state);
   },
   //------------------------------------------------------------------------------------------------
@@ -109,7 +77,7 @@ let Store = Reflux.createStore({
       let model = this.updateState({$push: data});
       Actions.postModel.triggerPromise(model) // TODO should be in 0.2.6 by default for async actions
         .catch((status) => {
-          this.removeModel(id);
+          this.setState(this.state.remove(id));
         });
     } else {
       alert("Empty data!");
@@ -119,10 +87,10 @@ let Store = Reflux.createStore({
   /*editRobot(id, data) {
     let model = this.getModel(id);
     if (model) {
-      let model = this.updateState()updateModel(data);
+      let model = ...
       Actions.putModel.triggerPromise(model) // TODO should be in 0.2.6 by default for async actions
         .catch((status) => {
-          this.removeModel(id);
+          this.setState(this.state.remove(id));
         });
     } else {
       alert(`Not found robot with id ${id}!`);

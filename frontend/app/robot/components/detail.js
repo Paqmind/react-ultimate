@@ -14,9 +14,8 @@ let Detail = React.createClass({
     Router.State,
     Router.Navigation,
     Reflux.connectFilter(Store, "model", function(models) {
-      return models.filter(function(model) {
-        return model.id === this.getParams().id;
-      }.bind(this))[0];
+      let id = this.getParams().id;
+      return models.get(id);
     })
   ],
 

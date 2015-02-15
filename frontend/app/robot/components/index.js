@@ -45,7 +45,7 @@ let Index = React.createClass({
 
             <h1>Robots</h1>
             <div className="row">
-              {this.state.models.map((model) => {
+              {this.state.models.toArray().map((model) => {
                 return <div key={model.id} className="col-sm-6 col-md-3">
                   <div className="panel panel-default" key={model.id}>
                     <div className="panel-heading">
