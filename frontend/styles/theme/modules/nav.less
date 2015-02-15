@@ -6,6 +6,13 @@
   border-top: 0;
   border-right: 0;
   border-left: 0;
+  background: @metalic;
+  color: @white;
+  font-family: @font-family-serif;
+  .navbar-text,
+  .navbar-nav > li > a, .navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
+    color: @white;
+  }
   .navbar-toggle {
     padding-right: 0;
     padding-left: 0;
@@ -16,4 +23,24 @@
   .navbar-collapse.collapse.in {
     overflow-y: auto;
   }
+  .navbar-brand {
+    margin-right: @line-height-computed * 2;
+    color: @violet-gray;
+    font-family: @logo-font-family;
+    font-size: @font-size-base * 1.8;
+    .light {
+      font-weight: 300;
+    }
+    &:focus {
+      color: @violet-gray;
+    }
+    &:hover {
+      color: @white;
+    }
+  }
+  .navbar-collapse,
+  .navbar-form {
+    border-color: @metalic;
+  }
 }
+
