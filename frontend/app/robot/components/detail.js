@@ -21,7 +21,6 @@ let Detail = React.createClass({
 
   componentDidMount() {
     Actions.entryIndex();
-    //Actions.entryDetail(this.getParams().id);
   },
 
   render() {
@@ -42,7 +41,9 @@ let Detail = React.createClass({
                   <Link to="robot-edit" params={{id: model.id}} className="btn btn-blue" title="Edit">
                     <span className="fa fa-edit"></span>
                   </Link>
-                  <a className="btn btn-red" title="Delete" onClick={this.onRemove}><span className="fa fa-times"></span></a>
+                  <a className="btn btn-red" title="Delete" onClick={this.onRemove}>
+                    <span className="fa fa-times"></span>
+                  </a>
                 </div>
               </div>
             </div>

@@ -22,15 +22,13 @@ let Edit = React.createClass({
     React.addons.LinkedStateMixin,
     ValidationMixin,
     Reflux.connectFilter(Store, "model", function(models) {
-      return models.filter(function(model) {
-        return model.id === this.getParams().id;
-      }.bind(this))[0];
+      let id = this.getParams().id;
+      return models.get(id);
     })
   ],
 
   componentDidMount() {
     Actions.entryIndex();
-    //Actions.entryEdit(this.getParams().id);
   },
 
   validatorTypes() {
@@ -52,7 +50,6 @@ let Edit = React.createClass({
   render() {
     if (this.state.model) {
       let model = this.state.model;
-      console.log(model);
       return (
         <DocumentTitle title={"Edit " + model.name}>
           <div>
@@ -110,7 +107,6 @@ let Edit = React.createClass({
         </DocumentTitle>
       );
     } else {
-      console.log("!!!");
       return <Loading/>;
     }
   },
