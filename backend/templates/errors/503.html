@@ -3,9 +3,18 @@
 {% set seotitle = "503 Service unavailable" %}
 
 {% block container %}
-  <h1>Site is under update!</h1>
-  <p>All form submits are blocked.</p>
-  <p>We apologize, but this is required to update the site correctly.</p>
-  <p>Normally, it will take a several minutes to finish the process.</p>
-  <p>Please, try again later!</p>
+  <div class="row nomargin-left nomargin-right">
+    <div class="col-sm-12 col-sm-6 col-lg-4 col-lg-offset-2">
+      <div id="http-error-descr">
+        <h1 class="heading">Site is under update!</h1>
+        <p>All form submits are blocked.</p>
+        <p>We apologize, but this is required to update the site correctly.</p>
+        <p>Normally, it will take a several minutes to finish the process.</p>
+        <p>Please, try again later!</p>
+      </div>
+    </div>
+    <div class="col-sm-12 col-sm-6 col-lg-4">
+      {% include 'errors/mascotte/going.html' %}
+    </div>
+  </div>
 {% endblock %}
