@@ -17,6 +17,15 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
+  min-height: @header-height;
+  padding-top: @line-height-computed;
+  padding-bottom: @line-height-computed;
+//  background-image: url(../images/bgs/dark_embroidery.png);
+  background-image: url(../images/bgs/escheresque_ste.png);
+//  background-image: url(../images/bgs/small_steps.png);
+  background-color: @metalic;
+  color: @white;
+  font-family: @font-family-serif;
   transition: @transition-base;
   box-shadow: 0 0 1px rgba(0,0,0,0.15);
   &.navbar-up {

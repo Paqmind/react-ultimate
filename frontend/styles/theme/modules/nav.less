@@ -6,9 +6,7 @@
   border-top: 0;
   border-right: 0;
   border-left: 0;
-  background: @metalic;
-  color: @white;
-  font-family: @font-family-serif;
+  font-size: @font-size-base * 1.2;
   .navbar-text,
   .navbar-nav > li > a, .navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
     color: @white;
@@ -24,23 +22,24 @@
     overflow-y: auto;
   }
   .navbar-brand {
+    @color: @white;
     margin-right: @line-height-computed * 2;
-    color: @violet-gray;
+    color: @color;
     font-family: @logo-font-family;
-    font-size: @font-size-base * 1.8;
+    font-size: @font-size-base * 2.5;
     .light {
       font-weight: 300;
     }
-    &:focus {
-      color: @violet-gray;
-    }
-    &:hover {
-      color: @white;
+    &:focus, &:hover {
+      color: @color;
     }
   }
   .navbar-collapse,
   .navbar-form {
     border-color: @metalic;
   }
+}
+.navbar-right > .nav {
+  margin-right: -30px;
 }
 
