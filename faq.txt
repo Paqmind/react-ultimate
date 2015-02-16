@@ -2,7 +2,7 @@ PRODUCTION
   NODE_END=production gulp
 
 DEVELOPMENT
-  gulp frontend:browserify-vendors // repeat at any vendor change
+  gulp frontend:bundle-vendors // repeat at any vendor change
   gulp
 
 NPM

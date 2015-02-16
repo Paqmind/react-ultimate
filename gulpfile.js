@@ -7,8 +7,6 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development";
 let ChildProcess = require("child_process");
 let gulp = require("gulp");
 let gulpUtil = require("gulp-util");
-let browserify = require("browserify");
-let watchify = require("watchify");
 let runSequence = require("run-sequence");
 let jshintStylish = require("jshint-stylish");
 let gulpJshint = require("gulp-jshint");
@@ -131,51 +129,44 @@ gulp.task("frontend:dist-scripts", function() {
     .pipe(gulp.dest("./static/scripts"));
 });
 
-gulp.task("frontend:browserify-vendors", function() {
+gulp.task("frontend:bundle-vendors", function() {
   if (process.env.NODE_ENV == "development") {
     // $ browserify -d -r react -r reflux [-r ...] -o ./static/scripts/vendors.js
-    let browserifyVendorsArgs = ["-d"]
+    let args = ["-d"]
       .concat(interleaveWith(libraries, "-r"))
       .concat(["-o", "./static/scripts/vendors.js"]);
 
-    let browserifyVendors = ChildProcess.spawn("browserify", browserifyVendorsArgs);
-    browserifyVendors.stdout.pipe(process.stdout);
-    browserifyVendors.stderr.pipe(process.stderr);
-    //process.on("exit", () => browserifyVendors.kill());
-    //process.on("uncaughtException", () => browserifyVendors.kill());
+    let bundler = ChildProcess.spawn("browserify", args);
+    bundler.stdout.pipe(process.stdout);
+    bundler.stderr.pipe(process.stderr);
   }
 });
 
-gulp.task("frontend:browserify-app", function() {
+gulp.task("frontend:bundle-app", function() {
   if (process.env.NODE_ENV == "development") {
     // $ browserify -d -x react -x reflux [-x ...] ./build/frontend/app/app.js -o ./static/scripts/app.js
-    let browserifyAppArgs = ["-d"]
+    let args = ["-d"]
       .concat(interleaveWith(libraries, "-x"))
       .concat(["./build/frontend/app/app.js"])
       .concat(["-o", "./static/scripts/app.js"]);
 
-    let browserifyApp = ChildProcess.spawn("browserify", browserifyAppArgs);
-    browserifyApp.stdout.pipe(process.stdout);
-    browserifyApp.stderr.pipe(process.stderr);
-    //process.on("exit", () => browserifyApp.kill());
-    //process.on("uncaughtException", () => browserifyApp.kill());
+    let bundler = ChildProcess.spawn("browserify", args);
+    bundler.stdout.pipe(process.stdout);
+    bundler.stderr.pipe(process.stderr);
   }
 });
 
 gulp.task("frontend:watchify", function() {
   if (process.env.NODE_ENV == "development") {
-    // Watchify app
     // $ watchify -v -d -x react -x reflux [-x ...] ./build/frontend/app/app.js -o ./static/scripts/app.js
-    let watchifyAppArgs = ["-v", "-d"]
+    let args = ["-v", "-d"]
       .concat(interleaveWith(libraries, "-x"))
       .concat(["./build/frontend/app/app.js"])
       .concat(["-o", "./static/scripts/app.js"]);
 
-    let watchifyApp = ChildProcess.spawn("watchify", watchifyAppArgs);
-    watchifyApp.stdout.pipe(process.stdout);
-    watchifyApp.stderr.pipe(process.stderr);
-    //process.on("exit", () => watchifyApp.kill());
-    //process.on("uncaughtException", () => watchifyApp.kill());
+    let watcher = ChildProcess.spawn("watchify", args);
+    watcher.stdout.pipe(process.stdout);
+    watcher.stderr.pipe(process.stderr);
   }
 });
 
@@ -191,7 +182,7 @@ gulp.task("frontend:build", [
 
 gulp.task("frontend:dist", [
   "frontend:build",
-  "frontend:browserify-app",
+  "frontend:bundle-app",
   "frontend:dist-scripts",
   "frontend:dist-styles",
 ]);
