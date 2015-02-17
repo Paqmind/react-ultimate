@@ -9,7 +9,7 @@ let Loading = React.createClass({
       <DocumentTitle title="Loading...">
         <div>
           <section className="container">
-            ...
+            <i className="fa fa-cog fa-spin"></i>
           </section>
         </div>
       </DocumentTitle>
