@@ -5,8 +5,15 @@
 // Theme
 @import "theme/variables";
 
+#http-error-heading {
+    margin-bottom: @line-height-computed * 2;
+    font-size: @font-size-base * 4;
+    &.small {
+        font-size: @font-size-base * 3;
+    }
+}
 #http-error-descr {
-    padding-top: 120px;
+    padding-top: 100px;
     font-size: @font-size-base * 1.5;
     .heading {
         font-size: @font-size-base * 5;
@@ -14,9 +21,6 @@
     @media (max-width: @screen-sm-min) {
         padding-top: 20px;
         font-size: @font-size-base * 1.2;
-        .heading {
-            font-size: @font-size-base * 3;
-        }
     }
 }
 
