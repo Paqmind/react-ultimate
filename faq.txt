@@ -17,3 +17,6 @@ NPM
   npm outdated --depth 0 -g
   npm update <package> --save
   npm update <package> --save -g
+
+  run fixes if needed:
+  . bin/fixes/<package>.sh

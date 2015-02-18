@@ -55,8 +55,8 @@ let Edit = React.createClass({
           <div>
             <div id="page-actions">
               <div className="container">
-                <div className="pull-left">
-                  <Link to="robot-index" className="btn btn-sm btn-gray-lighter" title="Back to list">
+                <div className="btn-group btn-group-sm pull-left">
+                  <Link to="robot-index" className="btn btn-gray-light" title="Back to list">
                     <span className="fa fa-arrow-left"></span>
                     <span className="hidden-xs margin-left-sm">Back to list</span>
                   </Link>

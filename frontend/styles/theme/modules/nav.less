@@ -6,6 +6,11 @@
   border-top: 0;
   border-right: 0;
   border-left: 0;
+  font-size: @font-size-base * 1.2;
+  .navbar-text,
+  .navbar-nav > li > a, .navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
+    color: @white;
+  }
   .navbar-toggle {
     padding-right: 0;
     padding-left: 0;
@@ -16,4 +21,25 @@
   .navbar-collapse.collapse.in {
     overflow-y: auto;
   }
+  .navbar-brand {
+    @color: @white;
+    margin-right: @line-height-computed * 2;
+    color: @color;
+    font-family: @logo-font-family;
+    font-size: @font-size-base * 2.5;
+    .light {
+      font-weight: 300;
+    }
+    &:focus, &:hover {
+      color: @color;
+    }
+  }
+  .navbar-collapse,
+  .navbar-form {
+    border-color: @metalic;
+  }
 }
+.navbar-right > .nav {
+  margin-right: -30px;
+}
+

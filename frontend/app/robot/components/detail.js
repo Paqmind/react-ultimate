@@ -31,14 +31,14 @@ let Detail = React.createClass({
           <div>
             <div id="page-actions">
               <div className="container">
-                <div className="pull-left">
-                  <Link to="robot-index" className="btn btn-sm btn-gray-lighter" title="Back to list">
+                <div className="btn-group btn-group-sm pull-left">
+                  <Link to="robot-index" className="btn btn-gray-light" title="Back to list">
                     <span className="fa fa-arrow-left"></span>
                     <span className="hidden-xs margin-left-sm">Back to list</span>
                   </Link>
                 </div>
                 <div className="btn-group btn-group-sm pull-right">
-                  <Link to="robot-edit" params={{id: model.id}} className="btn btn-blue" title="Edit">
+                  <Link to="robot-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
                     <span className="fa fa-edit"></span>
                   </Link>
                   <a className="btn btn-red" title="Delete" onClick={this.onRemove}>
