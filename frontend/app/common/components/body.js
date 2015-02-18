@@ -16,7 +16,7 @@ let Body = React.createClass({
                 <span className="sr-only">Toggle navigation</span>
                 <span className="fa fa-bars fa-lg"></span>
               </button>
-              <Link className="navbar-brand" to="home"><span className="light">React</span>Concept</Link>
+              <Link className="navbar-brand" to="home"><span className="light">React</span>Starter</Link>
             </div>
             <nav className="collapse navbar-collapse navbar-page-header navbar-right brackets-effect">
               <ul className="nav navbar-nav">
