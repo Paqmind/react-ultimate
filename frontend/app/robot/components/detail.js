@@ -23,14 +23,14 @@ let Detail = React.createClass({
   ],
 
   componentDidMount() {
-    Actions.entryIndex();
+    Actions.entryDetail(this.getParams().id);
   },
 
   render() {
-    if (this.state.model) {
+    if (isObject(this.state.model)) {
       let model = this.state.model;
       return (
-        <DocumentTitle title={"Detail " + model.name}>
+        <DocumentTitle title={"Detail " + model.get("name")}>
           <div>
             <div id="page-actions">
               <div className="container">
@@ -41,7 +41,7 @@ let Detail = React.createClass({
                   </Link>
                 </div>
                 <div className="btn-group btn-group-sm pull-right">
-                  <Link to="robot-edit" params={{id: model.id}} className="btn btn-blue" title="Edit">
+                  <Link to="robot-edit" params={{id: model.get("id")}} className="btn btn-blue" title="Edit">
                     <span className="fa fa-edit"></span>
                   </Link>
                   <a className="btn btn-red" title="Delete" onClick={this.onRemove}>
@@ -52,19 +52,22 @@ let Detail = React.createClass({
             </div>
             <section className="container">
               <div className="thumbnail pull-left margin-top nopadding">
-                <img src={"http://robohash.org/" + model.id + "?size=200x200"} width="200px" height="200px"/>
+                <img src={"http://robohash.org/" + model.get("id") + "?size=200x200"} width="200px" height="200px"/>
               </div>
-              <h1>{model.name}</h1>
+              <h1>{model.get("name")}</h1>
               <dl>
-                <dt>Serial Number</dt><dd>{model.id}</dd>
-                <dt>Assembly Date</dt><dd>{model.assemblyDate}</dd>
-                <dt>Manufacturer</dt><dd>{model.manufacturer}</dd>
+                <dt>Serial Number</dt><dd>{model.get("id")}</dd>
+                <dt>Assembly Date</dt><dd>{model.get("assemblyDate")}</dd>
+                <dt>Manufacturer</dt><dd>{model.get("manufacturer")}</dd>
               </dl>
             </section>
           </div>
         </DocumentTitle>
       );
-    } else {
+    } else if (isString(this.state.model)) {
+      return <NotFound/>;
+    }
+    else {
       return <Loading/>;
     }
   },

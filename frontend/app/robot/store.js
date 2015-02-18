@@ -1,9 +1,9 @@
 // IMPORTS =========================================================================================
-import {List, OrderedMap as OM} from "immutable";
-import Axios from "axios";
-import Reflux from "reflux";
-import CommonHelpers from "../../../common/helpers";
-import Actions from "./actions";
+let {List, Map, OrderedMap: OM} = require("immutable");
+let Axios = require("axios");
+let Reflux = require("reflux");
+let CommonHelpers = require("../../../common/helpers");
+let Actions = require("./actions");
 
 // EXPORTS =========================================================================================
 let Store = Reflux.createStore({
@@ -20,7 +20,7 @@ let Store = Reflux.createStore({
   },
 
   entryIndex() {
-    if (this.state.size) {
+    if (this.indexLoaded) {
       this.shareState();
     } else {
       // TODO check local storage
@@ -30,26 +30,36 @@ let Store = Reflux.createStore({
         })
         .done((res) => {
           let models = List(res.data).sortBy((model) => model.id);
-          this.setState(OM([for (model of models) [model.id, model]]));
+          this.setState(OM([for (model of models) [model.id, Map(model)]]));
+          this.indexLoaded = true;
         });
     }
   },
 
-  /*entryDetail(id) {
-    if (this.state.length && this.getModel(id)) {
+  entryDetail(id) {
+    if (this.state[id]) {
+      console.log("1)");
       this.shareState();
     } else {
+      console.log("2)");
       // TODO check local storage
       Axios.get(`/api/robots/${id}`)
         .catch((res) => {
-          this.resetState();
+          console.log("21)");
+          this.setState(this.state.set(id, "Not Found"));
         })
         .done((res) => {
+          console.log("22)");
           let model = Map(res.data);
-          this.setState(this.state.set(model.id, model));
+          console.log("...", this.state.set(id, model));
+          this.setState(this.state.set(id, model));
         });
     }
-  },*/
+  },
+
+  entryEdit(id) {
+    return this.entryDetail(id);
+  },
 
   resetState() {
     this.setState(this.getInitialState());

@@ -1,17 +1,20 @@
 // IMPORTS =========================================================================================
+let isObject = require("lodash.isobject");
+let isString = require("lodash.isstring");
 let debounce = require("lodash.debounce");
 let React = require("react/addons");
 let Router = require("react-router");
 let {Link, RouteHandler} = Router;
 let Reflux = require("reflux");
-let LensedStateMixin = require("react-lensed-state");
 let DocumentTitle = require("react-document-title");
 let Alert = require("react-bootstrap").Alert;
 let Input = require("react-bootstrap").Input;
 let Button = require("react-bootstrap").Button;
 let ValidationMixin = require("react-validation-mixin");
 let Joi = require("joi");
+let LensedStateMixin = require("../../common/mixins").LensedStateMixin;
 let Loading = require("../../common/components/loading");
+let NotFound = require("../../common/components/not-found");
 let Actions = require("../actions");
 let Store = require("../store");
 
@@ -29,30 +32,35 @@ let Edit = React.createClass({
   ],
 
   componentDidMount() {
-    Actions.entryIndex();
+    Actions.entryEdit(this.getParams().id);
   },
 
   validatorTypes() {
     return {
-      id: Joi.string().required(), // TODO uuid
-      assemblyDate: Joi.date().max("now").required(),
-      manufacturer: Joi.string().required(),
+      model: {
+        id: Joi.string().required(), // TODO uuid
+        assemblyDate: Joi.date().max("now").required(),
+        manufacturer: Joi.string().required(),
+      }
     };
+  },
+
+  validatorData() {
+    console.log("Edit.validatorData!", this.state);
+    return this.state.toJS(); // TODO this.state is not immutable
   },
 
   getInitialState() {
     return {
-      id: undefined,
-      assemblyDate: undefined,
-      manufacturer: undefined,
+      model: undefined
     };
   },
 
   render() {
-    if (this.state.model) {
+    if (isObject(this.state.model)) {
       let model = this.state.model;
       return (
-        <DocumentTitle title={"Edit " + model.name}>
+        <DocumentTitle title={"Edit " + model.get("name")}>
           <div>
             <div id="page-actions">
               <div className="container">
@@ -63,7 +71,7 @@ let Edit = React.createClass({
                   </Link>
                 </div>
                 <div className="btn-group btn-group-sm pull-right">
-                  <Link to="robot-detail" params={{id: model.id}} className="btn btn-blue" title="Detail">
+                  <Link to="robot-detail" params={{id: model.get("id")}} className="btn btn-blue" title="Detail">
                     <span className="fa fa-eye"></span>
                   </Link>
                   <a className="btn btn-red" title="Delete" onClick={this.onRemove}>
@@ -74,27 +82,53 @@ let Edit = React.createClass({
             </div>
             <section className="container">
               <div className="thumbnail pull-left margin-top nopadding">
-                <img src={"http://robohash.org/" + model.id + "?size=200x200"} width="200px" height="200px"/>
+                <img src={"http://robohash.org/" + model.get("id") + "?size=200x200"} width="200px" height="200px"/>
               </div>
-              <h1>{model.name}</h1>
+              <h1>{model.get("name")}</h1>
               <form onSubmit={this.handleSubmit}>
                 <fieldset>
-                  <div className={this.getClasses("id")}>
+                  <div className={this.getClasses("model.name")}>
+                    <label htmlFor="name">Name</label>
+                    <input type="text"
+                      id="name"
+                      valueLink={this.linkState("model.name")}
+                      onBlur={this.handleUnfocusFor("model.name")}
+                      className="form-control"
+                      placeholder="Name"/>
+                    {this.getValidationMessages("model.name").map(this.renderHelpText)}
+                  </div>
+
+                  <div className={this.getClasses("model.id")}>
                     <label htmlFor="id">Serial Number</label>
-                    <input type="id" id="id" valueLink={this.linkState("id")} onBlur={this.handleUnfocusFor("id")} className="form-control" placeholder="Serial Number"/>
-                    {this.getValidationMessages("id").map(this.renderHelpText)}
+                    <input type="text"
+                      id="id"
+                      valueLink={this.linkState("model.id")}
+                      onBlur={this.handleUnfocusFor("model.id")}
+                      className="form-control"
+                      placeholder="Serial Number"/>
+                    {this.getValidationMessages("model.id").map(this.renderHelpText)}
                   </div>
 
-                  <div className={this.getClasses("assemblyDate")}>
+                  <div className={this.getClasses("model.assemblyDate")}>
                     <label htmlFor="assemblyDate">Assembly Date</label>
-                    <input type="assemblyDate" id="assemblyDate" valueLink={this.linkState("assemblyDate")} onBlur={this.handleUnfocusFor("assemblyDate")} className="form-control" placeholder="Assembly Date" />
-                    {this.getValidationMessages("assemblyDate").map(this.renderHelpText)}
+                    <input type="text"
+                      id="assemblyDate"
+                      valueLink={this.linkState("model.assemblyDate")}
+                      onBlur={this.handleUnfocusFor("model.assemblyDate")}
+                      className="form-control"
+                      placeholder="Assembly Date"/>
+                    {this.getValidationMessages("model.assemblyDate").map(this.renderHelpText)}
                   </div>
 
-                  <div className={this.getClasses("manufacturer")}>
+                  <div className={this.getClasses("model.manufacturer")}>
                     <label htmlFor="manufacturer">Manufacturer</label>
-                    <input type="manufacturer" id="manufacturer" valueLink={this.linkState("manufacturer")} onBlur={this.handleUnfocusFor("password")} className="form-control" placeholder="Manufacturer" />
-                    {this.getValidationMessages("manufacturer").map(this.renderHelpText)}
+                    <input type="text"
+                      id="manufacturer"
+                      valueLink={this.linkState("model.manufacturer")}
+                      onBlur={this.handleUnfocusFor("model.manufacturer")}
+                      className="form-control"
+                      placeholder="Manufacturer"/>
+                    {this.getValidationMessages("model.manufacturer").map(this.renderHelpText)}
                   </div>
                 </fieldset>
 
@@ -107,7 +141,10 @@ let Edit = React.createClass({
           </div>
         </DocumentTitle>
       );
-    } else {
+    } else if (isString(this.state.model)) {
+      return <NotFound/>;
+    }
+    else {
       return <Loading/>;
     }
   },
