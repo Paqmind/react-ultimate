@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 let debounce = require("lodash.debounce");
 let React = require("react");
-let Addons = require("react/addons");
+let Addons = require("react/addons").addons;
 let Router = require("react-router");
 let {Link, RouteHandler} = Router;
 let Reflux = require("reflux");
