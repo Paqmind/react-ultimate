@@ -18,37 +18,41 @@ let Store = require("../store");
 // EXPORTS =========================================================================================
 let Add = React.createClass({
   mixins: [
-    Router.State,
     Router.Navigation,
     LensedStateMixin,
     ValidationMixin,
   ],
 
-  componentDidMount() {
-    Actions.entryIndex();
-    //Actions.entryAdd();
-  },
-
   validatorTypes() {
     return {
-      id: Joi.string().required(), // TODO uuid
-      assemblyDate: Joi.date().max("now").required(),
-      manufacturer: Joi.string().required(),
+      model: {
+        id: Joi.string().required(), // TODO uuid
+        assemblyDate: Joi.date().max("now").required(),
+        manufacturer: Joi.string().required(),
+      }
     };
+  },
+
+  validatorData() {
+    console.log("Add.validatorData!");
+    return this.state.toJS();
   },
 
   getInitialState() {
     return {
-      id: undefined,
-      assemblyDate: undefined,
-      manufacturer: undefined,
+      model: {
+        id: undefined,
+        assemblyDate: undefined,
+        manufacturer: undefined
+      },
     };
   },
 
   render() {
     if (true) {
+      let model = this.state.model;
       return (
-        <DocumentTitle title={"Add robot"}>
+        <DocumentTitle title={"Add Robot"}>
           <div>
             <div id="page-actions">
               <div className="container">
@@ -198,7 +202,6 @@ let ExampleInput = React.createClass({
   //},
 
   //validate() {
-  //  console.log("validate invoked!");
   //  var value = this.refs.input.getValue();
   //  var error;
   //  if (this.props.required && !value)
@@ -218,9 +221,6 @@ let ExampleInput = React.createClass({
     //this.setState({
     //  value: this.refs.input.getValue()
     //});
-    //console.log(this);
-    //console.log(this.propTypes);
-    //console.log(this.refs.input.getValue());
   //},
 
   render() {
@@ -229,7 +229,6 @@ let ExampleInput = React.createClass({
     //  this.props.valueLink.requestChange(evt.target.value);
     //};
     let form = this.props.form;
-    console.log(">>>", this.props.ref);
     return (
       <Input
         type="text"
@@ -252,20 +251,7 @@ let ExampleInput = React.createClass({
 
 /*
 handleSubmit: debounce(function() {
-    console.debug("RobotAdd.onSubmit");
-    console.log("BEFORE VALIDATION");
-    console.debug("RobotAdd.state:", this.state);
-    console.debug("RobotAdd.isValid():", this.isValid());
-    console.debug("RobotAdd.getValidationMessages():", this.getValidationMessages());
-    console.debug("RobotAdd.getValidationMessages('id'):", this.getValidationMessages("id"));
-
-    console.log("AFTER VALIDATION");
     this.validate();
-    console.debug("RobotAdd.state:", this.state);
-    console.debug("RobotAdd.isValid():", this.isValid());
-    console.debug("RobotAdd.getValidationMessages():", this.getValidationMessages());
-    console.debug("RobotAdd.getValidationMessages('id'):", this.getValidationMessages("id"));
-
     //if (this.isValid()) {
     //  UserAction.signup(this.state);
     //}

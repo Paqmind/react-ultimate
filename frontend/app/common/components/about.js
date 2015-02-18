@@ -19,7 +19,7 @@ let About = React.createClass({
     return (
       <DocumentTitle title="About">
         <section className="container page info">
-          <h2>Simple Page Example</h2>
+          <h1>Simple Page Example</h1>
           <p>This page was rendered by a JavaScript</p>
         </section>
       </DocumentTitle>

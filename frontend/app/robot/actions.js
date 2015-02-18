@@ -20,14 +20,10 @@ Actions.postModel.listen((opts) => {
   let {headers, data} = opts;
   Axios.post(`/api/robots/`, {headers, data})
     .then((res) => {
-      //console.log(">>>", res.status);
-      //console.log(">>>", res.data);
       this.completed(res.data);
     })
     .catch((res) => {
       // TODO pull data back ?!
-      //console.log(">>>", res.status);
-      //console.log(">>>", res.data);
       this.failed(res.status);
     });
 });
@@ -37,13 +33,9 @@ Actions.putModel.listen((opts) => {
   let {id, headers, data} = opts;
   Axios.put(`/api/robots/${id}`, {headers, data})
     .then((res) => {
-      //console.log(">>>", res.status);
-      //console.log(">>>", res.data);
       this.completed(res.data);
     }).catch((res) => {
       // TODO pull data back ?!
-      //console.log(">>>", res.status);
-      //console.log(">>>", res.data);
       this.failed(res.status);
     });
 });

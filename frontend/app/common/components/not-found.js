@@ -6,17 +6,13 @@ let DocumentTitle = require("react-document-title");
 
 // EXPORTS =========================================================================================
 let NotFound = React.createClass({
-  componentDidMount() {
-    console.debug("NotFound.componentDidMount");
-  },
-
   render() {
-    console.debug("NotFound.render");
     return (
       <DocumentTitle title="Not Found">
-        <div className="container">
-          <p>Not Found</p>
-        </div>
+        <section className="container page">
+          <h1>Page not Found</h1>
+          <p>Something is wrong</p>
+        </section>
       </DocumentTitle>
     );
   }

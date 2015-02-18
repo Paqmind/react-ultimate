@@ -123,7 +123,7 @@ let Edit = React.createClass({
       'form-group': true,
       'has-error': !this.isValid(key)
     });
-  }
+  },
 });
 
 export default Edit;
