@@ -4,6 +4,7 @@ let React = require("react");
 let Router = require("react-router");
 let {Link, RouteHandler} = Router;
 let Reflux = require("reflux");
+let LensedStateMixin = require("react-lensed-state");
 let DocumentTitle = require("react-document-title");
 let Alert = require("react-bootstrap/Alert");
 let Input = require("react-bootstrap/Input");
@@ -19,7 +20,7 @@ let Add = React.createClass({
   mixins: [
     Router.State,
     Router.Navigation,
-    React.addons.LinkedStateMixin,
+    LensedStateMixin,
     ValidationMixin,
   ],
 
