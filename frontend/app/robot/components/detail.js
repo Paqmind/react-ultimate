@@ -1,5 +1,7 @@
 // IMPORTS =========================================================================================
-let React = require("react");
+let isObject = require("lodash.isobject");
+let isString = require("lodash.isstring");
+let React = require("react/addons");
 let Router = require("react-router");
 let {Link, RouteHandler} = Router;
 let Reflux = require("reflux");
