@@ -2,7 +2,8 @@
 let isObject = require("lodash.isobject");
 let isString = require("lodash.isstring");
 let debounce = require("lodash.debounce");
-let React = require("react/addons");
+let React = require("react");
+let Addons = require("react/addons");
 let Router = require("react-router");
 let {Link, RouteHandler} = Router;
 let Reflux = require("reflux");
@@ -156,7 +157,7 @@ let Edit = React.createClass({
   },
 
   getClasses: function(key) {
-    return React.addons.classSet({
+    return Addons.classSet({
       'form-group': true,
       'has-error': !this.isValid(key)
     });

@@ -10,7 +10,7 @@ Promise.prototype.done = function(onFulfilled, onRejected) {
 };
 
 // IMPORTS =========================================================================================
-let React = require("react/addons");
+let React = require("react");
 let Router = require("./router");
 let RobotStore = require("./robot/store");
 

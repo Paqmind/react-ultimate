@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-let React = require("react/addons");
+let React = require("react");
 let DocumentTitle = require("react-document-title");
 
 // EXPORTS =========================================================================================

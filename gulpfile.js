@@ -73,14 +73,6 @@ gulp.task("backend:nodemon", function() {
     let nodemon = ChildProcess.spawn("npm", ["run", "nodemon"]);
     nodemon.stdout.pipe(process.stdout);
     nodemon.stderr.pipe(process.stderr);
-    //process.on("exit", () => nodemon.kill());
-    //process.on("uncaughtException", () => nodemon.kill());
-    //process.on("uncaughtException", function(err) {
-    //  console.log("uncaughtException", err);
-    //});
-    //setTimeout(function() {
-    //  throw Error("test");
-    //}, 5000);
   }
 });
 
@@ -94,7 +86,7 @@ gulp.task("frontend:move-css", function() {
 gulp.task("frontend:compile-less", function() {
   return gulp.src(["./frontend/styles/theme.less", "./frontend/styles/http-errors.less"])
     .pipe(gulpPlumber())
-    .pipe(gulpLess().on("error", function (error) {console.log(error); }))
+    .pipe(gulpLess())
     .pipe(gulp.dest("./static/styles"));
 });
 

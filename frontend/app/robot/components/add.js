@@ -1,6 +1,7 @@
 // IMPORTS =========================================================================================
 let debounce = require("lodash.debounce");
-let React = require("react/addons");
+let React = require("react");
+let Addons = require("react/addons");
 let Router = require("react-router");
 let {Link, RouteHandler} = Router;
 let Reflux = require("reflux");
@@ -126,7 +127,7 @@ let Add = React.createClass({
   },
 
   getClasses: function(key) {
-    return React.addons.classSet({
+    return Addons.classSet({
       'form-group': true,
       'has-error': !this.isValid(key)
     });

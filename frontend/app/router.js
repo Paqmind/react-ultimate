@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-let React = require("react/addons");
+let React = require("react");
 let Router = require("react-router");
 let {Route, DefaultRoute, NotFoundRoute, HistoryLocation} = Router;
 
