@@ -3,13 +3,22 @@
 {% set seotitle = "500 Server error" %}
 
 {% block container %}
-  <h1>Server Error</h1>
-  <p>Keep inner peace.</p>
-  <p>It's our fault!</p>
-  <p>We are already trying to fix it as soon as possible.</p>
-  <script>
-    var GOOG_FIXURL_LANG = (navigator.language || '').slice(0,2);
-    var GOOG_FIXURL_SITE = location.host;
-  </script>
-  <script src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js"></script>
+  <div class="row nomargin-left nomargin-right">
+    <div class="col-sm-12 col-lg-6">
+      <div id="http-error-descr">
+        <h1 id="http-error-heading">Server Error</h1>
+        <p>Keep inner peace.</p>
+        <p>It's our fault!</p>
+        <p>We are already trying to fix it as soon as possible.</p>
+        <script>
+          var GOOG_FIXURL_LANG = (navigator.language || '').slice(0,2);
+          var GOOG_FIXURL_SITE = location.host;
+        </script>
+        <script src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js"></script>
+      </div>
+    </div>
+    <div class="col-sm-12 col-lg-6">
+      {% include 'errors/mascotte/going.html' %}
+    </div>
+  </div>
 {% endblock %}

@@ -39,7 +39,7 @@ let Index = React.createClass({
             </p>
 
             <h3>Robots container</h3>
-            <ul className="list-group" data-hook="robot-index"></ul>
+            <ul class="list-group" data-hook="robot-index"></ul>
 
             */}
 
@@ -62,7 +62,7 @@ let Index = React.createClass({
                           <Link to="robot-detail" params={{id: model.get("id")}} className="btn btn-blue" title="Detail">
                             <span className="fa fa-eye"></span>
                           </Link>
-                          <Link to="robot-edit" params={{id: model.get("id")}} className="btn btn-blue" title="Edit">
+                          <Link to="robot-edit" params={{id: model.get("id")}} className="btn btn-orange" title="Edit">
                             <span className="fa fa-edit"></span>
                           </Link>
                           {/*<a className="btn btn-red" title="Delete" onClick={this.onRemove}>
