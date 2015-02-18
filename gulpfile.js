@@ -94,10 +94,9 @@ gulp.task("frontend:move-css", function() {
 });
 
 gulp.task("frontend:compile-less", function() {
-  return gulp.src(["./frontend/styles/theme.less"])
+  return gulp.src(["./frontend/styles/theme.less", "./frontend/styles/http-errors.less"])
     .pipe(gulpPlumber())
     .pipe(gulpLess().on("error", function (error) {console.log(error); }))
-    .pipe(gulpRename("bundle.css"))
     .pipe(gulp.dest("./static/styles"));
 });
 
@@ -129,6 +128,11 @@ gulp.task("frontend:dist-scripts", function() {
     .pipe(gulpConcat("scripts.js"))
     .pipe(gulpUglify())
     .pipe(gulp.dest("./static/scripts"));
+});
+
+gulp.task("frontend:dist-images", function() {
+  return gulp.src(["./frontend/images/**/*"])
+    .pipe(gulp.dest("./static/images"));
 });
 
 gulp.task("frontend:browserify-vendors", function() {
@@ -193,12 +197,14 @@ gulp.task("frontend:dist", [
   "frontend:build",
   "frontend:browserify-app",
   "frontend:dist-scripts",
+  "frontend:dist-images",
   "frontend:dist-styles",
 ]);
 
 gulp.task("frontend:watch", function() {
   gulp.watch("./frontend/app/**/*.js", ["frontend:build-app"]);
   gulp.watch("./frontend/scripts/**/*.js", ["frontend:dist-scripts"]);
+  gulp.watch("./frontend/images/**/*", ["frontend:dist-images"]);
   gulp.watch("./frontend/styles/**/*.less", ["frontend:dist-styles"]);
 });
 

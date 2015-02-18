@@ -3,11 +3,20 @@
 {% set seotitle = "401 Unauthorized Access" %}
 
 {% block container %}
-  <h1>Unauthorized Access</h1>
-  <p>Please authorize to view this resource!</p>
-  <script>
-    var GOOG_FIXURL_LANG = (navigator.language || '').slice(0,2);
-    var GOOG_FIXURL_SITE = location.host;
-  </script>
-  <script src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js"></script>
+  <div class="row nomargin-left nomargin-right">
+    <div class="col-sm-12 col-sm-6 col-lg-4 col-lg-offset-2">
+      <div id="http-error-descr">
+        <h1 class="heading">Unauthorized Access</h1>
+        <p>Please authorize to view this resource!</p>
+        <script>
+          var GOOG_FIXURL_LANG = (navigator.language || '').slice(0,2);
+          var GOOG_FIXURL_SITE = location.host;
+        </script>
+        <script src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js"></script>
+      </div>
+    </div>
+    <div class="col-sm-12 col-sm-6 col-lg-4">
+      {% include 'errors/mascotte/shiny.html' %}
+    </div>
+  </div>
 {% endblock %}
