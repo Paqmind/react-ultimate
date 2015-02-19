@@ -38,20 +38,15 @@ let Store = Reflux.createStore({
 
   entryDetail(id) {
     if (this.state[id]) {
-      console.log("1)");
       this.shareState();
     } else {
-      console.log("2)");
-      // TODO check local storage
+      // TODO check local storage?!
       Axios.get(`/api/robots/${id}`)
         .catch((res) => {
-          console.log("21)");
           this.setState(this.state.set(id, "Not Found"));
         })
         .done((res) => {
-          console.log("22)");
           let model = Map(res.data);
-          console.log("...", this.state.set(id, model));
           this.setState(this.state.set(id, model));
         });
     }

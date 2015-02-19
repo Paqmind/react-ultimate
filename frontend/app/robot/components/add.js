@@ -6,9 +6,7 @@ let Router = require("react-router");
 let {Link, RouteHandler} = Router;
 let Reflux = require("reflux");
 let DocumentTitle = require("react-document-title");
-let Alert = require("react-bootstrap").Alert;
-let Input = require("react-bootstrap").Input;
-let Button = require("react-bootstrap").Button;
+let {Alert, Input, Button} = require("react-bootstrap");
 let ValidationMixin = require("react-validation-mixin");
 let Joi = require("joi");
 let LensedStateMixin = require("../../common/mixins").LensedStateMixin;
@@ -137,7 +135,7 @@ let Add = React.createClass({
   handleSubmit(event) {
     event.preventDefault();
     this.validate();
-    setTimeout(function() {
+    setTimeout(() => {
       alert("xxx")
     }, 200);
   },
@@ -145,7 +143,7 @@ let Add = React.createClass({
   handleReset(event) {
     event.preventDefault();
     this.setState(this.getInitialState());
-    setTimeout(function() {
+    setTimeout(() => {
       alert("xxx")
     }, 200);
   },
