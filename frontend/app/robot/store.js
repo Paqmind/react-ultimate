@@ -29,7 +29,7 @@ let Store = Reflux.createStore({
           this.resetState();
         })
         .done((res) => {
-          let models = List(res.data).sortBy((model) => model.id);
+          let models = List(res.data);
           this.setState(OM([for (model of models) [model.id, Map(model)]]));
           this.indexLoaded = true;
         });
