@@ -86,10 +86,6 @@ let nunjucksEnv = nunjucks.configure("backend/templates", {
   express: app
 });
 
-nunjucksEnv.lazyRender = function(name) {
-  return nunjucks.render.bind(nunjucks, name);
-};
-
 markdown.register(nunjucksEnv, {
 //  renderer: new marked.Renderer(),
 //  breaks: false,
@@ -106,13 +102,14 @@ app.use("/static", routes.static);
 app.use("/api", routes.api);
 app.use("/", routes.app);
 
-app.use(function(req, res) {
-   return res.status(404).render("errors/404.html");
+app.use(function(req, res, next) {
+  res.status(404).render("errors/404.html");
 });
 
 app.use(function(err, req, res, next) {
+  logger.error(err.stack);
   res.status(err.status || 500);
-  res.render("error", {
+  res.render("errors/500.html", {
     message: err.message,
     error: (app.get("env") == "development") ? err : {}
   });
