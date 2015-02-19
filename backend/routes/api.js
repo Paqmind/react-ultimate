@@ -81,7 +81,7 @@ router.put("/robots/:uid", function(req, res) {
   let robot = robots.get(req.params.uid);
   if (robot) {
     robot = robot.mergeDeep(req.body);
-    robots = robots.set(robot.id, robot);
+    robots = robots.set(robot.get("id"), robot);
     res.status(204).send(); // Status: no-content
   } else {
     robot = Map(Helpers.generateRobot());
