@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded({extended: false})); // parse application/x-www-fo
 
 app.use(morgan("dev", {
   skip: function (req, res) {
-    return req.originalUrl.includes("/static") || req.originalUrl === "/favicon.ico";
+    return req.originalUrl.includes("/static") || req.originalUrl.includes("/favicon");
   }
 }));
 
