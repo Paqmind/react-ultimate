@@ -10,10 +10,12 @@ let Helpers = require("../helpers");
 // PSEUDO DB =======================================================================================
 // Create first robot with predefined id separately (useful for tests)
 let firstRobot = Helpers.generateRobot({id: "7f368fc0-5754-493d-b5f6-b5729fc298f7"});
-let robotListHead = [[firstRobot.id, firstRobot]];
-let robotList = robotListHead.concat([for (robot of Range(1, 10).map(Helpers.generateRobot)) [robot.id, robot]]);
+let robotListHead = [[firstRobot.id, Map(firstRobot)]];
+let robotList = [for (robot of Range(1, 10).map(Helpers.generateRobot)) [robot.id, robot]];
 let robots = OrderedMap(
-  Immutable.fromJS(robotList).sortBy(pair => pair.get(1).get("name")).map(pair => pair.toArray()) // `map` is required because of bug in Immutable. Wait for solve...
+  List(robotListHead).concat(
+    Immutable.fromJS(robotList).sortBy(pair => pair.get(1).get("name")).map(pair => pair.toArray()) // `map` is required because of bug in Immutable. Wait for solve...
+  )
 );
 
 // ROUTES ==========================================================================================
