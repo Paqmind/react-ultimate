@@ -37,7 +37,7 @@ let Store = Reflux.createStore({
   },
 
   entryDetail(id) {
-    if (this.state[id]) {
+    if (this.state.has(id)) {
       this.shareState();
     } else {
       // TODO check local storage?!
