@@ -78,7 +78,7 @@ router.delete("/robots/:uid", function(req, res) {
 });
 
 router.put("/robots/:uid", function(req, res) {
-  let robot = robots.get(res.params.uid);
+  let robot = robots.get(req.params.uid);
   if (robot) {
     robot = robot.mergeDeep(req.body);
     robots = robots.set(robot.id, robot);
