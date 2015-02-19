@@ -1,75 +1,91 @@
 // IMPORTS =========================================================================================
+let Immutable = require("immutable");
+let {OrderedMap, Map, Range, List} = Immutable;
 let Ld = require("lodash");
+let Joi = require("joi");
 let Express = require("express");
 let CommonHelpers = require("../../common/helpers");
 let Helpers = require("../helpers");
 
-// EXPORTS =========================================================================================
+// PSEUDO DB =======================================================================================
+// Create first robot with predefined id separately (useful for tests)
+let firstRobot = Helpers.generateRobot({id: "7f368fc0-5754-493d-b5f6-b5729fc298f7"});
+let robotListHead = [[firstRobot.id, firstRobot]];
+let robotList = robotListHead.concat([for (robot of Range(1, 10).map(Helpers.generateRobot)) [robot.id, robot]]);
+let robots = OrderedMap(
+  Immutable.fromJS(robotList).sortBy(pair => pair.get(1).get("name")).map(pair => pair.toArray()) // `map` is required because of bug in Immutable. Wait for solve...
+);
+
+// ROUTES ==========================================================================================
 let router = Express.Router();
 
-let robots = Ld.range(1, 10).map(Helpers.generateRobot);
+router.param("uid", function(req, res, next, id) {
+  let schema = {
+    uid: Joi.string().guid()
+  };
+  let data = {
+    uid: id
+  };
+  let validation = Joi.validate(data, schema);
+  if (validation.error) {
+    let validationMessage = Ld.map(validation.error.details.map(error => error.message)).concat(["xxx"]).join(". ");
+    next("route");
+  } else {
+    // `req` may be mutated here (req.user = user)...
+    next();
+  }
+});
 
 router.get("/robots/", function(req, res) {
-  res.status(200);
-  res.send(robots);
+  res.status(200).send(robots); // Status: ok
+});
+
+router.get("/robots/count", function(req, res) {
+  res.status(200).send(`${robots.size}`); // Status: ok
 });
 
 router.get("/robots/random", function(req, res) {
   let robot = Helpers.generateRobot();
-  res.status(200);
-  res.send(robot);
+  res.status(200).send(robot); // Status: ok
 });
 
 router.post("/robots/", function(req, res) {
-  let robot = req.body;
-  robots.push(robot);
-  res.status(201);
-  res.send(robot);
+  let robot = Map(Helpers.generateRobot());
+  robot = robot.mergeDeep(req.body);
+  robots = robots.set(robot.id, robot);
+  res.status(201).send(robot); // Status: created
 });
 
-// EXPORTS =========================================================================================
-export function generateRobot(id) {
-  // no support to pick name by gender for now in Faker :(
-  return {
-    id: Faker.random.uuid(),
-    name: Faker.name.firstName(),
-    assemblyDate: Faker.date.between("1970-01-01", "1995-01-01"),
-    manufacturer: Faker.random.array_element(["Russia", "USA", "China"]),
-  };
-}
-
-// TODO add typecheck for :id (on express level)
-router.get("/robots/:id", function(req, res) {
-  var robot = Ld.findWhere(robots, {id: req.params.id});
+router.get("/robots/:uid", function(req, res, next) {
+  let robot = robots.get(req.params.uid);
   if (robot) {
-    res.status(200);
-    res.send(robot);
+    res.status(200).send(robot); // Status: ok
   } else {
-    res.status(404).send();
+    next();
   }
 });
 
-// TODO add typecheck for :id (on express level)
-router.delete("/robots/:id", function(req, res) {
-  var robot = Ld.findWhere(robots, {id: req.params.id});
+router.delete("/robots/:uid", function(req, res) {
+  let robot = robots.get(req.params.uid);
   if (robot) {
-    robots = Ld.without(robots, robot);
-    res.status(200);
-    res.send(robot);
+    robots = robots.delete(req.params.uid);
+    res.status(204).send(); // Status: no-content
   } else {
-    res.status(404).send();
+    next();
   }
 });
 
-// TODO add typecheck for :id (on express level)
-router.put("/robots/:id", function(req, res) {
-  var robot = Ld.findWhere(robots, {id: req.params.id});
+router.put("/robots/:uid", function(req, res) {
+  let robot = robots.get(res.params.uid);
   if (robot) {
-    Ld.extend(robot, req.body);
-    res.status(200);
-    res.send(robot);
+    robot = robot.mergeDeep(req.body);
+    robots = robots.set(robot.id, robot);
+    res.status(204).send(); // Status: no-content
   } else {
-    res.status(404).send();
+    robot = Map(Helpers.generateRobot());
+    robot = robot.mergeDeep(req.body);
+    robots = robots.set(robot.id, robot);
+    res.status(201).send(); // Status: created
   }
 });
 
