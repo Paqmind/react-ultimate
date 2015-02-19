@@ -39,7 +39,7 @@ router.param("uid", function(req, res, next, id) {
 });
 
 router.get("/robots/", function(req, res) {
-  res.status(200).send(robots); // Status: ok
+  res.status(200).send(robots.toList()); // Status: ok
 });
 
 router.get("/robots/count", function(req, res) {
