@@ -30,7 +30,11 @@ app.set("etag", config.get("use-etag"));
 app.use(bodyParser.json());                        // parse application/json
 app.use(bodyParser.urlencoded({extended: false})); // parse application/x-www-form-urlencoded
 
-app.use(morgan("dev")); // TODO
+app.use(morgan("dev", {
+  skip: function (req, res) {
+    return req.originalUrl.includes("/static") || req.originalUrl === "/favicon.ico";
+  }
+}));
 
 /*app.use(cookieParser());*/
 let port = process.env.PORT || "3000";
