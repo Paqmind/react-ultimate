@@ -19,7 +19,6 @@ let Home = React.createClass({
             <li><a href="#">React-Router</a></li>
             <li><a href="#">React-Document-Title</a></li>
             <li><a href="#">Browserify</a></li>
-            <li><a href="#">Faker</a></li>
             <li>In production mode, it will serve minfied, uniquely named files with super agressive cache headers. To test:
               <ul>
                 <li>in dev_config.json set <code>isDev</code> to <code>false</code></li>
@@ -41,7 +40,8 @@ let Home = React.createClass({
           <h3>Common</h3>
           <ul>
             <li><a href="#">Gulp</a> streaming build system</li>
-            <li><a href="#">Joi</a> validation library</li>
+            <li><a href="#">Joi</a> data validation</li>
+            <li><a href="#">Faker</a> fake data generation</li>
           </ul>
 
           <h3>VCS</h3>
