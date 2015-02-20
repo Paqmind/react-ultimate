@@ -84,51 +84,11 @@ let Edit = React.createClass({
               <h1>{model.get("name")}</h1>
               <form onSubmit={this.handleSubmit}>
                 <fieldset>
-                  <div className={this.getClasses("model.name")}>
-                    <label htmlFor="name">Name</label>
-                    <input type="text"
-                      id="name"
-                      valueLink={this.linkState("model.name")}
-                      onBlur={this.handleUnfocusFor("model.name")}
-                      className="form-control"
-                      placeholder="Name"/>
-                    {this.getValidationMessages("model.name").map(this.renderHelpText)}
-                  </div>
-
-                  <div className={this.getClasses("model.id")}>
-                    <label htmlFor="id">Serial Number</label>
-                    <input type="text"
-                      id="id"
-                      valueLink={this.linkState("model.id")}
-                      onBlur={this.handleUnfocusFor("model.id")}
-                      className="form-control"
-                      placeholder="Serial Number"/>
-                    {this.getValidationMessages("model.id").map(this.renderHelpText)}
-                  </div>
-
-                  <div className={this.getClasses("model.assemblyDate")}>
-                    <label htmlFor="assemblyDate">Assembly Date</label>
-                    <input type="text"
-                      id="assemblyDate"
-                      valueLink={this.linkState("model.assemblyDate")}
-                      onBlur={this.handleUnfocusFor("model.assemblyDate")}
-                      className="form-control"
-                      placeholder="Assembly Date"/>
-                    {this.getValidationMessages("model.assemblyDate").map(this.renderHelpText)}
-                  </div>
-
-                  <div className={this.getClasses("model.manufacturer")}>
-                    <label htmlFor="manufacturer">Manufacturer</label>
-                    <input type="text"
-                      id="manufacturer"
-                      valueLink={this.linkState("model.manufacturer")}
-                      onBlur={this.handleUnfocusFor("model.manufacturer")}
-                      className="form-control"
-                      placeholder="Manufacturer"/>
-                    {this.getValidationMessages("model.manufacturer").map(this.renderHelpText)}
-                  </div>
+                  <TextInput label="Name" placeholder="Name" id="model.name" form={this}/>
+                  <TextInput label="ID" placeholder="ID" id="model.id" form={this}/>
+                  <TextInput label="Assembly Date" placeholder="Assembly Date" id="model.assemblyDate" form={this}/>
+                  <TextInput label="Manufacturer" placeholder="Manufacturer" id="model.manufacturer" form={this}/>
                 </fieldset>
-
                 <div className="buttons">
                   <button className="btn" type="button" onClick={this.handleReset}>Reset</button>
                   <button className="btn" type="submit">Submit</button>
