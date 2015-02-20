@@ -12,6 +12,7 @@ let {Alert, Input, Button} = require("react-bootstrap");
 let ValidationMixin = require("react-validation-mixin");
 let Validators = require("../../../../shared/robot/validators");
 let LensedStateMixin = require("../../common/mixins/LensedStateMixin");
+let TextInput = require("../../common/elements/TextInput");
 let Loading = require("../../common/components/loading");
 let NotFound = require("../../common/components/not-found");
 let Actions = require("../actions");
