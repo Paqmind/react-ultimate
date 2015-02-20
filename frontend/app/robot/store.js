@@ -56,6 +56,22 @@ let Store = Reflux.createStore({
     return this.entryDetail(id);
   },
 
+  submitEdit(model) {
+    let id = model.get("id");
+    let oldModel = this.state.get(id);
+    this.state = this.state.set(id, model);
+    this.shareState();
+    // TODO update local storage?!
+    Axios.put(`/api/robots/${id}`, model.toJS())
+      .catch((res) => {
+        console.debug("Submit failed with `res`:", res);
+        this.setState(this.state.set(id, oldModel));
+      })
+      .done((res) => {
+        console.log("Submit succeed with `res`:", res);
+      });
+  },
+
   resetState() {
     this.setState(this.getInitialState());
   },

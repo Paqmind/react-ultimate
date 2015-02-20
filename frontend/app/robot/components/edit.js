@@ -158,6 +158,31 @@ let Edit = React.createClass({
       'has-error': !this.isValid(key)
     });
   },
+
+  // Dirty hacks with setTimeout until valid callback architecture (mixin 4.0 branch) --------------
+  handleSubmit(event) {
+    console.log("handleSubmit");
+    event.preventDefault();
+    this.validate();
+    setTimeout(() => {
+      console.log(this.state.errors);
+      console.log(this.isValid());
+      if (this.isValid()) {
+        Actions.submitEdit(this.state.model);
+      } else {
+        alert("Can't submit form with errors");
+      }
+    }, 500);
+  },
+
+  //handleReset(event) {
+  //  event.preventDefault();
+  //  this.setState(this.getInitialState());
+  //  setTimeout(function() {
+  //    alert("xxx")
+  //  }, 200);
+  //},
+  // -----------------------------------------------------------------------------------------------
 });
 
 export default Edit;
