@@ -1,7 +1,10 @@
 // IMPORTS =========================================================================================
+let Joi = require("joi");
+let immutableLens = require("paqmind.data-lens").immutableLens;
 let isObject = require("lodash.isobject");
 let isString = require("lodash.isstring");
 let debounce = require("lodash.debounce");
+let throttle = require("lodash.throttle");
 let React = require("react");
 let Addons = require("react/addons").addons;
 let Router = require("react-router");
@@ -32,6 +35,19 @@ let Edit = React.createClass({
 
   componentDidMount() {
     Actions.entryEdit(this.getParams().id);
+  },
+
+  validateDebounced: debounce(function validateDebounced(key) {
+    console.log("validateDebounced()");
+    this.validate(key);
+  }, 500),
+
+  handleChangeFor: function(key) {
+    let lens = immutableLens(key);
+    return function handleChange(event) {
+      this.setState(lens.set(this.state, event.target.value));
+      this.validateDebounced(key);
+    }.bind(this);
   },
 
   validatorTypes() {
@@ -104,12 +120,6 @@ let Edit = React.createClass({
     else {
       return <Loading/>;
     }
-  },
-
-  renderHelpText: function(message) {
-    return (
-      <span className="help-block">{message}</span>
-    );
   },
 
   getClasses: function(key) {

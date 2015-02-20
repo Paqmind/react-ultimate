@@ -53,6 +53,7 @@
     "lodash.isfunction": "^3.0.1",
     "lodash.isobject": "^3.0.0",
     "lodash.isstring": "^3.0.0",
+    "lodash.throttle": "^3.0.1",
     "marked": "^0.3.3",
     "moment": "^2.9.0",
     "morgan": "*",

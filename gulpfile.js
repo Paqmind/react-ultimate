@@ -35,6 +35,7 @@ let libraries = [
   "paqmind.data-lens",
   "immutable",
   "lodash.debounce",
+  "lodash.throttle",
   "axios",
   "joi",
   "react",
