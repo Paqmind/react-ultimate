@@ -2,6 +2,8 @@
 
 There are a few of them. Let's compare.
 
+## Features
+
 <table>
 <tr>
   <td>Vendor</td>
@@ -34,6 +36,11 @@ There are a few of them. Let's compare.
   <th>Gulp, Webpack</th>
 </tr>
 <tr>
+  <td>Architecture</td>
+  <th>Domain Driven</th>
+  <th>Aspect Driven</th>
+</tr>
+<tr>
   <td>Index</td>
   <th>+ (in progress)</th>
   <th>-</th>
@@ -53,3 +60,24 @@ There are a few of them. Let's compare.
   <th>–</th>
   <th>BrowserSync, Flow</th>
 </tr>
+</table>
+
+## Remarks
+
+### Architecture
+All React starters / tutorials suffer from being oversimplified.
+They don't show any architecture (the most complex part), only a basic file layouts at their best.
+We want to approach this differently – provide more close to real-world reference application.
+TodoApps have similar issues: very specific, single page only, unrealistic models (one field),
+no backend, no validation, no users, etc.
+
+We also want to test-n-proof Domain Driven architecture (we are bored of models/controllers/views folders
+at the root).
+
+### Browser Sync
+No Browser Sync cause it creates more complexity and usability issues than solves.
+May break on errors leaving you wondering whether it were updated or not.
+
+### Browserify vs WebPack.
+Don't like this [mess](https://github.com/kriasoft/react-starter-kit/blob/master/webpack.config.js)
+Trying to stay with Browserify.
