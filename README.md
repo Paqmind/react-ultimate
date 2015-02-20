@@ -41,14 +41,24 @@ There are a few of them. Let's compare.
   <th>Aspect Driven</th>
 </tr>
 <tr>
-  <td>Index</td>
-  <th>+ (in progress)</th>
-  <th>-</th>
+  <td>Immutable</td>
+  <th>yes</th>
+  <th>no</th>
 </tr>
 <tr>
-  <td>CRUD</td>
-  <th>+ (in progress)</th>
-  <th>-</th>
+  <td>Index example</td>
+  <th>yes (in progress)</th>
+  <th>no</th>
+</tr>
+<tr>
+  <td>CRUD example</td>
+  <th>yes (in progress)</th>
+  <th>no</th>
+</tr>
+<tr>
+  <td>Streaming example</td>
+  <th>no (in progress)</th>
+  <th>no</th>
 </tr>
 <tr>
   <td>Tests</td>
@@ -73,6 +83,11 @@ We want to approach this differently – provide application which is close to r
 
 We also want to test-n-proof Domain Driven architecture (we are bored of models/controllers/views folders
 at the root).
+
+### Immutable
+[Immutable-js](http://facebook.github.io/immutable-js/docs/#/) may replace the majority of use-cases
+for Lodash. So we try to use this on both frontend and backend.
+Unfortunately, it turns out not as easy as expected.
 
 ### Browser Sync
 No Browser Sync cause it creates more complexity and usability issues than solves.
