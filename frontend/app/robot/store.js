@@ -2,7 +2,7 @@
 let {List, Map, OrderedMap: OM} = require("immutable");
 let Axios = require("axios");
 let Reflux = require("reflux");
-let CommonHelpers = require("../../../common/helpers");
+let SharedHelpers = require("../../../shared/helpers");
 let Actions = require("./actions");
 
 // EXPORTS =========================================================================================

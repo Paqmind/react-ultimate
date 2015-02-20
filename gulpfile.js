@@ -49,14 +49,14 @@ function interleaveWith(array, prefix) {
   }, []);
 }
 
-// COMMON TASKS ====================================================================================
-gulp.task("common:build", function() {
-  return gulp.src(["./common/**/*.js"])
+// SHARED TASKS ====================================================================================
+gulp.task("shared:build", function() {
+  return gulp.src(["./shared/**/*.js"])
     .pipe(gulpPlumber())
     .pipe(gulpSourcemaps.init())
     .pipe(gulpTo5())
     .pipe(gulpSourcemaps.write())
-    .pipe(gulp.dest("./build/common"));
+    .pipe(gulp.dest("./build/shared"));
 });
 
 // BACKEND TASKS ===================================================================================
@@ -167,12 +167,12 @@ gulp.task("frontend:watchify", function() {
 });
 
 // TASK DEPENDENCIES ===============================================================================
-gulp.task("common:watch", function() {
-  gulp.watch("./common/**/*.js", ["common:build"]);
+gulp.task("shared:watch", function() {
+  gulp.watch("./shared/**/*.js", ["shared:build"]);
 });
 
 gulp.task("frontend:build", [
-  "common:build",
+  "shared:build",
   "frontend:build-app"
 ]);
 
@@ -192,13 +192,13 @@ gulp.task("frontend:watch", function() {
 });
 
 // GENERAL TASKS ===================================================================================
-// TODO: gulp.task("lint", ["common:lint", "backend:lint", "frontend:lint"]);
+// TODO: gulp.task("lint", ["shared:lint", "backend:lint", "frontend:lint"]);
 
 gulp.task("default", function() {
   if (process.env.NODE_ENV == "development") {
     return runSequence(
       ["backend:nodemon", "frontend:dist"],
-      ["common:watch", "frontend:watch", "frontend:watchify"]
+      ["shared:watch", "frontend:watch", "frontend:watchify"]
     );
   } else {
     return runSequence(

@@ -4,7 +4,7 @@ let {OrderedMap, Map, Range, List} = Immutable;
 let Ld = require("lodash");
 let Joi = require("joi");
 let Express = require("express");
-let CommonHelpers = require("../../common/helpers");
+let SharedHelpers = require("../../shared/helpers");
 let Helpers = require("../helpers");
 
 // PSEUDO DB =======================================================================================
