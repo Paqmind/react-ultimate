@@ -11,9 +11,14 @@ There are a few of them. Let's compare.
   <th>Kriasoft</th>
 </tr>
 <tr>
-  <td>Links</td>
-  <th>[GitHub](https://github.com/Paqmind/react-starter)</th>
-  <th>[GitHub](https://github.com/kriasoft/react-starter-kit), [Demo](http://reactjs.kriasoft.com)</th>
+  <td>GitHub</td>
+  <th>https://github.com/Paqmind/react-starter)</th>
+  <th>https://github.com/kriasoft/react-starter-kit</th>
+</tr>
+<tr>
+  <td>Demo</td>
+  <th>–</th>
+  <th>http://reactjs.kriasoft.com</th>
 </tr>
 <tr>
   <td>Language</td>
