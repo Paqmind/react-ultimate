@@ -36,17 +36,15 @@ let Edit = React.createClass({
 
   validatorTypes() {
     return {
-      model: {
-        id: Joi.string().required(), // TODO uuid
-        assemblyDate: Joi.date().max("now").required(),
-        manufacturer: Joi.string().required(),
-      }
+      model: Validators
     };
   },
 
   validatorData() {
     console.log("Edit.validatorData!", this.state);
-    return this.state.toJS(); // TODO this.state is not immutable
+    return {
+      model: this.state.model.toJS()
+    };
   },
 
   getInitialState() {
