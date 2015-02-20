@@ -22,7 +22,6 @@ let Edit = React.createClass({
   mixins: [
     Router.State,
     Router.Navigation,
-    LensedStateMixin,
     ValidationMixin,
     Reflux.connectFilter(Store, "model", function(models) {
       let id = this.getParams().id;
