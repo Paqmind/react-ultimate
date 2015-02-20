@@ -1,4 +1,6 @@
 // IMPORTS =========================================================================================
+let isObject = require("lodash.isobject");
+let isString = require("lodash.isstring");
 let debounce = require("lodash.debounce");
 let React = require("react");
 let Addons = require("react/addons").addons;
@@ -8,9 +10,10 @@ let Reflux = require("reflux");
 let DocumentTitle = require("react-document-title");
 let {Alert, Input, Button} = require("react-bootstrap");
 let ValidationMixin = require("react-validation-mixin");
-let Joi = require("joi");
-let LensedStateMixin = require("../../common/mixins").LensedStateMixin;
+let Validators = require("../../../../shared/robot/validators");
+let LensedStateMixin = require("../../common/mixins/LensedStateMixin");
 let Loading = require("../../common/components/loading");
+let NotFound = require("../../common/components/not-found");
 let Actions = require("../actions");
 let Store = require("../store");
 

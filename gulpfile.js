@@ -32,10 +32,14 @@ function gulpTo5(opts) {
 
 // CONFIG ==========================================================================================
 let libraries = [
+  "paqmind.data-lens",
+  "immutable",
   "lodash.debounce",
   "axios",
   "joi",
   "react",
+  "react/addons",
+  "react/lib/ReactLink",
   "react-bootstrap",
   "react-validation-mixin",
   "react-router",
