@@ -1,7 +1,10 @@
+// IMPORTS =========================================================================================
 let React = require("react");
+let debounce = require("lodash.debounce");
 let {Alert, Input, Button} = require("react-bootstrap");
 let immutableLens = require("paqmind.data-lens").immutableLens;
 
+// EXPORTS =========================================================================================
 let TextInput = React.createClass({
   propTypes: {
     id: React.PropTypes.string,
@@ -10,21 +13,36 @@ let TextInput = React.createClass({
   },
 
   render: function() {
-    let id = this.props.id;
+    let key = this.props.id;
     let form = this.props.form;
-    let lens = immutableLens(id);
+    let lens = immutableLens(key);
     return (
         <Input type="text"
-          key={this.props.id}
-          ref={this.props.id}
+          key={key}
+          ref={key}
           defaultValue={lens.get(form.state)}
-          onChange={form.handleChangeFor(id)}
-          bsStyle={form.isValid(id) ? undefined : "error"}
-          help={form.getValidationMessages(id).map(message => <span key="" className="help-block">{message}</span>)}
+          onChange={this.handleChangeFor(key)}
+          bsStyle={form.isValid(key) ? undefined : "error"}
+          help={form.getValidationMessages(key).map(message => <span key="" className="help-block">{message}</span>)}
           {...this.props}
         />
     );
-  }
+  },
+
+  handleChangeFor: function(key) {
+    let form = this.props.form;
+    let lens = immutableLens(key);
+    return function handleChange(event) {
+      form.setState(lens.set(form.state, event.target.value));
+      this.validateDebounced(key);
+    }.bind(this);
+  },
+
+  validateDebounced: debounce(function validateDebounced(key) {
+    let form = this.props.form;
+    console.log("validateDebounced()");
+    form.validate(key);
+  }, 500),
 });
 
 export default TextInput;
