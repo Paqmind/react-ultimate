@@ -36,7 +36,7 @@ let Edit = React.createClass({
 
   validatorTypes() {
     return {
-      model: Validators
+      model: Validators.model
     };
   },
 
