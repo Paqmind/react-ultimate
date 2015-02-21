@@ -7,10 +7,8 @@ let Loading = React.createClass({
   render() {
     return (
       <DocumentTitle title="Loading...">
-        <div>
-          <section className="container">
-            <i className="fa fa-cog fa-spin"></i>
-          </section>
+        <div id="loading">
+          <i className="fa fa-cog fa-spin"></i>
         </div>
       </DocumentTitle>
     );

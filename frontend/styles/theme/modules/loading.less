@@ -1,0 +1,17 @@
+/*******************************************************************************
+  THEME. MODULES. LOADING
+*******************************************************************************/
+#loading {
+    position: fixed;
+    z-index: @zindex-modal + 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: @gray-light;
+    font-size: @font-size-base * 15;
+    line-height: 100%;
+    text-align: center;
+    @media (max-width: @screen-sm-min) {
+        font-size: @font-size-base * 10;
+    }
+}
