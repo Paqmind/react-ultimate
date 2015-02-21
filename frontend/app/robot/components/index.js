@@ -52,7 +52,7 @@ let Index = React.createClass({
                       <h4 className="panel-title"><Link to="robot-detail" params={{id: model.get("id")}}>{model.get("name")}</Link></h4>
                     </div>
                     <div className="panel-body text-center nopadding">
-                      <Link to="robot-detail" params={{id: model.get("id")}}>
+                      <Link to="robot-detail" params={{id: model.get("id")}}  className="thumbnail-robot">
                         <img src={'http://robohash.org/' + model.get("id") + '?size=200x200'} width="200px" height="200px"/>
                       </Link>
                     </div>

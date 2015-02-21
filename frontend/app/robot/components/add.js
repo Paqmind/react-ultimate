@@ -66,23 +66,30 @@ let Add = React.createClass({
                 </div>
               </div>
             </div>
-            <section className="container">
-              <div className="thumbnail pull-left margin-top nopadding">
-                <img src={"http://robohash.org/" + model.get("id") + "?size=200x200"} width="200px" height="200px"/>
-              </div>
-              <h1>Add Robot</h1>
-              <form onSubmit={this.handleSubmit}>
-                <fieldset>
-                  <TextInput label="Name" placeholder="Name" id="model.name" form={this}/>
-                  <TextInput label="Serial Number" placeholder="Serial Number" id="model.id" form={this}/>
-                  <TextInput label="Assembly Date" placeholder="Assembly Date" id="model.assemblyDate" form={this}/>
-                  <TextInput label="Manufacturer" placeholder="Manufacturer" id="model.manufacturer" form={this}/>
-                </fieldset>
-                <div className="buttons">
-                  <button className="btn" type="button" onClick={this.handleReset}>Reset</button>
-                  <button className="btn" type="submit">Submit</button>
+            <section className="container margin-top-lg">
+              <div className="row">
+                <div className="col-xs-12 col-sm-3">
+                  <div className="thumbnail thumbnail-robot">
+                    // loading by id created an error, removed this img
+                  </div>
                 </div>
-              </form>
+                <div className="col-xs-12 col-sm-9">
+                  <h1 className="nomargin-top">Add Robot</h1>
+                  <form onSubmit={this.handleSubmit}>
+                    <fieldset>
+                      <TextInput label="Name" placeholder="Name" id="model.name" form={this}/>
+                      <TextInput label="Serial Number" placeholder="Serial Number" id="model.id" form={this}/>
+                      <TextInput label="Assembly Date" placeholder="Assembly Date" id="model.assemblyDate" form={this}/>
+                      <TextInput label="Manufacturer" placeholder="Manufacturer" id="model.manufacturer" form={this}/>
+                    </fieldset>
+                    <div>
+                      <button className="btn btn-default" type="button" onClick={this.handleReset}>Reset</button>
+                      &nbsp;
+                      <button className="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </section>
           </div>
         </DocumentTitle>
