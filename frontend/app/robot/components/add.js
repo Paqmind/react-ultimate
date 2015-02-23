@@ -75,7 +75,6 @@ let Add = React.createClass({
               <form onSubmit={this.handleSubmit}>
                 <fieldset>
                   <TextInput label="Name" placeholder="Name" id="model.name" form={this}/>
-                  <TextInput label="Serial Number" placeholder="Serial Number" id="model.id" form={this}/>
                   <TextInput label="Assembly Date" placeholder="Assembly Date" id="model.assemblyDate" form={this}/>
                   <TextInput label="Manufacturer" placeholder="Manufacturer" id="model.manufacturer" form={this}/>
                 </fieldset>
