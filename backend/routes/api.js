@@ -1,10 +1,11 @@
 // IMPORTS =========================================================================================
 let Immutable = require("immutable");
 let {OrderedMap, Map, Range, List} = Immutable;
-let Ld = require("lodash");
 let Joi = require("joi");
 let Express = require("express");
 let SharedHelpers = require("../../shared/helpers");
+let CommonValidators = require("../../shared/common/validators");
+let RobotValidators = require("../../shared/robot/validators");
 let Helpers = require("../helpers");
 
 // PSEUDO DB =======================================================================================
@@ -18,77 +19,139 @@ let robots = OrderedMap(
   )
 );
 
+// MIDDLEWARES =====================================================================================
+function toSingleMessage(joiResult) {
+  return joiResult.error.details.map(error => error.message);
+}
+
+function createParamsMiddleware(scheme, options={allowUnknown: true}) {
+  return function paramsMiddleware(req, res, next) {
+    let result = Joi.validate(req.params, scheme, options);
+    if (result.error) {
+      return res.status(400).render("errors/400.html", {
+        errors: toSingleMessage(result)
+      });
+    } else {
+      req.params = result.value;
+      return next();
+    }
+  };
+}
+
+function createQueryMiddleware(scheme, options={allowUnknown: true}) {
+  return function queryMiddleware(req, res, next) {
+    let result = Joi.validate(req.query, scheme, options);
+    if (result.error) {
+      return res.status(400).render("errors/400.html", {
+        errors: toSingleMessage(result)
+      });
+    } else {
+      req.query = result.value;
+      return next();
+    }
+  };
+}
+
+function createBodyMiddleware(scheme, options={allowUnknown: true}) {
+  return function bodyMiddleware(req, res, next) {
+    let result = Joi.validate(req.body, scheme, options);
+    if (result.error) {
+      return res.status(400).render("errors/400.html", {
+        errors: toSingleMessage(result)
+      });
+    } else {
+      req.body = result.value;
+      return next();
+    }
+  };
+}
+
 // ROUTES ==========================================================================================
 let router = Express.Router();
 
-router.param("uid", function(req, res, next, id) {
-  let schema = {
-    uid: Joi.string().guid()
-  };
-  let data = {
-    uid: id
-  };
-  let validation = Joi.validate(data, schema);
-  if (validation.error) {
-    let validationMessage = Ld.map(validation.error.details.map(error => error.message)).concat(["xxx"]).join(". ");
-    next("route");
-  } else {
-    // `req` may be mutated here (req.user = user)...
-    next();
+router.get("/robots/",
+  createQueryMiddleware({}),
+  function handler(req, res, next) {
+    return res.status(200).send(robots.toList()); // Status: ok
   }
-});
+);
 
-router.get("/robots/", function(req, res) {
-  res.status(200).send(robots.toList()); // Status: ok
-});
-
-router.get("/robots/count", function(req, res) {
-  res.status(200).send(`${robots.size}`); // Status: ok
-});
-
-router.get("/robots/random", function(req, res) {
-  let robot = Helpers.generateRobot();
-  res.status(200).send(robot); // Status: ok
-});
-
-router.post("/robots/", function(req, res) {
-  let robot = Map(Helpers.generateRobot());
-  robot = robot.mergeDeep(req.body);
-  robots = robots.set(robot.id, robot);
-  res.status(201).send(robot); // Status: created
-});
-
-router.get("/robots/:uid", function(req, res, next) {
-  let robot = robots.get(req.params.uid);
-  if (robot) {
-    res.status(200).send(robot); // Status: ok
-  } else {
-    next();
+router.get("/robots/count",
+  createQueryMiddleware({}),
+  function handler(req, res, next) {
+    return res.status(200).send(`${robots.size}`); // Status: ok
   }
-});
+);
 
-router.delete("/robots/:uid", function(req, res) {
-  let robot = robots.get(req.params.uid);
-  if (robot) {
-    robots = robots.delete(req.params.uid);
-    res.status(204).send(); // Status: no-content
-  } else {
-    next();
+router.get("/robots/random",
+  createQueryMiddleware({}),
+  function handler(req, res, next) {
+    let robot = Helpers.generateRobot();
+    return res.status(200).send(robot); // Status: ok
   }
-});
+);
 
-router.put("/robots/:uid", function(req, res) {
-  let robot = robots.get(req.params.uid);
-  if (robot) {
-    robot = robot.mergeDeep(req.body);
-    robots = robots.set(robot.get("id"), robot);
-    res.status(204).send(); // Status: no-content
-  } else {
-    robot = Map(Helpers.generateRobot());
-    robot = robot.mergeDeep(req.body);
-    robots = robots.set(robot.id, robot);
-    res.status(201).send(); // Status: created
+router.post("/robots/",
+  createQueryMiddleware({}),
+  createBodyMiddleware(RobotValidators.model),
+  function handler(req, res, next) {
+    let data = req.body;
+    let scheme = RobotValidators.model;
+    let validation = Joi.validate(data, scheme);
+    if (validation.error) {
+      return res.status(400).render("errors/400.html", {
+        message: validation.error.details.map(error => error.message).join(". ")}
+      );
+    } else {
+      let robot = Map(Helpers.generateRobot());
+      robot = robot.mergeDeep(req.body);
+      robots = robots.set(robot.id, robot);
+      return res.status(201).send(robot); // Status: created
+    }
   }
-});
+);
+
+router.get("/robots/:id",
+  createParamsMiddleware(CommonValidators.id),
+  function handler(req, res, next) {
+    let robot = robots.get(req.params.id);
+    if (robot) {
+      return res.status(200).send(robot); // Status: ok
+    } else {
+      return next();
+    }
+  }
+);
+
+router.delete("/robots/:id",
+  createParamsMiddleware(CommonValidators.id),
+  function handler(req, res, next) {
+    let robot = robots.get(req.params.id);
+    if (robot) {
+      robots = robots.delete(req.params.id);
+      return res.status(204).send(); // Status: no-content
+    } else {
+      return next();
+    }
+  }
+);
+
+router.put("/robots/:id",
+  createParamsMiddleware(CommonValidators.id),
+  createBodyMiddleware(),
+  function handler(req, res, next) {
+    let robot = robots.get(req.params.id);
+    if (robot) {
+      robot = robot.mergeDeep(req.body);
+      robots = robots.set(robot.get("id"), robot);
+      return res.status(204).send(); // Status: no-content
+    } else {
+      robot = Map(Helpers.generateRobot());
+      robot = robot.mergeDeep(req.body);
+      robots = robots.set(robot.id, robot);
+      return res.status(201).send(); // Status: created
+    }
+  }
+);
 
 module.exports = router;

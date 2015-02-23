@@ -5,11 +5,11 @@ var router = express.Router();
 router.get("*", function(req, res, next) {
   // Dependency hack (app must be aware of "static" and "api") :(
   if (req.path.startsWith("/static/")) {
-    next();
+    return next();
   } else if (req.path.startsWith("/api/")) {
-    next();
+    return next();
   } else {
-    res.render("app.html");
+    return res.render("app.html");
   }
 });
 
