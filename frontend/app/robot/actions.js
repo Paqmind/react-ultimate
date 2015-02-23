@@ -9,9 +9,9 @@ let Actions = Reflux.createActions({
   "entryAdd": {},
   "entryEdit": {},
 
-  "submitAdd": {},
-  "submitEdit": {},
-  "submitDelete": {},
+  "doAdd": {},
+  "doEdit": {},
+  "doRemove": {},
 });
 
 /*

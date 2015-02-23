@@ -56,7 +56,7 @@ let Store = Reflux.createStore({
     return this.entryDetail(id);
   },
 
-  submitEdit(model) {
+  doEdit(model) {
     let id = model.get("id");
     let oldModel = this.state.get(id);
     this.state = this.state.set(id, model);

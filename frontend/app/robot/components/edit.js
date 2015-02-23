@@ -69,7 +69,7 @@ let Edit = React.createClass({
                   <Link to="robot-detail" params={{id: model.get("id")}} className="btn btn-blue" title="Detail">
                     <span className="fa fa-eye"></span>
                   </Link>
-                  <a className="btn btn-red" title="Delete" onClick={this.onRemove}>
+                  <a className="btn btn-red" title="Remove" onClick={Actions.doRemove.bind(this, model.get("id"))}>
                     <span className="fa fa-times"></span>
                   </a>
                 </div>
@@ -113,7 +113,7 @@ let Edit = React.createClass({
       console.log(this.state.errors);
       console.log(this.isValid());
       if (this.isValid()) {
-        Actions.submitEdit(this.state.model);
+        Actions.doEdit(this.state.model);
       } else {
         alert("Can't submit form with errors");
       }

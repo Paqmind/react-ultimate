@@ -104,7 +104,7 @@ let Add = React.createClass({
       console.log(this.state.errors);
       console.log(this.isValid());
       if (this.isValid()) {
-        Actions.submitEdit(this.state.model);
+        Actions.doEdit(this.state.model);
       } else {
         alert("Can't submit form with errors");
       }
