@@ -8,10 +8,14 @@
       <div id="http-error-descr">
         <h1 id="http-error-heading">Bad Request</h1>
         <p>Your HTTP request is not valid!</p>
-        <p>
-          Or, maybe, you are a hacker wannabe?<br/>
-          Keep up :)
-        </p>
+        {% if errors %}
+          <p>Errors</p>
+          <ul>
+            {% for error in errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
         <script>
             var GOOG_FIXURL_LANG = (navigator.language || '').slice(0,2);
             var GOOG_FIXURL_SITE = location.host;
