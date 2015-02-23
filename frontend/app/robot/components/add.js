@@ -30,11 +30,7 @@ let Add = React.createClass({
 
   validatorTypes() {
     return {
-      model: {
-        name: Validators.model.name,
-        assemblyDate: Validators.model.assemblyDate,
-        manufacturer: Validators.model.manufacturer,
-      }
+      model: Validators.model
     };
   },
 
