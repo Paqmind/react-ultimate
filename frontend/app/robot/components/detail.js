@@ -44,7 +44,7 @@ let Detail = React.createClass({
                   <Link to="robot-edit" params={{id: model.get("id")}} className="btn btn-orange" title="Edit">
                     <span className="fa fa-edit"></span>
                   </Link>
-                  <a className="btn btn-red" title="Remove" onClick={this.onRemove}>
+                  <a className="btn btn-red" title="Remove" onClick={Actions.doRemove.bind(this, model.get("id"))}>
                     <span className="fa fa-times"></span>
                   </a>
                 </div>
