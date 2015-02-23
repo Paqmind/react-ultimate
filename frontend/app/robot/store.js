@@ -1,5 +1,6 @@
 // IMPORTS =========================================================================================
 let {List, Map, OrderedMap: OM} = require("immutable");
+let ReactRouter= require("react-router");
 let Axios = require("axios");
 let Reflux = require("reflux");
 let SharedHelpers = require("../../../shared/helpers");
@@ -7,6 +8,10 @@ let Actions = require("./actions");
 
 // EXPORTS =========================================================================================
 let Store = Reflux.createStore({
+  mixins: [
+    ReactRouter.Navigation
+  ],
+
   // this will set up listeners to all publishers in TodoActions, using onKeyname (or keyname) as callbacks
   listenables: [Actions],
 
@@ -54,6 +59,20 @@ let Store = Reflux.createStore({
 
   entryEdit(id) {
     return this.entryDetail(id);
+  },
+
+  doAdd(model) {
+    console.log("doAdd, model:", model.toJS());
+    console.log("this.transitionTo:", this.transitionTo);
+    /*Axios.post(`/api/robots/`, model.toJS())
+      .catch((res) => {
+        console.debug("Submit failed with `res`:", res);
+      })
+      .done((res) => {
+        // TODO update local storage?!
+        console.log("Submit succeed with `res`:", res);
+        //this.setState(this.state.set(id, model));
+      });*/
   },
 
   doEdit(model) {
