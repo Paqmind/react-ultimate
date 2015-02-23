@@ -21,7 +21,7 @@ let Store = Reflux.createStore({
 
   entryIndex() {
     if (this.indexLoaded) {
-      this.shareState();
+      this.setState();
     } else {
       // TODO check local storage
       Axios.get('/api/robots/')
@@ -38,7 +38,7 @@ let Store = Reflux.createStore({
 
   entryDetail(id) {
     if (this.state.has(id)) {
-      this.shareState();
+      this.setState();
     } else {
       // TODO check local storage?!
       Axios.get(`/api/robots/${id}`)
@@ -59,10 +59,24 @@ let Store = Reflux.createStore({
   doEdit(model) {
     let id = model.get("id");
     let oldModel = this.state.get(id);
-    this.state = this.state.set(id, model);
-    this.shareState();
+    this.setState(this.state.set(id, model));
     // TODO update local storage?!
     Axios.put(`/api/robots/${id}`, model.toJS())
+      .catch((res) => {
+        console.debug("Submit failed with `res`:", res);
+        this.setState(this.state.set(id, oldModel));
+      })
+      .done((res) => {
+        console.log("Submit succeed with `res`:", res);
+      });
+  },
+
+  doRemove(id, event) {
+    console.log("RobotStore.doRemove!");
+    let oldModel = this.state.get(id);
+    this.setState(this.state.delete(id));
+    // TODO update local storage?!
+    Axios.delete(`/api/robots/${id}`)
       .catch((res) => {
         console.debug("Submit failed with `res`:", res);
         this.setState(this.state.set(id, oldModel));
@@ -76,12 +90,10 @@ let Store = Reflux.createStore({
     this.setState(this.getInitialState());
   },
 
-  setState(state) {
-    this.state = state;
-    this.trigger(this.state);
-  },
-
-  shareState() {
+  setState(state=undefined) {
+    if (state) {
+      this.state = state;
+    }
     this.trigger(this.state);
   },
   //------------------------------------------------------------------------------------------------
