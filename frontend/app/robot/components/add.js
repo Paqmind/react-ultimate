@@ -30,7 +30,11 @@ let Add = React.createClass({
 
   validatorTypes() {
     return {
-      model: Validators.model
+      model: {
+        name: Validators.model.name,
+        assemblyDate: Validators.model.assemblyDate,
+        manufacturer: Validators.model.manufacturer,
+      }
     };
   },
 
@@ -44,9 +48,9 @@ let Add = React.createClass({
   getInitialState() {
     return {
       model: Map({
-        id: undefined,
+        name: undefined,
         assemblyDate: undefined,
-        manufacturer: undefined
+        manufacturer: undefined,
       }),
     };
   },
