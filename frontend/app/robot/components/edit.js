@@ -1,8 +1,8 @@
 // IMPORTS =========================================================================================
 let isObject = require("lodash.isobject");
 let isString = require("lodash.isstring");
+let {Map} = require("immutable");
 let React = require("react");
-let ReactAddons = require("react/addons").addons;
 let ReactRouter = require("react-router");
 let {Link, RouteHandler} = ReactRouter;
 let Reflux = require("reflux");
@@ -110,8 +110,6 @@ let Edit = React.createClass({
     event.preventDefault();
     this.validate();
     setTimeout(() => {
-      console.log(this.state.errors);
-      console.log(this.isValid());
       if (this.isValid()) {
         Actions.doEdit(this.state.model);
       } else {

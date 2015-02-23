@@ -105,10 +105,8 @@ let Add = React.createClass({
     event.preventDefault();
     this.validate();
     setTimeout(() => {
-      console.log(this.state.errors);
-      console.log(this.isValid());
       if (this.isValid()) {
-        Actions.doEdit(this.state.model);
+        Actions.doAdd(this.state.model);
       } else {
         alert("Can't submit form with errors");
       }
