@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 let React = require("react");
-let Router = require("react-router");
-let {Route, DefaultRoute, NotFoundRoute, HistoryLocation} = Router;
+let ReactRouter = require("react-router");
+let {Route, DefaultRoute, NotFoundRoute, HistoryLocation} = ReactRouter;
 
 // Common components
 let Body = require("./common/components/body");
@@ -16,7 +16,7 @@ let RobotDetail = require("./robot/components/detail");
 let RobotAdd = require("./robot/components/add");
 let RobotEdit = require("./robot/components/edit");
 
-// MAIN ============================================================================================
+// ROUTES ==========================================================================================
 var routes = (
   <Route handler={Body} path="/">
     <DefaultRoute name="home" handler={Home}/>
@@ -31,45 +31,9 @@ var routes = (
   </Route>
 );
 
-module.exports = Router.create({
+let router = ReactRouter.create({
   routes: routes,
-  location: Router.HistoryLocation
+  location: ReactRouter.HistoryLocation
 });
 
-// Import router and invoke its methods:
-// router.transitionTo('somewhere');
-
-//routes: {
-//  "": "home",
-//  "info": "info",
-//  "robots": "indexRobots",
-//  "robots/add": "addRobot",
-//  "robots/:id": "detailRobot",
-//  "robots/:id/edit": "editRobot",
-//  "(*path)": "catchAll"
-//},
-
-
-/*
-exports.DefaultRoute = require('./components/DefaultRoute');
-exports.Link = require('./components/Link');
-exports.NotFoundRoute = require('./components/NotFoundRoute');
-exports.Redirect = require('./components/Redirect');
-exports.Route = require('./components/Route');
-exports.RouteHandler = require('./components/RouteHandler');
-
-exports.HashLocation = require('./locations/HashLocation');
-exports.HistoryLocation = require('./locations/HistoryLocation');
-exports.RefreshLocation = require('./locations/RefreshLocation');
-
-exports.ImitateBrowserBehavior = require('./behaviors/ImitateBrowserBehavior');
-exports.ScrollToTopBehavior = require('./behaviors/ScrollToTopBehavior');
-
-exports.Navigation = require('./mixins/Navigation');
-exports.State = require('./mixins/State');
-
-exports.create = require('./utils/createRouter');
-exports.run = require('./utils/runRouter');
-
-exports.History = require('./utils/History');
-*/
+export default router;

@@ -3,9 +3,9 @@ let isObject = require("lodash.isobject");
 let isString = require("lodash.isstring");
 let {Map} = require("immutable");
 let React = require("react");
-let Addons = require("react/addons").addons;
-let Router = require("react-router");
-let {Link, RouteHandler} = Router;
+let ReactAddons = require("react/addons").addons;
+let ReactRouter = require("react-router");
+let {Link, RouteHandler} = ReactRouter;
 let Reflux = require("reflux");
 let DocumentTitle = require("react-document-title");
 let {Alert, Input, Button} = require("react-bootstrap");
@@ -20,7 +20,7 @@ let Store = require("../store");
 // EXPORTS =========================================================================================
 let Add = React.createClass({
   mixins: [
-    Router.Navigation,
+    ReactRouter.Navigation,
     ValidationMixin,
   ],
 

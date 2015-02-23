@@ -2,8 +2,8 @@
 let isObject = require("lodash.isobject");
 let isString = require("lodash.isstring");
 let React = require("react");
-let Router = require("react-router");
-let {Link, RouteHandler} = Router;
+let ReactRouter = require("react-router");
+let {Link, RouteHandler} = ReactRouter;
 let Reflux = require("reflux");
 let DocumentTitle = require("react-document-title");
 let Loading = require("../../common/components/loading");
@@ -14,8 +14,8 @@ let Store = require("../store");
 // EXPORTS =========================================================================================
 let Detail = React.createClass({
   mixins: [
-    Router.State,
-    Router.Navigation,
+    ReactRouter.State,
+    ReactRouter.Navigation,
     Reflux.connectFilter(Store, "model", function(models) {
       let id = this.getParams().id;
       return models.get(id);

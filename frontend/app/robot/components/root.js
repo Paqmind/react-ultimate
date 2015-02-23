@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 let React = require("react");
-let Router = require("react-router");
-let {RouteHandler} = Router;
+let ReactRouter = require("react-router");
+let {RouteHandler} = ReactRouter;
 let Reflux = require("reflux");
 let Store = require("../store");
 
