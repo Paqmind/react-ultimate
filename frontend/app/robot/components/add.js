@@ -1,6 +1,7 @@
 // IMPORTS =========================================================================================
 let isObject = require("lodash.isobject");
 let isString = require("lodash.isstring");
+let {Map} = require("immutable");
 let React = require("react");
 let Addons = require("react/addons").addons;
 let Router = require("react-router");
@@ -42,11 +43,11 @@ let Add = React.createClass({
 
   getInitialState() {
     return {
-      model: {
+      model: Map({
         id: undefined,
         assemblyDate: undefined,
         manufacturer: undefined
-      },
+      }),
     };
   },
 
