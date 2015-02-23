@@ -105,7 +105,7 @@ router.post("/robots/",
     } else {
       let robot = Map(Helpers.generateRobot());
       robot = robot.mergeDeep(req.body);
-      robots = robots.set(robot.id, robot);
+      robots = robots.set(robot.get("id"), robot);
       return res.status(201).send(robot); // Status: created
     }
   }
@@ -148,7 +148,7 @@ router.put("/robots/:id",
     } else {
       robot = Map(Helpers.generateRobot());
       robot = robot.mergeDeep(req.body);
-      robots = robots.set(robot.id, robot);
+      robots = robots.set(robot.get("id"), robot);
       return res.status(201).send(); // Status: created
     }
   }
