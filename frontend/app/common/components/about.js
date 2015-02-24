@@ -6,16 +6,7 @@ let DocumentTitle = require("react-document-title");
 
 // EXPORTS =========================================================================================
 let About = React.createClass({
-  componentDidMount() {
-    console.debug("About.componentDidMount");
-  },
-
-  componentWillUnmount() {
-    console.debug("About.componentWillUnmount");
-  },
-
   render() {
-    console.debug("About.render");
     return (
       <DocumentTitle title="About">
         <section className="container page info">
