@@ -83,13 +83,13 @@ gulp.task("backend:nodemon", function() {
 
 // FRONTEND TASKS ==================================================================================
 gulp.task("frontend:move-css", function() {
-  return gulp.src(["./frontend/styles/**/*.css"])
+  return gulp.src(["./styles/**/*.css"])
     .pipe(gulpPlumber())
     .pipe(gulp.dest("./static/styles"));
 });
 
 gulp.task("frontend:compile-less", function() {
-  return gulp.src(["./frontend/styles/theme.less", "./frontend/styles/http-errors.less"])
+  return gulp.src(["./styles/theme.less", "./styles/http-errors.less"])
     .pipe(gulpPlumber())
     .pipe(gulpLess())
     .pipe(gulp.dest("./static/styles"));
@@ -118,7 +118,7 @@ gulp.task("frontend:build-app", function() {
 });
 
 gulp.task("frontend:dist-scripts", function() {
-  return gulp.src(["./frontend/scripts/*.js"])
+  return gulp.src(["./scripts/*.js"])
     .pipe(gulpPlumber())
     .pipe(gulpConcat("scripts.js"))
     .pipe(gulpUglify())
@@ -126,7 +126,7 @@ gulp.task("frontend:dist-scripts", function() {
 });
 
 gulp.task("frontend:dist-images", function() {
-  return gulp.src(["./frontend/images/**/*"])
+  return gulp.src(["./images/**/*"])
     .pipe(gulp.dest("./static/images"));
 });
 
@@ -145,10 +145,10 @@ gulp.task("frontend:bundle-vendors", function() {
 
 gulp.task("frontend:bundle-app", function() {
   if (process.env.NODE_ENV == "development") {
-    // $ browserify -d -x react -x reflux [-x ...] ./build/frontend/app/app.js -o ./static/scripts/app.js
+    // $ browserify -d -x react -x reflux [-x ...] ./build/frontend/app.js -o ./static/scripts/app.js
     let args = ["-d"]
       .concat(interleaveWith(libraries, "-x"))
-      .concat(["./build/frontend/app/app.js"])
+      .concat(["./build/frontend/app.js"])
       .concat(["-o", "./static/scripts/app.js"]);
 
     let bundler = ChildProcess.spawn("browserify", args);
@@ -159,10 +159,10 @@ gulp.task("frontend:bundle-app", function() {
 
 gulp.task("frontend:watchify", function() {
   if (process.env.NODE_ENV == "development") {
-    // $ watchify -v -d -x react -x reflux [-x ...] ./build/frontend/app/app.js -o ./static/scripts/app.js
+    // $ watchify -v -d -x react -x reflux [-x ...] ./build/frontend/app.js -o ./static/scripts/app.js
     let args = ["-v", "-d"]
       .concat(interleaveWith(libraries, "-x"))
-      .concat(["./build/frontend/app/app.js"])
+      .concat(["./build/frontend/app.js"])
       .concat(["-o", "./static/scripts/app.js"]);
 
     let watcher = ChildProcess.spawn("watchify", args);
@@ -190,10 +190,10 @@ gulp.task("frontend:dist", [
 ]);
 
 gulp.task("frontend:watch", function() {
-  gulp.watch("./frontend/app/**/*.js", ["frontend:build-app"]);
-  gulp.watch("./frontend/scripts/**/*.js", ["frontend:dist-scripts"]);
-  gulp.watch("./frontend/images/**/*", ["frontend:dist-images"]);
-  gulp.watch("./frontend/styles/**/*.less", ["frontend:dist-styles"]);
+  gulp.watch("./frontend/**/*.js", ["frontend:build-app"]);
+  gulp.watch("./scripts/**/*.js", ["frontend:dist-scripts"]);
+  gulp.watch("./images/**/*", ["frontend:dist-images"]);
+  gulp.watch("./styles/**/*.less", ["frontend:dist-styles"]);
 });
 
 // GENERAL TASKS ===================================================================================
