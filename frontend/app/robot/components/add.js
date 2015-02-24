@@ -52,7 +52,7 @@ let Add = React.createClass({
   },
 
   render() {
-    if (true) {
+    if (isObject(this.state.model)) {
       let model = this.state.model;
       return (
         <DocumentTitle title={"Add Robot"}>
