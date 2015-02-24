@@ -13,7 +13,7 @@ let Validators = require("shared/robot/validators");
 let TextInput = require("frontend/common/elements/text-input");
 let Loading = require("frontend/common/components/loading");
 let NotFound = require("frontend/common/components/not-found");
-let Actions = require("frontend/common/actions");
+let Actions = require("frontend/robot/actions");
 let Store = require("frontend/robot/stores/robots");
 
 // EXPORTS =========================================================================================
