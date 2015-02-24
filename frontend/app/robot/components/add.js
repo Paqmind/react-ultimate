@@ -69,7 +69,8 @@ let Add = React.createClass({
             </div>
             <section className="container">
               <div className="thumbnail pull-left margin-top nopadding">
-                <img src={"http://robohash.org/" + model.get("id") + "?size=200x200"} width="200px" height="200px"/>
+                {/*TODO add "undefined" avatar */}
+                {/*<img src={"http://robohash.org/" + model.get("id") + "?size=200x200"} width="200px" height="200px"/>*/}
               </div>
               <h1>Add Robot</h1>
               <form onSubmit={this.handleSubmit}>
