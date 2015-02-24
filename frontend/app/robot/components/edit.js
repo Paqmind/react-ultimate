@@ -20,7 +20,6 @@ let Store = require("../store");
 let Edit = React.createClass({
   mixins: [
     ReactRouter.State,
-    ReactRouter.Navigation,
     ValidationMixin,
     Reflux.connectFilter(Store, "model", function(models) {
       let id = this.getParams().id;

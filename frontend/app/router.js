@@ -1,3 +1,33 @@
+// PREVENT CIRCULAR DEPENDENCY LOCK ================================================================
+let router;
+let proxy = {
+  makePath(to, params, query) {
+    return router.makePath(to, params, query);
+  },
+
+  makeHref(to, params, query) {
+    return router.makeHref(to, params, query);
+  },
+
+  transitionTo(to, params, query) {
+    router.transitionTo(to, params, query);
+  },
+
+  replaceWith(to, params, query) {
+    router.replaceWith(to, params, query);
+  },
+
+  goBack() {
+    router.goBack();
+  },
+
+  run(render) {
+    router.run(render);
+  }
+};
+
+export default proxy;
+
 // IMPORTS =========================================================================================
 let React = require("react");
 let ReactRouter = require("react-router");
@@ -17,7 +47,7 @@ let RobotAdd = require("./robot/components/add");
 let RobotEdit = require("./robot/components/edit");
 
 // ROUTES ==========================================================================================
-var routes = (
+let routes = (
   <Route handler={Body} path="/">
     <DefaultRoute name="home" handler={Home}/>
     <Route name="robot" path="/robots/" handler={RobotRoot}>
@@ -31,9 +61,7 @@ var routes = (
   </Route>
 );
 
-let router = ReactRouter.create({
+router = ReactRouter.create({
   routes: routes,
   location: ReactRouter.HistoryLocation
 });
-
-export default router;

@@ -20,7 +20,6 @@ let Store = require("../store");
 // EXPORTS =========================================================================================
 let Add = React.createClass({
   mixins: [
-    ReactRouter.Navigation,
     ValidationMixin,
   ],
 
@@ -101,7 +100,6 @@ let Add = React.createClass({
       if (this.isValid()) {
         Actions.add(this.state.model);
         //this.setState({model: undefined}); // WTF with this ???
-        this.transitionTo("robot-index"); // or use link = router.makePath("robot-index", params, query), concat anchor, this.transitionTo(link)
       } else {
         alert("Can't submit form with errors");
       }

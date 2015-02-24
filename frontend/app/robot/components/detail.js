@@ -15,7 +15,6 @@ let Store = require("../store");
 let Detail = React.createClass({
   mixins: [
     ReactRouter.State,
-    ReactRouter.Navigation,
     Reflux.connectFilter(Store, "model", function(models) {
       let id = this.getParams().id;
       return models.get(id);
