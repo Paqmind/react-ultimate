@@ -2,7 +2,7 @@
 let {List} = require("immutable");
 let ReactRouter= require("react-router");
 let Reflux = require("reflux");
-let Actions = require("../actions");
+let Actions = require("frontend/common/actions");
 
 // EXPORTS =========================================================================================
 let Store = Reflux.createStore({

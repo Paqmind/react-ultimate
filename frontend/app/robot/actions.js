@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
 let Reflux = require("reflux");
-let Router = require("../router");
+let Router = require("frontend/router");
 
 // EXPORTS =========================================================================================
 let Actions = Reflux.createActions({

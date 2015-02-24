@@ -10,12 +10,12 @@ let Reflux = require("reflux");
 let DocumentTitle = require("react-document-title");
 let {Alert, Input, Button} = require("react-bootstrap");
 let ValidationMixin = require("react-validation-mixin");
-let Validators = require("../../../../shared/robot/validators");
-let TextInput = require("../../common/elements/text-input");
-let Loading = require("../../common/components/loading");
-let NotFound = require("../../common/components/not-found");
-let Actions = require("../actions");
-let Store = require("../stores/robots");
+let Validators = require("shared/robot/validators");
+let TextInput = require("frontend/common/elements/text-input");
+let Loading = require("frontend/common/components/loading");
+let NotFound = require("frontend/common/components/not-found");
+let Actions = require("frontend/robot/actions");
+let Store = require("frontend/robot/stores/robots");
 
 // EXPORTS =========================================================================================
 let Add = React.createClass({

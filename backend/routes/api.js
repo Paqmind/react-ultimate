@@ -3,10 +3,9 @@ let Immutable = require("immutable");
 let {OrderedMap, Map, Range, List} = Immutable;
 let Joi = require("joi");
 let Express = require("express");
-let SharedHelpers = require("../../shared/helpers");
-let CommonValidators = require("../../shared/common/validators");
-let RobotValidators = require("../../shared/robot/validators");
-let Helpers = require("../helpers");
+let CommonValidators = require("shared/common/validators");
+let RobotValidators = require("shared/robot/validators");
+let Helpers = require("backend/helpers");
 
 // PSEUDO DB =======================================================================================
 // Create first robot with predefined id separately (useful for tests)

@@ -4,8 +4,8 @@ let ReactRouter = require("react-router");
 let {Link, RouteHandler} = ReactRouter;
 let Reflux = require("reflux");
 let DocumentTitle = require("react-document-title");
-let Actions = require("../actions");
-let Store = require("../stores/robots");
+let Actions = require("frontend/robot/actions");
+let Store = require("frontend/robot/stores/robots");
 
 // EXPORTS =========================================================================================
 let Index = React.createClass({

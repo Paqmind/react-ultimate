@@ -6,10 +6,10 @@ let ReactRouter = require("react-router");
 let {Link, RouteHandler} = ReactRouter;
 let Reflux = require("reflux");
 let DocumentTitle = require("react-document-title");
-let Loading = require("../../common/components/loading");
-let NotFound = require("../../common/components/not-found");
-let Actions = require("../actions");
-let Store = require("../stores/robots");
+let Loading = require("frontend/common/components/loading");
+let NotFound = require("frontend/common/components/not-found");
+let Actions = require("frontend/robot/actions");
+let Store = require("frontend/robot/stores/robots");
 
 // EXPORTS =========================================================================================
 let Detail = React.createClass({

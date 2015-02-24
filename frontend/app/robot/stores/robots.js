@@ -3,8 +3,7 @@ let {List, Map, OrderedMap} = require("immutable");
 let ReactRouter= require("react-router");
 let Axios = require("axios");
 let Reflux = require("reflux");
-let SharedHelpers = require("../../../shared/helpers");
-let Actions = require("./actions");
+let Actions = require("frontend/robot/actions");
 
 // EXPORTS =========================================================================================
 let Store = Reflux.createStore({
