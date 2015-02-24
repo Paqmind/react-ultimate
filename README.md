@@ -52,7 +52,7 @@ There are a few of them. Let's compare.
 </tr>
 <tr>
   <td>CRUD example</td>
-  <th>yes (in progress)</th>
+  <th>yes</th>
   <th>no</th>
 </tr>
 <tr>
