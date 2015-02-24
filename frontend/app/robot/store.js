@@ -20,84 +20,99 @@ let Store = Reflux.createStore({
     this.resetState();
   },
 
-  entryIndex() {
+  loadMany() {
+    // TODO check local storage
     if (this.indexLoaded) {
       this.setState();
     } else {
-      // TODO check local storage
-      Axios.get('/api/robots/')
-        .catch((res) => {
-          this.resetState();
-        })
-        .done((res) => {
-          let models = List(res.data);
-          this.setState(OM([for (model of models) [model.id, Map(model)]]));
-          this.indexLoaded = true;
-        });
+      Actions.loadMany.promise(Axios.get('/api/robots/'));
     }
   },
 
-  entryDetail(id) {
+  loadManyFailed(res) {
+    console.log("RobotStore.loadManyFailed", res);
+    this.resetState();
+  },
+
+  loadManyCompleted(res) {
+    console.log("RobotStore.loadManyCompleted", res);
+    let models = List(res.data);
+    this.setState(OM([for (model of models) [model.id, Map(model)]]));
+    this.indexLoaded = true;
+  },
+
+  loadOne(id) {
+    // TODO check local storage?!
     if (this.state.has(id)) {
       this.setState();
     } else {
-      // TODO check local storage?!
       Axios.get(`/api/robots/${id}`)
-        .catch((res) => {
-          this.setState(this.state.set(id, "Not Found"));
-        })
-        .done((res) => {
-          let model = Map(res.data);
-          this.setState(this.state.set(id, model));
-        });
+        .catch(res => Actions.loadOne.failed(res, id))
+        .then(res => Actions.loadOne.completed(res, id));
     }
   },
 
-  entryEdit(id) {
-    return this.entryDetail(id);
+  loadOneFailed(res, id) {
+    console.log("RobotStore.loadManyFailed", res, id);
+    this.setState(this.state.set(id, "Not Found"));
   },
 
-  doAdd(model) {
-    Axios.post(`/api/robots/`, model.toJS())
-      .catch((res) => {
-        console.debug("Submit failed with `res`:", res);
-      })
-      .done((res) => {
-        // TODO update local storage?!
-        console.log("Submit succeed with `res`:", res);
-        let model = Map(res.data);
-        this.setState(this.state.set(model.get("id"), model));
-      });
+  loadOneCompleted(res, id) {
+    console.log("RobotStore.loadOneCompleted", id);
+    let model = Map(res.data);
+    this.setState(this.state.set(id, model));
   },
 
-  doEdit(model) {
+  add(model) {
+    Actions.add.promise(Axios.post(`/api/robots/`, model.toJS()));
+  },
+
+  addFailed(res) {
+    console.debug("RobotStore.addFailed", res);
+  },
+
+  addCompleted(res) {
+    // TODO update local storage?!
+    console.log("RobotStore.addCompleted", res);
+    let model = Map(res.data);
+    this.setState(this.state.set(model.get("id"), model));
+  },
+
+  edit(model) {
+    // TODO update local storage?!
     let id = model.get("id");
     let oldModel = this.state.get(id);
     this.setState(this.state.set(id, model));
-    // TODO update local storage?!
     Axios.put(`/api/robots/${id}`, model.toJS())
-      .catch((res) => {
-        console.debug("Submit failed with `res`:", res);
-        this.setState(this.state.set(id, oldModel));
-      })
-      .done((res) => {
-        console.log("Submit succeed with `res`:", res);
-      });
+      .catch(res => Actions.edit.failed(res, id, oldModel))
+      .done(res => Actions.edit.completed(res, id, oldModel));
   },
 
-  doRemove(id, event) {
-    console.log("RobotStore.doRemove!");
+  editFailed(res, id, oldModel) {
+    console.debug("RobotStore.editFailed", res);
+    this.setState(this.state.set(id, oldModel));
+  },
+
+  editCompleted(res, id, oldModel) {
+    console.log("RobotStore.editCompleted", res);
+  },
+
+  remove(id) {
+    // TODO update local storage?!
     let oldModel = this.state.get(id);
     this.setState(this.state.delete(id));
-    // TODO update local storage?!
     Axios.delete(`/api/robots/${id}`)
-      .catch((res) => {
-        console.debug("Submit failed with `res`:", res);
-        this.setState(this.state.set(id, oldModel));
-      })
-      .done((res) => {
-        console.log("Submit succeed with `res`:", res);
-      });
+      .catch(res => Actions.remove.failed(res, id, oldModel))
+      .done(res => Actions.remove.completed(res, id, oldModel));
+  },
+
+  removeFailed(res, id, oldModel) {
+    console.debug("RobotStore.removeFailed", res);
+    this.setState(this.state.set(id, oldModel));
+  },
+
+  removeCompleted(res, id, oldModel) {
+    console.log("RobotStore.removeCompleted", res);
   },
 
   resetState() {

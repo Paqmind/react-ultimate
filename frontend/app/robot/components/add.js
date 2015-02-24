@@ -24,10 +24,6 @@ let Add = React.createClass({
     ValidationMixin,
   ],
 
-  componentDidMount() {
-    Actions.entryAdd();
-  },
-
   validatorTypes() {
     return {
       model: Validators.model
@@ -35,7 +31,7 @@ let Add = React.createClass({
   },
 
   validatorData() {
-    console.log("Add.validatorData!", this.state);
+    console.log("RobotAdd.validatorData", this.state);
     return {
       model: this.state.model.toJS()
     };
@@ -98,12 +94,12 @@ let Add = React.createClass({
 
   // Dirty hacks with setTimeout until valid callback architecture (mixin 4.0 branch) --------------
   handleSubmit(event) {
-    console.log("handleSubmit");
+    console.log("RobotAdd.handleSubmit");
     event.preventDefault();
     this.validate();
     setTimeout(() => {
       if (this.isValid()) {
-        Actions.doAdd(this.state.model);
+        Actions.add(this.state.model);
         //this.setState({model: undefined}); // WTF with this ???
         this.transitionTo("robot-index"); // or use link = router.makePath("robot-index", params, query), concat anchor, this.transitionTo(link)
       } else {

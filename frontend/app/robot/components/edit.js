@@ -29,7 +29,7 @@ let Edit = React.createClass({
   ],
 
   componentDidMount() {
-    Actions.entryEdit(this.getParams().id);
+    Actions.loadOne(this.getParams().id);
   },
 
   validatorTypes() {
@@ -39,7 +39,7 @@ let Edit = React.createClass({
   },
 
   validatorData() {
-    console.log("Edit.validatorData!", this.state);
+    console.log("RobotEdit.validatorData", this.state);
     return {
       model: this.state.model.toJS()
     };
@@ -69,7 +69,7 @@ let Edit = React.createClass({
                   <Link to="robot-detail" params={{id: model.get("id")}} className="btn btn-blue" title="Detail">
                     <span className="fa fa-eye"></span>
                   </Link>
-                  <a className="btn btn-red" title="Remove" onClick={Actions.doRemove.bind(this, model.get("id"))}>
+                  <a className="btn btn-red" title="Remove" onClick={Actions.remove.bind(this, model.get("id"))}>
                     <span className="fa fa-times"></span>
                   </a>
                 </div>
@@ -105,12 +105,12 @@ let Edit = React.createClass({
 
   // Dirty hacks with setTimeout until valid callback architecture (mixin 4.0 branch) --------------
   handleSubmit(event) {
-    console.log("handleSubmit");
+    console.log("RobotEdit.handleSubmit");
     event.preventDefault();
     this.validate();
     setTimeout(() => {
       if (this.isValid()) {
-        Actions.doEdit(this.state.model);
+        Actions.edit(this.state.model);
       } else {
         alert("Can't submit form with errors");
       }
