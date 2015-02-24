@@ -70,14 +70,14 @@ function Lens(getter, setter) {
 }
 
 export function createLens(key) {
-  let lens = key.split('.').map((k) => {
+  let lens = key.split('.').map(k => {
     return Lens(createGetter(k), createSetter(k))
   });
   return lens.reduce((lens, nextLens) => lens.compose(nextLens));
 }
 
 export function createImmutableLens(key) {
-  let lens = key.split('.').map((k) => {
+  let lens = key.split('.').map(k => {
     return Lens(createImmutableGetter(k), createImmutableSetter(k))
   });
   return lens.reduce((memo, val) => memo.compose(val));

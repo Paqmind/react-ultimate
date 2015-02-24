@@ -5,7 +5,7 @@ let {Link, RouteHandler} = ReactRouter;
 let Reflux = require("reflux");
 let DocumentTitle = require("react-document-title");
 let Actions = require("../actions");
-let Store = require("../store");
+let Store = require("../stores/robots");
 
 // EXPORTS =========================================================================================
 let Index = React.createClass({
@@ -45,7 +45,7 @@ let Index = React.createClass({
 
             <h1>Robots</h1>
             <div className="row">
-              {this.state.models.toArray().map((model) => {
+              {this.state.models.toArray().map(model => {
                 return <div key={model.get("id")} className="col-sm-6 col-md-3">
                   <div className="panel panel-default" key={model.get("id")}>
                     <div className="panel-heading">

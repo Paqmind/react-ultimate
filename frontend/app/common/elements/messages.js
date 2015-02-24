@@ -1,20 +1,17 @@
 // IMPORTS =========================================================================================
 let React = require("react");
-let ReactRouter = require("react-router");
-let {RouteHandler} = ReactRouter;
-let Reflux = require("reflux");
-let Store = require("../stores/robots");
 
 // EXPORTS =========================================================================================
-let Root = React.createClass({
-  componentDidMount() {
-  },
-
+let Messages = React.createClass({
   render() {
     return (
-      <RouteHandler/>
+      <div className="notifications top-left">
+        {this.state.models.toArray().map(model => {
+
+        })}
+      </div>
     );
   }
 });
 
-export default Root;
+export default Messages;

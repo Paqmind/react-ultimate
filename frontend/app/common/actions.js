@@ -3,14 +3,7 @@ let Reflux = require("reflux");
 
 // EXPORTS =========================================================================================
 let Actions = Reflux.createActions({
-  "entryIndex": {},
-  "entryDetail": {},
-  "entryAdd": {},
-  "entryEdit": {},
-
-  "doAdd": {},
-  "doEdit": {},
-  "doRemove": {},
+  "addMessage": {},
 });
 
 export default Actions;

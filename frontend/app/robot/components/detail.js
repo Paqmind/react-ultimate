@@ -9,7 +9,7 @@ let DocumentTitle = require("react-document-title");
 let Loading = require("../../common/components/loading");
 let NotFound = require("../../common/components/not-found");
 let Actions = require("../actions");
-let Store = require("../store");
+let Store = require("../stores/robots");
 
 // EXPORTS =========================================================================================
 let Detail = React.createClass({

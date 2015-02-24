@@ -15,7 +15,7 @@ let TextInput = require("../../common/elements/TextInput");
 let Loading = require("../../common/components/loading");
 let NotFound = require("../../common/components/not-found");
 let Actions = require("../actions");
-let Store = require("../store");
+let Store = require("../stores/robots");
 
 // EXPORTS =========================================================================================
 let Add = React.createClass({

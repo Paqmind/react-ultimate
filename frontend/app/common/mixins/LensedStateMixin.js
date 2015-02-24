@@ -8,7 +8,7 @@ export function createLensedStateMixin(onChange) {
       let lens = immutableLens(key);
       return new ReactLink(
         lens.get(this.state),
-        (newValue) => {
+        newValue => {
           onChange();
           this.setState(lens.set(this.state, newValue));
         }

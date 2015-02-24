@@ -12,7 +12,7 @@ Promise.prototype.done = function(onFulfilled, onRejected) {
 // IMPORTS =========================================================================================
 let React = require("react");
 let Router = require("./router");
-let RobotStore = require("./robot/store");
+let RobotStore = require("./robot/stores/robots");
 
 // MAIN ============================================================================================
 Router.run(function(Handler, state) {
