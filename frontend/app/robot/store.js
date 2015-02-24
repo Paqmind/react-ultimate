@@ -8,10 +8,6 @@ let Actions = require("./actions");
 
 // EXPORTS =========================================================================================
 let Store = Reflux.createStore({
-  mixins: [
-    ReactRouter.Navigation
-  ],
-
   // this will set up listeners to all publishers in TodoActions, using onKeyname (or keyname) as callbacks
   listenables: [Actions],
 
@@ -62,17 +58,16 @@ let Store = Reflux.createStore({
   },
 
   doAdd(model) {
-    console.log("doAdd, model:", model.toJS());
-    console.log("this.transitionTo:", this.transitionTo);
-    /*Axios.post(`/api/robots/`, model.toJS())
+    Axios.post(`/api/robots/`, model.toJS())
       .catch((res) => {
         console.debug("Submit failed with `res`:", res);
       })
       .done((res) => {
         // TODO update local storage?!
         console.log("Submit succeed with `res`:", res);
-        //this.setState(this.state.set(id, model));
-      });*/
+        let model = Map(res.data);
+        this.setState(this.state.set(model.get("id"), model));
+      });
   },
 
   doEdit(model) {
