@@ -25,6 +25,7 @@ function toSingleMessage(joiResult) {
 }
 
 function createParamsMiddleware(scheme, options={allowUnknown: true}) {
+  if (!scheme) throw Error("`scheme` is required");
   return function paramsMiddleware(req, res, next) {
     let result = Joi.validate(req.params, scheme, options);
     if (result.error) {
@@ -39,6 +40,7 @@ function createParamsMiddleware(scheme, options={allowUnknown: true}) {
 }
 
 function createQueryMiddleware(scheme, options={allowUnknown: true}) {
+  if (!scheme) throw Error("`scheme` is required");
   return function queryMiddleware(req, res, next) {
     let result = Joi.validate(req.query, scheme, options);
     if (result.error) {
@@ -53,6 +55,7 @@ function createQueryMiddleware(scheme, options={allowUnknown: true}) {
 }
 
 function createBodyMiddleware(scheme, options={allowUnknown: true}) {
+  if (!scheme) throw Error("`scheme` is required");
   return function bodyMiddleware(req, res, next) {
     let result = Joi.validate(req.body, scheme, options);
     if (result.error) {
@@ -138,7 +141,7 @@ router.delete("/robots/:id",
 
 router.put("/robots/:id",
   createParamsMiddleware(CommonValidators.id),
-  createBodyMiddleware(),
+  createBodyMiddleware(RobotValidators.model),
   function handler(req, res, next) {
     let robot = robots.get(req.params.id);
     if (robot) {
