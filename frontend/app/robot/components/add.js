@@ -104,6 +104,8 @@ let Add = React.createClass({
     setTimeout(() => {
       if (this.isValid()) {
         Actions.doAdd(this.state.model);
+        //this.setState({model: undefined}); // WTF with this ???
+        this.transitionTo("robot-index"); // or use link = router.makePath("robot-index", params, query), concat anchor, this.transitionTo(link)
       } else {
         alert("Can't submit form with errors");
       }
