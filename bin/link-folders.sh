@@ -1,4 +1,5 @@
 #!/bin/sh
+mkdir -p ./node_modules
 rm -f ./node_modules/shared
 rm -f ./node_modules/frontend
 rm -f ./node_modules/backend
