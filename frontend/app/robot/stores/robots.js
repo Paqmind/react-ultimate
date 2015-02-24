@@ -49,7 +49,7 @@ let Store = Reflux.createStore({
   loadManyCompleted(res) {
     console.log("RobotStore.loadManyCompleted", res);
     let models = List(res.data);
-    this.setState(OM([for (model of models) [model.id, Map(model)]]));
+    this.setState(OrderedMap([for (model of models) [model.id, Map(model)]]));
     this.indexLoaded = true;
   },
 
