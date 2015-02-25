@@ -33,6 +33,8 @@ function gulpTo5(opts) {
 let libraries = [
   "paqmind.data-lens",
   "immutable",
+  "object.assign",
+  "lodash.isobject",
   "lodash.debounce",
   "lodash.throttle",
   "axios",
