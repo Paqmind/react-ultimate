@@ -146,10 +146,10 @@ gulp.task("frontend:bundle-vendors", function() {
 
 gulp.task("frontend:bundle-app", function() {
   if (process.env.NODE_ENV == "development") {
-    // $ browserify -d -x react -x reflux [-x ...] ./build/frontend/app.js -o ./static/scripts/app.js
+    // $ browserify -d -x react -x reflux [-x ...] ./build/frontend/app/app.js -o ./static/scripts/app.js
     let args = ["-d"]
       .concat(interleaveWith(libraries, "-x"))
-      .concat(["./build/frontend/app.js"])
+      .concat(["./build/frontend/app/app.js"])
       .concat(["-o", "./static/scripts/app.js"]);
 
     let bundler = ChildProcess.spawn("browserify", args);
@@ -160,10 +160,10 @@ gulp.task("frontend:bundle-app", function() {
 
 gulp.task("frontend:watchify", function() {
   if (process.env.NODE_ENV == "development") {
-    // $ watchify -v -d -x react -x reflux [-x ...] ./build/frontend/app.js -o ./static/scripts/app.js
+    // $ watchify -v -d -x react -x reflux [-x ...] ./build/frontend/app/app.js -o ./static/scripts/app.js
     let args = ["-v", "-d"]
       .concat(interleaveWith(libraries, "-x"))
-      .concat(["./build/frontend/app.js"])
+      .concat(["./build/frontend/app/app.js"])
       .concat(["-o", "./static/scripts/app.js"]);
 
     let watcher = ChildProcess.spawn("watchify", args);
