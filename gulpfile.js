@@ -1,9 +1,8 @@
-/**
- * http://io.pellucid.com/blog/tips-and-tricks-for-faster-front-end-builds
- *
-*/
+// DEFAULTS ========================================================================================
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
+process.env.NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR || "./shared/config";
 
+// IMPORTS =========================================================================================
 let ChildProcess = require("child_process");
 let gulp = require("gulp");
 let gulpUtil = require("gulp-util");
