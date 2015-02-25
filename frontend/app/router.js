@@ -1,4 +1,4 @@
-// PREVENT CIRCULAR DEPENDENCY LOCK ================================================================
+// PROXY ROUTER TO SOLVE CIRCULAR DEPENDENCY =======================================================
 let proxy = {
   makePath(to, params, query) {
     return window.router.makePath(to, params, query);
