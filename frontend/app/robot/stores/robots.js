@@ -32,6 +32,7 @@ let Store = Reflux.createStore({
   //------------------------------------------------------------------------------------------------
 
   loadMany() {
+    this.stopListeningTo(Actions.loadMany);
     // TODO check local storage
     if (this.indexLoaded) {
       this.setState();
@@ -43,6 +44,7 @@ let Store = Reflux.createStore({
   loadManyFailed(res) {
     console.log("RobotStore.loadManyFailed", res);
     this.resetState();
+    this.listenTo(Actions.loadMany, this.loadMany);
   },
 
   loadManyCompleted(res) {
@@ -50,10 +52,12 @@ let Store = Reflux.createStore({
     let models = List(res.data);
     this.setState(OrderedMap([for (model of models) [model.id, Map(model)]]));
     this.indexLoaded = true;
+    this.listenTo(Actions.loadMany, this.loadMany);
   },
 
   loadOne(id) {
     // TODO check local storage?!
+    this.stopListeningTo(Actions.loadOne);
     if (this.state.has(id)) {
       this.setState();
     } else {
@@ -67,12 +71,14 @@ let Store = Reflux.createStore({
   loadOneFailed(res, id) {
     console.log("RobotStore.loadManyFailed", res, id);
     this.setState(this.state.set(id, "Not Found"));
+    this.listenTo(Actions.loadOne, this.loadOne);
   },
 
   loadOneCompleted(res, id) {
     console.log("RobotStore.loadOneCompleted", id);
     let model = Map(res.data);
     this.setState(this.state.set(id, model));
+    this.listenTo(Actions.loadOne, this.loadOne);
   },
 
   add(model) {
