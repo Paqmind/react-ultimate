@@ -1,16 +1,16 @@
 #!/bin/sh
 mkdir -p ./node_modules
-rm -f ./node_modules/shared
-rm -f ./node_modules/frontend
-rm -f ./node_modules/backend
-ln -s ../shared   ./node_modules/shared
-ln -s ../frontend ./node_modules/frontend
-ln -s ../backend  ./node_modules/backend
+rm -rf ./node_modules/shared
+rm -rf ./node_modules/frontend
+rm -rf ./node_modules/backend
+ln -s ../shared       ./node_modules/shared
+ln -s ../frontend/app ./node_modules/frontend
+ln -s ../backend/app  ./node_modules/backend
 
 mkdir -p ./build/node_modules
-rm -f ./build/node_modules/shared
-rm -f ./build/node_modules/frontend
-rm -f ./build/node_modules/backend
-ln -s ../shared   ./build/node_modules/shared
-ln -s ../frontend ./build/node_modules/frontend
-ln -s ../backend  ./build/node_modules/backend
+rm -rf ./build/node_modules/shared
+rm -rf ./build/node_modules/frontend
+rm -rf ./build/node_modules/backend
+ln -s ../shared       ./build/node_modules/shared
+ln -s ../frontend/app ./build/node_modules/frontend
+ln -s ../backend/app  ./build/node_modules/backend

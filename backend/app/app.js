@@ -1,4 +1,8 @@
-// IMPORTS
+// DEFAULTS ========================================================================================
+process.env.NODE_ENV = process.env.NODE_ENV || "development";
+process.env.NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR || "./shared/config";
+
+// IMPORTS =========================================================================================
 let fs = require("fs");
 let path = require("path");
 let http = require("http");
@@ -85,7 +89,7 @@ server.listen(port);
 app.set("views", path.join(__dirname, "templates"));
 app.set("view engine", "html");
 
-let nunjucksEnv = nunjucks.configure("backend/templates", {
+let nunjucksEnv = nunjucks.configure("backend/app/templates", {
   autoescape: true,
   express: app
 });

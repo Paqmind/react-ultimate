@@ -1,11 +1,11 @@
 {
   "name": "twitto",
   "version": "0.1.0",
-  "main": "backend/app",
+  "main": "backend/app/app.js",
   "private": true,
   "scripts": {
-    "nodemon": "NODE_ENV=development nodemon -e js,html --exec babel-node ./backend/app.js --experimental",
-    "node": "NODE_ENV=production babel-node backend/app.js --experimental"
+    "nodemon": "nodemon -e js,html --exec babel-node ./backend/app/app.js --experimental",
+    "node": "NODE_ENV=production babel-node backend/app/app.js --experimental"
   },
   "dependencies": {
     "andlog": "*",
