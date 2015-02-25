@@ -30,13 +30,12 @@ let Store = Reflux.createStore({
     this.trigger(this.state);
   },
   //------------------------------------------------------------------------------------------------
-
   loadMany() {
-    this.stopListeningTo(Actions.loadMany);
     // TODO check local storage
     if (this.indexLoaded) {
       this.setState();
     } else {
+      this.stopListeningTo(Actions.loadMany);
       Actions.loadMany.promise(Axios.get('/api/robots/'));
     }
   },
