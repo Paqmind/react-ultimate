@@ -1,14 +1,14 @@
 // IMPORTS =========================================================================================
 let {List, Map, OrderedMap} = require("immutable");
-let ReactRouter= require("react-router");
 let Axios = require("axios");
 let Reflux = require("reflux");
-let Actions = require("frontend/robot/actions");
+let ReactRouter= require("react-router");
+let RobotActions = require("frontend/robot/actions");
 
 // EXPORTS =========================================================================================
-let Store = Reflux.createStore({
+let RobotStore = Reflux.createStore({
   // this will set up listeners to all publishers in TodoActions, using onKeyname (or keyname) as callbacks
-  listenables: [Actions],
+  listenables: [RobotActions],
 
   getInitialState() {
     return OrderedMap();
@@ -18,79 +18,85 @@ let Store = Reflux.createStore({
   init() {
     this.resetState();
   },
-  
+
   resetState() {
     this.setState(this.getInitialState());
   },
 
-  setState(state=undefined) {
-    if (state) {
+  setState(state) {
+    if (state === undefined) {
+      throw Error("`state` is required");
+    } else {
       this.state = state;
+      this.shareState();
     }
+  },
+
+  shareState() {
     this.trigger(this.state);
   },
   //------------------------------------------------------------------------------------------------
   loadMany() {
     // TODO check local storage
     if (this.indexLoaded) {
-      this.setState();
+      this.shareState();
     } else {
-      this.stopListeningTo(Actions.loadMany);
-      Actions.loadMany.promise(Axios.get('/api/robots/'));
+      this.stopListeningTo(RobotActions.loadMany);
+      RobotActions.loadMany.promise(Axios.get('/api/robots/'));
     }
   },
 
   loadManyFailed(res) {
-    console.log("RobotStore.loadManyFailed", res);
+    //console.echo("RobotStore.loadManyFailed", res);
     this.resetState();
-    this.listenTo(Actions.loadMany, this.loadMany);
+    this.listenTo(RobotActions.loadMany, this.loadMany);
   },
 
   loadManyCompleted(res) {
-    console.log("RobotStore.loadManyCompleted", res);
+    //console.echo("RobotStore.loadManyCompleted", res);
     let models = List(res.data);
     this.setState(OrderedMap([for (model of models) [model.id, Map(model)]]));
     this.indexLoaded = true;
-    this.listenTo(Actions.loadMany, this.loadMany);
+    this.listenTo(RobotActions.loadMany, this.loadMany);
   },
 
   loadOne(id) {
     // TODO check local storage?!
-    this.stopListeningTo(Actions.loadOne);
+    this.stopListeningTo(RobotActions.loadOne);
     if (this.state.has(id)) {
-      this.setState();
+      this.shareState();
     } else {
       // TODO check local storage?!
       Axios.get(`/api/robots/${id}`)
-        .catch(res => Actions.loadOne.failed(res, id))
-        .then(res => Actions.loadOne.completed(res, id));
+        .catch(res => RobotActions.loadOne.failed(res, id))
+        .then(res => RobotActions.loadOne.completed(res, id));
     }
   },
 
   loadOneFailed(res, id) {
-    console.log("RobotStore.loadManyFailed", res, id);
+    //console.echo("RobotStore.loadManyFailed", res, id);
     this.setState(this.state.set(id, "Not Found"));
-    this.listenTo(Actions.loadOne, this.loadOne);
+    this.listenTo(RobotActions.loadOne, this.loadOne);
   },
 
   loadOneCompleted(res, id) {
-    console.log("RobotStore.loadOneCompleted", id);
+    //console.echo("RobotStore.loadOneCompleted", id);
     let model = Map(res.data);
     this.setState(this.state.set(id, model));
-    this.listenTo(Actions.loadOne, this.loadOne);
+    this.listenTo(RobotActions.loadOne, this.loadOne);
   },
 
   add(model) {
-    Actions.add.promise(Axios.post(`/api/robots/`, model.toJS()));
+    RobotActions.add.promise(Axios.post(`/api/robots/`, model.toJS()));
   },
 
   addFailed(res) {
-    console.debug("RobotStore.addFailed", res);
+    //console.echo("RobotStore.addFailed", res);
   },
 
   addCompleted(res) {
     // TODO update local storage?!
-    console.log("RobotStore.addCompleted", res);
+    //console.echo("RobotStore.addCompleted", res);
     let model = Map(res.data);
     this.setState(this.state.set(model.get("id"), model));
   },
@@ -101,17 +107,17 @@ let Store = Reflux.createStore({
     let oldModel = this.state.get(id);
     this.setState(this.state.set(id, model));
     Axios.put(`/api/robots/${id}`, model.toJS())
-      .catch(res => Actions.edit.failed(res, id, oldModel))
-      .done(res => Actions.edit.completed(res, id, oldModel));
+      .catch(res => RobotActions.edit.failed(res, id, oldModel))
+      .done(res => RobotActions.edit.completed(res, id, oldModel));
   },
 
   editFailed(res, id, oldModel) {
-    console.debug("RobotStore.editFailed", res);
+    //console.echo("RobotStore.editFailed", res);
     this.setState(this.state.set(id, oldModel));
   },
 
   editCompleted(res, id, oldModel) {
-    console.log("RobotStore.editCompleted", res);
+    //console.echo("RobotStore.editCompleted", res);
   },
 
   remove(id) {
@@ -119,18 +125,18 @@ let Store = Reflux.createStore({
     let oldModel = this.state.get(id);
     this.setState(this.state.delete(id));
     Axios.delete(`/api/robots/${id}`)
-      .catch(res => Actions.remove.failed(res, id, oldModel))
-      .done(res => Actions.remove.completed(res, id, oldModel));
+      .catch(res => RobotActions.remove.failed(res, id, oldModel))
+      .done(res => RobotActions.remove.completed(res, id, oldModel));
   },
 
   removeFailed(res, id, oldModel) {
-    console.debug("RobotStore.removeFailed", res);
+    //console.echo("RobotStore.removeFailed", res);
     this.setState(this.state.set(id, oldModel));
   },
 
   removeCompleted(res, id, oldModel) {
-    console.log("RobotStore.removeCompleted", res);
+    //console.echo("RobotStore.removeCompleted", res);
   },
 });
 
-export default Store;
+export default RobotStore;

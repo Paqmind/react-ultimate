@@ -31,6 +31,9 @@ function gulpTo5(opts) {
 
 // CONFIG ==========================================================================================
 let libraries = [
+  "classnames",
+  "node-uuid",
+  "util-inspect",
   "paqmind.data-lens",
   "immutable",
   "object.assign",

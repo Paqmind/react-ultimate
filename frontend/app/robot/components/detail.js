@@ -8,21 +8,21 @@ let {Link, RouteHandler} = ReactRouter;
 let DocumentTitle = require("react-document-title");
 let Loading = require("frontend/common/components/loading");
 let NotFound = require("frontend/common/components/not-found");
-let Actions = require("frontend/robot/actions");
-let Store = require("frontend/robot/stores/robots");
+let RobotActions = require("frontend/robot/actions");
+let RobotStore = require("frontend/robot/stores");
 
 // EXPORTS =========================================================================================
 let Detail = React.createClass({
   mixins: [
     ReactRouter.State,
-    Reflux.connectFilter(Store, "model", function(models) {
+    Reflux.connectFilter(RobotStore, "model", function(models) {
       let id = this.getParams().id;
       return models.get(id);
     })
   ],
 
   componentDidMount() {
-    Actions.loadOne(this.getParams().id);
+    RobotActions.loadOne(this.getParams().id);
   },
 
   render() {
@@ -43,7 +43,7 @@ let Detail = React.createClass({
                   <Link to="robot-edit" params={{id: model.get("id")}} className="btn btn-orange" title="Edit">
                     <span className="fa fa-edit"></span>
                   </Link>
-                  <a className="btn btn-red" title="Remove" onClick={Actions.remove.bind(this, model.get("id"))}>
+                  <a className="btn btn-red" title="Remove" onClick={RobotActions.remove.bind(this, model.get("id"))}>
                     <span className="fa fa-times"></span>
                   </a>
                 </div>

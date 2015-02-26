@@ -3,32 +3,32 @@ let isObject = require("lodash.isobject");
 let isString = require("lodash.isstring");
 let {Map} = require("immutable");
 let React = require("react");
+let Reflux = require("reflux");
 let ReactRouter = require("react-router");
 let {Link, RouteHandler} = ReactRouter;
-let Reflux = require("reflux");
 let DocumentTitle = require("react-document-title");
 let {Alert, Input, Button} = require("react-bootstrap");
 let ValidationMixin = require("react-validation-mixin");
 let Validators = require("shared/robot/validators");
-let TextInput = require("frontend/common/elements/text-input");
 let Loading = require("frontend/common/components/loading");
 let NotFound = require("frontend/common/components/not-found");
-let Actions = require("frontend/robot/actions");
-let Store = require("frontend/robot/stores/robots");
+let TextInput = require("frontend/common/components/text-input");
+let RobotActions = require("frontend/robot/actions");
+let RobotStore = require("frontend/robot/stores");
 
 // EXPORTS =========================================================================================
 let Edit = React.createClass({
   mixins: [
     ReactRouter.State,
     ValidationMixin,
-    Reflux.connectFilter(Store, "model", function(models) {
+    Reflux.connectFilter(RobotStore, "model", function(models) {
       let id = this.getParams().id;
       return models.get(id);
     })
   ],
 
   componentDidMount() {
-    Actions.loadOne(this.getParams().id);
+    RobotActions.loadOne(this.getParams().id);
   },
 
   validatorTypes() {
@@ -68,7 +68,7 @@ let Edit = React.createClass({
                   <Link to="robot-detail" params={{id: model.get("id")}} className="btn btn-blue" title="Detail">
                     <span className="fa fa-eye"></span>
                   </Link>
-                  <a className="btn btn-red" title="Remove" onClick={Actions.remove.bind(this, model.get("id"))}>
+                  <a className="btn btn-red" title="Remove" onClick={RobotActions.remove.bind(this, model.get("id"))}>
                     <span className="fa fa-times"></span>
                   </a>
                 </div>
@@ -109,7 +109,7 @@ let Edit = React.createClass({
     this.validate();
     setTimeout(() => {
       if (this.isValid()) {
-        Actions.edit(this.state.model);
+        RobotActions.edit(this.state.model);
       } else {
         alert("Can't submit form with errors");
       }

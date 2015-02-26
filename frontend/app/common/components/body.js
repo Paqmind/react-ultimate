@@ -3,6 +3,7 @@ let React = require("react");
 let Reflux = require("reflux");
 let ReactRouter = require("react-router");
 let {Link, RouteHandler} = ReactRouter;
+let AlertIndex = require("frontend/alert/components/index");
 
 // EXPORTS =========================================================================================
 let Body = React.createClass({
@@ -31,6 +32,8 @@ let Body = React.createClass({
         <main id="page-main">
           <RouteHandler/>
         </main>
+
+        <AlertIndex/>
       </div>
     );
   }

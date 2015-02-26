@@ -10,11 +10,11 @@ let DocumentTitle = require("react-document-title");
 let {Alert, Input, Button} = require("react-bootstrap");
 let ValidationMixin = require("react-validation-mixin");
 let Validators = require("shared/robot/validators");
-let TextInput = require("frontend/common/elements/text-input");
 let Loading = require("frontend/common/components/loading");
 let NotFound = require("frontend/common/components/not-found");
-let Actions = require("frontend/robot/actions");
-let Store = require("frontend/robot/stores/robots");
+let TextInput = require("frontend/common/components/text-input");
+let RobotActions = require("frontend/robot/actions");
+let RobotStore = require("frontend/robot/stores");
 
 // EXPORTS =========================================================================================
 let Add = React.createClass({
@@ -97,7 +97,7 @@ let Add = React.createClass({
     this.validate();
     setTimeout(() => {
       if (this.isValid()) {
-        Actions.add(this.state.model);
+        RobotActions.add(this.state.model);
         //this.setState({model: undefined}); // WTF with this ???
       } else {
         alert("Can't submit form with errors");
