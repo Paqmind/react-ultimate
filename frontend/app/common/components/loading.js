@@ -5,9 +5,10 @@ let DocumentTitle = require("react-document-title");
 // EXPORTS =========================================================================================
 let Loading = React.createClass({
   render() {
+    let sizeClass = this.props.size ? ' loading-' + this.props.size : '';
     return (
       <DocumentTitle title="Loading...">
-        <div id="loading">
+        <div className={"loading" + sizeClass}>
           <i className="fa fa-cog fa-spin"></i>
         </div>
       </DocumentTitle>

@@ -1,17 +1,28 @@
 /*******************************************************************************
   THEME. MODULES. LOADING
 *******************************************************************************/
-#loading {
-    position: fixed;
-    z-index: @zindex-modal + 1;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.loading {
+    @size: 12em;
+    margin: 0 auto;
     color: @gray-light;
-    font-size: @font-size-base * 15;
-    line-height: 100%;
+    font-size: @size;
     text-align: center;
     @media (max-width: @screen-sm-min) {
-        font-size: @font-size-base * 10;
+        font-size: @size * 0.75;
+    }
+    @media (max-width: @screen-xs-min) {
+        font-size: @size * 0.5;
+    }
+    &.loading-lg {
+        @size: 15em;
+        font-size: @size;
+    }
+    &.loading-sm {
+        @size: 8em;
+        font-size: @size;
+    }
+    &.loading-xs {
+        @size: 5em;
+        font-size: @size;
     }
 }

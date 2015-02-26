@@ -68,11 +68,6 @@ let Add = React.createClass({
             </div>
             <section className="container margin-top-lg">
               <div className="row">
-                <div className="col-xs-12 col-sm-3">
-                  <div className="thumbnail thumbnail-robot">
-                    // loading by id created an error, removed this img
-                  </div>
-                </div>
                 <div className="col-xs-12 col-sm-9">
                   <h1 className="nomargin-top">Add Robot</h1>
                   <form onSubmit={this.handleSubmit}>
@@ -97,7 +92,8 @@ let Add = React.createClass({
     } else if (isString(this.state.model)) {
       return <NotFound/>;
     }
-    else {
+    else
+    {
       return <Loading/>;
     }
   },

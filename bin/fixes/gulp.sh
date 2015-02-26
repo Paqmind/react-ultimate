@@ -1,5 +1,5 @@
 #!/bin/sh
-# Replace gulp interpeter to 6to5-node
+# Replace gulp interpeter to babel-node
 if [[ `uname` == 'Darwin' ]]; then
   gulp_file=`which gulp | xargs greadlink -f`
 else
