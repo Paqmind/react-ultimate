@@ -1,4 +1,5 @@
 // SHIMS ===========================================================================================
+let inspect = require("util-inspect");
 Object.assign = require("object-assign");
 
 Promise.prototype.done = function(onFulfilled, onRejected) {
@@ -7,6 +8,10 @@ Promise.prototype.done = function(onFulfilled, onRejected) {
     .catch(function(e) {
       setTimeout(function() { throw e; }, 1);
     });
+};
+
+window.console.echo = function log() {
+  console.log.apply(console, Array.prototype.slice.call(arguments).map(v => inspect(v)));
 };
 
 // IMPORTS =========================================================================================
