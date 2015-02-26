@@ -19,6 +19,10 @@ let React = require("react");
 let ReactRouter = require("react-router");
 let {Route, DefaultRoute, NotFoundRoute, HistoryLocation} = ReactRouter;
 
+// Init stores
+let RobotStore = require("frontend/robot/stores");
+let AlertStore = require("frontend/alert/stores");
+
 // Common components
 let Body = require("./common/components/body");
 let Home = require("./common/components/home");
