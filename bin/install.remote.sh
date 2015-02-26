@@ -44,9 +44,6 @@ bower install
 # Fix **globule** outdated dependency (**lodash**): remove to use project-level one
 source ./fixes/globule.sh
 
-# Fix **elliptic** strange import bug (mismatch of browserify and wathichify version)
-#source ./fixes/elliptic.sh TODO no longer required?
-
 # Run gulp prod
 gulp prod
 
