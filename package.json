@@ -81,13 +81,12 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "*",
     "vinyl-transform": "*",
-    "watchify": "^2.4.0",
     "winston": "^0.9.0",
     "winston-mail": "^0.3.1",
     "yargs": "^3.0.4"
   },
   "devDependencies": {
-    "watchify": "^2.3.0"
+    "watchify": "^2.4.0"
   },
   "apidoc": {
     "name": "twitto",

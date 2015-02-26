@@ -3,10 +3,9 @@ let isObject = require("lodash.isobject");
 let isString = require("lodash.isstring");
 let {Map} = require("immutable");
 let React = require("react");
-let ReactAddons = require("react/addons").addons;
+let Reflux = require("reflux");
 let ReactRouter = require("react-router");
 let {Link, RouteHandler} = ReactRouter;
-let Reflux = require("reflux");
 let DocumentTitle = require("react-document-title");
 let {Alert, Input, Button} = require("react-bootstrap");
 let ValidationMixin = require("react-validation-mixin");
@@ -30,7 +29,7 @@ let Add = React.createClass({
   },
 
   validatorData() {
-    console.log("RobotAdd.validatorData", this.state);
+    console.echo("RobotAdd.validatorData", this.state);
     return {
       model: this.state.model.toJS()
     };
@@ -93,7 +92,7 @@ let Add = React.createClass({
 
   // Dirty hacks with setTimeout until valid callback architecture (mixin 4.0 branch) --------------
   handleSubmit(event) {
-    console.log("RobotAdd.handleSubmit");
+    console.echo("RobotAdd.handleSubmit");
     event.preventDefault();
     this.validate();
     setTimeout(() => {

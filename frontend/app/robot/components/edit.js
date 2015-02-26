@@ -38,7 +38,7 @@ let Edit = React.createClass({
   },
 
   validatorData() {
-    console.log("RobotEdit.validatorData", this.state);
+    console.echo("RobotEdit.validatorData", this.state);
     return {
       model: this.state.model.toJS()
     };
@@ -104,7 +104,7 @@ let Edit = React.createClass({
 
   // Dirty hacks with setTimeout until valid callback architecture (mixin 4.0 branch) --------------
   handleSubmit(event) {
-    console.log("RobotEdit.handleSubmit");
+    console.echo("RobotEdit.handleSubmit");
     event.preventDefault();
     this.validate();
     setTimeout(() => {

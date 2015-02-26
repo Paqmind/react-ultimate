@@ -93,3 +93,13 @@ let Index = React.createClass({
 });
 
 export default Index;
+
+/*
+<div className="buttons btn-group">
+  <button className="btn btn-default" data-hook="reset">Reset Collection</button>
+  <button className="btn btn-default" data-hook="remove">Remove Collection</button>
+  <button className="btn btn-default" data-hook="shuffle">Shuffle Collection</button>
+  <button className="btn btn-default" data-hook="fetch">Refetch Collection</button>
+  <button className="btn btn-default" data-hook="add">Add Random</button>
+</div>
+*/

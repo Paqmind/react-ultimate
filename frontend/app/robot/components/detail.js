@@ -2,9 +2,9 @@
 let isObject = require("lodash.isobject");
 let isString = require("lodash.isstring");
 let React = require("react");
+let Reflux = require("reflux");
 let ReactRouter = require("react-router");
 let {Link, RouteHandler} = ReactRouter;
-let Reflux = require("reflux");
 let DocumentTitle = require("react-document-title");
 let Loading = require("frontend/common/components/loading");
 let NotFound = require("frontend/common/components/not-found");
