@@ -17,7 +17,7 @@ let Index = React.createClass({
   render() {
     return (
       <div className="notifications top-left">
-        <CSSTransitionGroup transitionName="fade">
+        <CSSTransitionGroup transitionName="fade" component="div">
           {this.state.models.toArray().map(model => <AlertItem model={model} key={model.id}/>)}
         </CSSTransitionGroup>
       </div>
