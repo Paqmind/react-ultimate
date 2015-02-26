@@ -72,23 +72,11 @@ let Item = React.createClass({
   },
 
   render() {
-    /*if (this.props.transition) {
-      if (this.props.transition == 'fade')
-        this.$note.addClass('fade').addClass('in');
-      else {
-        this.$note.addClass(this.props.transition);
-      }
-    } else {
-      this.$note.addClass('fade').addClass('in');
-    }*/
-
     let model = this.props.model;
 
     let classes = classNames({
       "alert": true,
       ["alert-" + model.category]: true,
-      "fade": true,
-      "in": true,
     });
 
     let removeItem = AlertActions.remove.bind(this, model.id);

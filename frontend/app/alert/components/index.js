@@ -1,5 +1,6 @@
 // IMPORTS =========================================================================================
 let React = require("react");
+let {CSSTransitionGroup} = require("react/addons").addons;
 let Reflux = require("reflux");
 let AlertActions = require("frontend/alert/actions");
 let AlertStore = require("frontend/alert/stores");
@@ -16,7 +17,9 @@ let Index = React.createClass({
   render() {
     return (
       <div className="notifications top-left">
-        {this.state.models.toArray().map(model => <AlertItem model={model} key={model.id}/>)}
+        <CSSTransitionGroup transitionName="fade">
+          {this.state.models.toArray().map(model => <AlertItem model={model} key={model.id}/>)}
+        </CSSTransitionGroup>
       </div>
     );
   }
