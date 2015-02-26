@@ -24,17 +24,17 @@ let RobotStore = require("frontend/robot/stores");
 let AlertStore = require("frontend/alert/stores");
 
 // Common components
-let Body = require("./common/components/body");
-let Home = require("./common/components/home");
-let About = require("./common/components/about");
-let NotFound = require("./common/components/not-found");
+let Body = require("frontend/common/components/body");
+let Home = require("frontend/common/components/home");
+let About = require("frontend/common/components/about");
+let NotFound = require("frontend/common/components/not-found");
 
 // Robot components
-let RobotRoot = require("./robot/components/root");
-let RobotIndex = require("./robot/components/index");
-let RobotDetail = require("./robot/components/detail");
-let RobotAdd = require("./robot/components/add");
-let RobotEdit = require("./robot/components/edit");
+let RobotRoot = require("frontend/robot/components/root");
+let RobotIndex = require("frontend/robot/components/index");
+let RobotDetail = require("frontend/robot/components/detail");
+let RobotAdd = require("frontend/robot/components/add");
+let RobotEdit = require("frontend/robot/components/edit");
 
 // ROUTES ==========================================================================================
 let routes = (
