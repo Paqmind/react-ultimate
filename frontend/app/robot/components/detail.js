@@ -49,16 +49,22 @@ let Detail = React.createClass({
                 </div>
               </div>
             </div>
-            <section className="container">
-              <div className="thumbnail pull-left margin-top nopadding">
-                <img src={"http://robohash.org/" + model.get("id") + "?size=200x200"} width="200px" height="200px"/>
+            <section className="container margin-top-lg">
+              <div className="row">
+                <div className="col-xs-12 col-sm-3">
+                  <div className="thumbnail thumbnail-robot">
+                    <img src={"http://robohash.org/" + model.get("id") + "?size=200x200"} width="200px" height="200px"/>
+                  </div>
+                </div>
+                <div className="col-xs-12 col-sm-9">
+                  <h1 className="nomargin-top">{model.get("name")}</h1>
+                  <dl>
+                    <dt>Serial Number</dt><dd>{model.get("id")}</dd>
+                    <dt>Assembly Date</dt><dd>{model.get("assemblyDate")}</dd>
+                    <dt>Manufacturer</dt><dd>{model.get("manufacturer")}</dd>
+                  </dl>
+                </div>
               </div>
-              <h1>{model.get("name")}</h1>
-              <dl>
-                <dt>Serial Number</dt><dd>{model.get("id")}</dd>
-                <dt>Assembly Date</dt><dd>{model.get("assemblyDate")}</dd>
-                <dt>Manufacturer</dt><dd>{model.get("manufacturer")}</dd>
-              </dl>
             </section>
           </div>
         </DocumentTitle>

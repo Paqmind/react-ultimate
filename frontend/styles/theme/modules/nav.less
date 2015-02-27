@@ -39,7 +39,9 @@
     border-color: @metalic;
   }
 }
-.navbar-right > .nav {
-  margin-right: -30px;
+.navbar-right {
+  @media (min-width: @screen-sm-min) {
+    margin-right: -30px!important; // to compensate padding from brackets-effect
+  }
 }
 
