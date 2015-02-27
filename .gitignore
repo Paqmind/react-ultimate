@@ -3,11 +3,9 @@
 /docs/
 /logs/
 /node_modules/
-/static/
 
 # BY MASK ------------------------------------------------------------------------------------------
 /fabfile*
-/test*
 *.iml
 .idea
 .DS_Store
