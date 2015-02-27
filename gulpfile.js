@@ -1,10 +1,10 @@
 // DEFAULTS ========================================================================================
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
+let release = false;
 process.env.NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR || "./shared/config";
 
 // IMPORTS =========================================================================================
 let ChildProcess = require("child_process");
-let gulp = require("gulp");
+let Gulp = require("gulp");
 let gulpUtil = require("gulp-util");
 let runSequence = require("run-sequence");
 let jshintStylish = require("jshint-stylish");
@@ -59,133 +59,135 @@ function interleaveWith(array, prefix) {
 }
 
 // SHARED TASKS ====================================================================================
-gulp.task("shared:build", function() {
-  return gulp.src(["./shared/**/*.js"])
-    .pipe(gulpPlumber())
+Gulp.task("shared:build", function() {
+  return Gulp.src(["./shared/**/*.js"])
+    .pipe(gulpPlumber({errorHandler: !release}))
     .pipe(gulpSourcemaps.init())
     .pipe(gulpTo5())
     .pipe(gulpSourcemaps.write())
-    .pipe(gulp.dest("./build/shared"));
+    .pipe(Gulp.dest("./build/shared"));
 });
 
 // BACKEND TASKS ===================================================================================
-gulp.task("backend:lint", function() {
-  return gulp.src(["./backend/**/*.js"])
-    .pipe(gulpPlumber())
+Gulp.task("backend:lint", function() {
+  return Gulp.src(["./backend/**/*.js"])
+    .pipe(gulpPlumber({errorHandler: !release}))
 //    .pipe(cached("backend:lint"))
     .pipe(gulpJshint())
     .pipe(gulpJshint.reporter(jshintStylish));
 });
 
-gulp.task("backend:nodemon", function() {
-  if (process.env.NODE_ENV == "development") {
-    let nodemon = ChildProcess.spawn("npm", ["run", "nodemon"]);
-    nodemon.stdout.pipe(process.stdout);
-    nodemon.stderr.pipe(process.stderr);
-  }
+Gulp.task("backend:nodemon", function() {
+  let nodemon = ChildProcess.spawn("npm", ["run", "nodemon"]);
+  nodemon.stdout.pipe(process.stdout);
+  nodemon.stderr.pipe(process.stderr);
 });
 
 // FRONTEND TASKS ==================================================================================
-gulp.task("frontend:move-css", function() {
-  return gulp.src(["./frontend/styles/**/*.css"])
-    .pipe(gulpPlumber())
-    .pipe(gulp.dest("./static/styles"));
+Gulp.task("frontend:move-css", function() {
+  return Gulp.src(["./frontend/styles/**/*.css"])
+    .pipe(gulpPlumber({errorHandler: !release}))
+    .pipe(Gulp.dest("./static/styles"));
 });
 
-gulp.task("frontend:compile-less", function() {
-  return gulp.src(["./frontend/styles/theme.less", "./frontend/styles/http-errors.less"])
-    .pipe(gulpPlumber())
+Gulp.task("frontend:compile-less", function() {
+  return Gulp.src(["./frontend/styles/theme.less", "./frontend/styles/http-errors.less"])
+    .pipe(gulpPlumber({errorHandler: !release}))
     .pipe(gulpLess())
-    .pipe(gulp.dest("./static/styles"));
+    .pipe(Gulp.dest("./static/styles"));
 });
 
-gulp.task("frontend:dist-styles", [
+Gulp.task("frontend:dist-styles", [
   "frontend:move-css",
   "frontend:compile-less"
 ]);
 
-gulp.task("frontend:lint", function() {
-  return gulp.src(["./frontend/**/*.js"])
-    .pipe(gulpPlumber())
+Gulp.task("frontend:lint", function() {
+  return Gulp.src(["./frontend/**/*.js"])
+    .pipe(gulpPlumber({errorHandler: !release}))
 //    .pipe(cached("lint-react"))
     .pipe(gulpJshint())
     .pipe(gulpJshint.reporter(jshintStylish));
 });
 
-gulp.task("frontend:build-app", function() {
-  return gulp.src(["./frontend/**/*.js"])
-    .pipe(gulpPlumber())
+Gulp.task("frontend:build-app", function() {
+  return Gulp.src(["./frontend/**/*.js"])
+    .pipe(gulpPlumber({errorHandler: !release}))
     .pipe(gulpSourcemaps.init())
     .pipe(gulpTo5())
     .pipe(gulpSourcemaps.write())
-    .pipe(gulp.dest("./build/frontend"));
+    .pipe(Gulp.dest("./build/frontend"));
 });
 
-gulp.task("frontend:dist-scripts", function() {
-  return gulp.src(["./frontend/scripts/*.js"])
-    .pipe(gulpPlumber())
+Gulp.task("frontend:dist-scripts", function() {
+  return Gulp.src(["./frontend/scripts/*.js"])
+    .pipe(gulpPlumber({errorHandler: !release}))
     .pipe(gulpConcat("scripts.js"))
     .pipe(gulpUglify())
-    .pipe(gulp.dest("./static/scripts"));
+    .pipe(Gulp.dest("./static/scripts"));
 });
 
-gulp.task("frontend:dist-images", function() {
-  return gulp.src(["./images/**/*"])
-    .pipe(gulp.dest("./static/images"));
+Gulp.task("frontend:dist-images", function() {
+  return Gulp.src(["./images/**/*"])
+    .pipe(Gulp.dest("./static/images"));
 });
 
-gulp.task("frontend:bundle-vendors", function() {
-  if (process.env.NODE_ENV == "development") {
-    // $ browserify -d -r react -r reflux [-r ...] -o ./static/scripts/vendors.js
-    let args = ["-d"]
-      .concat(interleaveWith(libraries, "-r"))
-      .concat(["-o", "./static/scripts/vendors.js"]);
+Gulp.task("frontend:bundle-vendors", function() {
+  // $ browserify -d -r react -r reflux [-r ...] -o ./static/scripts/vendors.js
+  let args = ["-d"]
+    .concat(interleaveWith(libraries, "-r"))
+    .concat(["-o", "./static/scripts/vendors.js"]);
 
-    let bundler = ChildProcess.spawn("browserify", args);
-    bundler.stdout.pipe(process.stdout);
-    bundler.stderr.pipe(process.stderr);
-  }
+  let bundler = ChildProcess.spawn("browserify", args);
+  bundler.stdout.pipe(process.stdout);
+  bundler.stderr.pipe(process.stderr);
+  bundler.on("exit", function(code) {
+    if (release && code) {
+      process.exit(code);
+    }
+  });
 });
 
-gulp.task("frontend:bundle-app", function() {
-  if (process.env.NODE_ENV == "development") {
-    // $ browserify -d -x react -x reflux [-x ...] ./build/frontend/app/app.js -o ./static/scripts/app.js
-    let args = ["-d"]
-      .concat(interleaveWith(libraries, "-x"))
-      .concat(["./build/frontend/app/app.js"])
-      .concat(["-o", "./static/scripts/app.js"]);
+Gulp.task("frontend:bundle-app", function() {
+  // $ browserify -d -x react -x reflux [-x ...] ./build/frontend/app/app.js -o ./static/scripts/app.js
+  let args = ["-d"]
+    .concat(interleaveWith(libraries, "-x"))
+    .concat(["./build/frontend/app/app.js"])
+    .concat(["-o", "./static/scripts/app.js"]);
 
-    let bundler = ChildProcess.spawn("browserify", args);
-    bundler.stdout.pipe(process.stdout);
-    bundler.stderr.pipe(process.stderr);
-  }
+  let bundler = ChildProcess.spawn("browserify", args);
+  bundler.stdout.pipe(process.stdout);
+  bundler.stderr.pipe(process.stderr);
+  bundler.on("exit", function(code) {
+    if (release && code) {
+      process.exit(code);
+    }
+  });
 });
 
-gulp.task("frontend:watchify", function() {
-  if (process.env.NODE_ENV == "development") {
-    // $ watchify -v -d -x react -x reflux [-x ...] ./build/frontend/app/app.js -o ./static/scripts/app.js
-    let args = ["-v", "-d"]
-      .concat(interleaveWith(libraries, "-x"))
-      .concat(["./build/frontend/app/app.js"])
-      .concat(["-o", "./static/scripts/app.js"]);
+Gulp.task("frontend:watchify", function() {
+  // $ watchify -v -d -x react -x reflux [-x ...] ./build/frontend/app/app.js -o ./static/scripts/app.js
+  let args = ["-v", "-d"]
+    .concat(interleaveWith(libraries, "-x"))
+    .concat(["./build/frontend/app/app.js"])
+    .concat(["-o", "./static/scripts/app.js"]);
 
-    let watcher = ChildProcess.spawn("watchify", args);
-    watcher.stdout.pipe(process.stdout);
-    watcher.stderr.pipe(process.stderr);
-  }
+  let watcher = ChildProcess.spawn("watchify", args);
+  watcher.stdout.pipe(process.stdout);
+  watcher.stderr.pipe(process.stderr);
 });
 
 // TASK DEPENDENCIES ===============================================================================
-gulp.task("shared:watch", function() {
-  gulp.watch("./shared/**/*.js", ["shared:build"]);
+Gulp.task("shared:watch", function() {
+  Gulp.watch("./shared/**/*.js", ["shared:build"]);
 });
 
-gulp.task("frontend:build", [
+Gulp.task("frontend:build", [
   "shared:build",
   "frontend:build-app"
 ]);
 
-gulp.task("frontend:dist", [
+Gulp.task("frontend:dist", [
   "frontend:build",
   "frontend:bundle-app",
   "frontend:dist-scripts",
@@ -193,25 +195,28 @@ gulp.task("frontend:dist", [
   "frontend:dist-styles",
 ]);
 
-gulp.task("frontend:watch", function() {
-  gulp.watch("./frontend/app/**/*.js", ["frontend:build-app"]);
-  gulp.watch("./frontend/scripts/**/*.js", ["frontend:dist-scripts"]);
-  gulp.watch("./frontend/images/**/*", ["frontend:dist-images"]);
-  gulp.watch("./frontend/styles/**/*.less", ["frontend:dist-styles"]);
+Gulp.task("frontend:watch", function() {
+  Gulp.watch("./frontend/app/**/*.js", ["frontend:build-app"]);
+  Gulp.watch("./frontend/scripts/**/*.js", ["frontend:dist-scripts"]);
+  Gulp.watch("./frontend/images/**/*", ["frontend:dist-images"]);
+  Gulp.watch("./frontend/styles/**/*.less", ["frontend:dist-styles"]);
 });
 
 // GENERAL TASKS ===================================================================================
-// TODO: gulp.task("lint", ["shared:lint", "backend:lint", "frontend:lint"]);
+// TODO: Gulp.task("lint", ["shared:lint", "backend:lint", "frontend:lint"]);
 
-gulp.task("default", function() {
-  if (process.env.NODE_ENV == "development") {
-    return runSequence(
-      ["backend:nodemon", "frontend:dist"],
-      ["shared:watch", "frontend:watch", "frontend:watchify"]
-    );
-  } else {
-    return runSequence(
-      ["frontend:dist"]
-    );
-  }
+Gulp.task("default", function() {
+  return runSequence(
+    ["backend:nodemon", "frontend:dist"],
+    ["shared:watch", "frontend:watch", "frontend:watchify"]
+  );
 });
+
+Gulp.task("release", function() {
+  release = true;
+  return runSequence(
+    ["frontend:bundle-vendors", "frontend:dist"]
+  );
+});
+
+// TODO: check http://ponyfoo.com/articles/my-first-gulp-adventure
