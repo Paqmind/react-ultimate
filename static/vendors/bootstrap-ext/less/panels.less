@@ -1,0 +1,66 @@
+/*******************************************************************************
+  BOOTSTRAP-EXT. PANELS
+*******************************************************************************/
+
+.panel {
+    .box-shadow(@panel-shadow);
+}
+.panel-secondary {
+  .panel-variant(@panel-secondary-border; @panel-secondary-text; @panel-secondary-heading-bg; @panel-secondary-border);
+}
+
+.panel-title h1,
+.panel-title h2,
+.panel-title h3,
+.panel-title h4,
+.panel-title h5,
+.panel-title h6 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: (@font-size-base * 1.5);
+    line-height: 30px; // as actions button height
+    a {
+        color: @link-color;
+        &:hover, &:focus, &:active {
+            color: @link-hover-color;
+        }
+    }
+}
+
+/*
+Panel-tabs
+*/
+.panel-tabs {
+    border: none;
+    background-color: transparent;
+    .box-shadow(none);
+    > .nav-tabs {
+        margin-bottom: 0;
+    }
+    > .panel-body {
+        padding: @tabs-bordered-content-padding!important;
+        background-color: @panel-bg;
+        border: 1px solid @nav-tabs-border-color;
+        border-top: none;
+        border-radius: 0 0 @border-radius-base @border-radius-base;
+        .box-shadow(@panel-shadow);
+    }
+}
+
+/*
+Panel-transparent
+*/
+.panel-transparent {
+    margin-bottom: 0; // panel-body has padding-bottom, no need margin-bottom for panel without borders
+    .box-shadow(none);
+    > .panel-heading {
+        padding-right: 0;
+        padding-left: 0;
+        font-size: @font-size-large;
+        border-bottom: 1px solid @panel-inner-border;
+    }
+    > .panel-body {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}

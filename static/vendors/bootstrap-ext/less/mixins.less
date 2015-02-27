@@ -1,0 +1,35 @@
+.translateY(@y) {
+  -webkit-transform: translateY(@y);
+      -ms-transform: translateY(@y); // IE9 only
+       -o-transform: translateY(@y);
+          transform: translateY(@y);
+}
+.translateX(@x) {
+  -webkit-transform: translateX(@x);
+      -ms-transform: translateX(@x); // IE9 only
+       -o-transform: translateX(@x);
+          transform: translateX(@x);
+}
+
+.nav-color-schema(@color, @bg-color, @color-active, @bg-color-active) {
+    > li {
+        > a {
+            color: @color;
+            background-color: @bg-color;
+            &:hover, &:focus, &:active {
+                color: @color-active;
+                background: @bg-color-active;
+            }
+        }
+        &.active, &.open {
+            > a {
+                color: @color-active;
+                background: @bg-color-active;
+                &:hover, &:focus, &:active {
+                    color: @color-active;
+                    background: @bg-color-active;
+                }
+            }
+        }
+    }
+}

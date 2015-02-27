@@ -1,0 +1,22 @@
+{
+  "name": "bootstrap-ext",
+  "version": "0.1.0",
+  "homepage": "https://github.com/Paqmind/bootstrap-ext",
+  "keywords": [
+    "bootstrap"
+  ],
+  "authors": [
+    "paqmind <info@paqmind.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "3.x"
+  }
+}
