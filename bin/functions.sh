@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # return 1 if global command line program installed, else 0
 function program_installed {
   # set to 1 initially

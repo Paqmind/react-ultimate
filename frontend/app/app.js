@@ -1,6 +1,6 @@
 // SHIMS ===========================================================================================
 let inspect = require("util-inspect");
-Object.assign = require("object-assign");
+require("object.assign").shim();
 
 Promise.prototype.done = function(onFulfilled, onRejected) {
   this

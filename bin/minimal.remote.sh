@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # Go to project folder
 cd ~/minimal.paqmind.com
 
