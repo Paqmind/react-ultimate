@@ -1,6 +1,0 @@
-#!/bin/sh
-set -ue
-
-if . bin/commit; then
-  git push
-fi

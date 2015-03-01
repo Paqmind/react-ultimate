@@ -5,20 +5,12 @@
 
 set -ue
 
-if [ ${1} == "--bin" ]; then
-  argv=${@:2}
-  stash=false
-else
-  argv=${@}
-  stash=true
-fi
-
 if ${stash}; then
   git stash save --keep-index
 fi
 
 if gulp dist; then
-  git commit ${argv};
+  git commit ${@};
 fi
 
 if ${stash}; then

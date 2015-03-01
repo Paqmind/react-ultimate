@@ -1,7 +1,6 @@
 #!/bin/sh
 set -ue
 
-. bin/push
 # TODO: add gulp release
 # gulp release (distinct commit for version bump)
 # . bin/bush

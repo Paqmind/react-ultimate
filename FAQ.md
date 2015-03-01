@@ -3,11 +3,10 @@ DEVELOPMENT
   gulp                         # nodemon, watches, etc.
   bin/commit [--bin] [<git-commit-params>] -- git stash, gulp dist, git commit, git unstash
                                              -- to run tests against commit state, not working dir
-  bin/push    -- bin/commit + git push
 
 DEPLOYMENT
-  bin/stage   -- bin/push, bin/remote/deploy
-  bin/release -- bin/push, gulp release, bin/remote/deploy
+  bin/stage   -- (TODO should require empty git status) git push, bin/remote/deploy
+  bin/release -- (TODO should require empty git status) gulp release, git push, bin/remote/deploy
 
 NPM
   npm install               -- installs locally according to package.json
