@@ -317,7 +317,7 @@ img {
   padding: 4px;
   line-height: 1.42857143;
   background-color: #ffffff;
-  border: 1px solid #dddddd;
+  border: 1px solid #e1e1e1;
   border-radius: 4px;
   -webkit-transition: all 0.2s ease-in-out;
   -o-transition: all 0.2s ease-in-out;
@@ -4038,7 +4038,7 @@ a.badge:focus {
   margin-bottom: 22px;
   line-height: 1.42857143;
   background-color: #ffffff;
-  border: 1px solid #dddddd;
+  border: 1px solid #e1e1e1;
   border-radius: 4px;
   -webkit-transition: border 0.2s ease-in-out;
   -o-transition: border 0.2s ease-in-out;
@@ -8364,6 +8364,34 @@ a.fa:hover {
   margin-left: 0.5em;
 }
 /*******************************************************************************
+  THEME. MODULES. LOADING
+*******************************************************************************/
+.loading {
+  margin: 0 auto;
+  color: #eeeeee;
+  font-size: 12em;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .loading {
+    font-size: 9em;
+  }
+}
+@media (max-width: 480px) {
+  .loading {
+    font-size: 6em;
+  }
+}
+.loading.loading-lg {
+  font-size: 15em;
+}
+.loading.loading-sm {
+  font-size: 8em;
+}
+.loading.loading-xs {
+  font-size: 5em;
+}
+/*******************************************************************************
   THEME. MODULES. NAV
 *******************************************************************************/
 .navbar-default {
@@ -8406,8 +8434,10 @@ a.fa:hover {
 .navbar-default .navbar-form {
   border-color: #30363e;
 }
-.navbar-right > .nav {
-  margin-right: -30px;
+@media (min-width: 768px) {
+  .navbar-right {
+    margin-right: -30px !important;
+  }
 }
 .notifications {
   position: fixed;
@@ -8448,4 +8478,12 @@ a.fa:hover {
 }
 .fade-leave.fade-leave-active {
   opacity: 0.01;
+}
+/*******************************************************************************
+  THEME. MODULES. THUMBNAIL
+*******************************************************************************/
+.thumbnail-robot {
+  width: 100%;
+  height: 200px;
+  padding: 0;
 }
