@@ -1,5 +1,5 @@
 // DEFAULTS ========================================================================================
-let release = false;
+let exitOnError = false;
 process.env.NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR || "./shared/config";
 
 // IMPORTS =========================================================================================
@@ -61,7 +61,7 @@ function interleaveWith(array, prefix) {
 // SHARED TASKS ====================================================================================
 Gulp.task("shared:build", function() {
   return Gulp.src(["./shared/**/*.js"])
-    .pipe(gulpPlumber({errorHandler: !release}))
+    .pipe(gulpPlumber({errorHandler: !exitOnError}))
     .pipe(gulpSourcemaps.init())
     .pipe(gulpTo5())
     .pipe(gulpSourcemaps.write())
@@ -71,7 +71,7 @@ Gulp.task("shared:build", function() {
 // BACKEND TASKS ===================================================================================
 Gulp.task("backend:lint", function() {
   return Gulp.src(["./backend/**/*.js"])
-    .pipe(gulpPlumber({errorHandler: !release}))
+    .pipe(gulpPlumber({errorHandler: !exitOnError}))
 //    .pipe(cached("backend:lint"))
     .pipe(gulpJshint())
     .pipe(gulpJshint.reporter(jshintStylish));
@@ -86,13 +86,13 @@ Gulp.task("backend:nodemon", function() {
 // FRONTEND TASKS ==================================================================================
 Gulp.task("frontend:move-css", function() {
   return Gulp.src(["./frontend/styles/**/*.css"])
-    .pipe(gulpPlumber({errorHandler: !release}))
+    .pipe(gulpPlumber({errorHandler: !exitOnError}))
     .pipe(Gulp.dest("./static/styles"));
 });
 
 Gulp.task("frontend:compile-less", function() {
   return Gulp.src(["./frontend/styles/theme.less", "./frontend/styles/http-errors.less"])
-    .pipe(gulpPlumber({errorHandler: !release}))
+    .pipe(gulpPlumber({errorHandler: !exitOnError}))
     .pipe(gulpLess())
     .pipe(Gulp.dest("./static/styles"));
 });
@@ -104,7 +104,7 @@ Gulp.task("frontend:dist-styles", [
 
 Gulp.task("frontend:lint", function() {
   return Gulp.src(["./frontend/**/*.js"])
-    .pipe(gulpPlumber({errorHandler: !release}))
+    .pipe(gulpPlumber({errorHandler: !exitOnError}))
 //    .pipe(cached("lint-react"))
     .pipe(gulpJshint())
     .pipe(gulpJshint.reporter(jshintStylish));
@@ -112,7 +112,7 @@ Gulp.task("frontend:lint", function() {
 
 Gulp.task("frontend:build-app", function() {
   return Gulp.src(["./frontend/**/*.js"])
-    .pipe(gulpPlumber({errorHandler: !release}))
+    .pipe(gulpPlumber({errorHandler: !exitOnError}))
     .pipe(gulpSourcemaps.init())
     .pipe(gulpTo5())
     .pipe(gulpSourcemaps.write())
@@ -121,7 +121,7 @@ Gulp.task("frontend:build-app", function() {
 
 Gulp.task("frontend:dist-scripts", function() {
   return Gulp.src(["./frontend/scripts/*.js"])
-    .pipe(gulpPlumber({errorHandler: !release}))
+    .pipe(gulpPlumber({errorHandler: !exitOnError}))
     .pipe(gulpConcat("scripts.js"))
     .pipe(gulpUglify())
     .pipe(Gulp.dest("./static/scripts"));
@@ -142,7 +142,7 @@ Gulp.task("frontend:bundle-vendors", function() {
   bundler.stdout.pipe(process.stdout);
   bundler.stderr.pipe(process.stderr);
   bundler.on("exit", function(code) {
-    if (release && code) {
+    if (exitOnError && code) {
       process.exit(code);
     }
   });
@@ -159,7 +159,7 @@ Gulp.task("frontend:bundle-app", function() {
   bundler.stdout.pipe(process.stdout);
   bundler.stderr.pipe(process.stderr);
   bundler.on("exit", function(code) {
-    if (release && code) {
+    if (exitOnError && code) {
       process.exit(code);
     }
   });
@@ -203,8 +203,6 @@ Gulp.task("frontend:watch", function() {
 });
 
 // GENERAL TASKS ===================================================================================
-// TODO: Gulp.task("lint", ["shared:lint", "backend:lint", "frontend:lint"]);
-
 Gulp.task("default", function() {
   return runSequence(
     ["backend:nodemon", "frontend:dist"],
@@ -212,11 +210,10 @@ Gulp.task("default", function() {
   );
 });
 
-Gulp.task("release", function() {
-  release = true;
+// TODO: Gulp.task("lint", ["shared:lint", "backend:lint", "frontend:lint"]);
+Gulp.task("dist", function() {
+  exitOnError = true;
   return runSequence(
     ["frontend:bundle-vendors", "frontend:dist"]
   );
 });
-
-// TODO: check http://ponyfoo.com/articles/my-first-gulp-adventure

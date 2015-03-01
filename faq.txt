@@ -8,10 +8,10 @@ DEVELOPMENT
 NPM
   npm install               // installs locally according to package.json
   npm install gulp -g       // installs globally according to package.json
-  npm install 6to5 -g       // --||--
+  npm install babel -g      // --||--
   npm install bower -g      // --||--
   npm install browserify -g // --||--
-  npm install watchify -g // --||--
+  npm install watchify -g   // --||--
 
   npm outdated --depth 0
   npm outdated --depth 0 -g
