@@ -78,7 +78,7 @@ let Add = React.createClass({
                     </div>
                   </form>
                 </div>
-              </form>
+              </div>
             </section>
           </div>
         </DocumentTitle>
