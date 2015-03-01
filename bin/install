@@ -1,2 +1,3 @@
 #!/bin/sh
-ssh paqmind@dgo 'bash -s' < bin/install.remote.sh
+ssh paqmind@dgo 'bash -s' < bin/remote/preinstall
+ssh paqmind@dgo 'bash -s' < bin/remote/install

@@ -1,17 +1,8 @@
 #!/bin/sh
-# We should run tests against commited state, not working dir state
-# So we stash / unstash non-staged changes
-# git commit / push invoke git hooks and npm test via husky
+set -ue
 
-git stash save --keep-index
-
-# TODO add version bumping / tagging
-if gulp dist; then
-  if git commit $@; then
-    if git push; then
-      ssh paqmind@dgo 'bash -s' < bin/remote/release
-    fi
-  fi
-fi
-
-git stash apply
+. bin/push
+# TODO: add gulp release
+# gulp release (distinct commit for version bump)
+# . bin/bush
+ssh paqmind@dgo 'bash -s' < bin/remote/deploy

@@ -1,0 +1,5 @@
+#!/bin/sh
+set -ue
+
+. bin/push
+ssh paqmind@dgo 'bash -s' < bin/remote/deploy

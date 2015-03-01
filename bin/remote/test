@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "DEBUG test.remote.sh"
+echo "DEBUG remote/test"
 shopt -s expand_aliases
 source ~/.aliases
 

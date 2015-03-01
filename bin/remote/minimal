@@ -6,7 +6,7 @@ cd ~/minimal.paqmind.com
 mkdir -p ~/.temp
 
 # Source functions
-source ./bin/functions.sh
+source ./bin/functions
 
 # Install express-generator if not installed
 if [ $(npm_package_installed express-generator -g) == 0 ]; then
