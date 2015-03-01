@@ -3,7 +3,6 @@ let React = require("react");
 let ReactRouter = require("react-router");
 let {Link} = ReactRouter;
 let Reflux = require("reflux");
-let {Link} = require("react-router");
 let DocumentTitle = require("react-document-title");
 let RobotActions = require("frontend/robot/actions");
 let RobotStore = require("frontend/robot/stores");
