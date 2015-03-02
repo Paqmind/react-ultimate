@@ -12,7 +12,6 @@ let config = require("config");
 let express = require("express");
 let io = require("socket.io");
 let ss = require("socket.io-stream");
-let favicon = require("serve-favicon");
 let morgan = require("morgan");
 let cookieParser = require("cookie-parser");
 let bodyParser = require("body-parser");
