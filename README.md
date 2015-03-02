@@ -1,6 +1,8 @@
 # React Starter
 
-There are a few of them. Let's compare.
+[Demo instance.](http://react-starter.paqmind.com)
+
+There are a few of react-starters out there. Let's compare.
 
 ## Comparison
 
