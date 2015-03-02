@@ -58,16 +58,6 @@ function interleaveWith(array, prefix) {
   }, []);
 }
 
-// SHARED TASKS ====================================================================================
-Gulp.task("shared:build", function() {
-  return Gulp.src(["./shared/**/*.js"])
-    .pipe(gulpPlumber({errorHandler: !exitOnError}))
-    .pipe(gulpSourcemaps.init())
-    .pipe(gulpTo5())
-    .pipe(gulpSourcemaps.write())
-    .pipe(Gulp.dest("./build/shared"));
-});
-
 // BACKEND TASKS ===================================================================================
 Gulp.task("backend:lint", function() {
   return Gulp.src(["./backend/**/*.js"])
@@ -110,15 +100,6 @@ Gulp.task("frontend:lint", function() {
     .pipe(gulpJshint.reporter(jshintStylish));
 });
 
-Gulp.task("frontend:build-app", function() {
-  return Gulp.src(["./frontend/**/*.js"])
-    .pipe(gulpPlumber({errorHandler: !exitOnError}))
-    .pipe(gulpSourcemaps.init())
-    .pipe(gulpTo5())
-    .pipe(gulpSourcemaps.write())
-    .pipe(Gulp.dest("./build/frontend"));
-});
-
 Gulp.task("frontend:dist-scripts", function() {
   return Gulp.src(["./frontend/scripts/*.js"])
     .pipe(gulpPlumber({errorHandler: !exitOnError}))
@@ -149,10 +130,10 @@ Gulp.task("frontend:bundle-vendors", function() {
 });
 
 Gulp.task("frontend:bundle-app", function() {
-  // $ browserify -d -x react -x reflux [-x ...] ./build/frontend/app/app.js -o ./static/scripts/app.js
+  // $ browserify -d -x react -x reflux [-x ...] ./frontend/app/app.js -o ./static/scripts/app.js
   let args = ["-d"]
     .concat(interleaveWith(libraries, "-x"))
-    .concat(["./build/frontend/app/app.js"])
+    .concat(["./frontend/app/app.js"])
     .concat(["-o", "./static/scripts/app.js"]);
 
   let bundler = ChildProcess.spawn("browserify", args);
@@ -166,10 +147,10 @@ Gulp.task("frontend:bundle-app", function() {
 });
 
 Gulp.task("frontend:watchify", function() {
-  // $ watchify -v -d -x react -x reflux [-x ...] ./build/frontend/app/app.js -o ./static/scripts/app.js
+  // $ watchify -v -d -x react -x reflux [-x ...] ./frontend/app/app.js -o ./static/scripts/app.js
   let args = ["-v", "-d"]
     .concat(interleaveWith(libraries, "-x"))
-    .concat(["./build/frontend/app/app.js"])
+    .concat(["./frontend/app/app.js"])
     .concat(["-o", "./static/scripts/app.js"]);
 
   let watcher = ChildProcess.spawn("watchify", args);
@@ -178,17 +159,7 @@ Gulp.task("frontend:watchify", function() {
 });
 
 // TASK DEPENDENCIES ===============================================================================
-Gulp.task("shared:watch", function() {
-  Gulp.watch("./shared/**/*.js", ["shared:build"]);
-});
-
-Gulp.task("frontend:build", [
-  "shared:build",
-  "frontend:build-app"
-]);
-
 Gulp.task("frontend:dist", [
-  "frontend:build",
   "frontend:bundle-app",
   "frontend:dist-scripts",
   "frontend:dist-images",
@@ -196,7 +167,6 @@ Gulp.task("frontend:dist", [
 ]);
 
 Gulp.task("frontend:watch", function() {
-  Gulp.watch("./frontend/app/**/*.js", ["frontend:build-app"]);
   Gulp.watch("./frontend/scripts/**/*.js", ["frontend:dist-scripts"]);
   Gulp.watch("./frontend/images/**/*", ["frontend:dist-images"]);
   Gulp.watch("./frontend/styles/**/*.less", ["frontend:dist-styles"]);
@@ -206,7 +176,14 @@ Gulp.task("frontend:watch", function() {
 Gulp.task("default", function() {
   return runSequence(
     ["backend:nodemon", "frontend:dist"],
-    ["shared:watch", "frontend:watch", "frontend:watchify"]
+    ["frontend:watch", "frontend:watchify"]
+  );
+});
+
+Gulp.task("devel", function() {
+  return runSequence(
+    ["frontend:bundle-vendors", "frontend:dist"],
+    "default"
   );
 });
 
