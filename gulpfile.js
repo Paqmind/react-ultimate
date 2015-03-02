@@ -4,6 +4,7 @@ process.env.NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR || "./shared/config";
 
 // IMPORTS =========================================================================================
 let ChildProcess = require("child_process");
+let Config = require("config");
 let Gulp = require("gulp");
 let gulpUtil = require("gulp-util");
 let runSequence = require("run-sequence");
@@ -193,4 +194,14 @@ Gulp.task("dist", function() {
   return runSequence(
     ["frontend:bundle-vendors", "frontend:dist"]
   );
+});
+
+Gulp.task("config:get", function() {
+  let argv = require("yargs").argv;
+  let value = Config.get(argv.option);
+  //if (value === undefined) {
+  //  throw Error(`Undefined option ${argv.option}`);
+  //} else {
+  console.log(value);
+  //}
 });
