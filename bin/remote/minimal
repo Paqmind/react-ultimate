@@ -19,7 +19,7 @@ fi
 express . -f
 
 # Install local packages
-npm install
+npm install --production
 
 # Run express server with app-level debug
 DEBUG=minimal ./bin/www

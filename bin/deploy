@@ -1,0 +1,11 @@
+#!/bin/sh
+set -ue
+
+export PROJECT_SSH=$(gulp config:get --silent --option=${1}-ssh)
+export PROJECT_HOST=$(gulp config:get --silent --option=${1}-host)
+export PROJECT_SERVICE=$(gulp config:get --silent --option=${1}-service)
+
+ssh\
+  -o SendEnv=PROJECT_HOST\
+  -o SendEnv=PROJECT_SERVICE\
+  ${PROJECT_SSH} 'bash -s' < bin/remote/deploy
