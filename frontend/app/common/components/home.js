@@ -19,16 +19,6 @@ let Home = React.createClass({
             <li><a href="#">React-Router</a></li>
             <li><a href="#">React-Document-Title</a></li>
             <li><a href="#">Browserify</a></li>
-            <li>In production mode, it will serve minfied, uniquely named files with super agressive cache headers. To test:
-              <ul>
-                <li>in dev_config.json set <code>isDev</code> to <code>false</code></li>
-                <li>restart the server</li>
-                <li>view source and you'll see minified css and js files with unique names</li>
-                <li>open the "network" tab in chrome dev tools (or something similar). You'll also want to make sure you haven't disabled your cache</li>
-                <li>without hitting "refresh" load the app again (selecting current URL in url bar and hitting "enter" works great)</li>
-                <li>you should now see that the JS and CSS files were both served from cache without making any request to the server at all</li>
-              </ul>
-            </li>
           </ul>
 
           <h3>Backend</h3>
