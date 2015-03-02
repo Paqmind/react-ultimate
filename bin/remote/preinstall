@@ -1,3 +1,6 @@
+#!/bin/sh
+set -ue
+
 mkdir -p ~/.temp
 mkdir -p ${1}
 scp -r ./bin paqmind@dgo:/home/paqmind/${1}
