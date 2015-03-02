@@ -1,7 +1,7 @@
-var path = require("path");
+let path = require("path");
 
-var projectDir = path.dirname(__dirname);
-var staticDir = path.join(projectDir, "static");
+let projectDir = path.dirname(__dirname);
+let staticDir = path.join(projectDir, "static");
 
 module.exports = {
   "use-etag": true,
@@ -9,6 +9,6 @@ module.exports = {
   "static-dir": staticDir,
   "smtp-host": "localhost",
   "smtp-port": 25,
-  "mail-robot": "robot@paqmind.com",
-  "mail-support": "support@paqmind.com",
+  "mail-robot": "robot@localhost",
+  "mail-support": "support@localhost",
 };
