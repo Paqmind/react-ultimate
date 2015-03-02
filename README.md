@@ -2,7 +2,7 @@
 
 There are a few of them. Let's compare.
 
-## Features
+## Comparison
 
 <table>
 <tr>
@@ -75,6 +75,7 @@ There are a few of them. Let's compare.
 ## Remarks
 
 ### Architecture
+
 All React starters / tutorials suffer from being oversimplified.
 They don't show any architecture (the most complex part), only a basic file layouts at their best.
 TodoApps have similar issues: very specific, single page only, unrealistic models (one field),
@@ -85,17 +86,27 @@ We also want to test-n-proof Domain Driven architecture (we are bored of models/
 at the root).
 
 ### Immutable
+
 [Immutable-js](http://facebook.github.io/immutable-js/docs/#/) may replace the majority of use-cases
 for Lodash. So we try to use this on both frontend and backend.
 Unfortunately, it turns out not as easy as expected.
 
-### Browser Sync
-No Browser Sync cause it creates more complexity and usability issues than solves.
-May break on errors leaving you wondering whether it were updated or not.
+### Browser Sync (live reload)
+
+We believe they create more complexity and usability issues than solve.
+As soon as you do something more complex than changing component text you can't be sure
+that your browser is really updated after syntax error or something.
+So you'll constantly force refresh anyway...
 
 ### Browserify vs WebPack.
+
 Don't like this [mess](https://github.com/kriasoft/react-starter-kit/blob/master/webpack.config.js).
 Trying to stay with Browserify.
+
+### Builds
+
+Despite ES6, builds are quite fast thanks to Watchify, Babelify and parallel execution (spawns).
+Only app files are under constant watching. All vendors go to separate bundle.
 
 ## Wiki
 
