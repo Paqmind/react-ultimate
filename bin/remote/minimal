@@ -1,4 +1,6 @@
 #!/bin/sh
+set -ue
+
 # Go to project folder
 cd ~/minimal.paqmind.com
 

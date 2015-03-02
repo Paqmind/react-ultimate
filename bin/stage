@@ -1,5 +1,12 @@
 #!/bin/sh
 set -ue
 
-. bin/push
-ssh paqmind@dgo 'bash -s' < bin/remote/deploy
+
+export PROJECT_SSH=$(gulp config:get --silent --option=staging-ssh)
+export PROJECT_HOST=$(gulp config:get --silent --option=staging-host)
+export PROJECT_SERVICE=$(gulp config:get --silent --option=staging-service)
+
+ssh\
+  -o SendEnv=PROJECT_HOST\
+  -o SendEnv=PROJECT_SERVICE\
+  ${PROJECT_SSH} 'bash -s' < bin/remote/deploy
