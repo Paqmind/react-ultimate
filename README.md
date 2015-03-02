@@ -96,3 +96,7 @@ May break on errors leaving you wondering whether it were updated or not.
 ### Browserify vs WebPack.
 Don't like this [mess](https://github.com/kriasoft/react-starter-kit/blob/master/webpack.config.js).
 Trying to stay with Browserify.
+
+## Wiki
+
+See [wiki](https://github.com/Paqmind/react-starter/wiki/Workflow) for more information.
