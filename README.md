@@ -1,6 +1,6 @@
 # React Starter
 
-[Demo instance.](http://188.166.14.181/)
+[Demo instance.](http://react-starter.paqmind.com/)
 
 There are a few of react-starters out there. Let's compare.
 
