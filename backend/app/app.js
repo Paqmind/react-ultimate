@@ -3,37 +3,37 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development";
 process.env.NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR || "./shared/config";
 
 // IMPORTS =========================================================================================
-let fs = require("fs");
-let path = require("path");
-let http = require("http");
-let util = require("util");
-let cp = require("child_process");
-let config = require("config");
-let express = require("express");
-let io = require("socket.io");
-let ss = require("socket.io-stream");
-let morgan = require("morgan");
-let cookieParser = require("cookie-parser");
-let bodyParser = require("body-parser");
-let nunjucks = require("nunjucks");
-let markdown = require("nunjucks-markdown");
-let marked = require("marked");
-let winston = require("winston");
-let _ = require("winston-mail");
-let moment = require("moment");
-let routes = require("./routes/index");
+let Fs = require("fs");
+let Path = require("path");
+let Http = require("http");
+let Util = require("util");
+let ChildProcess = require("child_process");
+let Config = require("config");
+let Express = require("express");
+let SocketIO = require("socket.io");
+let SocketIOStream = require("socket.io-stream");
+let Morgan = require("morgan");
+let CookieParser = require("cookie-parser");
+let BodyParser = require("body-parser");
+let Nunjucks = require("nunjucks");
+let Markdown = require("nunjucks-markdown");
+let Marked = require("marked");
+let Winston = require("winston");
+let WinstonMail = require("winston-mail");
+let Moment = require("moment");
+let Routes = require("./routes/index");
 
 // APPS & SERVERS ----------------------------------------------------------------------------------
-let app = express();
+let app = Express();
 
 // Configs
-app.set("etag", config.get("use-etag"));
+app.set("etag", Config.get("use-etag"));
 
 // Middlewares
-app.use(bodyParser.json());                        // parse application/json
-app.use(bodyParser.urlencoded({extended: false})); // parse application/x-www-form-urlencoded
+app.use(BodyParser.json());                        // parse application/json
+app.use(BodyParser.urlencoded({extended: false})); // parse application/x-www-form-urlencoded
 
-app.use(morgan("dev", {
+app.use(Morgan("dev", {
   skip: function (req, res) {
     return req.originalUrl.includes("/static") || req.originalUrl.includes("/favicon");
   }
@@ -41,19 +41,19 @@ app.use(morgan("dev", {
 
 /*app.use(cookieParser());*/
 let port = process.env.PORT || "3000";
-let server = http.createServer(app);
+let server = Http.createServer(app);
 server.on("error", onError);
 server.on("listening", onListening);
 server.listen(port);
-//var socketEngine = io(server);
+//var socketEngine = SocketIO(server);
 
 // SOCKET-IO ---------------------------------------------------------------------------------------
-//let exec  = cp.exec,
-//let spawn = cp.spawn;
+//let exec  = ChildProcess.exec,
+//let spawn = ChildProcess.spawn;
 
 /*socketEngine.sockets.on("connection", function(socket) {
   console.log("[]-> connection");
-  var logFile = path.join(config.get("project-dir"), "log-osx.log");
+  var logFile = Path.join(Config.get("project-dir"), "log-osx.log");
   ss(socket).on("enter", function(stream, data) {
     var top = spawn("top", ["-l 0"]);
     top.stderr.on("data", function(data) {
@@ -62,8 +62,8 @@ server.listen(port);
     console.log("[]-> enter:");
     console.log(`[]-> piping ${logFile}`);
 //    top.stdout.pipe(stream);
-//    console.log("[]-> enter:", path.join(config.get("project-dir"), "log-osx.log"));
-    fs.createReadStream(logFile).pipe(stream);
+//    console.log("[]-> enter:", Path.join(Config.get("project-dir"), "log-osx.log"));
+    Fs.createReadStream(logFile).pipe(stream);
   });
 
 //  ss(socket).emit("streaming", top.stdout);
@@ -85,16 +85,16 @@ server.listen(port);
 });*/
 
 // TEMPLATES =======================================================================================
-app.set("views", path.join(__dirname, "templates"));
+app.set("views", Path.join(__dirname, "templates"));
 app.set("view engine", "html");
 
-let nunjucksEnv = nunjucks.configure("backend/app/templates", {
+let nunjucksEnv = Nunjucks.configure("backend/app/templates", {
   autoescape: true,
   express: app
 });
 
-markdown.register(nunjucksEnv, {
-//  renderer: new marked.Renderer(),
+Markdown.register(nunjucksEnv, {
+//  renderer: new Marked.Renderer(),
 //  breaks: false,
 //  pedantic: false,
 //  smartLists: true,
@@ -102,12 +102,12 @@ markdown.register(nunjucksEnv, {
 });
 
 // ROUTES ==========================================================================================
-routes.static = express.static("static", {etag: config.get("use-etag")});
+Routes.static = Express.static("static", {etag: Config.get("use-etag")});
 
 //app.use(favicon(__dirname + "/favicon.ico"));
-app.use("/static", routes.static);
-app.use("/api", routes.api);
-app.use("/", routes.app);
+app.use("/static", Routes.static);
+app.use("/api", Routes.api);
+app.use("/", Routes.app);
 
 app.use(function(req, res, next) {
   res.status(404).render("errors/404.html");
@@ -139,32 +139,32 @@ let customLevels = {
   error: 4,
 };
 
-winston.addColors(customColors);
+Winston.addColors(customColors);
 
-let logger = new (winston.Logger)({
+let logger = new (Winston.Logger)({
   colors: customColors,
   levels: customLevels,
   transports: [
-    new (winston.transports.Console)({
+    new (Winston.transports.Console)({
       level: process.env.NODE_ENV == "development" ? "info" : "warn",
       colorize: true,
       timestamp: function() {
-        return moment();
+        return Moment();
       },
       formatter: function(options) {
         let timestamp = options.timestamp().format("YYYY-MM-DD hh:mm:ss");
-        let level = winston.config.colorize(options.level, options.level.toUpperCase());
+        let level = Winston.config.colorize(options.level, options.level.toUpperCase());
         let message = options.message;
         let meta;
         if (options.meta instanceof Error) {
           meta = "\n  " + options.meta.stack;
         } else {
-          meta = Object.keys(options.meta).length ? util.inspect(options.meta) : "";
+          meta = Object.keys(options.meta).length ? Util.inspect(options.meta) : "";
         }
         return `${timestamp} ${level} ${message} ${meta}`;
       }
     }),
-    //new (winston.transports.File)({
+    //new (Winston.transports.File)({
     //  filename: "somefile.log"
     //})
   ],
@@ -172,12 +172,12 @@ let logger = new (winston.Logger)({
 
 if (process.env.NODE_ENV == "production") {
   // https://www.npmjs.com/package/winston-mail
-  logger.add(winston.transports.Mail, {
+  logger.add(Winston.transports.Mail, {
     level: "error",
-    host: config.get("smtp-host"),
-    port: config.get("smtp-port"),
-    from: config.get("mail-robot"),
-    to: config.get("mail-support"),
+    host: Config.get("smtp-host"),
+    port: Config.get("smtp-port"),
+    from: Config.get("mail-robot"),
+    to: Config.get("mail-support"),
     subject: "Application Failed",
   });
 }
@@ -188,14 +188,14 @@ app.set('title', 'Application Title');
 
 // development only
 if (app.get('env') == "development") {
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  app.use(Express.errorHandler({ dumpExceptions: true, showStack: true }));
   app.set('mongodb_uri', 'mongo://localhost/dev');
   mongo.connect('development',logger); // mongodb initialization
 }
 
 // production only
 if (app.get('env') == "production") {
-  app.use(express.errorHandler());
+  app.use(Express.errorHandler());
   app.set('mongodb_uri', 'mongo://localhost/prod');
   mongo.connect('production',logger); // mongodb initialization
 }

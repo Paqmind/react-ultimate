@@ -3,7 +3,6 @@ let isObject = require("lodash.isobject");
 let isString = require("lodash.isstring");
 let {Map} = require("immutable");
 let React = require("react");
-let Reflux = require("reflux");
 let ReactRouter = require("react-router");
 let {Link, RouteHandler} = ReactRouter;
 let DocumentTitle = require("react-document-title");
@@ -16,7 +15,7 @@ let TextInput = require("frontend/common/components/text-input");
 let RobotActions = require("frontend/robot/actions");
 let RobotStore = require("frontend/robot/stores");
 
-// EXPORTS =========================================================================================
+// COMPONENTS ======================================================================================
 let Add = React.createClass({
   mixins: [
     ValidationMixin,

@@ -1,11 +1,11 @@
 // IMPORTS =========================================================================================
 let {List, Map, OrderedMap} = require("immutable");
 let Axios = require("axios");
-let Reflux = require("reflux");
 let ReactRouter= require("react-router");
 let RobotActions = require("frontend/robot/actions");
 
 // EXPORTS =========================================================================================
+/*
 let RobotStore = Reflux.createStore({
   // this will set up listeners to all publishers in TodoActions, using onKeyname (or keyname) as callbacks
   listenables: [RobotActions],
@@ -140,3 +140,4 @@ let RobotStore = Reflux.createStore({
 });
 
 export default RobotStore;
+*/

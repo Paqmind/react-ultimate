@@ -1,6 +1,6 @@
-let express = require("express");
+let Express = require("express");
 
-let router = express.Router();
+let router = Express.Router();
 
 router.get("*", function(req, res, next) {
   // Dependency hack (app must be aware of "static" and "api") :(
@@ -13,5 +13,5 @@ router.get("*", function(req, res, next) {
   }
 });
 
-module.exports = router;
+export default router;
 

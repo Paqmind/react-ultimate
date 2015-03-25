@@ -1,36 +1,23 @@
-// SHIMS ===========================================================================================
-let inspect = require("util-inspect");
-require("object.assign").shim();
-
-Promise.prototype.done = function(onFulfilled, onRejected) {
-  this
-    .then(onFulfilled, onRejected)
-    .catch(function(e) {
-      setTimeout(function() { throw e; }, 1);
-    });
-};
-
-window.console.echo = function log() {
-  console.log.apply(console, Array.prototype.slice.call(arguments).map(v => inspect(v)));
-};
-
 // IMPORTS =========================================================================================
 let React = require("react");
 let ReactRouter = require("react-router");
 let {Route, DefaultRoute, NotFoundRoute, HistoryLocation} = ReactRouter;
 
+// Shims, polyfills
+let Shims = require("./shims");
+
 // Init stores
 let RobotStore = require("frontend/robot/stores");
 let AlertStore = require("frontend/alert/stores");
 
-// Common components
+// Common
 let Body = require("frontend/common/components/body");
 let Home = require("frontend/common/components/home");
 let About = require("frontend/common/components/about");
 let NotFound = require("frontend/common/components/not-found");
 
-// Robot components
-let RobotRoot = require("frontend/robot/components/root");
+// Robot
+let RobotActions = require("frontend/robot/actions");
 let RobotIndex = require("frontend/robot/components/index");
 let RobotDetail = require("frontend/robot/components/detail");
 let RobotAdd = require("frontend/robot/components/add");
@@ -40,23 +27,24 @@ let RobotEdit = require("frontend/robot/components/edit");
 let routes = (
   <Route handler={Body} path="/">
     <DefaultRoute name="home" handler={Home}/>
-    <Route name="robot" path="/robots/" handler={RobotRoot}>
-      <DefaultRoute name="robot-index" handler={RobotIndex}/>
-      <Route name="robot-add" path="add" handler={RobotAdd}/>
-      <Route name="robot-detail" path=":id" handler={RobotDetail}/>
-      <Route name="robot-edit" path=":id/edit" handler={RobotEdit}/>
-    </Route>
+    <Route name="robot-index" handler={RobotIndex}/>
+    <Route name="robot-detail" path=":id" handler={RobotDetail}/>
+    <Route name="robot-edit" path=":id/edit" handler={RobotEdit}/>
     <Route name="about" path="/about" handler={About}/>
     <NotFoundRoute handler={NotFound}/>
   </Route>
 );
+
+//<Route name="robot-add" path="add" handler={RobotAdd}/>
+//
+//
 
 window.router = ReactRouter.create({
   routes: routes,
   location: HistoryLocation
 });
 
-window.router.run(function(Handler, state) {
+window.router.run((Handler, state) => {
   // you might want to push the state of the router to a
   // store for whatever reason
   // RouterActions.routeChange({routerState: state});
@@ -64,3 +52,4 @@ window.router.run(function(Handler, state) {
   React.render(<Handler/>, document.body);
 });
 
+RobotActions.loadMany();

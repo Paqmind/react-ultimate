@@ -1,24 +1,29 @@
 // IMPORTS =========================================================================================
 let React = require("react");
 let {CSSTransitionGroup} = require("react/addons").addons;
-let Reflux = require("reflux");
 let AlertActions = require("frontend/alert/actions");
-let AlertStore = require("frontend/alert/stores");
 let AlertItem = require("frontend/alert/components/item");
+let State = require("frontend/state");
 
 // EXPORTS =========================================================================================
 let Index = React.createClass({
-  mixins: [Reflux.connect(AlertStore, "models")],
+  mixins: [State.mixin],
 
-  componentDidMount() {
-    AlertActions.loadMany();
+  cursors: {
+    models: ["alerts"],
   },
 
+  //componentDidMount() {
+  //  AlertActions.loadMany();
+  //},
+
   render() {
+    //console.log("AlertIndex.state.cursors:", this.state.cursors);
+    return <div>==alerts==</div>;
     return (
       <div className="notifications top-left">
         <CSSTransitionGroup transitionName="fade" component="div">
-          {this.state.models.toArray().map(model => <AlertItem model={model} key={model.id}/>)}
+          {models.map(model => <AlertItem model={model} key={model.id}/>)}
         </CSSTransitionGroup>
       </div>
     );

@@ -1,13 +1,12 @@
 // IMPORTS =========================================================================================
-let isObject = require("lodash.isobject");
-let {Map} = require("immutable");
-let Reflux = require("reflux");
+//let isObject = require("lodash.isobject");
+//let {Map} = require("immutable");
 
-// EXPORTS =========================================================================================
-let AlertActions = Reflux.createActions({
-  "loadMany": {asyncResult: true},
-  "add": {},
-  "remove": {},
-});
-
-export default AlertActions;
+// ACTIONS =========================================================================================
+//let AlertActions = Reflux.createActions({
+//  "loadMany": {asyncResult: true},
+//  "add": {},
+//  "remove": {},
+//});
+//
+//export default AlertActions;

@@ -1,11 +1,11 @@
 // IMPORTS =========================================================================================
 let UUID = require('node-uuid');
 let {List, Map, OrderedMap} = require("immutable");
-let Reflux = require("reflux");
 let ReactRouter= require("react-router");
 let AlertActions = require("frontend/alert/actions");
 
 // EXPORTS =========================================================================================
+/*
 let AlertStore = Reflux.createStore({
   listenables: [AlertActions],
 
@@ -64,3 +64,4 @@ let AlertStore = Reflux.createStore({
 });
 
 export default AlertStore;
+*/

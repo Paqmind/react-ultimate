@@ -156,4 +156,4 @@ router.put("/robots/:id",
   }
 );
 
-module.exports = router;
+export default router;
