@@ -32,12 +32,15 @@ function gulpTo5(opts) {
 
 // CONFIG ==========================================================================================
 let libraries = [
+  "axios",
+  "babel/polyfills",
+  "baobab",
   "classnames",
   "node-uuid",
   "util-inspect",
   "paqmind.data-lens",
   "immutable",
-  "object.assign",
+  "joi",
   "lodash.sortby",
   "lodash.isobject",
   "lodash.isplainobject",
@@ -48,15 +51,13 @@ let libraries = [
   "lodash.result",
   "lodash.merge",
   "lodash.flatten",
-  "axios",
-  "joi",
+  "object.assign",
   "react",
   "react/addons",
   "react/lib/ReactLink",
   "react-bootstrap",
   "react-router",
   "react-document-title",
-  "baobab",
 ];
 
 function interleaveWith(array, prefix) {
