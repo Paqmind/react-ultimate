@@ -12,6 +12,6 @@ export default function Alert(data) {
   return Object.assign({
     id: UUID.v4(),
     closable: true,
-    expire: 5000,
+    expire: data.category == "error" ? 0 : 5000,
   }, data);
 }

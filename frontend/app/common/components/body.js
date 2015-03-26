@@ -5,7 +5,7 @@ let {Link, RouteHandler} = ReactRouter;
 let AlertIndex = require("frontend/alert/components/index");
 
 // EXPORTS =========================================================================================
-let Body = React.createClass({
+export default React.createClass({
   render() {
     return (
       <div>
@@ -37,5 +37,3 @@ let Body = React.createClass({
     );
   }
 });
-
-export default Body;

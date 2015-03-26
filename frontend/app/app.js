@@ -6,10 +6,6 @@ let {Route, DefaultRoute, NotFoundRoute, HistoryLocation} = ReactRouter;
 // Shims, polyfills
 let Shims = require("./shims");
 
-// Init stores
-let RobotStore = require("frontend/robot/stores");
-let AlertStore = require("frontend/alert/stores");
-
 // Common
 let Body = require("frontend/common/components/body");
 let Home = require("frontend/common/components/home");

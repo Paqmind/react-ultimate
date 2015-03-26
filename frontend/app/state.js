@@ -5,12 +5,12 @@ let Baobab = require("baobab");
 export default new Baobab({
   robots: {
     models: {},
-    loaded: false,
+    loading: true,
     loadError: undefined,
   },
   alerts: {
     models: {},
-    loaded: false,
+    loading: true,
     loadError: null,
   },
 });

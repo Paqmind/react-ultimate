@@ -5,7 +5,7 @@ let {Link} = ReactRouter;
 let DocumentTitle = require("react-document-title");
 let {toArray} = require("frontend/common/helpers");
 let Loading = require("frontend/common/components/loading");
-let NotFound = require("frontend/common/components/notfound");
+let Error = require("frontend/common/components/error");
 let State = require("frontend/state");
 let RobotItem = require("frontend/robot/components/item");
 
@@ -18,13 +18,11 @@ export default React.createClass({
   },
 
   render() {
-    let {models, loaded, loadError} = this.state.cursors.robots;
+    let {models, loading, loadError} = this.state.cursors.robots;
     models = toArray(models);
 
-    if (!loaded) {
-      return <Loading/>;
-    } else if (loadError) {
-      return <NotFound/>;
+    if (loadError) {
+      return <Error title="Load error" description={loadError.status}/>;
     } else {
       return (
         <DocumentTitle title="Robots">
@@ -44,6 +42,7 @@ export default React.createClass({
                 {models.map(model => <RobotItem model={model} key={model.id}/>)}
               </div>
             </section>
+            {loading ? <Loading/> : ""}
           </div>
         </DocumentTitle>
       );

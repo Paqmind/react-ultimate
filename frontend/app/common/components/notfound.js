@@ -5,7 +5,7 @@ let {Link, RouteHandler} = ReactRouter;
 let DocumentTitle = require("react-document-title");
 
 // EXPORTS =========================================================================================
-let NotFound = React.createClass({
+export default React.createClass({
   render() {
     return (
       <DocumentTitle title="Not Found">
@@ -17,5 +17,3 @@ let NotFound = React.createClass({
     );
   }
 });
-
-export default NotFound;

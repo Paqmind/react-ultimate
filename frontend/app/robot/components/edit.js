@@ -79,10 +79,10 @@ export default React.createClass({
   },
 
   render() {
-    let {models, loaded, loadError} = this.state.cursors.robots;
+    let {models, loading, loadError} = this.state.cursors.robots;
     let loadModel = this.state.cursors.loadModel;
     return (
-      <Form models={models} loaded={loaded} loadError={loadError} loadModel={loadModel}/>
+      <Form models={models} loading={loading} loadError={loadError} loadModel={loadModel}/>
     );
   }
 });
@@ -183,10 +183,10 @@ let Form = React.createClass({
   },
 
   render() {
-    let {models, loaded, loadError, loadModel} = this.props;
+    let {models, loading, loadError, loadModel} = this.props;
     let model = this.state.model;
 
-    if (!loaded) {
+    if (loading) {
       return <Loading/>;
     } else if (loadError) {
       return <NotFound/>;

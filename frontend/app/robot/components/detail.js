@@ -20,10 +20,10 @@ export default React.createClass({
   },
 
   render() {
-    let {models, loaded, loadError} = this.state.cursors.robots;
+    let {models, loading, loadError} = this.state.cursors.robots;
     let model = this.state.cursors.model;
 
-    if (!loaded) {
+    if (loading) {
       return <Loading/>;
     } else if (loadError) {
       return <NotFound/>;

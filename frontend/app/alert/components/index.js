@@ -16,12 +16,10 @@ export default React.createClass({
   },
 
   render() {
-    let {models, loaded, loadError} = this.state.cursors.alerts;
+    let {models, loading, loadError} = this.state.cursors.alerts;
     models = toArray(models);
 
-    if (!loaded) {
-      return <Loading/>;
-    } else if (loadError) {
+    if (loadError) {
       return <NotFound/>;
     } else {
       return (
@@ -29,6 +27,7 @@ export default React.createClass({
           <CSSTransitionGroup transitionName="fade" component="div">
             {models.map(model => <AlertItem model={model} key={model.id}/>)}
           </CSSTransitionGroup>
+          {loading ? <Loading/> : ""}
         </div>
       );
     }

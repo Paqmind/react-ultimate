@@ -9,47 +9,51 @@ let Robot = require("frontend/robot/models");
 export default function add(model) {
   let newModel = Robot(model);
   let id = newModel.id;
+  let apiURL = `/api/robots/${id}`;
 
   // Optimistic add
+  State.select("robots").set("loading", true);
   State.select("robots", "models").set(id, newModel);
 
-  return Axios.put(`/api/robots/${id}`, newModel)
+  return Axios.put(apiURL, newModel)
     .then(response => {
-      let status = response.status.toString();
-      State.select("robots").set("loaded", true);
+      let status = response.statusText;
+      State.select("robots").set("loading", false);
       State.select("robots").set("loadError", undefined);
-      addAlert({message: "Robot added.", category: "success"});
+      addAlert({message: "Action `Robot.add` succeed", category: "success"});
       return status;
     })
     .catch(response => {
       if (response instanceof Error) {
         throw response;
       } else {
-        let status = response.status.toString();
-        State.select("robots").set("loaded", true);
+        let status = response.statusText;
+        State.select("robots").set("loading", false);
         State.select("robots").set("loadError", status);
         State.select("robots", "models").unset(id); // Cancel add
+        addAlert({message: "Action `Robot.add` failed", category: "error"});
         return status;
       }
     });
 
   /* Async-Await style. Wait for proper IDE support
   // Optimistic add
-  State.select("robots", "models").set(id, newModel);
+  ...
 
   let response = {data: []};
   try {
     response = await Axios.put(`/api/robots/${id}`, newModel);
   } catch (response) {
-    let status = response.status.toString();
-    State.select("robots").set("loaded", true);
+    let status = response.statusText;
+    State.select("robots").set("loading", false);
     State.select("robots").set("loadError", status);
     State.select("robots", "models").unset(id); // Cancel add
     return status;
   } // else
-    let status = response.status.toString();
-    State.select("robots").set("loaded", true);
+    let status = response.statusText;
+    State.select("robots").set("loading", false);
     State.select("robots").set("loadError", undefined);
+    addAlert({message: "Action `Robot.edit` failed", category: "error"});
     return status;
   */
 }

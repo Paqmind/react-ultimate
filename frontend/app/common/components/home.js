@@ -5,7 +5,7 @@ let {Link, RouteHandler} = ReactRouter;
 let DocumentTitle = require("react-document-title");
 
 // EXPORTS =========================================================================================
-let Home = React.createClass({
+export default React.createClass({
   render() {
     return (
       <DocumentTitle title="React Starter">
@@ -53,8 +53,6 @@ let Home = React.createClass({
     );
   }
 });
-
-export default Home;
 
 /*
 * TODO

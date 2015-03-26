@@ -6,23 +6,26 @@ let State = require("frontend/state");
 
 // ACTIONS =========================================================================================
 export default function loadMany() {
-  State.select("alerts").edit({loaded: true, loadError: undefined, models: {}});
+  let apiURL = `api/alerts`;
+
+  State.select("alerts").edit({loading: false, loadError: undefined, models: {}});
   return {};
   // TODO: backend
-  //return Axios.get(`/api/alerts/`)
+  //return Axios.get(apiURL)
   //  .then(response => {
   //    let models = toObject(response.data);
-  //    State.select("alerts").edit({loaded: true, loadError: undefined, models: models});
-  //    State.select("alerts").edit({loaded: true, loadError: undefined, models: models});
+  //    State.select("alerts").edit({loading: false, loadError: undefined, models: models});
+  //    State.select("alerts").edit({loading: false, loadError: undefined, models: models});
   //    return models;
   //  })
   //  .catch(response => {
   //    if (response instanceof Error) {
   //      throw response;
   //    } else {
-  //      let loadError = response.status.toString();
-  //      State.select("alerts").set("loaded", true);
+  //      let loadError = {status: response.statusText, url: apiURL};
+  //      State.select("alerts").set("loading", false);
   //      State.select("alerts").set("loadError", loadError);
+  //      addAlert({message: "Action `Alert.loadMany` failed", category: "error"});
   //      return loadError;
   //    }
   //  });
