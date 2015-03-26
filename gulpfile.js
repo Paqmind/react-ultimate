@@ -33,7 +33,7 @@ function gulpTo5(opts) {
 // CONFIG ==========================================================================================
 let libraries = [
   "axios",
-  "babel/polyfills",
+  "babel/polyfill",
   "baobab",
   "classnames",
   "node-uuid",

@@ -1,5 +1,5 @@
 let Inspect = require("util-inspect");
-require("babel/polyfills");
+require("babel/polyfill");
 
 Promise.prototype.done = function(onFulfilled, onRejected) {
   this
