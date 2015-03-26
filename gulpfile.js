@@ -20,45 +20,14 @@ let Gulp6to5 = require("gulp-6to5");
 let GulpPlumber = require("gulp-plumber");
 let VinylSource = require("vinyl-source-stream");
 let VinylBuffer = require("vinyl-buffer");
+var frontendVendors = require("./package.json").frontendVendors;
 
-//let GulpIgnore = require("gulp-ignore");
-//let StripDebug = require("gulp-strip-debug");
-//let Uglify = require("gulp-uglify");
+// HELPERS =========================================================================================
 function gulpTo5(opts) {
   return gulp6to5(Object.assign({
     experimental: true
   }, opts));
 }
-
-// CONFIG ==========================================================================================
-let libraries = [
-  "axios",
-  "babel/polyfill",
-  "baobab",
-  "classnames",
-  "node-uuid",
-  "util-inspect",
-  "paqmind.data-lens",
-  "immutable",
-  "joi",
-  "lodash.sortby",
-  "lodash.isobject",
-  "lodash.isplainobject",
-  "lodash.isarray",
-  "lodash.isempty",
-  "lodash.debounce",
-  "lodash.throttle",
-  "lodash.result",
-  "lodash.merge",
-  "lodash.flatten",
-  "object.assign",
-  "react",
-  "react/addons",
-  "react/lib/ReactLink",
-  "react-bootstrap",
-  "react-router",
-  "react-document-title",
-];
 
 function interleaveWith(array, prefix) {
   return array.reduce((memo, val) => {
@@ -124,7 +93,7 @@ Gulp.task("frontend:dist-images", function() {
 Gulp.task("frontend:bundle-vendors", function() {
   // $ browserify -d -r react -r baobab [-r ...] -o ./static/scripts/vendors.js
   let args = ["-d"]
-    .concat(interleaveWith(libraries, "-r"))
+    .concat(interleaveWith(frontendVendors, "-r"))
     .concat(["-o", "./static/scripts/vendors.js"]);
 
   let bundler = ChildProcess.spawn("browserify", args);
@@ -140,7 +109,7 @@ Gulp.task("frontend:bundle-vendors", function() {
 Gulp.task("frontend:bundle-app", function() {
   // $ browserify -d -x react -x baobab [-x ...] ./frontend/app/app.js -o ./static/scripts/app.js
   let args = ["-d"]
-    .concat(interleaveWith(libraries, "-x"))
+    .concat(interleaveWith(frontendVendors, "-x"))
     .concat(["./frontend/app/app.js"])
     .concat(["-o", "./static/scripts/app.js"]);
 
@@ -157,7 +126,7 @@ Gulp.task("frontend:bundle-app", function() {
 Gulp.task("frontend:watchify", function() {
   // $ watchify -v -d -x react -x reflux [-x ...] ./frontend/app/app.js -o ./static/scripts/app.js
   let args = ["-v", "-d", "--delay 0"]
-    .concat(interleaveWith(libraries, "-x"))
+    .concat(interleaveWith(frontendVendors, "-x"))
     .concat(["./frontend/app/app.js"])
     .concat(["-o", "./static/scripts/app.js"]);
 
