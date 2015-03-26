@@ -4,13 +4,15 @@ let Reflux = require("reflux");
 let ReactRouter = require("react-router");
 let {Link, RouteHandler} = ReactRouter;
 let AlertIndex = require("frontend/alert/components/index");
+let Headroom = require("../../common/components/headroom");
 
 // EXPORTS =========================================================================================
 let Body = React.createClass({
   render() {
+    let headroomClassNames = {visible: 'navbar-down', hidden: 'navbar-up'};
     return (
       <div>
-        <header id="page-header" className="navbar navbar-default navbar-fixed-top navbar-down">
+        <Headroom component="header" id="page-header" className="navbar navbar-default" classNames={headroomClassNames}>
           <div className="container">
             <div className="navbar-header">
               <button className="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-page-header">
@@ -27,7 +29,7 @@ let Body = React.createClass({
               </ul>
             </nav>
           </div>
-        </header>
+        </Headroom>
 
         <main id="page-main">
           <RouteHandler/>

@@ -8289,6 +8289,7 @@ body {
   font-family: 'Roboto Slab', serif;
   transition: all 0.3s ease-in-out;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+  z-index: 1030;
 }
 #page-header.navbar-up {
   top: -100px;
