@@ -5,10 +5,9 @@ let {Link} = ReactRouter;
 let DocumentTitle = require("react-document-title");
 let {toArray} = require("frontend/common/helpers");
 let Loading = require("frontend/common/components/loading");
-let NotFound = require("frontend/common/components/not-found");
-let RobotActions = require("frontend/robot/actions");
-let RobotItem = require("frontend/robot/components/item");
+let NotFound = require("frontend/common/components/notfound");
 let State = require("frontend/state");
+let RobotItem = require("frontend/robot/components/item");
 
 // COMPONENTS ======================================================================================
 export default React.createClass({
@@ -17,11 +16,6 @@ export default React.createClass({
   cursors: {
     robots: ["robots"],
   },
-
-  //componentDidMount() {
-    //console.log("RobotIndex.componentDidMount");
-    //RobotActions.loadMany();
-  //},
 
   render() {
     let {models, loaded, loadError} = this.state.cursors.robots;
@@ -38,7 +32,9 @@ export default React.createClass({
             <div id="page-actions">
               <div className="container">
                 <div className="pull-right">
-                  ... link to Robot-Add
+                  <Link to="robot-add" className="btn btn-sm btn-green" title="Add">
+                    <span className="fa fa-plus"></span>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -64,8 +60,3 @@ export default React.createClass({
   <button className="btn btn-default" data-hook="add">Add Random</button>
 </div>
 */
-
-/*
-<Link to="robot-add" className="btn btn-sm btn-green" title="Add">
-  <span className="fa fa-plus"></span>
-</Link>*/

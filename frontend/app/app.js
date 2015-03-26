@@ -14,10 +14,13 @@ let AlertStore = require("frontend/alert/stores");
 let Body = require("frontend/common/components/body");
 let Home = require("frontend/common/components/home");
 let About = require("frontend/common/components/about");
-let NotFound = require("frontend/common/components/not-found");
+let NotFound = require("frontend/common/components/notfound");
+
+// Alert
+let loadManyAlerts = require("frontend/alert/actions/loadmany");
 
 // Robot
-let RobotActions = require("frontend/robot/actions");
+let loadManyRobots = require("frontend/robot/actions/loadmany");
 let RobotIndex = require("frontend/robot/components/index");
 let RobotAdd = require("frontend/robot/components/add");
 let RobotDetail = require("frontend/robot/components/detail");
@@ -49,4 +52,5 @@ window.router.run((Handler, state) => {
   React.render(<Handler/>, document.body);
 });
 
-RobotActions.loadMany();
+loadManyAlerts();
+loadManyRobots();

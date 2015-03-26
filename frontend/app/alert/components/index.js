@@ -1,33 +1,36 @@
 // IMPORTS =========================================================================================
 let React = require("react");
 let {CSSTransitionGroup} = require("react/addons").addons;
-let AlertActions = require("frontend/alert/actions");
-let AlertItem = require("frontend/alert/components/item");
+let {toArray} = require("frontend/common/helpers");
+let Loading = require("frontend/common/components/loading");
+let NotFound = require("frontend/common/components/notfound");
 let State = require("frontend/state");
+let AlertItem = require("frontend/alert/components/item");
 
-// EXPORTS =========================================================================================
-let Index = React.createClass({
+// COMPONENTS ======================================================================================
+export default React.createClass({
   mixins: [State.mixin],
 
   cursors: {
-    models: ["alerts"],
+    alerts: ["alerts"],
   },
 
-  //componentDidMount() {
-  //  AlertActions.loadMany();
-  //},
-
   render() {
-    //console.log("AlertIndex.state.cursors:", this.state.cursors);
-    return <div>==alerts==</div>;
-    return (
-      <div className="notifications top-left">
-        <CSSTransitionGroup transitionName="fade" component="div">
-          {models.map(model => <AlertItem model={model} key={model.id}/>)}
-        </CSSTransitionGroup>
-      </div>
-    );
+    let {models, loaded, loadError} = this.state.cursors.alerts;
+    models = toArray(models);
+
+    if (!loaded) {
+      return <Loading/>;
+    } else if (loadError) {
+      return <NotFound/>;
+    } else {
+      return (
+        <div className="notifications top-left">
+          <CSSTransitionGroup transitionName="fade" component="div">
+            {models.map(model => <AlertItem model={model} key={model.id}/>)}
+          </CSSTransitionGroup>
+        </div>
+      );
+    }
   }
 });
-
-export default Index;

@@ -1,14 +1,10 @@
 // IMPORTS =========================================================================================
-let UUID = require('node-uuid');
 let {List, Map, OrderedMap} = require("immutable");
 let ReactRouter= require("react-router");
-let AlertActions = require("frontend/alert/actions");
 
 // EXPORTS =========================================================================================
 /*
 let AlertStore = Reflux.createStore({
-  listenables: [AlertActions],
-
   getInitialState() {
     return OrderedMap();
   },

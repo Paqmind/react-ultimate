@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 let React = require("react");
 let {Link} = require("react-router");
-let RobotActions = require("frontend/robot/actions");
+let removeRobot = require("frontend/robot/actions/remove");
 
 // COMPONENTS ======================================================================================
 export default React.createClass({
@@ -31,7 +31,7 @@ export default React.createClass({
                 <Link to="robot-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
                   <span className="fa fa-edit"></span>
                 </Link>
-                <a className="btn btn-red" title="Remove" onClick={RobotActions.remove.bind(this, model.id)}>
+                <a className="btn btn-red" title="Remove" onClick={removeRobot.bind(this, model.id)}>
                   <span className="fa fa-times"></span>
                 </a>
               </div>

@@ -4,9 +4,9 @@ let ReactRouter = require("react-router");
 let {Link} = ReactRouter;
 let DocumentTitle = require("react-document-title");
 let Loading = require("frontend/common/components/loading");
-let NotFound = require("frontend/common/components/not-found");
-let RobotActions = require("frontend/robot/actions");
+let NotFound = require("frontend/common/components/notfound");
 let State = require("frontend/state");
+let removeRobot = require("frontend/robot/actions/remove");
 
 // COMPONENTS ======================================================================================
 export default React.createClass({
@@ -43,7 +43,7 @@ export default React.createClass({
                   <Link to="robot-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
                     <span className="fa fa-edit"></span>
                   </Link>
-                  <a className="btn btn-red" title="Remove" onClick={RobotActions.remove.bind(this, model.id)}>
+                  <a className="btn btn-red" title="Remove" onClick={removeRobot.bind(this, model.id)}>
                     <span className="fa fa-times"></span>
                   </a>
                 </div>

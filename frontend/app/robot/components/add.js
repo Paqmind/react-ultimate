@@ -15,10 +15,9 @@ let DocumentTitle = require("react-document-title");
 let {Alert, Input, Button} = require("react-bootstrap");
 let Validators = require("shared/robot/validators");
 let Loading = require("frontend/common/components/loading");
-let NotFound = require("frontend/common/components/not-found");
-let TextInput = require("frontend/common/components/text-input");
-let RobotActions = require("frontend/robot/actions");
+let NotFound = require("frontend/common/components/notfound");
 let State = require("frontend/state");
+let addRobot = require("frontend/robot/actions/add");
 
 // HELPERS =========================================================================================
 function flattenAndResetTo(obj, to, path) {
@@ -104,19 +103,19 @@ let Form = React.createClass({
     return this.state.model;
   },
 
-  //validate: function(key) {
-  //  let schema = result(this, "validatorTypes") || {};
-  //  let data = result(this, "validatorData") || this.state;
-  //  let nextErrors = merge({}, this.state.errors, validate(schema, data, key), function(a, b) {
-  //    return isArray(b) ? b : undefined;
-  //  });
-  //  return new Promise((resolve, reject) => {
-  //    this.setState({
-  //      errors: nextErrors
-  //    }, () => resolve(this.isValid(key)));
-  //  });
-  //},
-  //
+  validate: function(key) {
+    let schema = result(this, "validatorTypes") || {};
+    let data = result(this, "validatorData") || this.state;
+    let nextErrors = merge({}, this.state.errors, validate(schema, data, key), function(a, b) {
+      return isArray(b) ? b : undefined;
+    });
+    return new Promise((resolve, reject) => {
+      this.setState({
+        errors: nextErrors
+      }, () => resolve(this.isValid(key)));
+    });
+  },
+
   handleChangeFor: function(key) {
     return function handleChange(event) {
       event.persist();
@@ -136,7 +135,7 @@ let Form = React.createClass({
     event.persist();
     this.setState({
       model: Object.assign({}, this.getInitialState().model),
-    }, this.validate);
+    });
   },
 
   handleSubmit(event) {
@@ -145,7 +144,7 @@ let Form = React.createClass({
     this.validate().then(isValid => {
       if (isValid) {
         // TODO replace with React.findDOMNode at #0.13.0
-        RobotActions.add({
+        addRobot({
           name: this.refs.name.getDOMNode().value,
           assemblyDate: this.refs.assemblyDate.getDOMNode().value,
           manufacturer: this.refs.manufacturer.getDOMNode().value,
@@ -205,52 +204,52 @@ let Form = React.createClass({
                     <fieldset>
                       <div className={Class({
                         "form-group": true,
-                        /*"required": (this.validatorTypes().name._flags.presence == "required"),*/
-                        /*"error": !this.isValid("name"),*/
+                        "required": (this.validatorTypes().name._flags.presence == "required"),
+                        "error": !this.isValid("name"),
                       })}>
                         <label htmlFor="name">Name</label>
-                        <input type="text" onChange={this.handleChangeFor("name")} className="form-control" id="name" ref="name" value={model.name}/>
+                        <input type="text" onBlur={this.validate.bind(this, "name")} onChange={this.handleChangeFor("name")} className="form-control" id="name" ref="name" value={model.name}/>
                         <div className={Class({
                           "help": true,
-                          /*"error": !this.isValid("name"),*/
+                          "error": !this.isValid("name"),
                         })}>
-                          {/*this.getValidationMessages("name").map(message => <span key="">{message}</span>)*/}
+                          {this.getValidationMessages("name").map(message => <span key="">{message}</span>)}
                         </div>
                       </div>
 
                       <div className={Class({
                         "form-group": true,
-                        /*"required": (this.validatorTypes().assemblyDate._flags.presence == "required"),*/
-                        /*"error": !this.isValid("assemblyDate")*/
+                        "required": (this.validatorTypes().assemblyDate._flags.presence == "required"),
+                        "error": !this.isValid("assemblyDate")
                       })}>
                         <label htmlFor="assemblyDate">Assembly Date</label>
-                        <input type="text" onChange={this.handleChangeFor("assemblyDate")} className="form-control" id="assemblyDate" ref="assemblyDate" value={model.assemblyDate}/>
+                        <input type="text" onBlur={this.validate.bind(this, "assemblyDate")} onChange={this.handleChangeFor("assemblyDate")} className="form-control" id="assemblyDate" ref="assemblyDate" value={model.assemblyDate}/>
                         <div className={Class({
                           "help": true,
-                          /*"error": !this.isValid("assemblyDate"),*/
+                          "error": !this.isValid("assemblyDate"),
                         })}>
-                          {/*this.getValidationMessages("assemblyDate").map(message => <span key="">{message}</span>)*/}
+                          {this.getValidationMessages("assemblyDate").map(message => <span key="">{message}</span>)}
                         </div>
                       </div>
 
                       <div className={Class({
                         "form-group": true,
-                        /*"required": (this.validatorTypes().manufacturer._flags.presence == "required"),*/
-                        /*"error": !this.isValid("manufacturer")*/
+                        "required": (this.validatorTypes().manufacturer._flags.presence == "required"),
+                        "error": !this.isValid("manufacturer")
                       })}>
                         <label htmlFor="manufacturer">Manufacturer</label>
-                        <input type="text" onChange={this.handleChangeFor("manufacturer")} className="form-control" id="manufacturer" ref="manufacturer" value={model.manufacturer}/>
+                        <input type="text" onBlur={this.validate.bind(this, "manufacturer")} onChange={this.handleChangeFor("manufacturer")} className="form-control" id="manufacturer" ref="manufacturer" value={model.manufacturer}/>
                         <div className={Class({
                           "help": true,
-                          /*"error": !this.isValid("manufacturer"),*/
+                          "error": !this.isValid("manufacturer"),
                         })}>
-                          {/*this.getValidationMessages("manufacturer").map(message => <span key="">{message}</span>)*/}
+                          {this.getValidationMessages("manufacturer").map(message => <span key="">{message}</span>)}
                         </div>
                       </div>
                     </fieldset>
                     <div className="btn-group">
-                      <button className="btn btn-default" type="button" /*onClick={this.handleReset}*/>Reset</button>
-                      <button className="btn btn-primary" /*disabled={!this.isValid()}*/ type="submit">Submit</button>
+                      <button className="btn btn-default" type="button" onClick={this.handleReset}>Reset</button>
+                      <button className="btn btn-primary" disabled={!this.isValid()} type="submit">Submit</button>
                     </div>
                   </form>
                 </div>
