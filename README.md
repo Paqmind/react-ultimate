@@ -95,12 +95,6 @@ Script **bin/linkfolders** symlinks application entry points in **node_modules**
 **package.json** to be compatible with Browserify expectations. But now you may replace all those
 ugly, unreadable, unsupportable relative imports with brand shiny absolute.
 
-### Immutable
-
-[Immutable-js](http://facebook.github.io/immutable-js/docs/#/) may replace the majority of use-cases
-for Lodash. So we try to use this on both frontend and backend.
-Unfortunately, it turns out not as easy as expected.
-
 ### Browser Sync (live reload)
 
 We believe they create more complexity and usability issues than solve.
@@ -110,8 +104,8 @@ So you'll constantly force refresh anyway...
 
 ### Browserify vs WebPack.
 
-Don't like this [mess](https://github.com/kriasoft/react-starter-kit/blob/master/webpack.config.js).
-Trying to stay with Browserify.
+Just look at this [mess](https://github.com/kriasoft/react-starter-kit/blob/master/webpack.config.js).
+We prefer to keep everything simple with Browserify.
 
 ### Builds
 
