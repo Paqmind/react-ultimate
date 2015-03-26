@@ -6,24 +6,24 @@ process.env.NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR || "./shared/config";
 let ChildProcess = require("child_process");
 let Config = require("config");
 let Gulp = require("gulp");
-let gulpUtil = require("gulp-util");
-let runSequence = require("run-sequence");
-let jshintStylish = require("jshint-stylish");
-let gulpJshint = require("gulp-jshint");
-let gulpCached = require("gulp-cached");
-let gulpSourcemaps = require("gulp-sourcemaps");
-let gulpLess = require("gulp-less");
-let gulpConcat = require("gulp-concat");
-let gulpRename = require("gulp-rename");
-var gulpUglify = require("gulp-uglify");
-let gulp6to5 = require("gulp-6to5");
-let gulpPlumber = require("gulp-plumber");
-let vinylSource = require("vinyl-source-stream");
-let vinylBuffer = require("vinyl-buffer");
+let GulpUtil = require("gulp-util");
+let RunSequence = require("run-sequence");
+let JshintStylish = require("jshint-stylish");
+let GulpJshint = require("gulp-jshint");
+let GulpCached = require("gulp-cached");
+let GulpSourcemaps = require("gulp-sourcemaps");
+let GulpLess = require("gulp-less");
+let GulpConcat = require("gulp-concat");
+let GulpRename = require("gulp-rename");
+var GulpUglify = require("gulp-uglify");
+let Gulp6to5 = require("gulp-6to5");
+let GulpPlumber = require("gulp-plumber");
+let VinylSource = require("vinyl-source-stream");
+let VinylBuffer = require("vinyl-buffer");
 
-//let gulpIgnore = require("gulp-ignore");
-//let stripDebug = require("gulp-strip-debug");
-//let uglify = require("gulp-uglify");
+//let GulpIgnore = require("gulp-ignore");
+//let StripDebug = require("gulp-strip-debug");
+//let Uglify = require("gulp-uglify");
 function gulpTo5(opts) {
   return gulp6to5(Object.assign({
     experimental: true
@@ -38,19 +38,25 @@ let libraries = [
   "paqmind.data-lens",
   "immutable",
   "object.assign",
+  "lodash.sortby",
   "lodash.isobject",
+  "lodash.isplainobject",
+  "lodash.isarray",
+  "lodash.isempty",
   "lodash.debounce",
   "lodash.throttle",
+  "lodash.result",
+  "lodash.merge",
+  "lodash.flatten",
   "axios",
   "joi",
   "react",
   "react/addons",
   "react/lib/ReactLink",
   "react-bootstrap",
-  "react-validation-mixin",
   "react-router",
   "react-document-title",
-  "reflux",
+  "baobab",
 ];
 
 function interleaveWith(array, prefix) {
@@ -62,10 +68,10 @@ function interleaveWith(array, prefix) {
 // BACKEND TASKS ===================================================================================
 Gulp.task("backend:lint", function() {
   return Gulp.src(["./backend/**/*.js"])
-    .pipe(gulpPlumber({errorHandler: !exitOnError}))
+    .pipe(GulpPlumber({errorHandler: !exitOnError}))
 //    .pipe(cached("backend:lint"))
-    .pipe(gulpJshint())
-    .pipe(gulpJshint.reporter(jshintStylish));
+    .pipe(GulpJshint())
+    .pipe(GulpJshint.reporter(jshintStylish));
 });
 
 Gulp.task("backend:nodemon", function() {
@@ -77,14 +83,14 @@ Gulp.task("backend:nodemon", function() {
 // FRONTEND TASKS ==================================================================================
 Gulp.task("frontend:move-css", function() {
   return Gulp.src(["./frontend/styles/**/*.css"])
-    .pipe(gulpPlumber({errorHandler: !exitOnError}))
+    .pipe(GulpPlumber({errorHandler: !exitOnError}))
     .pipe(Gulp.dest("./static/styles"));
 });
 
 Gulp.task("frontend:compile-less", function() {
   return Gulp.src(["./frontend/styles/theme.less", "./frontend/styles/http-errors.less"])
-    .pipe(gulpPlumber({errorHandler: !exitOnError}))
-    .pipe(gulpLess())
+    .pipe(GulpPlumber({errorHandler: !exitOnError}))
+    .pipe(GulpLess())
     .pipe(Gulp.dest("./static/styles"));
 });
 
@@ -95,17 +101,17 @@ Gulp.task("frontend:dist-styles", [
 
 Gulp.task("frontend:lint", function() {
   return Gulp.src(["./frontend/**/*.js"])
-    .pipe(gulpPlumber({errorHandler: !exitOnError}))
+    .pipe(GulpPlumber({errorHandler: !exitOnError}))
 //    .pipe(cached("lint-react"))
-    .pipe(gulpJshint())
-    .pipe(gulpJshint.reporter(jshintStylish));
+    .pipe(GulpJshint())
+    .pipe(GulpJshint.reporter(JshintStylish));
 });
 
 Gulp.task("frontend:dist-scripts", function() {
   return Gulp.src(["./frontend/scripts/*.js"])
-    .pipe(gulpPlumber({errorHandler: !exitOnError}))
-    .pipe(gulpConcat("scripts.js"))
-    .pipe(gulpUglify())
+    .pipe(GulpPlumber({errorHandler: !exitOnError}))
+    .pipe(GulpConcat("scripts.js"))
+    .pipe(GulpUglify())
     .pipe(Gulp.dest("./static/scripts"));
 });
 
@@ -115,7 +121,7 @@ Gulp.task("frontend:dist-images", function() {
 });
 
 Gulp.task("frontend:bundle-vendors", function() {
-  // $ browserify -d -r react -r reflux [-r ...] -o ./static/scripts/vendors.js
+  // $ browserify -d -r react -r baobab [-r ...] -o ./static/scripts/vendors.js
   let args = ["-d"]
     .concat(interleaveWith(libraries, "-r"))
     .concat(["-o", "./static/scripts/vendors.js"]);
@@ -131,7 +137,7 @@ Gulp.task("frontend:bundle-vendors", function() {
 });
 
 Gulp.task("frontend:bundle-app", function() {
-  // $ browserify -d -x react -x reflux [-x ...] ./frontend/app/app.js -o ./static/scripts/app.js
+  // $ browserify -d -x react -x baobab [-x ...] ./frontend/app/app.js -o ./static/scripts/app.js
   let args = ["-d"]
     .concat(interleaveWith(libraries, "-x"))
     .concat(["./frontend/app/app.js"])
@@ -149,7 +155,7 @@ Gulp.task("frontend:bundle-app", function() {
 
 Gulp.task("frontend:watchify", function() {
   // $ watchify -v -d -x react -x reflux [-x ...] ./frontend/app/app.js -o ./static/scripts/app.js
-  let args = ["-v", "-d"]
+  let args = ["-v", "-d", "--delay 0"]
     .concat(interleaveWith(libraries, "-x"))
     .concat(["./frontend/app/app.js"])
     .concat(["-o", "./static/scripts/app.js"]);
@@ -175,14 +181,14 @@ Gulp.task("frontend:watch", function() {
 
 // GENERAL TASKS ===================================================================================
 Gulp.task("default", function() {
-  return runSequence(
+  return RunSequence(
     ["backend:nodemon", "frontend:dist"],
     ["frontend:watch", "frontend:watchify"]
   );
 });
 
 Gulp.task("devel", function() {
-  return runSequence(
+  return RunSequence(
     ["frontend:bundle-vendors", "frontend:dist"],
     "default"
   );
@@ -191,7 +197,7 @@ Gulp.task("devel", function() {
 // TODO: Gulp.task("lint", ["shared:lint", "backend:lint", "frontend:lint"]);
 Gulp.task("dist", function() {
   exitOnError = true;
-  return runSequence(
+  return RunSequence(
     ["frontend:bundle-vendors", "frontend:dist"]
   );
 });

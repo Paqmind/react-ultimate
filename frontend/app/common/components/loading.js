@@ -3,7 +3,7 @@ let React = require("react");
 let DocumentTitle = require("react-document-title");
 
 // EXPORTS =========================================================================================
-let Loading = React.createClass({
+export default React.createClass({
   render() {
     let sizeClass = this.props.size ? ' loading-' + this.props.size : '';
     return (
@@ -15,5 +15,3 @@ let Loading = React.createClass({
     );
   }
 });
-
-export default Loading;

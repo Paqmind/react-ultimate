@@ -1,13 +1,12 @@
 // IMPORTS =========================================================================================
 let React = require("react");
-let Reflux = require("reflux");
 let ReactRouter = require("react-router");
 let {Link, RouteHandler} = ReactRouter;
 let AlertIndex = require("frontend/alert/components/index");
 let Headroom = require("../../common/components/headroom");
 
 // EXPORTS =========================================================================================
-let Body = React.createClass({
+export default React.createClass({
   render() {
     let headroomClassNames = {visible: 'navbar-down', hidden: 'navbar-up'};
     return (
@@ -40,5 +39,3 @@ let Body = React.createClass({
     );
   }
 });
-
-export default Body;

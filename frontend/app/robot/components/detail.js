@@ -1,35 +1,35 @@
 // IMPORTS =========================================================================================
-let isObject = require("lodash.isobject");
-let isString = require("lodash.isstring");
 let React = require("react");
-let Reflux = require("reflux");
 let ReactRouter = require("react-router");
-let {Link, RouteHandler} = ReactRouter;
+let {Link} = ReactRouter;
 let DocumentTitle = require("react-document-title");
 let Loading = require("frontend/common/components/loading");
-let NotFound = require("frontend/common/components/not-found");
-let RobotActions = require("frontend/robot/actions");
-let RobotStore = require("frontend/robot/stores");
+let NotFound = require("frontend/common/components/notfound");
+let State = require("frontend/state");
+let removeRobot = require("frontend/robot/actions/remove");
 
-// EXPORTS =========================================================================================
-let Detail = React.createClass({
-  mixins: [
-    ReactRouter.State,
-    Reflux.connectFilter(RobotStore, "model", function(models) {
-      let id = this.getParams().id;
-      return models.get(id);
-    })
-  ],
+// COMPONENTS ======================================================================================
+export default React.createClass({
+  mixins: [ReactRouter.State, State.mixin],
 
-  componentDidMount() {
-    RobotActions.loadOne(this.getParams().id);
+  cursors() {
+    return {
+      robots: ["robots"],
+      model: ["robots", "models", this.getParams().id],
+    };
   },
 
   render() {
-    if (isObject(this.state.model)) {
-      let model = this.state.model;
+    let {models, loading, loadError} = this.state.cursors.robots;
+    let model = this.state.cursors.model;
+
+    if (loading) {
+      return <Loading/>;
+    } else if (loadError) {
+      return <NotFound/>;
+    } else {
       return (
-        <DocumentTitle title={"Detail " + model.get("name")}>
+        <DocumentTitle title={"Detail " + model.name}>
           <div>
             <div id="page-actions">
               <div className="container">
@@ -40,10 +40,10 @@ let Detail = React.createClass({
                   </Link>
                 </div>
                 <div className="btn-group btn-group-sm pull-right">
-                  <Link to="robot-edit" params={{id: model.get("id")}} className="btn btn-orange" title="Edit">
+                  <Link to="robot-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
                     <span className="fa fa-edit"></span>
                   </Link>
-                  <a className="btn btn-red" title="Remove" onClick={RobotActions.remove.bind(this, model.get("id"))}>
+                  <a className="btn btn-red" title="Remove" onClick={removeRobot.bind(this, model.id)}>
                     <span className="fa fa-times"></span>
                   </a>
                 </div>
@@ -53,15 +53,18 @@ let Detail = React.createClass({
               <div className="row">
                 <div className="col-xs-12 col-sm-3">
                   <div className="thumbnail thumbnail-robot">
-                    <img src={"http://robohash.org/" + model.get("id") + "?size=200x200"} width="200px" height="200px"/>
+                    <img src={"http://robohash.org/" + model.id + "?size=200x200"} width="200px" height="200px"/>
                   </div>
                 </div>
                 <div className="col-xs-12 col-sm-9">
-                  <h1 className="nomargin-top">{model.get("name")}</h1>
+                  <h1 className="nomargin-top">{model.name}</h1>
                   <dl>
-                    <dt>Serial Number</dt><dd>{model.get("id")}</dd>
-                    <dt>Assembly Date</dt><dd>{model.get("assemblyDate")}</dd>
-                    <dt>Manufacturer</dt><dd>{model.get("manufacturer")}</dd>
+                    <dt>Serial Number</dt>
+                    <dd>{model.id}</dd>
+                    <dt>Assembly Date</dt>
+                    <dd>{model.assemblyDate}</dd>
+                    <dt>Manufacturer</dt>
+                    <dd>{model.manufacturer}</dd>
                   </dl>
                 </div>
               </div>
@@ -69,13 +72,6 @@ let Detail = React.createClass({
           </div>
         </DocumentTitle>
       );
-    } else if (isString(this.state.model)) {
-      return <NotFound/>;
-    }
-    else {
-      return <Loading/>;
     }
   },
 });
-
-export default Detail;

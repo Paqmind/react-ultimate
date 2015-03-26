@@ -1,28 +1,35 @@
 // IMPORTS =========================================================================================
 let React = require("react");
 let {CSSTransitionGroup} = require("react/addons").addons;
-let Reflux = require("reflux");
-let AlertActions = require("frontend/alert/actions");
-let AlertStore = require("frontend/alert/stores");
+let {toArray} = require("frontend/common/helpers");
+let Loading = require("frontend/common/components/loading");
+let NotFound = require("frontend/common/components/notfound");
+let State = require("frontend/state");
 let AlertItem = require("frontend/alert/components/item");
 
-// EXPORTS =========================================================================================
-let Index = React.createClass({
-  mixins: [Reflux.connect(AlertStore, "models")],
+// COMPONENTS ======================================================================================
+export default React.createClass({
+  mixins: [State.mixin],
 
-  componentDidMount() {
-    AlertActions.loadMany();
+  cursors: {
+    alerts: ["alerts"],
   },
 
   render() {
-    return (
-      <div className="notifications top-left">
-        <CSSTransitionGroup transitionName="fade" component="div">
-          {this.state.models.toArray().map(model => <AlertItem model={model} key={model.id}/>)}
-        </CSSTransitionGroup>
-      </div>
-    );
+    let {models, loading, loadError} = this.state.cursors.alerts;
+    models = toArray(models);
+
+    if (loadError) {
+      return <NotFound/>;
+    } else {
+      return (
+        <div className="notifications top-left">
+          <CSSTransitionGroup transitionName="fade" component="div">
+            {models.map(model => <AlertItem model={model} key={model.id}/>)}
+          </CSSTransitionGroup>
+          {loading ? <Loading/> : ""}
+        </div>
+      );
+    }
   }
 });
-
-export default Index;

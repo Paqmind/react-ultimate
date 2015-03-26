@@ -24,7 +24,7 @@ There are a few of react-starters out there. Let's compare.
 </tr>
 <tr>
   <td>Frontend</td>
-  <th>React / Reflux</th>
+  <th>React / Baobab</th>
   <th>React / Flux</th>
 </tr>
 <tr>
@@ -86,6 +86,14 @@ We want to approach this differently – provide application which is close to r
 
 We also want to test-n-proof Domain Driven architecture (we are bored of models/controllers/views folders
 at the root).
+
+### Relative imports
+
+One of the Node.js biggest fails – the absence of relative imports. Fortunately they can be emulated with
+some amount of twist. The requirement here is to keep IDE navigation and autocompletion features working.
+Script **bin/linkfolders** symlinks application entry points in **node_modules**. Every such point must contain distinct
+**package.json** to be compatible with Browserify expectations. But now you may replace all those
+ugly, unreadable, unsupportable relative imports with brand shiny absolute.
 
 ### Immutable
 

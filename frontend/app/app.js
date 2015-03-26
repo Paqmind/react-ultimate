@@ -1,51 +1,35 @@
-// SHIMS ===========================================================================================
-let inspect = require("util-inspect");
-require("object.assign").shim();
-
-Promise.prototype.done = function(onFulfilled, onRejected) {
-  this
-    .then(onFulfilled, onRejected)
-    .catch(function(e) {
-      setTimeout(function() { throw e; }, 1);
-    });
-};
-
-window.console.echo = function log() {
-  console.log.apply(console, Array.prototype.slice.call(arguments).map(v => inspect(v)));
-};
-
 // IMPORTS =========================================================================================
 let React = require("react");
 let ReactRouter = require("react-router");
 let {Route, DefaultRoute, NotFoundRoute, HistoryLocation} = ReactRouter;
 
-// Init stores
-let RobotStore = require("frontend/robot/stores");
-let AlertStore = require("frontend/alert/stores");
+// Shims, polyfills
+let Shims = require("./shims");
 
-// Common components
+// Common
 let Body = require("frontend/common/components/body");
 let Home = require("frontend/common/components/home");
 let About = require("frontend/common/components/about");
-let NotFound = require("frontend/common/components/not-found");
+let NotFound = require("frontend/common/components/notfound");
 
-// Robot components
-let RobotRoot = require("frontend/robot/components/root");
+// Alert
+let loadManyAlerts = require("frontend/alert/actions/loadmany");
+
+// Robot
+let loadManyRobots = require("frontend/robot/actions/loadmany");
 let RobotIndex = require("frontend/robot/components/index");
-let RobotDetail = require("frontend/robot/components/detail");
 let RobotAdd = require("frontend/robot/components/add");
+let RobotDetail = require("frontend/robot/components/detail");
 let RobotEdit = require("frontend/robot/components/edit");
 
 // ROUTES ==========================================================================================
 let routes = (
   <Route handler={Body} path="/">
     <DefaultRoute name="home" handler={Home}/>
-    <Route name="robot" path="/robots/" handler={RobotRoot}>
-      <DefaultRoute name="robot-index" handler={RobotIndex}/>
-      <Route name="robot-add" path="add" handler={RobotAdd}/>
-      <Route name="robot-detail" path=":id" handler={RobotDetail}/>
-      <Route name="robot-edit" path=":id/edit" handler={RobotEdit}/>
-    </Route>
+    <Route name="robot-index" handler={RobotIndex}/>
+    <Route name="robot-add" path="add" handler={RobotAdd}/>
+    <Route name="robot-detail" path=":id" handler={RobotDetail}/>
+    <Route name="robot-edit" path=":id/edit" handler={RobotEdit}/>
     <Route name="about" path="/about" handler={About}/>
     <NotFoundRoute handler={NotFound}/>
   </Route>
@@ -56,7 +40,7 @@ window.router = ReactRouter.create({
   location: HistoryLocation
 });
 
-window.router.run(function(Handler, state) {
+window.router.run((Handler, state) => {
   // you might want to push the state of the router to a
   // store for whatever reason
   // RouterActions.routeChange({routerState: state});
@@ -64,3 +48,5 @@ window.router.run(function(Handler, state) {
   React.render(<Handler/>, document.body);
 });
 
+loadManyAlerts();
+loadManyRobots();

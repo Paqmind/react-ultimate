@@ -1,3 +1,3 @@
-var requireDirectory = require("require-directory");
+let requireDirectory = require("require-directory");
 
-module.exports = requireDirectory(module);
+export default requireDirectory(module);

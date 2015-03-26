@@ -2,7 +2,7 @@
 let classNames = require("classnames");
 let React = require("react");
 let {Link} = require("react-router");
-let AlertActions = require("frontend/alert/actions");
+let removeAlert = require("frontend/alert/actions/remove");
 
 // EXPORTS =========================================================================================
 let Expire = React.createClass({
@@ -79,16 +79,15 @@ let Item = React.createClass({
       ["alert-" + model.category]: true,
     });
 
-    let removeItem = AlertActions.remove.bind(this, model.id);
     let result = (
       <div className={classes} {...this.props}>
-        {model.closable ? <CloseLink onClick={removeItem}/> : ""}
+        {model.closable ? <CloseLink onClick={removeAlert.bind(this, model.id)}/> : ""}
         {model.message}
       </div>
     );
 
     if (model.expire) {
-      result = <Expire onExpire={removeItem} delay={model.expire}>{result}</Expire>;
+      result = <Expire onExpire={removeAlert.bind(this, model.id)} delay={model.expire}>{result}</Expire>;
     }
 
     return result;

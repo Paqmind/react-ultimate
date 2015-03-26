@@ -1,9 +1,12 @@
-let path = require("path");
+// IMPORTS =========================================================================================
+let Path = require("path");
 
-let projectDir = path.dirname(__dirname);
-let staticDir = path.join(projectDir, "static");
+// EVALS ===========================================================================================
+let projectDir = Path.dirname(__dirname);
+let staticDir = Path.join(projectDir, "static");
 
-module.exports = {
+// CONFIG ==========================================================================================
+export default {
   "use-etag": true,
   "project-dir": projectDir,
   "static-dir": staticDir,
