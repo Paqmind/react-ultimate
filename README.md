@@ -95,12 +95,14 @@ Script **bin/linkfolders** symlinks application entry points in **node_modules**
 **package.json** to be compatible with Browserify expectations. But now you may replace all those
 ugly, unreadable, unsupportable relative imports with brand shiny absolute.
 
+### Immutable
+
+[Immutable-js](http://facebook.github.io/immutable-js/docs/#/)
+TODO
+
 ### Browser Sync (live reload)
 
-We believe they create more complexity and usability issues than solve.
-As soon as you do something more complex than changing component text you can't be sure
-that your browser is really updated after syntax error or something.
-So you'll constantly force refresh anyway...
+TODO
 
 ### Browserify vs WebPack.
 
