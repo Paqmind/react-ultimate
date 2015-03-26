@@ -54,7 +54,6 @@ let libraries = [
   "react/addons",
   "react/lib/ReactLink",
   "react-bootstrap",
-  "react-validation-mixin",
   "react-router",
   "react-document-title",
   "baobab",
@@ -178,7 +177,6 @@ Gulp.task("frontend:watch", function() {
   Gulp.watch("./frontend/scripts/**/*.js", ["frontend:dist-scripts"]);
   Gulp.watch("./frontend/images/**/*", ["frontend:dist-images"]);
   Gulp.watch("./frontend/styles/**/*.less", ["frontend:dist-styles"]);
-  // TODO watch ignores frontend/styles/theme/modules/form.less updates WTF???
 });
 
 // GENERAL TASKS ===================================================================================

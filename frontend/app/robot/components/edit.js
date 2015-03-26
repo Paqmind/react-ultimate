@@ -6,7 +6,6 @@ let isEmpty = require("lodash.isempty");
 let merge = require("lodash.merge");
 let debounce = require("lodash.debounce");
 let flatten = require("lodash.flatten");
-
 let Class = require("classnames");
 let Joi = require("joi");
 let React = require("react");
@@ -14,7 +13,6 @@ let ReactRouter = require("react-router");
 let {Link} = ReactRouter;
 let DocumentTitle = require("react-document-title");
 let {Alert, Input, Button} = require("react-bootstrap");
-//let ValidationMixin = require("react-validation-mixin");
 let Validators = require("shared/robot/validators");
 let Loading = require("frontend/common/components/loading");
 let NotFound = require("frontend/common/components/not-found");
@@ -80,31 +78,27 @@ export default React.createClass({
     }
   },
 
+  render() {
+    let {models, loaded, loadError} = this.state.cursors.robots;
+    let loadModel = this.state.cursors.loadModel;
+    return (
+      <Form models={models} loaded={loaded} loadError={loadError} loadModel={loadModel}/>
+    );
+  }
+});
+
+let Form = React.createClass({
   getInitialState() {
     return {
-      model: undefined,
-      loaded: false,
-      loadError: undefined,
-      loadModel: {
-        name: undefined,
-        assemblyDate: undefined,
-        manufacturer: undefined,
-      },
+      model: Object.assign({}, this.props.loadModel),
     }
   },
 
-  componentWillMount() {
-    //console.log("RobotEdit.componentWillMount()");
-    // `componentWillUpdate` is not called at first render, and data is not "changed"
-    // so we need to hack this manually. TODO: how to handle this case without hacks???
-    RobotActions.askData();
-  },
-
-  componentWillUpdate(nextProps, nextState) {
-    //console.log("RobotEdit.componentWillUpdate()");
-    if (!this.state.model && nextState.cursors.loadModel) {
-      //console.log("assign!");
-      nextState.model = Object.assign({}, nextState.cursors.loadModel);
+  componentWillReceiveProps(props) {
+    if (isEmpty(this.state.model)) {
+      this.setState({
+        model: Object.assign({}, props.loadModel),
+      })
     }
   },
 
@@ -116,19 +110,19 @@ export default React.createClass({
     return this.state.model;
   },
 
-  validate: function(key) {
-    let schema = result(this, "validatorTypes") || {};
-    let data = result(this, "validatorData") || this.state;
-    let nextErrors = merge({}, this.state.errors, validate(schema, data, key), function(a, b) {
-      return isArray(b) ? b : undefined;
-    });
-    return new Promise((resolve, reject) => {
-      this.setState({
-        errors: nextErrors
-      }, () => resolve(this.isValid(key)));
-    });
-  },
-
+  //validate: function(key) {
+  //  let schema = result(this, "validatorTypes") || {};
+  //  let data = result(this, "validatorData") || this.state;
+  //  let nextErrors = merge({}, this.state.errors, validate(schema, data, key), function(a, b) {
+  //    return isArray(b) ? b : undefined;
+  //  });
+  //  return new Promise((resolve, reject) => {
+  //    this.setState({
+  //      errors: nextErrors
+  //    }, () => resolve(this.isValid(key)));
+  //  });
+  //},
+  //
   handleChangeFor: function(key) {
     return function handleChange(event) {
       event.persist();

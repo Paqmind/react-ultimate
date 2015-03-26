@@ -1,52 +1,189 @@
 // IMPORTS =========================================================================================
-let isObject = require("lodash.isobject");
-let isString = require("lodash.isstring");
-let {Map} = require("immutable");
+let result = require("lodash.result");
+let isArray = require("lodash.isarray");
+let isPlainObject = require("lodash.isplainobject");
+let isEmpty = require("lodash.isempty");
+let merge = require("lodash.merge");
+let debounce = require("lodash.debounce");
+let flatten = require("lodash.flatten");
+let Class = require("classnames");
+let Joi = require("joi");
 let React = require("react");
 let ReactRouter = require("react-router");
-let {Link, RouteHandler} = ReactRouter;
+let {Link} = ReactRouter;
 let DocumentTitle = require("react-document-title");
 let {Alert, Input, Button} = require("react-bootstrap");
-let ValidationMixin = require("react-validation-mixin");
 let Validators = require("shared/robot/validators");
 let Loading = require("frontend/common/components/loading");
 let NotFound = require("frontend/common/components/not-found");
 let TextInput = require("frontend/common/components/text-input");
 let RobotActions = require("frontend/robot/actions");
-let RobotStore = require("frontend/robot/stores");
+let State = require("frontend/state");
+
+// HELPERS =========================================================================================
+function flattenAndResetTo(obj, to, path) {
+  path = path || "";
+  return Object.keys(obj).reduce(function(memo, key) {
+    if (isPlainObject(obj[key])) {
+      Object.assign(memo, flattenAndResetTo(obj[key], to, path + key+ "."));
+    } else {
+      memo[path + key] = to;
+    }
+    return memo;
+  }, {});
+}
+
+function validate(joiSchema, data, key) {
+  joiSchema = joiSchema || {};
+  data = data || {};
+  let joiOptions = {
+    abortEarly: false,
+    allowUnknown: true,
+  };
+  let errors = formatErrors(Joi.validate(data, joiSchema, joiOptions));
+  if (key === undefined) {
+    return Object.assign(
+      flattenAndResetTo(joiSchema, []),
+      errors
+    );
+  } else {
+    let result = {};
+    result[key] = errors[key] || [];
+    return result;
+  }
+}
+
+function formatErrors(joiResult) {
+  if (joiResult.error !== null) {
+    return joiResult.error.details.reduce(function(memo, detail) {
+      if (!Array.isArray(memo[detail.path])) {
+        memo[detail.path] = [];
+      }
+      memo[detail.path].push(detail.message);
+      return memo;
+    }, {});
+  } else {
+    return {};
+  }
+}
 
 // COMPONENTS ======================================================================================
-let Add = React.createClass({
-  mixins: [
-    ValidationMixin,
-  ],
+export default React.createClass({
+  mixins: [ReactRouter.State, State.mixin],
 
-  validatorTypes() {
+  cursors() {
     return {
-      model: Validators.model
-    };
-  },
-
-  validatorData() {
-    console.echo("RobotAdd.validatorData", this.state);
-    return {
-      model: this.state.model.toJS()
-    };
-  },
-
-  getInitialState() {
-    return {
-      model: Map({
-        name: undefined,
-        assemblyDate: undefined,
-        manufacturer: undefined,
-      }),
-    };
+      robots: ["robots"],
+    }
   },
 
   render() {
-    if (isObject(this.state.model)) {
+    let {models, loaded, loadError} = this.state.cursors.robots;
+    return (
+      <Form models={models} loaded={loaded} loadError={loadError}/>
+    );
+  }
+});
+
+let Form = React.createClass({
+  getInitialState() {
+    return {
+      model: {
+        name: undefined,
+        assemblyDate: undefined,
+        manufacturer: undefined,
+      },
+    }
+  },
+
+  validatorTypes() {
+    return Validators.model;
+  },
+
+  validatorData() {
+    return this.state.model;
+  },
+
+  //validate: function(key) {
+  //  let schema = result(this, "validatorTypes") || {};
+  //  let data = result(this, "validatorData") || this.state;
+  //  let nextErrors = merge({}, this.state.errors, validate(schema, data, key), function(a, b) {
+  //    return isArray(b) ? b : undefined;
+  //  });
+  //  return new Promise((resolve, reject) => {
+  //    this.setState({
+  //      errors: nextErrors
+  //    }, () => resolve(this.isValid(key)));
+  //  });
+  //},
+  //
+  handleChangeFor: function(key) {
+    return function handleChange(event) {
+      event.persist();
       let model = this.state.model;
+      model[key] = event.currentTarget.value;
+      this.setState({model: model});
+      this.validateDebounced(key);
+    }.bind(this);
+  },
+
+  validateDebounced: debounce(function validateDebounced(key) {
+    return this.validate(key);
+  }, 500),
+
+  handleReset(event) {
+    event.preventDefault();
+    event.persist();
+    this.setState({
+      model: Object.assign({}, this.getInitialState().model),
+    }, this.validate);
+  },
+
+  handleSubmit(event) {
+    event.preventDefault();
+    event.persist();
+    this.validate().then(isValid => {
+      if (isValid) {
+        // TODO replace with React.findDOMNode at #0.13.0
+        RobotActions.add({
+          name: this.refs.name.getDOMNode().value,
+          assemblyDate: this.refs.assemblyDate.getDOMNode().value,
+          manufacturer: this.refs.manufacturer.getDOMNode().value,
+        });
+      } else {
+        alert("Can't submit form with errors");
+      }
+    });
+  },
+
+  getValidationMessages: function(key) {
+    let errors = this.state.errors || {};
+    if (isEmpty(errors)) {
+      return [];
+    } else {
+      if (key === undefined) {
+        return flatten(Object.keys(errors).map(function(error) {
+          return errors[error] || [];
+        }));
+      } else {
+        return errors[key] || [];
+      }
+    }
+  },
+
+  isValid: function(key) {
+    return isEmpty(this.getValidationMessages(key));
+  },
+
+  render() {
+    let {models, loaded, loadError} = this.props;
+    let model = this.state.model;
+
+    if (!loaded) {
+      return <Loading/>;
+    } else if (loadError) {
+      return <NotFound/>;
+    } else {
       return (
         <DocumentTitle title={"Add Robot"}>
           <div>
@@ -66,14 +203,54 @@ let Add = React.createClass({
                   <h1 className="nomargin-top">Add Robot</h1>
                   <form onSubmit={this.handleSubmit}>
                     <fieldset>
-                      <TextInput label="Name" placeholder="Name" id="model.name" form={this}/>
-                      <TextInput label="Assembly Date" placeholder="Assembly Date" id="model.assemblyDate" form={this}/>
-                      <TextInput label="Manufacturer" placeholder="Manufacturer" id="model.manufacturer" form={this}/>
+                      <div className={Class({
+                        "form-group": true,
+                        /*"required": (this.validatorTypes().name._flags.presence == "required"),*/
+                        /*"error": !this.isValid("name"),*/
+                      })}>
+                        <label htmlFor="name">Name</label>
+                        <input type="text" onChange={this.handleChangeFor("name")} className="form-control" id="name" ref="name" value={model.name}/>
+                        <div className={Class({
+                          "help": true,
+                          /*"error": !this.isValid("name"),*/
+                        })}>
+                          {/*this.getValidationMessages("name").map(message => <span key="">{message}</span>)*/}
+                        </div>
+                      </div>
+
+                      <div className={Class({
+                        "form-group": true,
+                        /*"required": (this.validatorTypes().assemblyDate._flags.presence == "required"),*/
+                        /*"error": !this.isValid("assemblyDate")*/
+                      })}>
+                        <label htmlFor="assemblyDate">Assembly Date</label>
+                        <input type="text" onChange={this.handleChangeFor("assemblyDate")} className="form-control" id="assemblyDate" ref="assemblyDate" value={model.assemblyDate}/>
+                        <div className={Class({
+                          "help": true,
+                          /*"error": !this.isValid("assemblyDate"),*/
+                        })}>
+                          {/*this.getValidationMessages("assemblyDate").map(message => <span key="">{message}</span>)*/}
+                        </div>
+                      </div>
+
+                      <div className={Class({
+                        "form-group": true,
+                        /*"required": (this.validatorTypes().manufacturer._flags.presence == "required"),*/
+                        /*"error": !this.isValid("manufacturer")*/
+                      })}>
+                        <label htmlFor="manufacturer">Manufacturer</label>
+                        <input type="text" onChange={this.handleChangeFor("manufacturer")} className="form-control" id="manufacturer" ref="manufacturer" value={model.manufacturer}/>
+                        <div className={Class({
+                          "help": true,
+                          /*"error": !this.isValid("manufacturer"),*/
+                        })}>
+                          {/*this.getValidationMessages("manufacturer").map(message => <span key="">{message}</span>)*/}
+                        </div>
+                      </div>
                     </fieldset>
-                    <div>
-                      <button className="btn btn-default" type="button" onClick={this.handleReset}>Reset</button>
-                      &nbsp;
-                      <button className="btn btn-primary" type="submit">Submit</button>
+                    <div className="btn-group">
+                      <button className="btn btn-default" type="button" /*onClick={this.handleReset}*/>Reset</button>
+                      <button className="btn btn-primary" /*disabled={!this.isValid()}*/ type="submit">Submit</button>
                     </div>
                   </form>
                 </div>
@@ -82,36 +259,12 @@ let Add = React.createClass({
           </div>
         </DocumentTitle>
       );
-    } else if (isString(this.state.model)) {
-      return <NotFound/>;
     }
-    else {
-      return <Loading/>;
-    }
-  },
-
-  // Dirty hacks with setTimeout until valid callback architecture (mixin 4.0 branch) --------------
-  handleSubmit(event) {
-    console.echo("RobotAdd.handleSubmit");
-    event.preventDefault();
-    this.validate();
-    setTimeout(() => {
-      if (this.isValid()) {
-        RobotActions.add(this.state.model);
-      } else {
-        alert("Can't submit form with errors");
-      }
-    }, 500);
-  },
-
-  //handleReset(event) {
-  //  event.preventDefault();
-  //  this.setState(this.getInitialState());
-  //  setTimeout(function() {
-  //    alert("xxx")
-  //  }, 200);
-  //},
-  // -----------------------------------------------------------------------------------------------
+  }
 });
 
-export default Add;
+/*
+<TextInput label="Name" placeholder="Name" id="model.name" form={this}/>
+<TextInput label="Assembly Date" placeholder="Assembly Date" id="model.assemblyDate" form={this}/>
+<TextInput label="Manufacturer" placeholder="Manufacturer" id="model.manufacturer" form={this}/>
+*/

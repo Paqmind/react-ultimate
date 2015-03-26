@@ -185,8 +185,3 @@ export default RobotActions;
 */
 
 // TODO localStorage?!
-
-export function askData() {
-  //console.log("askData!");
-  State.select("robots").set("timestamp", new Date());
-}
