@@ -156,7 +156,7 @@ Gulp.task("frontend:bundle-app", function() {
 
 Gulp.task("frontend:watchify", function() {
   // $ watchify -v -d -x react -x reflux [-x ...] ./frontend/app/app.js -o ./static/scripts/app.js
-  let args = ["-v", "-d"]
+  let args = ["-v", "-d", "--delay 0"]
     .concat(interleaveWith(libraries, "-x"))
     .concat(["./frontend/app/app.js"])
     .concat(["-o", "./static/scripts/app.js"]);
