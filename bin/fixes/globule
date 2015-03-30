@@ -1,3 +1,0 @@
-#!/bin/sh
-# Fix **globule** outdated dependency (**lodash**): remove to use project-level one
-rm -rf node_modules/gulp/node_modules/vinyl-fs/node_modules/glob-watcher/node_modules/gaze/node_modules/globule/node_modules/lodash
