@@ -1,4 +1,3 @@
-/*
 // IMPORTS =========================================================================================
 let React = require("react");
 let throttle = require("lodash.throttle");
@@ -74,4 +73,3 @@ let Headroom = React.createClass({
 });
 
 export default Headroom;
-*/

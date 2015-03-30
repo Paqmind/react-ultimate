@@ -12,13 +12,11 @@ let React = require("react");
 let ReactRouter = require("react-router");
 let {Link} = ReactRouter;
 let DocumentTitle = require("react-document-title");
-let {Alert, Input, Button} = require("react-bootstrap");
 let Validators = require("shared/robot/validators");
 let Loading = require("frontend/common/components/loading");
 let NotFound = require("frontend/common/components/notfound");
 let State = require("frontend/state");
-let editRobot = require("frontend/robot/actions/edit");
-let removeRobot = require("frontend/robot/actions/remove");
+let addRobot = require("frontend/robot/actions/add");
 
 // HELPERS =========================================================================================
 function flattenAndResetTo(obj, to, path) {
@@ -74,15 +72,13 @@ export default React.createClass({
   cursors() {
     return {
       robots: ["robots"],
-      loadModel: ["robots", "models", this.getParams().id],
     }
   },
 
   render() {
     let {models, loading, loadError} = this.state.cursors.robots;
-    let loadModel = this.state.cursors.loadModel;
     return (
-      <Form models={models} loading={loading} loadError={loadError} loadModel={loadModel}/>
+      <Form models={models} loading={loading} loadError={loadError}/>
     );
   }
 });
@@ -90,15 +86,11 @@ export default React.createClass({
 let Form = React.createClass({
   getInitialState() {
     return {
-      model: Object.assign({}, this.props.loadModel),
-    }
-  },
-
-  componentWillReceiveProps(props) {
-    if (isEmpty(this.state.model)) {
-      this.setState({
-        model: Object.assign({}, props.loadModel),
-      })
+      model: {
+        name: undefined,
+        assemblyDate: undefined,
+        manufacturer: undefined,
+      },
     }
   },
 
@@ -141,8 +133,8 @@ let Form = React.createClass({
     event.preventDefault();
     event.persist();
     this.setState({
-      model: Object.assign({}, this.props.loadModel),
-    }, this.validate);
+      model: Object.assign({}, this.getInitialState().model),
+    });
   },
 
   handleSubmit(event) {
@@ -151,8 +143,7 @@ let Form = React.createClass({
     this.validate().then(isValid => {
       if (isValid) {
         // TODO replace with React.findDOMNode at #0.13.0
-        editRobot({
-          id: this.state.model.id,
+        addRobot({
           name: this.refs.name.getDOMNode().value,
           assemblyDate: this.refs.assemblyDate.getDOMNode().value,
           manufacturer: this.refs.manufacturer.getDOMNode().value,
@@ -183,7 +174,7 @@ let Form = React.createClass({
   },
 
   render() {
-    let {models, loading, loadError, loadModel} = this.props;
+    let {models, loading, loadError} = this.props;
     let model = this.state.model;
 
     if (loading) {
@@ -192,7 +183,7 @@ let Form = React.createClass({
       return <NotFound/>;
     } else {
       return (
-        <DocumentTitle title={"Edit " + model.name}>
+        <DocumentTitle title={"Add Robot"}>
           <div>
             <div id="page-actions">
               <div className="container">
@@ -202,25 +193,12 @@ let Form = React.createClass({
                     <span className="hidden-xs margin-left-sm">Back to list</span>
                   </Link>
                 </div>
-                <div className="btn-group btn-group-sm pull-right">
-                  <Link to="robot-detail" params={{id: model.id}} className="btn btn-blue" title="Detail">
-                    <span className="fa fa-eye"></span>
-                  </Link>
-                  <a className="btn btn-red" title="Remove" onClick={removeRobot.bind(this, model.id)}>
-                    <span className="fa fa-times"></span>
-                  </a>
-                </div>
               </div>
             </div>
             <section className="container margin-top-lg">
               <div className="row">
-                <div className="col-xs-12 col-sm-3">
-                  <div className="thumbnail thumbnail-robot">
-                    <img src={"http://robohash.org/" + model.id + "?size=200x200"} width="200px" height="200px"/>
-                  </div>
-                </div>
                 <div className="col-xs-12 col-sm-9">
-                  <h1 className="nomargin-top">{model.name}</h1>
+                  <h1 className="nomargin-top">Add Robot</h1>
                   <form onSubmit={this.handleSubmit}>
                     <fieldset>
                       <div className={Class({

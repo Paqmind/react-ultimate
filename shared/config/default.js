@@ -7,6 +7,7 @@ let staticDir = Path.join(projectDir, "static");
 
 // CONFIG ==========================================================================================
 export default {
+  "use-etag": true,
   "project-dir": projectDir,
   "static-dir": staticDir,
   "smtp-host": "localhost",

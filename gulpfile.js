@@ -13,6 +13,9 @@ let GulpJshint = require("gulp-jshint");
 let GulpCached = require("gulp-cached");
 let GulpSourcemaps = require("gulp-sourcemaps");
 let GulpLess = require("gulp-less");
+let GulpConcat = require("gulp-concat");
+let GulpRename = require("gulp-rename");
+var GulpUglify = require("gulp-uglify");
 let Gulp6to5 = require("gulp-6to5");
 let GulpPlumber = require("gulp-plumber");
 let VinylSource = require("vinyl-source-stream");
@@ -48,13 +51,13 @@ Gulp.task("backend:nodemon", function() {
 });
 
 // FRONTEND TASKS ==================================================================================
-Gulp.task("frontend:dist-css", function() {
+Gulp.task("frontend:move-css", function() {
   return Gulp.src(["./frontend/styles/**/*.css"])
     .pipe(GulpPlumber({errorHandler: !exitOnError}))
     .pipe(Gulp.dest("./static/styles"));
 });
 
-Gulp.task("frontend:dist-less", function() {
+Gulp.task("frontend:compile-less", function() {
   return Gulp.src(["./frontend/styles/theme.less", "./frontend/styles/http-errors.less"])
     .pipe(GulpPlumber({errorHandler: !exitOnError}))
     .pipe(GulpLess())
@@ -62,8 +65,8 @@ Gulp.task("frontend:dist-less", function() {
 });
 
 Gulp.task("frontend:dist-styles", [
-  "frontend:dist-css",
-  "frontend:dist-less"
+  "frontend:move-css",
+  "frontend:compile-less"
 ]);
 
 Gulp.task("frontend:lint", function() {
@@ -74,12 +77,20 @@ Gulp.task("frontend:lint", function() {
     .pipe(GulpJshint.reporter(JshintStylish));
 });
 
+Gulp.task("frontend:dist-scripts", function() {
+  return Gulp.src(["./frontend/scripts/*.js"])
+    .pipe(GulpPlumber({errorHandler: !exitOnError}))
+    .pipe(GulpConcat("scripts.js"))
+    .pipe(GulpUglify())
+    .pipe(Gulp.dest("./static/scripts"));
+});
+
 Gulp.task("frontend:dist-images", function() {
   return Gulp.src(["./images/**/*"])
     .pipe(Gulp.dest("./static/images"));
 });
 
-Gulp.task("frontend:dist-vendors", function() {
+Gulp.task("frontend:bundle-vendors", function() {
   // $ browserify -d -r react -r baobab [-r ...] -o ./static/scripts/vendors.js
   var args = ["-d"]
     .concat(interleaveWith(frontendVendors, "-r"))
@@ -95,11 +106,11 @@ Gulp.task("frontend:dist-vendors", function() {
   });
 });
 
-Gulp.task("frontend:dist-app", function() {
-  // $ browserify -d -x react -x baobab [-x ...] ./frontend/scripts/app.js -o ./static/scripts/app.js
+Gulp.task("frontend:bundle-app", function() {
+  // $ browserify -d -x react -x baobab [-x ...] ./frontend/app/app.js -o ./static/scripts/app.js
   var args = ["-d"]
     .concat(interleaveWith(frontendVendors, "-x"))
-    .concat(["./frontend/scripts/app.js"])
+    .concat(["./frontend/app/app.js"])
     .concat(["-o", "./static/scripts/app.js"]);
 
   var bundler = ChildProcess.spawn("browserify", args);
@@ -113,10 +124,10 @@ Gulp.task("frontend:dist-app", function() {
 });
 
 Gulp.task("frontend:watchify", function() {
-  // $ watchify -v -d -x react -x reflux [-x ...] ./frontend/scripts/app.js -o ./static/scripts/app.js
+  // $ watchify -v -d -x react -x reflux [-x ...] ./frontend/app/app.js -o ./static/scripts/app.js
   var args = ["-v", "-d", "--delay 0"]
     .concat(interleaveWith(frontendVendors, "-x"))
-    .concat(["./frontend/scripts/app.js"])
+    .concat(["./frontend/app/app.js"])
     .concat(["-o", "./static/scripts/app.js"]);
 
   var watcher = ChildProcess.spawn("watchify", args);
@@ -126,12 +137,14 @@ Gulp.task("frontend:watchify", function() {
 
 // TASK DEPENDENCIES ===============================================================================
 Gulp.task("frontend:dist", [
-  "frontend:dist-app",
+  "frontend:bundle-app",
+  "frontend:dist-scripts",
   "frontend:dist-images",
   "frontend:dist-styles",
 ]);
 
 Gulp.task("frontend:watch", function() {
+  Gulp.watch("./frontend/scripts/**/*.js", ["frontend:dist-scripts"]);
   Gulp.watch("./frontend/images/**/*", ["frontend:dist-images"]);
   Gulp.watch("./frontend/styles/**/*.less", ["frontend:dist-styles"]);
 });
@@ -146,7 +159,7 @@ Gulp.task("default", function() {
 
 Gulp.task("devel", function() {
   return RunSequence(
-    ["frontend:dist-vendors", "frontend:dist"],
+    ["frontend:bundle-vendors", "frontend:dist"],
     "default"
   );
 });
@@ -155,7 +168,7 @@ Gulp.task("devel", function() {
 Gulp.task("dist", function() {
   exitOnError = true;
   return RunSequence(
-    ["frontend:dist-vendors", "frontend:dist"]
+    ["frontend:bundle-vendors", "frontend:dist"]
   );
 });
 
