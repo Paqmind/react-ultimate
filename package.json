@@ -25,7 +25,7 @@
     "express": "^4.12.3",
     "faker": "^2.1.2",
     "helmet": "^0.7.1",
-    "immutable": "^3.6.4",
+    "immutable": "^3.7.1",
     "joi": "^6.0.8",
     "lodash": "^3.6.0",
     "lodash.debounce": "^3.0.3",
