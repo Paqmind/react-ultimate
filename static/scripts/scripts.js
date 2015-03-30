@@ -1,0 +1,1 @@
+$(document).ready(function(){"use strict";var e=function(){$(document).on("click","#page-header .navbar-collapse.in",function(e){$(e.target).is("a")&&t.collapse("hide")})},n=function(){$(document).mouseup(function(e){t.is(e.target)||0!==t.has(e.target).length||t.collapse("hide")})},a=$("#page-header");if(a.length){var t=a.find(".navbar-collapse");t.length&&(e(),n())}});
