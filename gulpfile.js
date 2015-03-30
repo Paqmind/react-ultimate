@@ -90,7 +90,7 @@ Gulp.task("frontend:dist-images", function() {
     .pipe(Gulp.dest("./static/images"));
 });
 
-Gulp.task("frontend:bundle-vendors", function() {
+Gulp.task("frontend:dist-vendors", function() {
   // $ browserify -d -r react -r baobab [-r ...] -o ./static/scripts/vendors.js
   var args = ["-d"]
     .concat(interleaveWith(frontendVendors, "-r"))
@@ -106,7 +106,7 @@ Gulp.task("frontend:bundle-vendors", function() {
   });
 });
 
-Gulp.task("frontend:bundle-app", function() {
+Gulp.task("frontend:dist-app", function() {
   // $ browserify -d -x react -x baobab [-x ...] ./frontend/app/app.js -o ./static/scripts/app.js
   var args = ["-d"]
     .concat(interleaveWith(frontendVendors, "-x"))
@@ -137,7 +137,7 @@ Gulp.task("frontend:watchify", function() {
 
 // TASK DEPENDENCIES ===============================================================================
 Gulp.task("frontend:dist", [
-  "frontend:bundle-app",
+  "frontend:dist-app",
   "frontend:dist-scripts",
   "frontend:dist-images",
   "frontend:dist-styles",
@@ -159,7 +159,7 @@ Gulp.task("default", function() {
 
 Gulp.task("devel", function() {
   return RunSequence(
-    ["frontend:bundle-vendors", "frontend:dist"],
+    ["frontend:dist-vendors", "frontend:dist"],
     "default"
   );
 });
@@ -168,7 +168,7 @@ Gulp.task("devel", function() {
 Gulp.task("dist", function() {
   exitOnError = true;
   return RunSequence(
-    ["frontend:bundle-vendors", "frontend:dist"]
+    ["frontend:dist-vendors", "frontend:dist"]
   );
 });
 
