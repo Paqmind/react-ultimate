@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "nodemon": "nodemon -e js,html --exec babel-node ./backend/app/app.js --experimental",
-    "node": "NODE_ENV=production babel-node backend/app/app.js --experimental",
+    "node": "babel-node backend/app/app.js --experimental",
     "test": "mocha --opts specs/mocha.opts specs",
     "test-watch": "mocha --opts specs/mocha.opts -w specs",
     "precommit": "npm test",
