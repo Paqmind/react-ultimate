@@ -46,7 +46,6 @@
     "node-uuid": "^1.4.3",
     "nunjucks": "^1.2.0",
     "nunjucks-markdown": "^1.0.0",
-    "object.assign": "^1.1.1",
     "react": "^0.12.2",
     "react-document-title": "^1.0.1",
     "react-router": "^0.12.0",
