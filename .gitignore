@@ -1,6 +1,6 @@
 # EXACT --------------------------------------------------------------------------------------------
 /build/
-/docs/
+/ignore/
 /logs/
 /node_modules/
 /shared/config/development.js

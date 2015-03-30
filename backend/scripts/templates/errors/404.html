@@ -1,0 +1,28 @@
+{% extends "errors/base.html" %}
+
+{% set seotitle = "404 Page not found" %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-sm-12 col-lg-6">
+      <div id="http-error-descr">
+        <h1 id="http-error-heading">Page not found</h1>
+        <p>Keep inner peace.</p>
+        <p>Perhaps it was the result of either:</p>
+        <ul class="fa-ul margin-bottom-lg">
+          <li><i class="fa-li fa fa-chevron-circle-right"></i>a mistyped address</li>
+          <li><i class="fa-li fa fa-chevron-circle-right"></i>an outdated link</li>
+        </ul>
+        <p>But you can always start from <a href="/">home page</a>.</p>
+        <script>
+          var GOOG_FIXURL_LANG = (navigator.language || '').slice(0,2);
+          var GOOG_FIXURL_SITE = location.host;
+        </script>
+        <script src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js"></script>
+      </div>
+    </div>
+    <div class="col-sm-12 col-lg-6">
+      {% include 'errors/mascotte/angry.html' %}
+    </div>
+  </div>
+{% endblock %}

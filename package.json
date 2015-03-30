@@ -1,11 +1,11 @@
 {
   "name": "twitto",
   "version": "0.1.0",
-  "main": "backend/app/app.js",
+  "main": "backend/scripts/app.js",
   "private": true,
   "scripts": {
-    "nodemon": "nodemon -e js,html --exec babel-node ./backend/app/app.js --experimental",
-    "node": "NODE_ENV=production babel-node backend/app/app.js --experimental",
+    "nodemon": "nodemon -e js,html --exec babel-node ./backend/scripts/app.js --experimental",
+    "node": "babel-node backend/scripts/app.js --experimental",
     "test": "mocha --opts specs/mocha.opts specs",
     "test-watch": "mocha --opts specs/mocha.opts -w specs",
     "precommit": "npm test",
@@ -25,7 +25,7 @@
     "express": "^4.12.3",
     "faker": "^2.1.2",
     "helmet": "^0.7.1",
-    "immutable": "^3.6.4",
+    "immutable": "^3.7.1",
     "joi": "^6.0.8",
     "lodash": "^3.6.0",
     "lodash.debounce": "^3.0.3",
@@ -46,8 +46,6 @@
     "node-uuid": "^1.4.3",
     "nunjucks": "^1.2.0",
     "nunjucks-markdown": "^1.0.0",
-    "object.assign": "^1.1.1",
-    "paqmind.data-lens": "^0.1.0",
     "react": "^0.12.2",
     "react-bootstrap": "^0.16.1",
     "react-document-title": "^1.0.1",
@@ -89,16 +87,13 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "vinyl-transform": "*",
-    "watchify": "^2.6.1"
+    "watchify": "^2.6.2"
   },
   "frontendVendors": [
     "axios",
     "babel/polyfill",
     "baobab",
     "classnames",
-    "node-uuid",
-    "util-inspect",
-    "paqmind.data-lens",
     "immutable",
     "joi",
     "lodash.sortby",
@@ -111,13 +106,15 @@
     "lodash.result",
     "lodash.merge",
     "lodash.flatten",
-    "object.assign",
+    "node-uuid",
+    "paqmind.data-lens",
     "react",
     "react/addons",
     "react/lib/ReactLink",
     "react-bootstrap",
     "react-router",
-    "react-document-title"
+    "react-document-title",
+    "util-inspect"
   ],
   "apidoc": {
     "name": "twitto",
