@@ -6,7 +6,6 @@
 /shared/config/development.js
 
 # BY MASK ------------------------------------------------------------------------------------------
-/fabfile*
 *.iml
 .idea
 .DS_Store
