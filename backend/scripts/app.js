@@ -9,19 +9,19 @@ let Http = require("http");
 let Util = require("util");
 let ChildProcess = require("child_process");
 let Config = require("config");
+let Nunjucks = require("nunjucks");
+let Markdown = require("nunjucks-markdown");
+let Marked = require("marked");
 let Express = require("express");
 let SocketIO = require("socket.io");
 let SocketIOStream = require("socket.io-stream");
 let Morgan = require("morgan");
 let CookieParser = require("cookie-parser");
 let BodyParser = require("body-parser");
-let Nunjucks = require("nunjucks");
-let Markdown = require("nunjucks-markdown");
-let Marked = require("marked");
 let Winston = require("winston");
 let WinstonMail = require("winston-mail");
 let Moment = require("moment");
-let Routes = require("./routes/index");
+let Routes = require("./routes");
 
 // APPS & SERVERS ----------------------------------------------------------------------------------
 let app = Express();
