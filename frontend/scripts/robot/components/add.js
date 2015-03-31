@@ -21,7 +21,7 @@ let addRobot = require("frontend/robot/actions/add");
 // HELPERS =========================================================================================
 function flattenAndResetTo(obj, to, path) {
   path = path || "";
-  return Object.keys(obj).reduce(function(memo, key) {
+  return Object.keys(obj).reduce(function (memo, key) {
     if (isPlainObject(obj[key])) {
       Object.assign(memo, flattenAndResetTo(obj[key], to, path + key+ "."));
     } else {
@@ -53,7 +53,7 @@ function validate(joiSchema, data, key) {
 
 function formatErrors(joiResult) {
   if (joiResult.error !== null) {
-    return joiResult.error.details.reduce(function(memo, detail) {
+    return joiResult.error.details.reduce(function (memo, detail) {
       if (!Array.isArray(memo[detail.path])) {
         memo[detail.path] = [];
       }
@@ -102,10 +102,10 @@ let Form = React.createClass({
     return this.state.model;
   },
 
-  validate: function(key) {
+  validate: function (key) {
     let schema = result(this, "validatorTypes") || {};
     let data = result(this, "validatorData") || this.state;
-    let nextErrors = merge({}, this.state.errors, validate(schema, data, key), function(a, b) {
+    let nextErrors = merge({}, this.state.errors, validate(schema, data, key), function (a, b) {
       return isArray(b) ? b : undefined;
     });
     return new Promise((resolve, reject) => {
@@ -115,7 +115,7 @@ let Form = React.createClass({
     });
   },
 
-  handleChangeFor: function(key) {
+  handleChangeFor: function (key) {
     return function handleChange(event) {
       event.persist();
       let model = this.state.model;
@@ -154,13 +154,13 @@ let Form = React.createClass({
     });
   },
 
-  getValidationMessages: function(key) {
+  getValidationMessages: function (key) {
     let errors = this.state.errors || {};
     if (isEmpty(errors)) {
       return [];
     } else {
       if (key === undefined) {
-        return flatten(Object.keys(errors).map(function(error) {
+        return flatten(Object.keys(errors).map(function (error) {
           return errors[error] || [];
         }));
       } else {
@@ -169,7 +169,7 @@ let Form = React.createClass({
     }
   },
 
-  isValid: function(key) {
+  isValid: function (key) {
     return isEmpty(this.getValidationMessages(key));
   },
 

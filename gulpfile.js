@@ -5,11 +5,11 @@ process.env.NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR || "./shared/config";
 // IMPORTS =========================================================================================
 let ChildProcess = require("child_process");
 let Config = require("config");
+let RunSequence = require("run-sequence");
 let Gulp = require("gulp");
 let GulpUtil = require("gulp-util");
-let RunSequence = require("run-sequence");
-let JshintStylish = require("jshint-stylish");
 let GulpJshint = require("gulp-jshint");
+let JshintStylish = require("jshint-stylish");
 let GulpCached = require("gulp-cached");
 let GulpSourcemaps = require("gulp-sourcemaps");
 let GulpLess = require("gulp-less");
@@ -38,7 +38,7 @@ function interleaveWith(array, prefix) {
 }
 
 // BACKEND TASKS ===================================================================================
-Gulp.task("backend:lint", function() {
+Gulp.task("backend:lint", function () {
   return Gulp.src(["./backend/**/*.js"])
     .pipe(GulpPlumber({errorHandler: !exitOnError}))
 //    .pipe(cached("backend:lint"))
@@ -46,21 +46,21 @@ Gulp.task("backend:lint", function() {
     .pipe(GulpJshint.reporter(jshintStylish));
 });
 
-Gulp.task("backend:nodemon", function() {
+Gulp.task("backend:nodemon", function () {
   let nodemon = ChildProcess.spawn("npm", ["run", "nodemon"]);
   nodemon.stdout.pipe(process.stdout);
   nodemon.stderr.pipe(process.stderr);
 });
 
 // FRONTEND TASKS ==================================================================================
-Gulp.task("frontend:dist-styles", function() {
+Gulp.task("frontend:dist-styles", function () {
   return Gulp.src(["./frontend/styles/theme.less"])
     .pipe(GulpPlumber({errorHandler: !exitOnError}))
     .pipe(GulpLess())
     .pipe(Gulp.dest("./static/styles"));
 });
 
-Gulp.task("frontend:lint", function() {
+Gulp.task("frontend:lint", function () {
   return Gulp.src(["./frontend/**/*.js"])
     .pipe(GulpPlumber({errorHandler: !exitOnError}))
 //    .pipe(cached("lint-react"))
@@ -68,12 +68,12 @@ Gulp.task("frontend:lint", function() {
     .pipe(GulpJshint.reporter(JshintStylish));
 });
 
-Gulp.task("frontend:dist-images", function() {
+Gulp.task("frontend:dist-images", function () {
   return Gulp.src(["./images/**/*"])
     .pipe(Gulp.dest("./static/images"));
 });
 
-Gulp.task("frontend:dist-vendors", function() {
+Gulp.task("frontend:dist-vendors", function () {
   // $ browserify -d -r react -r baobab [-r ...] -o ./static/scripts/vendors.js
   let args = ["-d"]
     .concat(interleaveWith(frontendVendors, "-r"))
@@ -82,14 +82,14 @@ Gulp.task("frontend:dist-vendors", function() {
   let bundler = ChildProcess.spawn("browserify", args);
   bundler.stdout.pipe(process.stdout);
   bundler.stderr.pipe(process.stderr);
-  bundler.on("exit", function(code) {
+  bundler.on("exit", function (code) {
     if (exitOnError && code) {
       process.exit(code);
     }
   });
 });
 
-Gulp.task("frontend:dist-scripts", function() {
+Gulp.task("frontend:dist-scripts", function () {
   // $ browserify -d -x react -x baobab [-x ...] ./frontend/scripts/app.js -o ./static/scripts/app.js
   let args = ["-d"]
     .concat(interleaveWith(frontendVendors, "-x"))
@@ -99,14 +99,14 @@ Gulp.task("frontend:dist-scripts", function() {
   let bundler = ChildProcess.spawn("browserify", args);
   bundler.stdout.pipe(process.stdout);
   bundler.stderr.pipe(process.stderr);
-  bundler.on("exit", function(code) {
+  bundler.on("exit", function (code) {
     if (exitOnError && code) {
       process.exit(code);
     }
   });
 });
 
-Gulp.task("frontend:watchify", function() {
+Gulp.task("frontend:watchify", function () {
   // $ watchify -v -d -x react -x reflux [-x ...] ./frontend/scripts/app.js -o ./static/scripts/app.js
   let args = ["-v", "-d", "--delay 0"]
     .concat(interleaveWith(frontendVendors, "-x"))
@@ -125,20 +125,20 @@ Gulp.task("frontend:dist", [
   "frontend:dist-styles",
 ]);
 
-Gulp.task("frontend:watch", function() {
+Gulp.task("frontend:watch", function () {
   Gulp.watch("./frontend/images/**/*", ["frontend:dist-images"]);
   Gulp.watch("./frontend/styles/**/*.less", ["frontend:dist-styles"]);
 });
 
 // GENERAL TASKS ===================================================================================
-Gulp.task("default", function() {
+Gulp.task("default", function () {
   return RunSequence(
     ["backend:nodemon", "frontend:dist"],
     ["frontend:watch", "frontend:watchify"]
   );
 });
 
-Gulp.task("devel", function() {
+Gulp.task("devel", function () {
   return RunSequence(
     ["frontend:dist-vendors", "frontend:dist"],
     "default"
@@ -146,14 +146,14 @@ Gulp.task("devel", function() {
 });
 
 // TODO: Gulp.task("lint", ["shared:lint", "backend:lint", "frontend:lint"]);
-Gulp.task("dist", function() {
+Gulp.task("dist", function () {
   exitOnError = true;
   return RunSequence(
     ["frontend:dist-vendors", "frontend:dist"]
   );
 });
 
-Gulp.task("config:get", function() {
+Gulp.task("config:get", function () {
   let argv = require("yargs").argv;
   let value = Config.get(argv.option);
   //if (value === undefined) {

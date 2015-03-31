@@ -17,7 +17,7 @@ let Headroom = React.createClass({
     }
   },
 
-  hasScrolled: function() {
+  hasScrolled: function () {
     let topPosition = $(window).scrollTop();
 
     // Make sure users scroll more than delta
@@ -37,13 +37,13 @@ let Headroom = React.createClass({
   },
 
 
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       className: ""
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     // Init options
     this.deltaHeight = this.props.deltaHeight ? this.props.deltaHeight : 5;
     this.delay = this.props.delay ? this.props.delay : 250;
@@ -57,7 +57,7 @@ let Headroom = React.createClass({
     this.setState({className: this.props.headroomClassNames.visible});
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     window.removeEventListener("scroll", this.hasScrolled, false);
   },
 

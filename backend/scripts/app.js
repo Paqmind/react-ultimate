@@ -63,11 +63,11 @@ app.use("/static", staticRoutes);
 app.use("/api", Routes.api);
 app.use("/", Routes.app);
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.status(404).render("errors/404.html");
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   logger.error(err.stack);
   res.status(err.status || 500);
   res.render("errors/500.html", {
@@ -102,10 +102,10 @@ let logger = new (Winston.Logger)({
     new (Winston.transports.Console)({
       level: process.env.NODE_ENV == "development" ? "info" : "warn",
       colorize: true,
-      timestamp: function() {
+      timestamp: function () {
         return Moment();
       },
-      formatter: function(options) {
+      formatter: function (options) {
         let timestamp = options.timestamp().format("YYYY-MM-DD hh:mm:ss");
         let level = Winston.config.colorize(options.level, options.level.toUpperCase());
         let message = options.message;
@@ -147,12 +147,12 @@ server.listen(Config.get("http-port"));
 //let exec  = ChildProcess.exec,
 //let spawn = ChildProcess.spawn;
 
-/*socketEngine.sockets.on("connection", function(socket) {
+/*socketEngine.sockets.on("connection", function (socket) {
   console.log("[]-> connection");
   var logFile = Path.join(Config.get("project-dir"), "log-osx.log");
-  ss(socket).on("enter", function(stream, data) {
+  ss(socket).on("enter", function (stream, data) {
     var top = spawn("top", ["-l 0"]);
-    top.stderr.on("data", function(data) {
+    top.stderr.on("data", function (data) {
       console.log("ps stderr: " + data);
     });
     console.log("[]-> enter:");
@@ -165,17 +165,17 @@ server.listen(Config.get("http-port"));
 //  ss(socket).emit("streaming", top.stdout);
 //  socket.emit("message", {message: "Welcome to the chat!"});
 
-//  socket.on("message", function(data) {
+//  socket.on("message", function (data) {
 //    socket.broadcast.emit("message", {message: data});
 //    socket.emit("message", {message: data});
 //  });
 
-//  socket.on("enter", function(data) {
+//  socket.on("enter", function (data) {
 //    socket.username = data.username;
 //    socketEngine.sockets.emit("message", {message: data.username + " enters the chat"});
 //  });
 
-//  socket.on("disconnect", function() {
+//  socket.on("disconnect", function () {
 //    socketEngine.sockets.emit("message", {message: socket.username + " leaves the chat"});
 //  });
 });*/

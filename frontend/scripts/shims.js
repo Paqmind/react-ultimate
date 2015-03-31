@@ -1,11 +1,11 @@
 let Inspect = require("util-inspect");
 require("babel/polyfill");
 
-Promise.prototype.done = function(onFulfilled, onRejected) {
+Promise.prototype.done = function (onFulfilled, onRejected) {
   this
     .then(onFulfilled, onRejected)
-    .catch(function(e) {
-      setTimeout(function() { throw e; }, 1);
+    .catch(function (e) {
+      setTimeout(function () { throw e; }, 1);
     });
 };
 
