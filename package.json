@@ -66,7 +66,6 @@
     "browserify": "^9.0.3",
     "chai": "^2.1.2",
     "gulp": "^3.8.11",
-    "gulp-6to5": "^3.0.0",
     "gulp-cached": "^1.0.4",
     "gulp-concat": "^2.5.0",
     "gulp-ignore": "*",
