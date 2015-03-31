@@ -7,14 +7,11 @@ let ChildProcess = require("child_process");
 let Config = require("config");
 let RunSequence = require("run-sequence");
 let Gulp = require("gulp");
-let GulpUtil = require("gulp-util");
 let GulpJshint = require("gulp-jshint");
 let JshintStylish = require("jshint-stylish");
 let GulpCached = require("gulp-cached");
 let GulpSourcemaps = require("gulp-sourcemaps");
 let GulpLess = require("gulp-less");
-let GulpConcat = require("gulp-concat");
-let GulpUglify = require("gulp-uglify");
 let GulpPlumber = require("gulp-plumber");
 let frontendVendors = require("./package.json").frontendVendors;
 
