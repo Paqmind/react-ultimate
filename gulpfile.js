@@ -1,5 +1,5 @@
-// DEFAULTS ========================================================================================
-let exitOnError = false;
+// ENV =============================================================================================
+process.env.NODE_ENV = process.env.NODE_ENV || "development";
 process.env.NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR || "./shared/config";
 
 // IMPORTS =========================================================================================
@@ -14,12 +14,15 @@ let GulpCached = require("gulp-cached");
 let GulpSourcemaps = require("gulp-sourcemaps");
 let GulpLess = require("gulp-less");
 let GulpConcat = require("gulp-concat");
-var GulpUglify = require("gulp-uglify");
+let GulpUglify = require("gulp-uglify");
 let Gulp6to5 = require("gulp-6to5");
 let GulpPlumber = require("gulp-plumber");
 let VinylSource = require("vinyl-source-stream");
 let VinylBuffer = require("vinyl-buffer");
-var frontendVendors = require("./package.json").frontendVendors;
+let frontendVendors = require("./package.json").frontendVendors;
+
+// OPTIONS =========================================================================================
+let exitOnError = false;
 
 // HELPERS =========================================================================================
 function gulpTo5(opts) {
@@ -72,11 +75,11 @@ Gulp.task("frontend:dist-images", function() {
 
 Gulp.task("frontend:dist-vendors", function() {
   // $ browserify -d -r react -r baobab [-r ...] -o ./static/scripts/vendors.js
-  var args = ["-d"]
+  let args = ["-d"]
     .concat(interleaveWith(frontendVendors, "-r"))
     .concat(["-o", "./static/scripts/vendors.js"]);
 
-  var bundler = ChildProcess.spawn("browserify", args);
+  let bundler = ChildProcess.spawn("browserify", args);
   bundler.stdout.pipe(process.stdout);
   bundler.stderr.pipe(process.stderr);
   bundler.on("exit", function(code) {
@@ -88,12 +91,12 @@ Gulp.task("frontend:dist-vendors", function() {
 
 Gulp.task("frontend:dist-scripts", function() {
   // $ browserify -d -x react -x baobab [-x ...] ./frontend/scripts/app.js -o ./static/scripts/app.js
-  var args = ["-d"]
+  let args = ["-d"]
     .concat(interleaveWith(frontendVendors, "-x"))
     .concat(["./frontend/scripts/app.js"])
     .concat(["-o", "./static/scripts/app.js"]);
 
-  var bundler = ChildProcess.spawn("browserify", args);
+  let bundler = ChildProcess.spawn("browserify", args);
   bundler.stdout.pipe(process.stdout);
   bundler.stderr.pipe(process.stderr);
   bundler.on("exit", function(code) {
@@ -105,12 +108,12 @@ Gulp.task("frontend:dist-scripts", function() {
 
 Gulp.task("frontend:watchify", function() {
   // $ watchify -v -d -x react -x reflux [-x ...] ./frontend/scripts/app.js -o ./static/scripts/app.js
-  var args = ["-v", "-d", "--delay 0"]
+  let args = ["-v", "-d", "--delay 0"]
     .concat(interleaveWith(frontendVendors, "-x"))
     .concat(["./frontend/scripts/app.js"])
     .concat(["-o", "./static/scripts/app.js"]);
 
-  var watcher = ChildProcess.spawn("watchify", args);
+  let watcher = ChildProcess.spawn("watchify", args);
   watcher.stdout.pipe(process.stdout);
   watcher.stderr.pipe(process.stderr);
 });
@@ -151,8 +154,8 @@ Gulp.task("dist", function() {
 });
 
 Gulp.task("config:get", function() {
-  var argv = require("yargs").argv;
-  var value = Config.get(argv.option);
+  let argv = require("yargs").argv;
+  let value = Config.get(argv.option);
   //if (value === undefined) {
   //  throw Error(`Undefined option ${argv.option}`);
   //} else {
