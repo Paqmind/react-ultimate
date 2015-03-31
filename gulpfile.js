@@ -51,13 +51,13 @@ Gulp.task("backend:nodemon", function() {
 });
 
 // FRONTEND TASKS ==================================================================================
-Gulp.task("frontend:move-css", function() {
+Gulp.task("frontend:dist-css", function() {
   return Gulp.src(["./frontend/styles/**/*.css"])
     .pipe(GulpPlumber({errorHandler: !exitOnError}))
     .pipe(Gulp.dest("./static/styles"));
 });
 
-Gulp.task("frontend:compile-less", function() {
+Gulp.task("frontend:dist-less", function() {
   return Gulp.src(["./frontend/styles/theme.less", "./frontend/styles/http-errors.less"])
     .pipe(GulpPlumber({errorHandler: !exitOnError}))
     .pipe(GulpLess())
@@ -65,8 +65,8 @@ Gulp.task("frontend:compile-less", function() {
 });
 
 Gulp.task("frontend:dist-styles", [
-  "frontend:move-css",
-  "frontend:compile-less"
+  "frontend:dist-css",
+  "frontend:dist-less"
 ]);
 
 Gulp.task("frontend:lint", function() {
