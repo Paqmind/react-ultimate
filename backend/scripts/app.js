@@ -9,9 +9,9 @@ let Http = require("http");
 let Util = require("util");
 let ChildProcess = require("child_process");
 let Config = require("config");
+let Marked = require("marked");
 let Nunjucks = require("nunjucks");
 let Markdown = require("nunjucks-markdown");
-let Marked = require("marked");
 let Express = require("express");
 let SocketIO = require("socket.io");
 let SocketIOStream = require("socket.io-stream");
@@ -23,66 +23,20 @@ let WinstonMail = require("winston-mail");
 let Moment = require("moment");
 let Routes = require("./routes");
 
-// APPS & SERVERS ----------------------------------------------------------------------------------
+// CONFIGS =========================================================================================
 let app = Express();
-
-// Configs
 app.set("etag", Config.get("http-use-etag"));
 
-// Middlewares
+// MIDDLEWARES =====================================================================================
 app.use(BodyParser.json());                        // parse application/json
 app.use(BodyParser.urlencoded({extended: false})); // parse application/x-www-form-urlencoded
+/*app.use(cookieParser());*/
 
 app.use(Morgan("dev", {
   skip: function (req, res) {
     return req.originalUrl.includes("/static") || req.originalUrl.includes("/favicon");
   }
 }));
-
-/*app.use(cookieParser());*/
-let port = process.env.PORT || "3000";
-let server = Http.createServer(app);
-server.on("error", onError);
-server.on("listening", onListening);
-server.listen(port);
-//var socketEngine = SocketIO(server);
-
-// SOCKET-IO ---------------------------------------------------------------------------------------
-//let exec  = ChildProcess.exec,
-//let spawn = ChildProcess.spawn;
-
-/*socketEngine.sockets.on("connection", function(socket) {
-  console.log("[]-> connection");
-  var logFile = Path.join(Config.get("project-dir"), "log-osx.log");
-  ss(socket).on("enter", function(stream, data) {
-    var top = spawn("top", ["-l 0"]);
-    top.stderr.on("data", function(data) {
-      console.log("ps stderr: " + data);
-    });
-    console.log("[]-> enter:");
-    console.log(`[]-> piping ${logFile}`);
-//    top.stdout.pipe(stream);
-//    console.log("[]-> enter:", Path.join(Config.get("project-dir"), "log-osx.log"));
-    Fs.createReadStream(logFile).pipe(stream);
-  });
-
-//  ss(socket).emit("streaming", top.stdout);
-//  socket.emit("message", {message: "Welcome to the chat!"});
-
-//  socket.on("message", function(data) {
-//    socket.broadcast.emit("message", {message: data});
-//    socket.emit("message", {message: data});
-//  });
-
-//  socket.on("enter", function(data) {
-//    socket.username = data.username;
-//    socketEngine.sockets.emit("message", {message: data.username + " enters the chat"});
-//  });
-
-//  socket.on("disconnect", function() {
-//    socketEngine.sockets.emit("message", {message: socket.username + " leaves the chat"});
-//  });
-});*/
 
 // TEMPLATES =======================================================================================
 app.set("views", Path.join(__dirname, "templates"));
@@ -102,10 +56,10 @@ Markdown.register(nunjucksEnv, {
 });
 
 // ROUTES ==========================================================================================
-Routes.static = Express.static("static", {etag: Config.get("http-use-etag")});
+let staticRoutes = Express.static("static", {etag: Config.get("http-use-etag")});
 
 //app.use(favicon(__dirname + "/favicon.ico"));
-app.use("/static", Routes.static);
+app.use("/static", staticRoutes);
 app.use("/api", Routes.api);
 app.use("/", Routes.app);
 
@@ -182,6 +136,50 @@ if (process.env.NODE_ENV == "production") {
   });
 }
 
+// LISTENERS =======================================================================================
+let server = Http.createServer(app);
+server.on("error", onError);
+server.on("listening", onListening);
+server.listen(Config.get("http-port"));
+//var socketEngine = SocketIO(server);
+
+// SOCKET-IO ---------------------------------------------------------------------------------------
+//let exec  = ChildProcess.exec,
+//let spawn = ChildProcess.spawn;
+
+/*socketEngine.sockets.on("connection", function(socket) {
+  console.log("[]-> connection");
+  var logFile = Path.join(Config.get("project-dir"), "log-osx.log");
+  ss(socket).on("enter", function(stream, data) {
+    var top = spawn("top", ["-l 0"]);
+    top.stderr.on("data", function(data) {
+      console.log("ps stderr: " + data);
+    });
+    console.log("[]-> enter:");
+    console.log(`[]-> piping ${logFile}`);
+//    top.stdout.pipe(stream);
+//    console.log("[]-> enter:", Path.join(Config.get("project-dir"), "log-osx.log"));
+    Fs.createReadStream(logFile).pipe(stream);
+  });
+
+//  ss(socket).emit("streaming", top.stdout);
+//  socket.emit("message", {message: "Welcome to the chat!"});
+
+//  socket.on("message", function(data) {
+//    socket.broadcast.emit("message", {message: data});
+//    socket.emit("message", {message: data});
+//  });
+
+//  socket.on("enter", function(data) {
+//    socket.username = data.username;
+//    socketEngine.sockets.emit("message", {message: data.username + " enters the chat"});
+//  });
+
+//  socket.on("disconnect", function() {
+//    socketEngine.sockets.emit("message", {message: socket.username + " leaves the chat"});
+//  });
+});*/
+
 /*
 // all environments
 app.set('title', 'Application Title');
@@ -201,17 +199,18 @@ if (app.get('env') == "production") {
 }
 */
 
+// HELPERS =========================================================================================
 function onError(error) {
   if (error.syscall !== "listen") {
     throw error;
   }
   switch (error.code) {
     case "EACCES":
-      logger.error(port + " requires elevated privileges");
+      logger.error(Config.get("http-port") + " requires elevated privileges");
       process.exit(1);
       break;
     case "EADDRINUSE":
-      logger.error(port + " is already in use");
+      logger.error(Config.get("http-port") + " is already in use");
       process.exit(1);
       break;
     default:
@@ -220,7 +219,7 @@ function onError(error) {
 }
 
 function onListening() {
-  logger.info("Listening on port " + port);
+  logger.info("Listening on port " + Config.get("http-port"));
 }
 
 /*process.on('uncaughtException', function (err) {

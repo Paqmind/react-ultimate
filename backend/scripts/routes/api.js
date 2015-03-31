@@ -14,7 +14,7 @@ let robotListHead = [[firstRobot.id, Map(firstRobot)]];
 let robotList = [for (robot of Range(1, 10).map(Helpers.generateRobot)) [robot.id, robot]];
 let robots = OrderedMap(
   List(robotListHead).concat(
-    Immutable.fromJS(robotList).sortBy(pair => pair.get(1).get("name")).map(pair => pair.toArray()) // `map` is required because of bug in Immutable. Wait for solve...
+    Immutable.fromJS(robotList).sortBy(pair => pair.get(1).get("name"))
   )
 );
 
