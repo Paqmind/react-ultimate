@@ -14,7 +14,6 @@ let GulpCached = require("gulp-cached");
 let GulpSourcemaps = require("gulp-sourcemaps");
 let GulpLess = require("gulp-less");
 let GulpConcat = require("gulp-concat");
-let GulpRename = require("gulp-rename");
 var GulpUglify = require("gulp-uglify");
 let Gulp6to5 = require("gulp-6to5");
 let GulpPlumber = require("gulp-plumber");
@@ -51,23 +50,12 @@ Gulp.task("backend:nodemon", function() {
 });
 
 // FRONTEND TASKS ==================================================================================
-Gulp.task("frontend:dist-css", function() {
-  return Gulp.src(["./frontend/styles/**/*.css"])
-    .pipe(GulpPlumber({errorHandler: !exitOnError}))
-    .pipe(Gulp.dest("./static/styles"));
-});
-
-Gulp.task("frontend:dist-less", function() {
-  return Gulp.src(["./frontend/styles/theme.less", "./frontend/styles/http-errors.less"])
+Gulp.task("frontend:dist-styles", function() {
+  return Gulp.src(["./frontend/styles/theme.less"])
     .pipe(GulpPlumber({errorHandler: !exitOnError}))
     .pipe(GulpLess())
     .pipe(Gulp.dest("./static/styles"));
 });
-
-Gulp.task("frontend:dist-styles", [
-  "frontend:dist-css",
-  "frontend:dist-less"
-]);
 
 Gulp.task("frontend:lint", function() {
   return Gulp.src(["./frontend/**/*.js"])
@@ -81,7 +69,7 @@ Gulp.task("frontend:dist-scripts", function() {
   return Gulp.src(["./frontend/scripts/*.js"])
     .pipe(GulpPlumber({errorHandler: !exitOnError}))
     .pipe(GulpConcat("scripts.js"))
-    .pipe(GulpUglify())
+    .pipe(GulpUglify()) // TODO prod only
     .pipe(Gulp.dest("./static/scripts"));
 });
 
