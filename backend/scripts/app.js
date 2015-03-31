@@ -42,7 +42,7 @@ app.use(Morgan("dev", {
 app.set("views", Path.join(__dirname, "templates"));
 app.set("view engine", "html");
 
-let nunjucksEnv = Nunjucks.configure("backend/scripts/templates", {
+let nunjucksEnv = Nunjucks.configure("backend/templates", {
   autoescape: true,
   express: app
 });
