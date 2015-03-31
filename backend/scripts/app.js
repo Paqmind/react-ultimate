@@ -88,7 +88,7 @@ server.listen(port);
 app.set("views", Path.join(__dirname, "templates"));
 app.set("view engine", "html");
 
-let nunjucksEnv = Nunjucks.configure("backend/app/templates", {
+let nunjucksEnv = Nunjucks.configure("backend/scripts/templates", {
   autoescape: true,
   express: app
 });

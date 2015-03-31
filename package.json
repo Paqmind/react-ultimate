@@ -1,11 +1,11 @@
 {
   "name": "twitto",
   "version": "0.1.0",
-  "main": "backend/app/app.js",
+  "main": "backend/scripts/app.js",
   "private": true,
   "scripts": {
-    "nodemon": "nodemon -e js,html --exec babel-node ./backend/app/app.js --experimental",
-    "node": "babel-node backend/app/app.js --experimental",
+    "nodemon": "nodemon -e js,html --exec babel-node ./backend/scripts/app.js --experimental",
+    "node": "babel-node backend/scripts/app.js --experimental",
     "test": "mocha --opts specs/mocha.opts specs",
     "test-watch": "mocha --opts specs/mocha.opts -w specs",
     "precommit": "npm test",
