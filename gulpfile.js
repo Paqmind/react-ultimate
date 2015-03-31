@@ -86,7 +86,7 @@ Gulp.task("frontend:dist-vendors", function() {
   });
 });
 
-Gulp.task("frontend:dist-app", function() {
+Gulp.task("frontend:dist-scripts", function() {
   // $ browserify -d -x react -x baobab [-x ...] ./frontend/scripts/app.js -o ./static/scripts/app.js
   var args = ["-d"]
     .concat(interleaveWith(frontendVendors, "-x"))
@@ -117,7 +117,7 @@ Gulp.task("frontend:watchify", function() {
 
 // TASK DEPENDENCIES ===============================================================================
 Gulp.task("frontend:dist", [
-  "frontend:dist-app",
+  "frontend:dist-scripts",
   "frontend:dist-images",
   "frontend:dist-styles",
 ]);
