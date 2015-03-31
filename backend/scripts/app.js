@@ -27,7 +27,7 @@ let Routes = require("./routes/index");
 let app = Express();
 
 // Configs
-app.set("etag", Config.get("use-etag"));
+app.set("etag", Config.get("http-use-etag"));
 
 // Middlewares
 app.use(BodyParser.json());                        // parse application/json
@@ -102,7 +102,7 @@ Markdown.register(nunjucksEnv, {
 });
 
 // ROUTES ==========================================================================================
-Routes.static = Express.static("static", {etag: Config.get("use-etag")});
+Routes.static = Express.static("static", {etag: Config.get("http-use-etag")});
 
 //app.use(favicon(__dirname + "/favicon.ico"));
 app.use("/static", Routes.static);
