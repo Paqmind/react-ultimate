@@ -65,14 +65,6 @@ Gulp.task("frontend:lint", function() {
     .pipe(GulpJshint.reporter(JshintStylish));
 });
 
-Gulp.task("frontend:dist-scripts", function() {
-  return Gulp.src(["./frontend/scripts/*.js"])
-    .pipe(GulpPlumber({errorHandler: !exitOnError}))
-    .pipe(GulpConcat("scripts.js"))
-    .pipe(GulpUglify()) // TODO prod only
-    .pipe(Gulp.dest("./static/scripts"));
-});
-
 Gulp.task("frontend:dist-images", function() {
   return Gulp.src(["./images/**/*"])
     .pipe(Gulp.dest("./static/images"));
@@ -95,10 +87,10 @@ Gulp.task("frontend:dist-vendors", function() {
 });
 
 Gulp.task("frontend:dist-app", function() {
-  // $ browserify -d -x react -x baobab [-x ...] ./frontend/app/app.js -o ./static/scripts/app.js
+  // $ browserify -d -x react -x baobab [-x ...] ./frontend/scripts/app.js -o ./static/scripts/app.js
   var args = ["-d"]
     .concat(interleaveWith(frontendVendors, "-x"))
-    .concat(["./frontend/app/app.js"])
+    .concat(["./frontend/scripts/app.js"])
     .concat(["-o", "./static/scripts/app.js"]);
 
   var bundler = ChildProcess.spawn("browserify", args);
@@ -112,10 +104,10 @@ Gulp.task("frontend:dist-app", function() {
 });
 
 Gulp.task("frontend:watchify", function() {
-  // $ watchify -v -d -x react -x reflux [-x ...] ./frontend/app/app.js -o ./static/scripts/app.js
+  // $ watchify -v -d -x react -x reflux [-x ...] ./frontend/scripts/app.js -o ./static/scripts/app.js
   var args = ["-v", "-d", "--delay 0"]
     .concat(interleaveWith(frontendVendors, "-x"))
-    .concat(["./frontend/app/app.js"])
+    .concat(["./frontend/scripts/app.js"])
     .concat(["-o", "./static/scripts/app.js"]);
 
   var watcher = ChildProcess.spawn("watchify", args);
@@ -126,13 +118,11 @@ Gulp.task("frontend:watchify", function() {
 // TASK DEPENDENCIES ===============================================================================
 Gulp.task("frontend:dist", [
   "frontend:dist-app",
-  "frontend:dist-scripts",
   "frontend:dist-images",
   "frontend:dist-styles",
 ]);
 
 Gulp.task("frontend:watch", function() {
-  Gulp.watch("./frontend/scripts/**/*.js", ["frontend:dist-scripts"]);
   Gulp.watch("./frontend/images/**/*", ["frontend:dist-images"]);
   Gulp.watch("./frontend/styles/**/*.less", ["frontend:dist-styles"]);
 });
