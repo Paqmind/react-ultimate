@@ -55,7 +55,6 @@
     "socket.io-stream": "*",
     "strip-ansi": "^2.0.1",
     "util-inspect": "^0.1.8",
-    "vinyl-source-stream": "^1.1.0",
     "winston": "^0.9.0",
     "winston-mail": "^0.3.2",
     "yargs": "^3.6.0"
@@ -66,7 +65,6 @@
     "browserify": "^9.0.3",
     "chai": "^2.1.2",
     "gulp": "^3.8.11",
-    "gulp-6to5": "^3.0.0",
     "gulp-cached": "^1.0.4",
     "gulp-concat": "^2.5.0",
     "gulp-ignore": "*",
@@ -83,9 +81,6 @@
     "mocha": "^2.2.1",
     "mocha-clean": "^0.4.0",
     "run-sequence": "*",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    "vinyl-transform": "*",
     "watchify": "^3.0.0"
   },
   "frontendVendors": [

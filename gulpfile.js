@@ -15,22 +15,13 @@ let GulpSourcemaps = require("gulp-sourcemaps");
 let GulpLess = require("gulp-less");
 let GulpConcat = require("gulp-concat");
 let GulpUglify = require("gulp-uglify");
-let Gulp6to5 = require("gulp-6to5");
 let GulpPlumber = require("gulp-plumber");
-let VinylSource = require("vinyl-source-stream");
-let VinylBuffer = require("vinyl-buffer");
 let frontendVendors = require("./package.json").frontendVendors;
 
 // OPTIONS =========================================================================================
 let exitOnError = false;
 
 // HELPERS =========================================================================================
-function gulpTo5(opts) {
-  return gulp6to5(Object.assign({
-    experimental: true
-  }, opts));
-}
-
 function interleaveWith(array, prefix) {
   return array.reduce((memo, val) => {
     return memo.concat([prefix]).concat([val]);
