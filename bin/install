@@ -1,3 +1,25 @@
 #!/bin/sh
-ssh paqmind@dgo 'bash -s' < bin/remote/preinstall
-ssh paqmind@dgo 'bash -s' < bin/remote/install
+
+# Setup default development config
+mv shared/config/development.example.js shared/config/development.js 2> /dev/null
+
+# Setup local gulp.js to be runned through `babel-node`
+if [[ `uname` == 'Darwin' ]]; then
+  gulp_file=`greadlink -f node_modules/.bin/gulp`
+else
+  gulp_file=`readlink -f node_modules/.bin/gulp`
+fi
+sed '1 s/ node$/ babel-node/' ${gulp_file} > .gulp.js
+mv .gulp.js ${gulp_file}
+chmod +x ${gulp_file}
+
+# Relink main folders to enable absolute paths `require("frontend/xxx")`...
+mkdir -p ./node_modules
+ln -fs ../shared           ./node_modules/shared
+ln -fs ../frontend/scripts ./node_modules/frontend
+ln -fs ../backend/scripts  ./node_modules/backend
+
+mkdir -p ./build/node_modules
+ln -fs ../shared            ./build/node_modules/shared
+ln -fs ../frontend/scripts  ./build/node_modules/frontend
+ln -fs ../backend/scripts   ./build/node_modules/backend

@@ -1,11 +1,14 @@
 {
-  "name": "twitto",
+  "name": "react-starter",
   "version": "0.1.0",
   "main": "backend/scripts/app.js",
-  "private": true,
   "scripts": {
-    "nodemon": "nodemon -e js,html --exec babel-node ./backend/scripts/app.js --experimental",
-    "node": "babel-node backend/scripts/app.js --experimental",
+    "start": "babel-node backend/scripts/app.js",
+    "nodemon": "nodemon backend/scripts/app.js",
+    "devel": "gulp dist & npm run nodemon & gulp watch",
+    "release-patch": "git checkout master && gulp dist && git commit -am 'Distribute' && npm version patch && git push origin master --tags",
+    "release-minor": "git checkout master && gulp dist && git commit -am 'Distribute' && npm version minor && git push origin master --tags",
+    "release-major": "git checkout master && gulp dist && git commit -am 'Distribute' && npm version major && git push origin master --tags",
     "test": "mocha --opts specs/mocha.opts specs",
     "test-watch": "mocha --opts specs/mocha.opts -w specs",
     "precommit": "npm test",

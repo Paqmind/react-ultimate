@@ -3,7 +3,10 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development";
 process.env.NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR || "./shared/config";
 
 // IMPORTS =========================================================================================
+let Path = require("path");
+let Glob = require("glob");
 let ChildProcess = require("child_process");
+let Mkdirp = require("mkdirp");
 let Config = require("config");
 let RunSequence = require("run-sequence");
 let Gulp = require("gulp");
@@ -25,44 +28,29 @@ function interleaveWith(array, prefix) {
   }, []);
 }
 
-// BACKEND TASKS ===================================================================================
-Gulp.task("backend:lint", function () {
-  return Gulp.src(["./backend/**/*.js"])
-    .pipe(GulpPlumber({errorHandler: !exitOnError}))
-//    .pipe(cached("backend:lint"))
-    .pipe(GulpJshint())
-    .pipe(GulpJshint.reporter(jshintStylish));
-});
-
-Gulp.task("backend:nodemon", function () {
-  let nodemon = ChildProcess.spawn("npm", ["run", "nodemon"]);
-  nodemon.stdout.pipe(process.stdout);
-  nodemon.stderr.pipe(process.stderr);
-});
-
-// FRONTEND TASKS ==================================================================================
-Gulp.task("frontend:dist-styles", function () {
+// TASKS ===========================================================================================
+Gulp.task("dist-styles", function () {
   return Gulp.src(["./frontend/styles/theme.less"])
     .pipe(GulpPlumber({errorHandler: !exitOnError}))
     .pipe(GulpLess())
     .pipe(Gulp.dest("./static/styles"));
 });
 
-Gulp.task("frontend:lint", function () {
-  return Gulp.src(["./frontend/**/*.js"])
-    .pipe(GulpPlumber({errorHandler: !exitOnError}))
+//Gulp.task("lint", function () {
+//  return Gulp.src(["./frontend/**/*.js"])
+//    .pipe(GulpPlumber({errorHandler: !exitOnError}))
 //    .pipe(cached("lint-react"))
-    .pipe(GulpJshint())
-    .pipe(GulpJshint.reporter(JshintStylish));
-});
+//    .pipe(GulpJshint())
+//    .pipe(GulpJshint.reporter(JshintStylish));
+//});
 
-Gulp.task("frontend:dist-images", function () {
+Gulp.task("dist-images", function () {
   return Gulp.src(["./images/**/*"])
     .pipe(Gulp.dest("./static/images"));
 });
 
-Gulp.task("frontend:dist-vendors", function () {
-  // $ browserify -d -r react -r baobab [-r ...] -o ./static/scripts/vendors.js
+Gulp.task("dist-vendors", function () {
+  // $ browserify -d -r react [-r ...] -o ./static/scripts/vendors.js
   let args = ["-d"]
     .concat(interleaveWith(frontendVendors, "-r"))
     .concat(["-o", "./static/scripts/vendors.js"]);
@@ -77,8 +65,8 @@ Gulp.task("frontend:dist-vendors", function () {
   });
 });
 
-Gulp.task("frontend:dist-scripts", function () {
-  // $ browserify -d -x react -x baobab [-x ...] ./frontend/scripts/app.js -o ./static/scripts/app.js
+Gulp.task("dist-scripts", function () {
+  // $ browserify -d -x react [-x ...] ./frontend/scripts/app.js -o ./static/scripts/app.js
   let args = ["-d"]
     .concat(interleaveWith(frontendVendors, "-x"))
     .concat(["./frontend/scripts/app.js"])
@@ -94,7 +82,7 @@ Gulp.task("frontend:dist-scripts", function () {
   });
 });
 
-Gulp.task("frontend:watchify", function () {
+Gulp.task("watchify", function () {
   // $ watchify -v -d -x react -x reflux [-x ...] ./frontend/scripts/app.js -o ./static/scripts/app.js
   let args = ["-v", "-d", "--delay 0"]
     .concat(interleaveWith(frontendVendors, "-x"))
@@ -106,40 +94,19 @@ Gulp.task("frontend:watchify", function () {
   watcher.stderr.pipe(process.stderr);
 });
 
-// TASK DEPENDENCIES ===============================================================================
-Gulp.task("frontend:dist", [
-  "frontend:dist-scripts",
-  "frontend:dist-images",
-  "frontend:dist-styles",
-]);
-
-Gulp.task("frontend:watch", function () {
-  Gulp.watch("./frontend/images/**/*", ["frontend:dist-images"]);
-  Gulp.watch("./frontend/styles/**/*.less", ["frontend:dist-styles"]);
+Gulp.task("watch-src", function () {
+  Gulp.watch("./frontend/images/**/*", ["dist-images"]);
+  Gulp.watch("./frontend/styles/**/*.less", ["dist-styles"]);
 });
 
-// GENERAL TASKS ===================================================================================
-Gulp.task("default", function () {
-  return RunSequence(
-    ["backend:nodemon", "frontend:dist"],
-    ["frontend:watch", "frontend:watchify"]
-  );
-});
-
-Gulp.task("devel", function () {
-  return RunSequence(
-    ["frontend:dist-vendors", "frontend:dist"],
-    "default"
-  );
-});
-
-// TODO: Gulp.task("lint", ["shared:lint", "backend:lint", "frontend:lint"]);
 Gulp.task("dist", function () {
   exitOnError = true;
   return RunSequence(
-    ["frontend:dist-vendors", "frontend:dist"]
+    ["dist-vendors", "dist-scripts", "dist-images", "dist-styles"]
   );
 });
+
+Gulp.task("watch", ["watch-src", "watch-build"]);
 
 Gulp.task("config:get", function () {
   let argv = require("yargs").argv;

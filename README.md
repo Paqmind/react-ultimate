@@ -2,6 +2,21 @@
 
 [Demo instance.](http://react-starter.paqmind.com/)
 
+## Install
+
+```
+$ wget https://github.com/Paqmind/react-starter/archive/master.zip; unzip master.zip -d react-starter; rm master.zip
+$ cd react-starter
+$ npm install; bower install; bin/install
+```
+
+## Run
+
+```
+$ npm start -- run without watches
+$ npm run devel -- run with watches
+```
+
 There are a few of react-starters out there. Let's compare.
 
 ## Comparison

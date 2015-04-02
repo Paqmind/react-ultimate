@@ -1,6 +1,0 @@
-#!/bin/sh
-set -ue
-
-mkdir -p ~/.temp
-mkdir -p react-starter.paqmind.com
-scp -p -r ./bin paqmind@dgo:/home/paqmind/react-starter.paqmind.com

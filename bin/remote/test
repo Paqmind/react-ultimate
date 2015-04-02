@@ -1,9 +1,0 @@
-#!/bin/sh
-set -ue
-
-echo "DEBUG remote/test"
-shopt -s expand_aliases
-source ~/.aliases
-
-pwd
-ll

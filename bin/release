@@ -1,7 +1,0 @@
-#!/bin/sh
-set -ue
-
-# TODO: add gulp release
-# gulp release (distinct commit for version bump)
-
-. bin/deploy production
