@@ -15,11 +15,17 @@ chmod +x ${gulp_file}
 
 # Relink main folders to enable absolute paths `require("frontend/xxx")`...
 mkdir -p ./node_modules
-ln -fs ../shared           ./node_modules/shared
-ln -fs ../frontend/scripts ./node_modules/frontend
-ln -fs ../backend/scripts  ./node_modules/backend
+rm -f ./node_modules/shared
+rm -f ./node_modules/frontend
+rm -f ./node_modules/backend
+ln -s ../shared           ./node_modules/shared
+ln -s ../frontend/scripts ./node_modules/frontend
+ln -s ../backend/scripts  ./node_modules/backend
 
 mkdir -p ./build/node_modules
-ln -fs ../shared            ./build/node_modules/shared
-ln -fs ../frontend/scripts  ./build/node_modules/frontend
-ln -fs ../backend/scripts   ./build/node_modules/backend
+rm -f ./build/node_modules/shared
+rm -f ./build/node_modules/frontend
+rm -f ./build/node_modules/backend
+ln -s ../shared            ./build/node_modules/shared
+ln -s ../frontend/scripts  ./build/node_modules/frontend
+ln -s ../backend/scripts   ./build/node_modules/backend
