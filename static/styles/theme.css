@@ -8365,34 +8365,6 @@ a.fa:hover {
   margin-left: 0.5em;
 }
 /*******************************************************************************
-  THEME. MODULES. LOADING
-*******************************************************************************/
-.loading {
-  margin: 0 auto;
-  color: #eeeeee;
-  font-size: 12em;
-  text-align: center;
-}
-@media (max-width: 768px) {
-  .loading {
-    font-size: 9em;
-  }
-}
-@media (max-width: 480px) {
-  .loading {
-    font-size: 6em;
-  }
-}
-.loading.loading-lg {
-  font-size: 15em;
-}
-.loading.loading-sm {
-  font-size: 8em;
-}
-.loading.loading-xs {
-  font-size: 5em;
-}
-/*******************************************************************************
   THEME. MODULES. NAV
 *******************************************************************************/
 .navbar-default {
@@ -8479,6 +8451,34 @@ a.fa:hover {
 }
 .fade-leave.fade-leave-active {
   opacity: 0.01;
+}
+.alert-as-icon {
+  margin: 0 auto;
+  color: #eeeeee;
+  font-size: 12em;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .alert-as-icon {
+    font-size: 9em;
+  }
+}
+@media (max-width: 480px) {
+  .alert-as-icon {
+    font-size: 6em;
+  }
+}
+.alert-as-icon.loading-lg {
+  font-size: 15em;
+}
+.alert-as-icon.loading-sm {
+  font-size: 8em;
+}
+.alert-as-icon.loading-xs {
+  font-size: 5em;
+}
+.alert-as-icon.fa-stack {
+  display: block;
 }
 /*******************************************************************************
   THEME. MODULES. THUMBNAIL
