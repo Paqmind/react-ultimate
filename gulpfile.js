@@ -106,7 +106,7 @@ Gulp.task("dist", function () {
   );
 });
 
-Gulp.task("watch", ["watch-src", "watch-build"]);
+Gulp.task("watch", ["watch-src", "watchify"]);
 
 Gulp.task("config:get", function () {
   let argv = require("yargs").argv;
