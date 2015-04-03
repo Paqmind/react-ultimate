@@ -6,19 +6,15 @@ let DocumentTitle = require("react-document-title");
 
 // EXPORTS =========================================================================================
 export default React.createClass({
-  propTypes() {
-    return {
-      title: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string.isRequired,
-    };
-  },
-
   render() {
+    let sizeClass = this.props.size ? ' loading-' + this.props.size : '';
     return (
-      <section className="container">
-        <h1>{this.props.title}</h1>
-        <p className="error">{this.props.description}</p>
-      </section>
+      <DocumentTitle title={"Error " + this.props.loadError.status + ": " + this.props.loadError.description}>
+        <div className={"alert-as-icon fa-stack" + sizeClass}>
+          <i className="fa fa-cog fa-stack-1x"></i>
+          <i className="fa fa-ban fa-stack-2x"></i>
+        </div>
+      </DocumentTitle>
     );
   }
 });
