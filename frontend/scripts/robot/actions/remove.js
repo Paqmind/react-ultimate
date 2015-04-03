@@ -6,7 +6,7 @@ let State = require("frontend/state");
 
 // ACTIONS =========================================================================================
 export default function remove(id) {
-  let oldModel = State.select("robots", "models", id);
+  let oldModel = State.select("robots", "models", id).get();
   let apiURL = `/api/robots/${id}`;
 
   // Optimistic remove
@@ -26,12 +26,16 @@ export default function remove(id) {
       if (response instanceof Error) {
         throw response;
       } else {
-        let status = response.statusText;
+        let loadError = {
+          status: response.status,
+          description: response.statusText,
+          url: apiURL
+        };
         State.select("robots").set("loading", false);
         State.select("robots").set("loadError", status);
         State.select("robots", "models").set(id, oldModel); // Cancel remove
-        addAlert({message: "Action `Robot.remove` failed", category: "error"});
-        return status;
+        addAlert({message: "Action `Robot.remove` failed: " + loadError.description, category: "error"});
+        return loadError.description;
       }
     });
 

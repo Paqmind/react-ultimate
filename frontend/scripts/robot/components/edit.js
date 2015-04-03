@@ -14,6 +14,7 @@ let {Link} = ReactRouter;
 let DocumentTitle = require("react-document-title");
 let Validators = require("shared/robot/validators");
 let Loading = require("frontend/common/components/loading");
+let Error = require("frontend/common/components/error");
 let NotFound = require("frontend/common/components/notfound");
 let State = require("frontend/state");
 let editRobot = require("frontend/robot/actions/edit");
@@ -188,6 +189,8 @@ let Form = React.createClass({
     if (loading) {
       return <Loading/>;
     } else if (loadError) {
+      return <Error loadError={loadError}/>;
+    } else if (isEmpty(model)) {
       return <NotFound/>;
     } else {
       return (
