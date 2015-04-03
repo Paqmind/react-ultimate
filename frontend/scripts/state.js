@@ -11,6 +11,6 @@ export default new Baobab({
   alerts: {
     models: {},
     loading: true,
-    loadError: null,
+    loadError: undefined,
   },
 });

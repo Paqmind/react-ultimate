@@ -21,10 +21,14 @@ export default function loadOne() {
   //    if (response instanceof Error) {
   //      throw response;
   //    } else {
-  //      let loadError = {status: response.statusText, url: apiURL};
+  //      let loadError = {
+  //        status: response.status,
+  //        description: response.statusText,
+  //        url: apiURL
+  //      };
   //      State.select("robots").set("loading", false);
   //      State.select("robots").set("loadError", loadError);
-  //      addAlert({message: "Action `Robot.loadOne` failed", category: "error"});
+  //      addAlert({message: "Action `Robot.loadOne` failed: " + loadError.description, category: "error"});
   //      return loadError;
   //    }
   //  });

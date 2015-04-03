@@ -20,7 +20,7 @@ export default React.createClass({
     models = toArray(models);
 
     if (loadError) {
-      return <NotFound/>;
+      return <Error loadError={loadError}/>;
     } else {
       return (
         <div className="notifications top-left">

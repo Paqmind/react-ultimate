@@ -15,17 +15,21 @@ export default function loadMany() {
       let models = toObject(response.data);
       State.select("robots").edit({loading: false, loadError: undefined, models: models});
       State.select("robots").edit({loading: false, loadError: undefined, models: models});
-      return models;
+      return models; // TODO: why here models are returning, and in add/edit status?
     })
     .catch(response => {
       if (response instanceof Error) {
         throw response;
       } else {
-  //      let loadError = {status: response.statusText, url: apiURL};
+        let loadError = {
+          status: response.status,
+          description: response.statusText,
+          url: apiURL
+        };
         State.select("robots").set("loading", false);
         State.select("robots").set("loadError", loadError);
-        addAlert({message: "Action `Robot.loadMany` failed", category: "error"});
-        return loadError;
+        addAlert({message: "Action `Robot.loadMany` failed: " + loadError.description, category: "error"});
+        return loadError.description;
       }
     });
 }

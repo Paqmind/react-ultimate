@@ -9,7 +9,7 @@ let Robot = require("frontend/robot/models");
 export default function edit(model) {
   let newModel = Robot(model);
   let id = newModel.id;
-  let oldModel = State.select("robots", "models", id);
+  let oldModel = State.select("robots", "models", id).get();
   let apiURL = `/api/robots/${id}`;
 
   // Optimistic edit
@@ -28,12 +28,16 @@ export default function edit(model) {
       if (response instanceof Error) {
         throw response;
       } else {
-        let status = response.statusText;
+        let loadError = {
+          status: response.status,
+          description: response.statusText,
+          url: apiURL
+        };
         State.select("robots").set("loading", false);
-        State.select("robots").set("loadError", status);
+        State.select("robots").set("loadError", loadError);
         State.select("robots", "models").set(id, oldModel); // Cancel edit
-        addAlert({message: "Action `Robot.edit` failed", category: "error"});
-        return status;
+        addAlert({message: "Action `Robot.edit` failed: " + loadError.description, category: "error"});
+        return loadError.description;
       }
     });
 
