@@ -22,9 +22,9 @@ let frontendVendors = require("./package.json").frontendVendors;
 let exitOnError = false;
 
 // HELPERS =========================================================================================
-function interleaveWith(array, prefix) {
+function interleaveWith(array, flag) {
   return array.reduce((memo, val) => {
-    return memo.concat([prefix]).concat([val]);
+    return memo.concat([flag, val]);
   }, []);
 }
 
@@ -51,7 +51,7 @@ Gulp.task("dist-images", function () {
 
 Gulp.task("dist-vendors", function () {
   // $ browserify -d -r react [-r ...] -o ./static/scripts/vendors.js
-  let args = ["-d"]
+  let args = ["-d", "--delay", "0"]
     .concat(interleaveWith(frontendVendors, "-r"))
     .concat(["-o", "./static/scripts/vendors.js"]);
 
@@ -67,7 +67,7 @@ Gulp.task("dist-vendors", function () {
 
 Gulp.task("dist-scripts", function () {
   // $ browserify -d -x react [-x ...] ./frontend/scripts/app.js -o ./static/scripts/app.js
-  let args = ["-d"]
+  let args = ["-d", "--delay", "0"]
     .concat(interleaveWith(frontendVendors, "-x"))
     .concat(["./frontend/scripts/app.js"])
     .concat(["-o", "./static/scripts/app.js"]);
@@ -84,7 +84,7 @@ Gulp.task("dist-scripts", function () {
 
 Gulp.task("watchify", function () {
   // $ watchify -v -d -x react -x reflux [-x ...] ./frontend/scripts/app.js -o ./static/scripts/app.js
-  let args = ["-v", "-d", "--delay 0"]
+  let args = ["-v", "-d", "--delay", "0"]
     .concat(interleaveWith(frontendVendors, "-x"))
     .concat(["./frontend/scripts/app.js"])
     .concat(["-o", "./static/scripts/app.js"]);

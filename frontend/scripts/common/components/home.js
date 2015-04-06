@@ -36,10 +36,8 @@ export default React.createClass({
             <li><a href="https://babeljs.io/">Babel</a> JS transpiler</li>
             <li><a href="http://gulpjs.com/">Gulp</a> streaming build system</li>
             <li><a href="https://lodash.com/">Lodash</a> utility library</li>
-            <li><a href="http://socket.io/">SocketIO</a> real-time engine</li>
             <li><a href="https://github.com/mzabriskie/axios">Axios</a> promise-based HTTP client</li>
             <li><a href="https://github.com/facebook/immutable-js">Immutable</a> persistent immutable data for JS</li>
-            <li><a href="https://github.com/hapijs/joi">Joi</a> object schema validation</li>
             <li><a href="http://momentjs.com/">Moment</a> date-time stuff</li>
             <li><a href="https://github.com/marak/Faker.js/">Faker</a> fake data generation</li>
           </ul>
@@ -57,6 +55,8 @@ export default React.createClass({
 /*
 * TODO
 *
+* <li><a href="http://socket.io/">SocketIO</a> real-time engine</li>
+* validation
 * babelify?
 * chai?
 * classnames?

@@ -7,12 +7,12 @@ let merge = require("lodash.merge");
 let debounce = require("lodash.debounce");
 let flatten = require("lodash.flatten");
 let Class = require("classnames");
-let Joi = require("joi");
+//let Joi = require("joi");
 let React = require("react");
 let ReactRouter = require("react-router");
 let {Link} = ReactRouter;
 let DocumentTitle = require("react-document-title");
-let Validators = require("shared/robot/validators");
+//let Validators = require("shared/robot/validators");
 let Loading = require("frontend/common/components/loading");
 let NotFound = require("frontend/common/components/notfound");
 let State = require("frontend/state");
@@ -32,39 +32,39 @@ function flattenAndResetTo(obj, to, path) {
   }, {});
 }
 
-function validate(joiSchema, data, key) {
-  joiSchema = joiSchema || {};
-  data = data || {};
-  let joiOptions = {
-    abortEarly: false,
-    allowUnknown: true,
-  };
-  let errors = formatErrors(Joi.validate(data, joiSchema, joiOptions));
-  if (key === undefined) {
-    return Object.assign(
-      flattenAndResetTo(joiSchema, []),
-      errors
-    );
-  } else {
-    let result = {};
-    result[key] = errors[key] || [];
-    return result;
-  }
-}
+//function validate(joiSchema, data, key) {
+//  joiSchema = joiSchema || {};
+//  data = data || {};
+//  let joiOptions = {
+//    abortEarly: false,
+//    allowUnknown: true,
+//  };
+//  let errors = formatErrors(Joi.validate(data, joiSchema, joiOptions));
+//  if (key === undefined) {
+//    return Object.assign(
+//      flattenAndResetTo(joiSchema, []),
+//      errors
+//    );
+//  } else {
+//    let result = {};
+//    result[key] = errors[key] || [];
+//    return result;
+//  }
+//}
 
-function formatErrors(joiResult) {
-  if (joiResult.error !== null) {
-    return joiResult.error.details.reduce(function (memo, detail) {
-      if (!Array.isArray(memo[detail.path])) {
-        memo[detail.path] = [];
-      }
-      memo[detail.path].push(detail.message);
-      return memo;
-    }, {});
-  } else {
-    return {};
-  }
-}
+//function formatErrors(joiResult) {
+//  if (joiResult.error !== null) {
+//    return joiResult.error.details.reduce(function (memo, detail) {
+//      if (!Array.isArray(memo[detail.path])) {
+//        memo[detail.path] = [];
+//      }
+//      memo[detail.path].push(detail.message);
+//      return memo;
+//    }, {});
+//  } else {
+//    return {};
+//  }
+//}
 
 // COMPONENTS ======================================================================================
 export default React.createClass({
@@ -101,35 +101,35 @@ let Form = React.createClass({
     }
   },
 
-  validatorTypes() {
-    return Validators.model;
-  },
+  //validatorTypes() {
+  //  return Validators.model;
+  //},
 
-  validatorData() {
-    return this.state.model;
-  },
+  //validatorData() {
+  //  return this.state.model;
+  //},
 
   validate: function (key) {
-    let schema = result(this, "validatorTypes") || {};
-    let data = result(this, "validatorData") || this.state;
-    let nextErrors = merge({}, this.state.errors, validate(schema, data, key), function (a, b) {
-      return isArray(b) ? b : undefined;
-    });
-    return new Promise((resolve, reject) => {
-      this.setState({
-        errors: nextErrors
-      }, () => resolve(this.isValid(key)));
-    });
+    //let schema = result(this, "validatorTypes") || {};
+    //let data = result(this, "validatorData") || this.state;
+    //let nextErrors = merge({}, this.state.errors, validate(schema, data, key), function (a, b) {
+    //  return isArray(b) ? b : undefined;
+    //});
+    //return new Promise((resolve, reject) => {
+    //  this.setState({
+    //    errors: nextErrors
+    //  }, () => resolve(this.isValid(key)));
+    //});
   },
 
   handleChangeFor: function (key) {
-    return function handleChange(event) {
-      event.persist();
-      let model = this.state.model;
-      model[key] = event.currentTarget.value;
-      this.setState({model: model});
-      this.validateDebounced(key);
-    }.bind(this);
+    //return function handleChange(event) {
+    //  event.persist();
+    //  let model = this.state.model;
+    //  model[key] = event.currentTarget.value;
+    //  this.setState({model: model});
+    //  this.validateDebounced(key);
+    //}.bind(this);
   },
 
   validateDebounced: debounce(function validateDebounced(key) {
