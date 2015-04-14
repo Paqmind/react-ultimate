@@ -18,7 +18,7 @@
     "axios": "^0.5.2",
     "baobab": "git://github.com/Yomguithereal/baobab.git#master",
     "body-parser": "^1.12.2",
-    "bower": "*",
+    "bower": "^1.4.1",
     "classnames": "^1.2.0",
     "clientconfig": "*",
     "config": "^1.11.0",
