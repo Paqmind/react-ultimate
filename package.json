@@ -80,7 +80,6 @@
     "gulp-rename": "*",
     "gulp-sourcemaps": "^1.5.1",
     "gulp-strip-debug": "*",
-    "husky": "^0.7.0",
     "jshint-stylish": "*",
     "mkdirp": "^0.5.0",
     "mocha": "^2.2.1",
