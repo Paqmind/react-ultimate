@@ -4,11 +4,9 @@ process.env.NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR || "./shared/config";
 
 // IMPORTS =========================================================================================
 let Path = require("path");
-let Glob = require("glob");
 let ChildProcess = require("child_process");
-let Mkdirp = require("mkdirp");
 let Config = require("config");
-let RunSequence = require("run-sequence");
+let runSequence = require("run-sequence");
 let Gulp = require("gulp");
 let GulpJshint = require("gulp-jshint");
 let JshintStylish = require("jshint-stylish");
@@ -103,15 +101,15 @@ Gulp.task("watch-assets", function () {
 Gulp.task("watch", ["watch-assets", "watchify"]);
 
 Gulp.task("dev", function (cb) {
-  return RunSequence(
+  return runSequence(
     ["dist-vendors", "dist-scripts", "dist-images", "dist-styles"],
     "watch", cb
   );
 });
 
-Gulp.task("release", function (cb) {
+Gulp.task("dist", function (cb) {
   exitOnError = true;
-  return RunSequence(
+  return runSequence(
     ["dist-vendors", "dist-scripts", "dist-images", "dist-styles"],
     /*"minify-assets", "cachebust",*/ cb
   );

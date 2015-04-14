@@ -34,8 +34,8 @@ https://github.com/lorenwest/node-config/wiki/
 
    var config = require("config");
 
-   config.get("option"); // throws an error!
-   config.has("option");
+   Config.get("option"); // throws an error!
+   Config.has("option");
 
 5. NODE_ENV -- determines {deployment}
    NODE_CONFIG_DIR -- this contains the path to the directory containing your configuration files
@@ -44,7 +44,7 @@ https://github.com/lorenwest/node-config/wiki/
    NODE_APP_INSTANCE -- determines {instance}
    ALLOW_CONFIG_MUTATIONS -- this is for edge cases such as testing, where it is important to mutate configurations for different scenarios within the same execution
 
-6. config.util.getConfigSources() -- trace all file sources
+6. Config.util.getConfigSources() -- trace all file sources
 
 7. Module configuration (PRO)
    https://github.com/lorenwest/node-config/wiki/Sub-Module-Configuration

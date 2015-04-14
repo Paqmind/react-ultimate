@@ -2,11 +2,11 @@ let Express = require("express");
 
 let router = Express.Router();
 
-router.get("*", function (req, res, next) {
+router.get("*", function (req, res, cb) {
   if (req.path.startsWith("/static/")) {
-    return next();
+    return cb();
   } else if (req.path.startsWith("/api/")) {
-    return next();
+    return cb();
   } else {
     return res.render("app.html");
   }

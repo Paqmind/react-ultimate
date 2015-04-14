@@ -8468,13 +8468,13 @@ a.fa:hover {
     font-size: 6em;
   }
 }
-.alert-as-icon.loading-lg {
+.alert-as-icon.lg {
   font-size: 15em;
 }
-.alert-as-icon.loading-sm {
+.alert-as-icon.sm {
   font-size: 8em;
 }
-.alert-as-icon.loading-xs {
+.alert-as-icon.xs {
   font-size: 5em;
 }
 .alert-as-icon.fa-stack {

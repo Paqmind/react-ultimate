@@ -2,36 +2,37 @@
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 process.env.NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR || "./shared/config";
 
-// IMPORTS =========================================================================================
+// APP =============================================================================================
 let Fs = require("fs");
 let Path = require("path");
-let Http = require("http");
-let Util = require("util");
-let ChildProcess = require("child_process");
-let Config = require("config");
-let Marked = require("marked");
-let Nunjucks = require("nunjucks");
-let Markdown = require("nunjucks-markdown");
 let Express = require("express");
-let SocketIO = require("socket.io");
-let SocketIOStream = require("socket.io-stream");
-let Morgan = require("morgan");
-let CookieParser = require("cookie-parser");
-let BodyParser = require("body-parser");
-let Winston = require("winston");
-let WinstonMail = require("winston-mail");
-let Moment = require("moment");
+let Config = require("config");
 require("shared/shims");
-let Routes = require("./routes");
 
-// CONFIGS =========================================================================================
 let app = Express();
 app.set("etag", Config.get("http-use-etag"));
 
+// LOGGER ==========================================================================================
+let logger = require("backend/logger");
+
+// TEMPLATES =======================================================================================
+app.set("views", Path.join(__dirname, "templates"));
+app.set("view engine", "html");
+
+let Nunjucks = require("nunjucks");
+let nunjucksEnv = Nunjucks.configure("backend/templates", {
+  autoescape: true,
+  express: app
+});
+
 // MIDDLEWARES =====================================================================================
+let Morgan = require("morgan");
+let CookieParser = require("cookie-parser");
+let BodyParser = require("body-parser");
+
+app.use(CookieParser());
 app.use(BodyParser.json());                        // parse application/json
 app.use(BodyParser.urlencoded({extended: false})); // parse application/x-www-form-urlencoded
-/*app.use(cookieParser());*/
 
 app.use(Morgan("dev", {
   skip: function (req, res) {
@@ -39,36 +40,20 @@ app.use(Morgan("dev", {
   }
 }));
 
-// TEMPLATES =======================================================================================
-app.set("views", Path.join(__dirname, "templates"));
-app.set("view engine", "html");
-
-let nunjucksEnv = Nunjucks.configure("backend/templates", {
-  autoescape: true,
-  express: app
-});
-
-Markdown.register(nunjucksEnv, {
-//  renderer: new Marked.Renderer(),
-//  breaks: false,
-//  pedantic: false,
-//  smartLists: true,
-  smartypants: true
-});
-
-// ROUTES ==========================================================================================
-let staticRoutes = Express.static("static", {etag: Config.get("http-use-etag")});
+let appRouter = require("backend/common/router");
+let apiRouter = require("backend/robot/router");
+let staticRouter = Express.static("static", {etag: Config.get("http-use-etag")});
 
 //app.use(favicon(__dirname + "/favicon.ico"));
-app.use("/static", staticRoutes);
-app.use("/api", Routes.api);
-app.use("/", Routes.app);
+app.use("/static", staticRouter);
+app.use("/api", apiRouter);
+app.use("/", appRouter);
 
-app.use(function (req, res, next) {
+app.use(function (req, res, cb) {
   res.status(404).render("errors/404.html");
 });
 
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res, cb) {
   logger.error(err.stack);
   res.status(err.status || 500);
   res.render("errors/500.html", {
@@ -77,74 +62,19 @@ app.use(function (err, req, res, next) {
   });
 });
 
-// LOGGING =========================================================================================
-let customColors = {
-  trace: "white",
-  debug: "blue",
-  info: "green",
-  warn: "yellow",
-  fatal: "red"
-};
-
-let customLevels = {
-  trace: 0,
-  debug: 1,
-  info: 2,
-  warn: 3,
-  error: 4,
-};
-
-Winston.addColors(customColors);
-
-let logger = new (Winston.Logger)({
-  colors: customColors,
-  levels: customLevels,
-  transports: [
-    new (Winston.transports.Console)({
-      level: process.env.NODE_ENV == "development" ? "info" : "warn",
-      colorize: true,
-      timestamp: function () {
-        return Moment();
-      },
-      formatter: function (options) {
-        let timestamp = options.timestamp().format("YYYY-MM-DD hh:mm:ss");
-        let level = Winston.config.colorize(options.level, options.level.toUpperCase());
-        let message = options.message;
-        let meta;
-        if (options.meta instanceof Error) {
-          meta = "\n  " + options.meta.stack;
-        } else {
-          meta = Object.keys(options.meta).length ? Util.inspect(options.meta) : "";
-        }
-        return `${timestamp} ${level} ${message} ${meta}`;
-      }
-    }),
-    //new (Winston.transports.File)({
-    //  filename: "somefile.log"
-    //})
-  ],
-});
-
-if (process.env.NODE_ENV == "production") {
-  // https://www.npmjs.com/package/winston-mail
-  logger.add(Winston.transports.Mail, {
-    level: "error",
-    host: Config.get("smtp-host"),
-    port: Config.get("smtp-port"),
-    from: Config.get("mail-robot"),
-    to: Config.get("mail-support"),
-    subject: "Application Failed",
-  });
-}
-
 // LISTENERS =======================================================================================
+let Http = require("http");
+
 let server = Http.createServer(app);
 server.on("error", onError);
 server.on("listening", onListening);
 server.listen(Config.get("http-port"));
 //var socketEngine = SocketIO(server);
 
-// SOCKET-IO ---------------------------------------------------------------------------------------
+// SOCKET-IO =======================================================================================
+let ChildProcess = require("child_process");
+let SocketIO = require("socket.io");
+let SocketIOStream = require("socket.io-stream");
 //let exec  = ChildProcess.exec,
 //let spawn = ChildProcess.spawn;
 
