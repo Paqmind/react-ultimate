@@ -1,7 +1,17 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-# Setup default development config
-mv shared/config/development.example.js shared/config/development.js 2> /dev/null
+# Seed code folders (enables absolute paths like `import x from "frontend"`)
+mkdir -p node_modules build/node_modules
+rm -f node_modules/shared   && ln -s ../shared           node_modules/shared
+rm -f node_modules/frontend && ln -s ../frontend/scripts node_modules/frontend
+rm -f node_modules/backend  && ln -s ../backend/scripts  node_modules/backend
+
+rm -f build/node_modules/shared   && ln -s ../shared           build/node_modules/shared
+rm -f build/node_modules/frontend && ln -s ../frontend/scripts build/node_modules/frontend
+rm -f build/node_modules/backend  && ln -s ../backend/scripts  build/node_modules/backend
+
+# Seed default config
+mv -i shared/config/development.default.js shared/config/development.js
 
 # Setup local gulp.js to be runned through `babel-node`
 if [[ `uname` == 'Darwin' ]]; then
@@ -12,20 +22,3 @@ fi
 sed '1 s/ node$/ babel-node/' ${gulp_file} > .gulp.js
 mv .gulp.js ${gulp_file}
 chmod +x ${gulp_file}
-
-# Relink main folders to enable absolute paths `require("frontend/xxx")`...
-mkdir -p ./node_modules
-rm -f ./node_modules/shared
-rm -f ./node_modules/frontend
-rm -f ./node_modules/backend
-ln -s ../shared           ./node_modules/shared
-ln -s ../frontend/scripts ./node_modules/frontend
-ln -s ../backend/scripts  ./node_modules/backend
-
-mkdir -p ./build/node_modules
-rm -f ./build/node_modules/shared
-rm -f ./build/node_modules/frontend
-rm -f ./build/node_modules/backend
-ln -s ../shared            ./build/node_modules/shared
-ln -s ../frontend/scripts  ./build/node_modules/frontend
-ln -s ../backend/scripts   ./build/node_modules/backend
