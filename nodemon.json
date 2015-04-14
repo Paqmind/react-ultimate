@@ -1,6 +1,6 @@
 {
   "execMap": {
-    "js": "babel-node --experimental"
+    "js": "babel-node --stage 0"
   },
   "ext": "js html",
   "ignore": [

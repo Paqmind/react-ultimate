@@ -64,8 +64,8 @@
     "yargs": "^3.6.0"
   },
   "devDependencies": {
-    "babel": "^4.7.16",
-    "babelify": "^5.0.4",
+    "babel": "^5.1.8",
+    "babelify": "^6.0.2",
     "browserify": "^9.0.8",
     "chai": "^2.1.2",
     "glob": "^5.0.3",

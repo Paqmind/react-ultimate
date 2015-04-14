@@ -1,5 +1,5 @@
 {
   "browserify": {
-    "transform": [["babelify", {"experimental": true, "sourceMapRelative": "."}]]
+    "transform": [["babelify", {"stage": 0, "sourceMapRelative": "."}]]
   }
 }

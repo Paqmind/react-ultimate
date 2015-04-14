@@ -19,8 +19,8 @@ $ npm start
 
 Development
 ```
-$ gulp dev     [terminal-1]
-$ npm run dev  [terminal-2]
+$ npm run nodemon [terminal-1]
+$ npm run dev     [terminal-2]
 ```
 
 There are a few of react-starters out there. Let's compare.
