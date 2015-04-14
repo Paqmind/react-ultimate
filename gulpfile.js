@@ -16,6 +16,7 @@ let GulpCached = require("gulp-cached");
 let GulpSourcemaps = require("gulp-sourcemaps");
 let GulpLess = require("gulp-less");
 let GulpPlumber = require("gulp-plumber");
+require("shared/shims");
 let frontendVendors = require("./package.json").frontendVendors;
 
 // OPTIONS =========================================================================================
@@ -94,19 +95,27 @@ Gulp.task("watchify", function () {
   watcher.stderr.pipe(process.stderr);
 });
 
-Gulp.task("watch-src", function () {
+Gulp.task("watch-assets", function () {
   Gulp.watch("./frontend/images/**/*", ["dist-images"]);
   Gulp.watch("./frontend/styles/**/*.less", ["dist-styles"]);
 });
 
-Gulp.task("dist", function () {
-  exitOnError = true;
+Gulp.task("watch", ["watch-assets", "watchify"]);
+
+Gulp.task("dev", function (cb) {
   return RunSequence(
-    ["dist-vendors", "dist-scripts", "dist-images", "dist-styles"]
+    ["dist-vendors", "dist-scripts", "dist-images", "dist-styles"],
+    "watch", cb
   );
 });
 
-Gulp.task("watch", ["watch-src", "watchify"]);
+Gulp.task("release", function (cb) {
+  exitOnError = true;
+  return RunSequence(
+    ["dist-vendors", "dist-scripts", "dist-images", "dist-styles"],
+    /*"minify-assets", "cachebust",*/ cb
+  );
+});
 
 Gulp.task("config:get", function () {
   let argv = require("yargs").argv;

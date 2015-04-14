@@ -12,9 +12,15 @@ $ npm install; bower install; bin/install
 
 ## Run
 
+Production
 ```
-$ npm start -- run without watches
-$ npm run devel -- run with watches
+$ npm start
+```
+
+Development
+```
+$ gulp dev     [terminal-1]
+$ npm run dev  [terminal-2]
 ```
 
 There are a few of react-starters out there. Let's compare.
@@ -112,8 +118,8 @@ ugly, unreadable, unsupportable relative imports with brand shiny absolute.
 
 ### Immutable
 
-[Immutable-js](http://facebook.github.io/immutable-js/docs/#/)
-TODO
+[Immutable-js](http://facebook.github.io/immutable-js/docs/#/) is used at backend.
+Baobab is incompatible with Immutable.
 
 ### Browser Sync (live reload)
 
@@ -121,8 +127,7 @@ TODO
 
 ### Browserify vs WebPack.
 
-Just look at this [mess](https://github.com/kriasoft/react-starter-kit/blob/master/webpack.config.js).
-We prefer to keep everything simple with Browserify.
+Not really like both. TODO take a second look at WebPack
 
 ### Builds
 
