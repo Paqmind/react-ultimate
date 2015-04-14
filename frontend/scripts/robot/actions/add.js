@@ -27,12 +27,16 @@ export default function add(model) {
       if (response instanceof Error) {
         throw response;
       } else {
-        let status = response.statusText;
+        let loadError = {
+          status: response.status,
+          description: response.statusText,
+          url: apiURL
+        };
         State.select("robots").set("loading", false);
-        State.select("robots").set("loadError", status);
+        State.select("robots").set("loadError", loadError);
         State.select("robots", "models").unset(id); // Cancel add
-        addAlert({message: "Action `Robot.add` failed", category: "error"});
-        return status;
+        addAlert({message: "Action `Robot.add` failed: " + loadError.description, category: "error"});
+        return loadError.description; // TODO: do we need this?
       }
     });
 

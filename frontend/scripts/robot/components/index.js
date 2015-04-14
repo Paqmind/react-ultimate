@@ -22,7 +22,7 @@ export default React.createClass({
     models = toArray(models);
 
     if (loadError) {
-      return <Error title="Load error" description={loadError.status}/>;
+      return <Error loadError={loadError}/>;
     } else {
       return (
         <DocumentTitle title="Robots">

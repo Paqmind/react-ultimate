@@ -1,9 +1,11 @@
 // IMPORTS =========================================================================================
+let isEmpty = require("lodash.isempty");
 let React = require("react");
 let ReactRouter = require("react-router");
 let {Link} = ReactRouter;
 let DocumentTitle = require("react-document-title");
 let Loading = require("frontend/common/components/loading");
+let Error = require("frontend/common/components/error");
 let NotFound = require("frontend/common/components/notfound");
 let State = require("frontend/state");
 let removeRobot = require("frontend/robot/actions/remove");
@@ -26,6 +28,8 @@ export default React.createClass({
     if (loading) {
       return <Loading/>;
     } else if (loadError) {
+      return <Error loadError={loadError}/>;
+    } else if (isEmpty(model)) {
       return <NotFound/>;
     } else {
       return (

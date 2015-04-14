@@ -14,6 +14,7 @@ let {Link} = ReactRouter;
 let DocumentTitle = require("react-document-title");
 //let Validators = require("shared/robot/validators");
 let Loading = require("frontend/common/components/loading");
+let Error = require("frontend/common/components/error");
 let NotFound = require("frontend/common/components/notfound");
 let State = require("frontend/state");
 let addRobot = require("frontend/robot/actions/add");
@@ -180,7 +181,7 @@ let Form = React.createClass({
     if (loading) {
       return <Loading/>;
     } else if (loadError) {
-      return <NotFound/>;
+      return <Error loadError={loadError}/>;
     } else {
       return (
         <DocumentTitle title={"Add Robot"}>
