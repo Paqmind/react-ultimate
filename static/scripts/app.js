@@ -10,7 +10,7 @@ var NotFoundRoute = ReactRouter.NotFoundRoute;
 var HistoryLocation = ReactRouter.HistoryLocation;
 
 // Shims, polyfills
-var Shims = require("./shims");
+require("shared/shims");
 
 // Common
 var Body = require("frontend/common/components/body");

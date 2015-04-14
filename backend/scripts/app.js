@@ -21,6 +21,7 @@ let BodyParser = require("body-parser");
 let Winston = require("winston");
 let WinstonMail = require("winston-mail");
 let Moment = require("moment");
+require("shared/shims");
 let Routes = require("./routes");
 
 // CONFIGS =========================================================================================

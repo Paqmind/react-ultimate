@@ -4,7 +4,7 @@ let ReactRouter = require("react-router");
 let {Route, DefaultRoute, NotFoundRoute, HistoryLocation} = ReactRouter;
 
 // Shims, polyfills
-let Shims = require("./shims");
+require("shared/shims");
 
 // Common
 let Body = require("frontend/common/components/body");
