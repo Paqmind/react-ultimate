@@ -12,10 +12,15 @@ export default function loadMany() {
   State.select("robots").set("loading", true);
   return Axios.get(apiURL)
     .then(response => {
-      let models = toObject(response.data);
-      State.select("robots").edit({loading: false, loadError: undefined, models: models});
-      State.select("robots").edit({loading: false, loadError: undefined, models: models});
-      return models; // TODO: why here models are returning, and in add/edit status?
+      let {data, meta} = response.data;
+      let models = toObject(data);
+      State.select("robots").edit({
+        loading: false,
+        loadError: undefined,
+        models: models,
+        total: meta.total || Object.keys(models).length,
+      });
+      return response.status;
     })
     .catch(response => {
       if (response instanceof Error) {
@@ -29,7 +34,7 @@ export default function loadMany() {
         State.select("robots").set("loading", false);
         State.select("robots").set("loadError", loadError);
         addAlert({message: "Action `Robot.loadMany` failed: " + loadError.description, category: "error"});
-        return loadError.description;
+        return response.status;
       }
     });
 }

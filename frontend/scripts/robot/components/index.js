@@ -4,6 +4,7 @@ let ReactRouter = require("react-router");
 let {Link} = ReactRouter;
 let DocumentTitle = require("react-document-title");
 let {toArray} = require("frontend/common/helpers");
+let Pagination = require("frontend/common/components/pagination");
 let Loading = require("frontend/common/components/loading");
 let Error = require("frontend/common/components/error");
 let State = require("frontend/state");
@@ -18,7 +19,7 @@ export default React.createClass({
   },
 
   render() {
-    let {models, loading, loadError} = this.state.cursors.robots;
+    let {models, total, loading, loadError} = this.state.cursors.robots;
     models = toArray(models);
 
     if (loadError) {

@@ -4,39 +4,50 @@ let React = require("react");
 
 // EXPORTS =========================================================================================
 export default React.createClass({
-  //propTypes: {
-  //  loadError: React.PropTypes.object.isRequired,
-  //  size: React.PropTypes.oneOf(["xs", "sm", "md", "lg"]),
-  //},
-  //
-  //getDefaultProps() {
-  //  return {
-  //    size: "md",
-  //  }
-  //},
+  propTypes: {
+    endpoint: React.PropTypes.string.isRequired,
+    total: React.PropTypes.number.isRequired,
+    perpage: React.PropTypes.number.isRequired,
+  },
+
+  totalPages() {
+    return Math.ceil(this.props.total / this.props.perpage);
+  },
 
   render() {
     return (
       <nav>
-        <ul class="pagination">
+        <ul className="pagination">
           <li>
-            <a href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
+            <a href="#">
+              <span>&laquo;</span>
             </a>
           </li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
+          {Array.range(1, this.totalPages() + 1).map(p => {
+            let offset = (p - 1) * this.props.perpage;
+            let limit = this.props.perpage;
+            let url = this.props.endpoint + `?page.offset=${offset}&page.limit=${limit}`;
+            return <li key={p}><a href={url}>{p}</a></li>;
+          })}
           <li>
-            <a href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
+            <a href="#">
+              <span>&raquo;</span>
             </a>
           </li>
         </ul>
+        Total: {this.props.total}<br/>
+        Perpage: {this.props.perpage}<br/>
+        TotalPages: {this.totalPages()}<br/>
       </nav>
     );
   }
 });
+
+//<Pagination endpoint="/api/robots" total="10" perpage="2"/>
+
+
+
+
+
+
 

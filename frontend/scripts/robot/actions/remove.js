@@ -15,12 +15,11 @@ export default function remove(id) {
 
   return Axios.delete(apiURL)
     .then(response => {
-      let status = response.statusText;
       State.select("robots").set("loading", false);
       State.select("robots").set("loadError", undefined);
       Router.transitionTo("robot-index");
       addAlert({message: "Action `Robot.remove` succeed", category: "success"});
-      return status;
+      return response.status;
     })
     .catch(response => {
       if (response instanceof Error) {
@@ -35,7 +34,7 @@ export default function remove(id) {
         State.select("robots").set("loadError", status);
         State.select("robots", "models").set(id, oldModel); // Cancel remove
         addAlert({message: "Action `Robot.remove` failed: " + loadError.description, category: "error"});
-        return loadError.description;
+        return response.status;
       }
     });
 

@@ -14,8 +14,13 @@ export default function loadOne() {
   //return Axios.get(apiURL)
   //  .then(response => {
   //    let models = toObject(response.data);
-  //    State.select("robots").edit({loading: false, loadError: undefined, models: models});
-  //    return models;
+  //    State.select("robots").edit({
+  //      loading: false,
+  //      loadError: undefined,
+  //      models: models,
+  //      total: ???
+  // });
+  //    return response.status;
   //  })
   //  .catch(response => {
   //    if (response instanceof Error) {
@@ -29,7 +34,7 @@ export default function loadOne() {
   //      State.select("robots").set("loading", false);
   //      State.select("robots").set("loadError", loadError);
   //      addAlert({message: "Action `Robot.loadOne` failed: " + loadError.description, category: "error"});
-  //      return loadError;
+  //      return response.status;
   //    }
   //  });
 }

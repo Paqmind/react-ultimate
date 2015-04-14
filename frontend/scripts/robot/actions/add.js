@@ -17,11 +17,10 @@ export default function add(model) {
 
   return Axios.put(apiURL, newModel)
     .then(response => {
-      let status = response.statusText;
       State.select("robots").set("loading", false);
       State.select("robots").set("loadError", undefined);
       addAlert({message: "Action `Robot.add` succeed", category: "success"});
-      return status;
+      return response.status;
     })
     .catch(response => {
       if (response instanceof Error) {
@@ -36,7 +35,7 @@ export default function add(model) {
         State.select("robots").set("loadError", loadError);
         State.select("robots", "models").unset(id); // Cancel add
         addAlert({message: "Action `Robot.add` failed: " + loadError.description, category: "error"});
-        return loadError.description; // TODO: do we need this?
+        return response.status;
       }
     });
 

@@ -18,11 +18,10 @@ export default function edit(model) {
 
   return Axios.put(apiURL, newModel)
     .then(response => {
-      let status = response.statusText;
       State.select("robots").set("loading", false);
       State.select("robots").set("loadError", undefined);
       addAlert({message: "Action `Robot.edit` succeed", category: "success"});
-      return status;
+      return response.status;
     })
     .catch(response => {
       if (response instanceof Error) {
@@ -37,7 +36,7 @@ export default function edit(model) {
         State.select("robots").set("loadError", loadError);
         State.select("robots", "models").set(id, oldModel); // Cancel edit
         addAlert({message: "Action `Robot.edit` failed: " + loadError.description, category: "error"});
-        return loadError.description;
+        return response.status
       }
     });
 

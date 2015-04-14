@@ -102,13 +102,15 @@ let Form = React.createClass({
     }
   },
 
-  //validatorTypes() {
-  //  return Validators.model;
-  //},
+  validatorTypes() {
+    return {};
+    //return Validators.model;
+  },
 
-  //validatorData() {
+  validatorData() {
+    return {};
   //  return this.state.model;
-  //},
+  },
 
   validate: function (key) {
     //let schema = result(this, "validatorTypes") || {};
@@ -124,13 +126,13 @@ let Form = React.createClass({
   },
 
   handleChangeFor: function (key) {
-    //return function handleChange(event) {
-    //  event.persist();
-    //  let model = this.state.model;
-    //  model[key] = event.currentTarget.value;
-    //  this.setState({model: model});
+    return function handleChange(event) {
+      event.persist();
+      let model = this.state.model;
+      model[key] = event.currentTarget.value;
+      this.setState({model: model});
     //  this.validateDebounced(key);
-    //}.bind(this);
+    }.bind(this);
   },
 
   validateDebounced: debounce(function validateDebounced(key) {
@@ -179,7 +181,8 @@ let Form = React.createClass({
   },
 
   isValid: function (key) {
-    return isEmpty(this.getValidationMessages(key));
+    return true;
+    //return isEmpty(this.getValidationMessages(key));
   },
 
   render() {
@@ -227,7 +230,7 @@ let Form = React.createClass({
                     <fieldset>
                       <div className={Class({
                         "form-group": true,
-                        "required": (this.validatorTypes().name._flags.presence == "required"),
+                        "required": false,
                         "error": !this.isValid("name"),
                       })}>
                         <label htmlFor="name">Name</label>
@@ -242,8 +245,8 @@ let Form = React.createClass({
 
                       <div className={Class({
                         "form-group": true,
-                        "required": (this.validatorTypes().assemblyDate._flags.presence == "required"),
-                        "error": !this.isValid("assemblyDate")
+                         "required": false,
+                         "error": !this.isValid("assemblyDate")
                       })}>
                         <label htmlFor="assemblyDate">Assembly Date</label>
                         <input type="text" onBlur={this.validate.bind(this, "assemblyDate")} onChange={this.handleChangeFor("assemblyDate")} className="form-control" id="assemblyDate" ref="assemblyDate" value={model.assemblyDate}/>
@@ -257,8 +260,8 @@ let Form = React.createClass({
 
                       <div className={Class({
                         "form-group": true,
-                        "required": (this.validatorTypes().manufacturer._flags.presence == "required"),
-                        "error": !this.isValid("manufacturer")
+                        "required": false,
+                        "error": !this.isValid("manufacturer"),
                       })}>
                         <label htmlFor="manufacturer">Manufacturer</label>
                         <input type="text" onBlur={this.validate.bind(this, "manufacturer")} onChange={this.handleChangeFor("manufacturer")} className="form-control" id="manufacturer" ref="manufacturer" value={model.manufacturer}/>
@@ -290,3 +293,7 @@ let Form = React.createClass({
 <TextInput label="Assembly Date" placeholder="Assembly Date" id="model.assemblyDate" form={this}/>
 <TextInput label="Manufacturer" placeholder="Manufacturer" id="model.manufacturer" form={this}/>
 */
+
+//(this.validatorTypes().manufacturer._flags.presence == "required")
+//(this.validatorTypes().name._flags.presence == "required"),
+//(this.validatorTypes().assemblyDate._flags.presence == "required"),
