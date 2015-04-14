@@ -1,7 +1,5 @@
 // IMPORTS =========================================================================================
 let React = require("react");
-let ReactRouter = require("react-router");
-let {Link, RouteHandler} = ReactRouter;
 let DocumentTitle = require("react-document-title");
 
 // EXPORTS =========================================================================================
