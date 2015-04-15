@@ -1,4 +1,5 @@
 // IMPORTS =========================================================================================
+let Joi = require("joi");
 let createParseParams = require("backend/common/middlewares/parse-params");
 let createParseQuery = require("backend/common/middlewares/parse-query");
 let createParseBody = require("backend/common/middlewares/parse-body");

@@ -4,43 +4,19 @@
 
 var React = require("react");
 var ReactRouter = require("react-router");
-var Route = ReactRouter.Route;
-var DefaultRoute = ReactRouter.DefaultRoute;
-var NotFoundRoute = ReactRouter.NotFoundRoute;
 var HistoryLocation = ReactRouter.HistoryLocation;
 
 // Shims, polyfills
 require("shared/shims");
 
-// Common
-var Body = require("frontend/common/components/body");
-var Home = require("frontend/common/components/home");
-var About = require("frontend/common/components/about");
-var NotFound = require("frontend/common/components/notfound");
+// Routes
+var routes = require("frontend/routes");
 
-// Alert
+// Actions
 var loadManyAlerts = require("frontend/alert/actions/loadmany");
-
-// Robot
 var loadManyRobots = require("frontend/robot/actions/loadmany");
-var RobotIndex = require("frontend/robot/components/index");
-var RobotAdd = require("frontend/robot/components/add");
-var RobotDetail = require("frontend/robot/components/detail");
-var RobotEdit = require("frontend/robot/components/edit");
 
-// ROUTES ==========================================================================================
-var routes = React.createElement(
-  Route,
-  { handler: Body, path: "/" },
-  React.createElement(DefaultRoute, { name: "home", handler: Home }),
-  React.createElement(Route, { name: "about", path: "/about", handler: About }),
-  React.createElement(Route, { name: "robot-index", handler: RobotIndex }),
-  React.createElement(Route, { name: "robot-add", path: "add", handler: RobotAdd }),
-  React.createElement(Route, { name: "robot-detail", path: ":id", handler: RobotDetail }),
-  React.createElement(Route, { name: "robot-edit", path: ":id/edit", handler: RobotEdit }),
-  React.createElement(NotFoundRoute, { handler: NotFound })
-);
-
+// APP =============================================================================================
 window.router = ReactRouter.create({
   routes: routes,
   location: HistoryLocation
