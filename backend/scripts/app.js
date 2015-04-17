@@ -36,7 +36,7 @@ app.use(BodyParser.urlencoded({extended: false})); // parse application/x-www-fo
 
 app.use(Morgan("dev", {
   skip: function (req, res) {
-    return req.originalUrl.includes("/static") || req.originalUrl.includes("/favicon");
+    return req.originalUrl.includes("/public") || req.originalUrl.includes("/favicon");
   }
 }));
 
@@ -46,10 +46,10 @@ require("backend/common/routes");
 let apiRouter = require("backend/robot/router");
 require("backend/robot/routes");
 
-let staticRouter = Express.static("static", {etag: Config.get("http-use-etag")});
+let staticRouter = Express.static("public", {etag: Config.get("http-use-etag")});
 
 //app.use(favicon(__dirname + "/favicon.ico"));
-app.use("/static", staticRouter);
+app.use("/public", staticRouter);
 app.use("/api", apiRouter);
 app.use("/", appRouter);
 

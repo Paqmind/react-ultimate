@@ -3,7 +3,7 @@ let Path = require("path");
 
 // EVALS ===========================================================================================
 let projectDir = Path.dirname(__dirname);
-let staticDir = Path.join(projectDir, "static");
+let publicDir = Path.join(projectDir, "public");
 
 // CONFIG ==========================================================================================
 export default {
@@ -13,7 +13,7 @@ export default {
 
   // DIRS
   "project-dir": projectDir,
-  "static-dir": staticDir,
+  "public-dir": publicDir,
 
   // SMTP
   "smtp-host": "localhost",

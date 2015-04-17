@@ -32,7 +32,7 @@ Gulp.task("dist-styles", function () {
   return Gulp.src(["./frontend/styles/theme.less"])
     .pipe(GulpPlumber({errorHandler: !exitOnError}))
     .pipe(GulpLess())
-    .pipe(Gulp.dest("./static/styles"));
+    .pipe(Gulp.dest("./public/styles"));
 });
 
 //Gulp.task("lint", function () {
@@ -45,14 +45,14 @@ Gulp.task("dist-styles", function () {
 
 Gulp.task("dist-images", function () {
   return Gulp.src(["./images/**/*"])
-    .pipe(Gulp.dest("./static/images"));
+    .pipe(Gulp.dest("./public/images"));
 });
 
 Gulp.task("dist-vendors", function () {
-  // $ browserify -d -r react [-r ...] -o ./static/scripts/vendors.js
+  // $ browserify -d -r react [-r ...] -o ./public/scripts/vendors.js
   let args = ["-d", "--delay", "0"]
     .concat(interleaveWith(frontendVendors, "-r"))
-    .concat(["-o", "./static/scripts/vendors.js"]);
+    .concat(["-o", "./public/scripts/vendors.js"]);
 
   let bundler = ChildProcess.spawn("browserify", args);
   bundler.stdout.pipe(process.stdout);
@@ -65,11 +65,11 @@ Gulp.task("dist-vendors", function () {
 });
 
 Gulp.task("dist-scripts", function () {
-  // $ browserify -d -x react [-x ...] ./frontend/scripts/app.js -o ./static/scripts/app.js
+  // $ browserify -d -x react [-x ...] ./frontend/scripts/app.js -o ./public/scripts/app.js
   let args = ["-d", "--delay", "0"]
     .concat(interleaveWith(frontendVendors, "-x"))
     .concat(["./frontend/scripts/app.js"])
-    .concat(["-o", "./static/scripts/app.js"]);
+    .concat(["-o", "./public/scripts/app.js"]);
 
   let bundler = ChildProcess.spawn("browserify", args);
   bundler.stdout.pipe(process.stdout);
@@ -82,11 +82,11 @@ Gulp.task("dist-scripts", function () {
 });
 
 Gulp.task("watchify", function () {
-  // $ watchify -v -d -x react -x reflux [-x ...] ./frontend/scripts/app.js -o ./static/scripts/app.js
+  // $ watchify -v -d -x react -x reflux [-x ...] ./frontend/scripts/app.js -o ./public/scripts/app.js
   let args = ["-v", "-d", "--delay", "0"]
     .concat(interleaveWith(frontendVendors, "-x"))
     .concat(["./frontend/scripts/app.js"])
-    .concat(["-o", "./static/scripts/app.js"]);
+    .concat(["-o", "./public/scripts/app.js"]);
 
   let watcher = ChildProcess.spawn("watchify", args);
   watcher.stdout.pipe(process.stdout);
