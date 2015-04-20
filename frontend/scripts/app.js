@@ -14,17 +14,17 @@ let loadManyAlerts = require("frontend/alert/actions/loadmany");
 let loadManyRobots = require("frontend/robot/actions/loadmany");
 
 // APP =============================================================================================
-window.router = ReactRouter.create({
+let router = ReactRouter.create({
   routes: routes,
   location: HistoryLocation
 });
 
-window.router.run((Handler, state) => {
+router.run((Application, state) => {
   // you might want to push the state of the router to a
   // store for whatever reason
   // RouterActions.routeChange({routerState: state});
 
-  React.render(<Handler/>, document.body);
+  React.render(<Application/>, document.getElementById("main"));
 });
 
 loadManyAlerts();

@@ -1,13 +1,14 @@
 // IMPORTS =========================================================================================
 let React = require("react");
 let {Link} = require("react-router");
+let Component = require("frontend/component");
 let removeRobot = require("frontend/robot/actions/remove");
 
 // COMPONENTS ======================================================================================
-export default React.createClass({
-  propTypes: {
+export default class RobotItem extends Component {
+  static propTypes = {
     model: React.PropTypes.object,
-  },
+  }
 
   render() {
     let model = this.props.model;
@@ -40,5 +41,5 @@ export default React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}

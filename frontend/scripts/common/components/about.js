@@ -1,9 +1,10 @@
 // IMPORTS =========================================================================================
 let React = require("react");
 let DocumentTitle = require("react-document-title");
+let Component = require("frontend/component");
 
 // EXPORTS =========================================================================================
-export default React.createClass({
+export default class About extends Component {
   render() {
     return (
       <DocumentTitle title="About">
@@ -14,4 +15,4 @@ export default React.createClass({
       </DocumentTitle>
     );
   }
-});
+}

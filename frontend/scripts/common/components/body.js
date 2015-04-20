@@ -23,7 +23,7 @@ export default React.createClass({
             <nav className="collapse navbar-collapse navbar-page-header navbar-right brackets-effect">
               <ul className="nav navbar-nav">
                 <li><Link to="home">Home</Link></li>
-                <li><Link to="robot-index">Robots</Link></li>
+                <li><Link to="robot-index" params={{page: 1}}>Robots</Link></li>
                 <li><Link to="about">About</Link></li>
               </ul>
             </nav>
@@ -35,6 +35,16 @@ export default React.createClass({
         </main>
 
         <AlertIndex/>
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <div>
+        <main id="page-main">
+          <RouteHandler/>
+        </main>
       </div>
     );
   }

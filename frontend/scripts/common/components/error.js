@@ -2,19 +2,20 @@
 let Class = require("classnames");
 let React = require("react");
 let DocumentTitle = require("react-document-title");
+let Component = require("frontend/component");
 
 // EXPORTS =========================================================================================
-export default React.createClass({
-  propTypes: {
+export default class Error extends Component {
+  static propTypes = {
     loadError: React.PropTypes.object.isRequired,
     size: React.PropTypes.oneOf(["xs", "sm", "md", "lg"]),
-  },
+  }
 
   getDefaultProps() {
     return {
       size: "md",
     }
-  },
+  }
 
   render() {
     return (
@@ -30,4 +31,4 @@ export default React.createClass({
       </DocumentTitle>
     );
   }
-});
+}

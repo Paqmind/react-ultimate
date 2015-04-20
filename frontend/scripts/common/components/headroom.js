@@ -1,21 +1,26 @@
 // IMPORTS =========================================================================================
 let React = require("react");
 let throttle = require("lodash.throttle");
+let Component = require("frontend/component");
 
 // EXPORTS =========================================================================================
-let Headroom = React.createClass({
-  propTypes() {
-    return {
-      component: React.PropTypes.string,
-      headroomClassNames: React.PropTypes.object,
-    }
-  },
+export default class Headroom extends Component {
+  static propTypes = {
+    component: React.PropTypes.string,
+    headroomClassNames: React.PropTypes.object,
+  }
 
-  getDefaultProps() {
-    return {
-      component: "div",
-    }
-  },
+  static defaultProps = {
+    component: "div",
+    headroomClassNames: {
+      visible: "navbar-down",
+      hidden: "navbar-up"
+    },
+  }
+
+  state = {
+    className: ""
+  }
 
   hasScrolled() {
     let topPosition = $(window).scrollTop();
@@ -34,14 +39,7 @@ let Headroom = React.createClass({
       }
     }
     this.lastScrollTop = topPosition;
-  },
-
-
-  getInitialState: function () {
-    return {
-      className: ""
-    };
-  },
+  }
 
   componentDidMount() {
     // Init options
@@ -55,11 +53,11 @@ let Headroom = React.createClass({
 
     // Update component"s className
     this.setState({className: this.props.headroomClassNames.visible});
-  },
+  }
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.hasScrolled, false);
-  },
+  }
 
   render() {
     let component = this.props.component;
@@ -70,6 +68,4 @@ let Headroom = React.createClass({
       this.props.children
     );
   }
-});
-
-export default Headroom;
+}

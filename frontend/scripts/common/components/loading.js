@@ -1,9 +1,10 @@
 // IMPORTS =========================================================================================
 let React = require("react");
 let DocumentTitle = require("react-document-title");
+let Component = require("frontend/component");
 
 // EXPORTS =========================================================================================
-export default React.createClass({
+export default class Loading extends Component {
   render() {
     let sizeClass = this.props.size ? ' loading-' + this.props.size : '';
     return (
@@ -14,4 +15,4 @@ export default React.createClass({
       </DocumentTitle>
     );
   }
-});
+}

@@ -1,9 +1,10 @@
 // IMPORTS =========================================================================================
 let React = require("react");
 let DocumentTitle = require("react-document-title");
+let Component = require("frontend/component");
 
 // EXPORTS =========================================================================================
-export default React.createClass({
+export class Home extends Component {
   render() {
     return (
       <DocumentTitle title="React Starter">
@@ -48,22 +49,4 @@ export default React.createClass({
       </DocumentTitle>
     );
   }
-});
-
-/*
-* TODO
-*
-* <li><a href="http://socket.io/">SocketIO</a> real-time engine</li>
-* validation
-* babelify?
-* chai?
-* classnames?
-* config?
-* clientconfig?
-* helmet?
-* huskyv
-* mocha?
-* morgan?
-* winston?
-* yargs?
-* */
+}

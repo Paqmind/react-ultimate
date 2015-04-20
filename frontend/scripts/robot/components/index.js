@@ -12,7 +12,7 @@ let RobotItem = require("frontend/robot/components/item");
 
 // COMPONENTS ======================================================================================
 export default React.createClass({
-  mixins: [State.mixin],
+  mixins: [ReactRouter.State, State.mixin],
 
   cursors: {
     robots: ["robots"],
@@ -40,6 +40,7 @@ export default React.createClass({
             <section className="container">
               <h1>Robots</h1>
               <div className="row">
+                <Pagination endpoint="/api/robots" total={total} perpage={5}/>
                 {models.map(model => <RobotItem model={model} key={model.id}/>)}
               </div>
             </section>
