@@ -2,7 +2,8 @@
 let Class = require("classnames");
 let React = require("react");
 let DocumentTitle = require("react-document-title");
-let Component = require("frontend/component");
+
+let Component = require("frontend/common/component");
 
 // EXPORTS =========================================================================================
 export default class Error extends Component {

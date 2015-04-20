@@ -1,10 +1,11 @@
 // IMPORTS =========================================================================================
 let Axios = require("axios");
+
 let {toObject} = require("frontend/common/helpers");
-let Router = require("frontend/router");
+let Router = require("frontend/common/router");
+let State = require("frontend/common/state");
 let Alert = require("frontend/alert/models");
 let addAlert = require("frontend/alert/actions/add");
-let State = require("frontend/state");
 
 // ACTIONS =========================================================================================
 export default function loadOne() {

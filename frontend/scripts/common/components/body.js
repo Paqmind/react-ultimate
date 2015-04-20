@@ -2,11 +2,13 @@
 let React = require("react");
 let ReactRouter = require("react-router");
 let {Link, RouteHandler} = ReactRouter;
-let AlertIndex = require("frontend/alert/components/index");
+
+let Component = require("frontend/common/component");
 let Headroom = require("frontend/common/components/headroom");
+let AlertIndex = require("frontend/alert/components/index");
 
 // EXPORTS =========================================================================================
-export default React.createClass({
+export default class Body extends Component {
   render() {
     let headroomClassNames = {visible: "navbar-down", hidden: "navbar-up"};
     return (
@@ -38,14 +40,4 @@ export default React.createClass({
       </div>
     );
   }
-
-  render() {
-    return (
-      <div>
-        <main id="page-main">
-          <RouteHandler/>
-        </main>
-      </div>
-    );
-  }
-});
+}

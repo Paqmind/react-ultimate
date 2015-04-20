@@ -3,13 +3,8 @@ let React = require("react");
 let ReactRouter = require("react-router");
 let {HistoryLocation} = ReactRouter;
 
-// Shims, polyfills
 require("shared/shims");
-
-// Routes
-let routes = require("frontend/routes");
-
-// Actions
+let routes = require("frontend/common/routes");
 let loadManyAlerts = require("frontend/alert/actions/loadmany");
 let loadManyRobots = require("frontend/robot/actions/loadmany");
 

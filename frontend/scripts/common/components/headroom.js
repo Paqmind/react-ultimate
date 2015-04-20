@@ -1,7 +1,8 @@
 // IMPORTS =========================================================================================
 let React = require("react");
 let throttle = require("lodash.throttle");
-let Component = require("frontend/component");
+
+let Component = require("frontend/common/component");
 
 // EXPORTS =========================================================================================
 export default class Headroom extends Component {

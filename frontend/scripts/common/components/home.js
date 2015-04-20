@@ -1,7 +1,8 @@
 // IMPORTS =========================================================================================
 let React = require("react");
 let DocumentTitle = require("react-document-title");
-let Component = require("frontend/component");
+
+let Component = require("frontend/common/component");
 
 // EXPORTS =========================================================================================
 export class Home extends Component {

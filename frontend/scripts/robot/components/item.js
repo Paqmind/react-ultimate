@@ -1,7 +1,8 @@
 // IMPORTS =========================================================================================
 let React = require("react");
 let {Link} = require("react-router");
-let Component = require("frontend/component");
+
+let Component = require("frontend/common/component");
 let removeRobot = require("frontend/robot/actions/remove");
 
 // COMPONENTS ======================================================================================

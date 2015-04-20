@@ -12,11 +12,12 @@ let React = require("react");
 let ReactRouter = require("react-router");
 let {Link} = ReactRouter;
 let DocumentTitle = require("react-document-title");
+
 //let Validators = require("shared/robot/validators");
 let Loading = require("frontend/common/components/loading");
 let Error = require("frontend/common/components/error");
 let NotFound = require("frontend/common/components/notfound");
-let State = require("frontend/state");
+let State = require("frontend/common/state");
 let addRobot = require("frontend/robot/actions/add");
 
 // HELPERS =========================================================================================

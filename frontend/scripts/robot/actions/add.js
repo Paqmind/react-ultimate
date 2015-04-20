@@ -1,8 +1,9 @@
 // IMPORTS =========================================================================================
 let Axios = require("axios");
-let Router = require("frontend/router");
+
+let Router = require("frontend/common/router");
+let State = require("frontend/common/state");
 let addAlert = require("frontend/alert/actions/add");
-let State = require("frontend/state");
 let Robot = require("frontend/robot/models");
 
 // ACTIONS =========================================================================================
