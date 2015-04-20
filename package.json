@@ -5,10 +5,12 @@
   "scripts": {
     "start": "babel-node backend/scripts/app.js",
     "nodemon": "nodemon backend/scripts/app.js",
+    "dist": "gulp dist",
     "dev": "gulp dev",
-    "release-patch": "git checkout master && gulp dist && git commit -am 'Distribute' && npm version patch && git push origin master --tags",
-    "release-minor": "git checkout master && gulp dist && git commit -am 'Distribute' && npm version minor && git push origin master --tags",
-    "release-major": "git checkout master && gulp dist && git commit -am 'Distribute' && npm version major && git push origin master --tags",
+    "prod": "gulp prod",
+    "release-patch": "git checkout master && gulp prod && git commit -am 'Distribute' && npm version patch && git push origin master --tags",
+    "release-minor": "git checkout master && gulp prod && git commit -am 'Distribute' && npm version minor && git push origin master --tags",
+    "release-major": "git checkout master && gulp prod && git commit -am 'Distribute' && npm version major && git push origin master --tags",
     "test": "mocha --opts specs/mocha.opts specs",
     "test-watch": "mocha --opts specs/mocha.opts -w specs"
   },
@@ -106,12 +108,5 @@
     "react",
     "react-router",
     "react-document-title"
-  ],
-  "apidoc": {
-    "name": "twitto",
-    "version": "^0.2.0",
-    "description": "apiDoc basic example zzz",
-    "title": "Custom apiDoc browser title",
-    "url": "https://api.github.com/v1"
-  }
+  ]
 }
