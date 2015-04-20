@@ -1,10 +1,5 @@
 {
-  "name": "twitto",
-  "version": "0.1.0",
-  "homepage": "https://github.com/Paqmind/twitto",
-  "authors": [
-    "Ivan Kleshnin <ivan@paqmind.com>"
-  ],
+  "name": "react-starter",
   "moduleType": [
     "globals",
     "node"
