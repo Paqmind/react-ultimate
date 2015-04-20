@@ -3,7 +3,7 @@ let Path = require("path");
 
 // EVALS ===========================================================================================
 let projectDir = Path.dirname(__dirname);
-let publicDir = Path.join(projectDir, "public");
+let publicDir = projectDir + "/public";
 
 // CONFIG ==========================================================================================
 export default {
