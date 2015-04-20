@@ -76,7 +76,7 @@ let SocketIOStream = require("socket.io-stream");
 
 /*socketEngine.sockets.on("connection", function (socket) {
   console.log("[]-> connection");
-  var logFile = Path.join(Config.get("project-dir"), "log-osx.log");
+  var logFile = Config.get("project-dir") + "/log-osx.log";
   ss(socket).on("enter", function (stream, data) {
     var top = spawn("top", ["-l 0"]);
     top.stderr.on("data", function (data) {
@@ -85,7 +85,7 @@ let SocketIOStream = require("socket.io-stream");
     console.log("[]-> enter:");
     console.log(`[]-> piping ${logFile}`);
 //    top.stdout.pipe(stream);
-//    console.log("[]-> enter:", Path.join(Config.get("project-dir"), "log-osx.log"));
+//    console.log("[]-> enter:", Config.get("project-dir") + "/log-osx.log");
     Fs.createReadStream(logFile).pipe(stream);
   });
 
