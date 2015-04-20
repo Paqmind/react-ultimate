@@ -4,7 +4,6 @@ process.env.NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR || "./shared/config";
 
 // APP =============================================================================================
 let Fs = require("fs");
-let Path = require("path");
 let Express = require("express");
 let Config = require("config");
 require("shared/shims");
@@ -16,14 +15,7 @@ app.set("etag", Config.get("http-use-etag"));
 let logger = require("backend/logger");
 
 // TEMPLATES =======================================================================================
-app.set("views", Path.join(__dirname, "templates"));
-app.set("view engine", "html");
-
-let Nunjucks = require("nunjucks");
-let nunjucksEnv = Nunjucks.configure("backend/templates", {
-  autoescape: true,
-  express: app
-});
+let templater = require("backend/templater")(app);
 
 // MIDDLEWARES =====================================================================================
 let Morgan = require("morgan");
