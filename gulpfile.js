@@ -100,18 +100,18 @@ Gulp.task("watch-assets", function () {
 
 Gulp.task("watch", ["watch-assets", "watchify"]);
 
+Gulp.task("dist", ["dist-vendors", "dist-scripts", "dist-images", "dist-styles"]);
+
 Gulp.task("dev", function (cb) {
   return runSequence(
-    ["dist-vendors", "dist-scripts", "dist-images", "dist-styles"],
-    "watch", cb
+    "dist", "watch", cb
   );
 });
 
-Gulp.task("dist", function (cb) {
+Gulp.task("prod", function (cb) {
   exitOnError = true;
   return runSequence(
-    ["dist-vendors", "dist-scripts", "dist-images", "dist-styles"],
-    /*"minify-assets", "cachebust",*/ cb
+    "dist", /*"minify-assets", "cachebust",*/ cb
   );
 });
 
