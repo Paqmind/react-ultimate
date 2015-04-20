@@ -35,7 +35,7 @@ app.use(Morgan("dev", {
 let appRouter = require("backend/common/router");
 require("backend/common/routes");
 
-let apiRouter = require("backend/robot/router");
+let apiRouter = require("backend/robot/common/router");
 require("backend/robot/routes");
 
 let staticRouter = Express.static("public", {etag: Config.get("http-use-etag")});

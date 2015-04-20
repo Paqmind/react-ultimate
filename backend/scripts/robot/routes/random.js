@@ -2,9 +2,10 @@
 let createParseParams = require("backend/common/middlewares/parse-params");
 let createParseQuery = require("backend/common/middlewares/parse-query");
 let createParseBody = require("backend/common/middlewares/parse-body");
-let router = require("backend/robot/router");
-let {generateRobot} = require("backend/robot/helpers");
-let robots = require("backend/robot/db");
+
+let {generateRobot} = require("backend/robot/common/helpers");
+let router = require("backend/robot/common/router");
+let robots = require("backend/robot/common/db");
 
 // ROUTES ==========================================================================================
 router.get("/robots/random",
