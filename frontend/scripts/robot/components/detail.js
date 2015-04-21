@@ -1,5 +1,4 @@
 // IMPORTS =========================================================================================
-let isEmpty = require("lodash.isempty");
 let React = require("react");
 let ReactRouter = require("react-router");
 let {Link} = ReactRouter;
@@ -34,8 +33,6 @@ export default React.createClass({
       return <Loading/>;
     } else if (loadError) {
       return <Error loadError={loadError}/>;
-    } else if (isEmpty(model)) {
-      return <NotFound/>; // TODO fix: required only because of defective dataload strategy
     } else {
       return (
         <DocumentTitle title={"Detail " + model.name}>

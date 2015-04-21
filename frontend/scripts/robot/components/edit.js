@@ -197,8 +197,6 @@ let Form = React.createClass({
       return <Loading/>;
     } else if (loadError) {
       return <Error loadError={loadError}/>;
-    } else if (isEmpty(model)) {
-      return <NotFound/>; // TODO fix: required only because of defective dataload strategy
     } else {
       return (
         <DocumentTitle title={"Edit " + model.name}>
