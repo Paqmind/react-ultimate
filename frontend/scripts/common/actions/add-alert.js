@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
+let {Alert} = require("frontend/common/models");
 let State = require("frontend/state");
-let Alert = require("frontend/alert/models");
 
 // ACTIONS =========================================================================================
 export default function add(model) {

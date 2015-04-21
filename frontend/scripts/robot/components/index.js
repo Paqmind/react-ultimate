@@ -5,14 +5,19 @@ let {Link} = ReactRouter;
 let DocumentTitle = require("react-document-title");
 
 let {toArray} = require("frontend/common/helpers");
-let Pagination = require("frontend/common/components/pagination");
-let Loading = require("frontend/common/components/loading");
-let Error = require("frontend/common/components/error");
-let State = require("frontend/common/state");
+let {Error, Loading, NotFound, Pagination} = require("frontend/common/components");
+let RobotActions = require("frontend/robot/actions");
 let RobotItem = require("frontend/robot/components/item");
+let State = require("frontend/state");
 
 // COMPONENTS ======================================================================================
 export default React.createClass({
+  statics: {
+    fetchData(params, query) {
+      return RobotActions.loadMany(params.page, query);
+    },
+  },
+
   mixins: [ReactRouter.State, State.mixin],
 
   cursors: {
@@ -20,7 +25,8 @@ export default React.createClass({
   },
 
   render() {
-    let {models, total, loading, loadError} = this.state.cursors.robots;
+    let page = parseInt(this.getParams().page || 1);
+    let {models, total, loading, loadError, perpage} = this.state.cursors.robots;
     models = toArray(models);
 
     if (loadError) {
@@ -41,7 +47,7 @@ export default React.createClass({
             <section className="container">
               <h1>Robots</h1>
               <div className="row">
-                <Pagination endpoint="/api/robots" total={total} perpage={5}/>
+                <Pagination endpoint="robot-index" total={total} page={page} perpage={perpage}/>
                 {models.map(model => <RobotItem model={model} key={model.id}/>)}
               </div>
             </section>

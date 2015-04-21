@@ -1,22 +1,19 @@
 // IMPORTS =========================================================================================
 let CommonValidators = require("shared/common/validators");
-let RobotValidators = require("shared/robot/validators");
-
-let createParseParams = require("backend/common/middlewares/parse-params");
-let createParseQuery = require("backend/common/middlewares/parse-query");
-let createParseBody = require("backend/common/middlewares/parse-body");
-
+let Middlewares = require("backend/common/middlewares");
+let robotsDB = require("backend/robot/common/db");
 let router = require("backend/robot/common/router");
-let robots = require("backend/robot/common/db");
 
 // ROUTES ==========================================================================================
 router.get("/robots/:id",
-  createParseParams(CommonValidators.id),
-  createParseQuery({}),
+  Middlewares.createParseParams(CommonValidators.id),
+  Middlewares.createParseQuery({}),
   function handler(req, res, cb) {
-    let robot = robots.get(req.params.id);
+    let robot = robotsDB.get(req.params.id);
     if (robot) {
-      let response = robot; // TODO data
+      let response = {
+        data: robot,
+      }
       return res.status(200).send(response); // Status: ok
     } else {
       return cb();

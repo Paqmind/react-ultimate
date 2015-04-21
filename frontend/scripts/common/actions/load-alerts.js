@@ -1,21 +1,28 @@
 // IMPORTS =========================================================================================
 let Axios = require("axios");
+
 let {toObject} = require("frontend/common/helpers");
-let Router = require("frontend/router");
 let State = require("frontend/state");
 
 // ACTIONS =========================================================================================
-export default function loadMany() {
+export default function loadMany(page, query) {
   let apiURL = `api/alerts`;
+  let limit = State.select("robots").get("perpage");
+  let offset = (page - 1) * limit;
+  let params = {"page[offset]": offset, "page[limit]": limit};
 
-  State.select("alerts").edit({loading: false, loadError: undefined, models: {}});
+  State.select("alerts").set("loading", false);
+  State.select("alerts").set("loadError", undefined);
+  State.select("alerts").set("total", 0);
+  State.select("alerts").set("models", {});
   return {};
   // TODO: backend
   //return Axios.get(apiURL)
   //  .then(response => {
   //    let models = toObject(response.data);
-  //    State.select("alerts").edit({loading: false, loadError: undefined, models: models});
-  //    State.select("alerts").edit({loading: false, loadError: undefined, models: models});
+  //    State.select("alerts").set("loading", false);
+  //    State.select("alerts").set("loadError", undefined);
+  //    State.select("alerts").set("models", models);
   //    return models;
   //  })
   //  .catch(response => {
@@ -25,7 +32,7 @@ export default function loadMany() {
   //      let loadError = {status: response.statusText, url: apiURL};
   //      State.select("alerts").set("loading", false);
   //      State.select("alerts").set("loadError", loadError);
-  //      addAlert({message: "Action `Alert.loadMany` failed", category: "error"});
+  //      alert("Action `Alert.loadMany` failed");
   //      return loadError;
   //    }
   //  });

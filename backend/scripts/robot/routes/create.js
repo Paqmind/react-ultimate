@@ -3,24 +3,22 @@ let {Map} = require("immutable");
 
 let CommonValidators = require("shared/common/validators");
 let RobotValidators = require("shared/robot/validators");
-
-let createParseParams = require("backend/common/middlewares/parse-params");
-let createParseQuery = require("backend/common/middlewares/parse-query");
-let createParseBody = require("backend/common/middlewares/parse-body");
-
+let Middlewares = require("backend/common/middlewares");
 let {generateRobot} = require("backend/robot/common/helpers");
-let robots = require("backend/robot/common/db");
+let robotsDB = require("backend/robot/common/db");
 let router = require("backend/robot/common/router");
 
 // ROUTES ==========================================================================================
 router.post("/robots/",
-  createParseQuery({}),
-  createParseBody(RobotValidators.model),
+  Middlewares.createParseQuery({}),
+  Middlewares.createParseBody(RobotValidators.model),
   function handler(req, res, cb) {
     let robot = Map(generateRobot());
     robot = robot.mergeDeep(req.body);
-    robots = robots.set(robot.get("id"), robot);
-    let response = robot; // TODO data
+    robotsDB.set(robot.get("id"), robot);
+    let response = {
+      data: robot,
+    }
     return res.status(201).send(response); // Status: created
   }
 );

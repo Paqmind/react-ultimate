@@ -4,9 +4,7 @@ let ReactRouter = require("react-router");
 let {HistoryLocation} = ReactRouter;
 
 require("shared/shims");
-let routes = require("frontend/common/routes");
-let loadManyAlerts = require("frontend/alert/actions/loadmany");
-let loadManyRobots = require("frontend/robot/actions/loadmany");
+let routes = require("frontend/routes");
 
 // APP =============================================================================================
 let router = ReactRouter.create({
@@ -19,8 +17,11 @@ router.run((Application, state) => {
   // store for whatever reason
   // RouterActions.routeChange({routerState: state});
 
-  React.render(<Application/>, document.getElementById("main"));
-});
+  let promises = state.routes
+    .filter(route => route.handler.fetchData)
+    .map(route => route.handler.fetchData(state.params, state.query));
 
-loadManyAlerts();
-loadManyRobots();
+  Promise.all(promises).then(() => {
+    React.render(<Application/>, document.getElementById("main"));
+  });
+});

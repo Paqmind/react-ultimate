@@ -3,10 +3,7 @@ let React = require("react");
 let {Route, DefaultRoute, NotFoundRoute} = require("react-router");
 
 // Components
-let Body = require("frontend/common/components/body");
-let Home = require("frontend/common/components/home");
-let About = require("frontend/common/components/about");
-let NotFound = require("frontend/common/components/notfound");
+let {Body, Home, About, NotFound} = require("frontend/common/components");
 
 let RobotIndex = require("frontend/robot/components/index");
 let RobotAdd = require("frontend/robot/components/add");
@@ -14,7 +11,7 @@ let RobotDetail = require("frontend/robot/components/detail");
 let RobotEdit = require("frontend/robot/components/edit");
 
 // ROUTES ==========================================================================================
-let routes = (
+export default (
   <Route path="/" handler={Body}>
     <DefaultRoute handler={Home} name="home"/>
     <Route path="/about" name="about" handler={About}/>

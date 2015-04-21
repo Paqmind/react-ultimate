@@ -1,11 +1,12 @@
 // IMPORTS =========================================================================================
 let React = require("react");
 //let CSSTransitionGroup = require("rc-css-transition-group");
+
 let {toArray} = require("frontend/common/helpers");
 let Loading = require("frontend/common/components/loading");
-let NotFound = require("frontend/common/components/notfound");
+let NotFound = require("frontend/common/components/not-found");
+let AlertItem = require("frontend/common/components/alert-item");
 let State = require("frontend/state");
-let AlertItem = require("frontend/alert/components/item");
 
 // COMPONENTS ======================================================================================
 export default React.createClass({
@@ -32,7 +33,7 @@ export default React.createClass({
   }
 });
 
-// Can't run this crap for now
+// Can't run this crap for now TODO recheck after transition to Webpack
 // 1) react/addons pulls whole new react clone in browserify
 // 2) rc-css-transition-group contains uncompiled JSX syntax
 // OMG what an idiots &_&

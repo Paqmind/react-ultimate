@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
 let {fromJS, OrderedMap, Map, Range, List} = require("immutable");
-let {generateRobot} = require("backend/robot/helpers");
+let {generateRobot} = require("backend/robot/common/helpers");
 
 // PSEUDO DB =======================================================================================
 // Create first robot with predefined id separately (useful for tests)

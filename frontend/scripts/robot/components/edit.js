@@ -14,12 +14,9 @@ let {Link} = ReactRouter;
 let DocumentTitle = require("react-document-title");
 
 //let Validators = require("shared/robot/validators");
-let Loading = require("frontend/common/components/loading");
-let Error = require("frontend/common/components/error");
-let NotFound = require("frontend/common/components/notfound");
-let State = require("frontend/common/state");
-let editRobot = require("frontend/robot/actions/edit");
-let removeRobot = require("frontend/robot/actions/remove");
+let {Error, Loading, NotFound} = require("frontend/common/components");
+let RobotActions = require("frontend/robot/actions");
+let State = require("frontend/state");
 
 // HELPERS =========================================================================================
 function flattenAndResetTo(obj, to, path) {
@@ -70,6 +67,12 @@ function flattenAndResetTo(obj, to, path) {
 
 // COMPONENTS ======================================================================================
 export default React.createClass({
+  statics: {
+    fetchData(params, query) {
+      return RobotActions.loadOne(params.id);
+    }
+  },
+
   mixins: [ReactRouter.State, State.mixin],
 
   cursors() {
@@ -154,7 +157,7 @@ let Form = React.createClass({
     this.validate().then(isValid => {
       if (isValid) {
         // TODO replace with React.findDOMNode at #0.13.0
-        editRobot({
+        RobotActions.edit({
           id: this.state.model.id,
           name: this.refs.name.getDOMNode().value,
           assemblyDate: this.refs.assemblyDate.getDOMNode().value,
@@ -203,7 +206,7 @@ let Form = React.createClass({
             <div id="page-actions">
               <div className="container">
                 <div className="btn-group btn-group-sm pull-left">
-                  <Link to="robot-index" className="btn btn-gray-light" title="Back to list">
+                  <Link to="robot-index" params={{page: 1}} className="btn btn-gray-light" title="Back to list">
                     <span className="fa fa-arrow-left"></span>
                     <span className="hidden-xs margin-left-sm">Back to list</span>
                   </Link>
@@ -212,7 +215,7 @@ let Form = React.createClass({
                   <Link to="robot-detail" params={{id: model.id}} className="btn btn-blue" title="Detail">
                     <span className="fa fa-eye"></span>
                   </Link>
-                  <a className="btn btn-red" title="Remove" onClick={removeRobot.bind(this, model.id)}>
+                  <a className="btn btn-red" title="Remove" onClick={RobotActions.remove.bind(this, model.id)}>
                     <span className="fa fa-times"></span>
                   </a>
                 </div>

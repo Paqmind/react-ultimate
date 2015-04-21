@@ -9,11 +9,13 @@ export default new Baobab({
     total: 0,
     loading: true,
     loadError: undefined,
+    perpage: 5,
   },
   alerts: {
     models: {},
     total: 0,
     loading: true,
     loadError: undefined,
+    perpage: 5,
   },
 });

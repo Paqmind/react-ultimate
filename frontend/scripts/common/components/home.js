@@ -5,7 +5,7 @@ let DocumentTitle = require("react-document-title");
 let Component = require("frontend/common/component");
 
 // EXPORTS =========================================================================================
-export class Home extends Component {
+export default class Home extends Component {
   render() {
     return (
       <DocumentTitle title="React Starter">

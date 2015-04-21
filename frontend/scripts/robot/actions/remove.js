@@ -2,8 +2,8 @@
 let Axios = require("axios");
 
 let Router = require("frontend/common/router");
-let State = require("frontend/common/state");
-let addAlert = require("frontend/alert/actions/add");
+let CommonActions = require("frontend/common/actions");
+let State = require("frontend/state");
 
 // ACTIONS =========================================================================================
 export default function remove(id) {
@@ -19,7 +19,7 @@ export default function remove(id) {
       State.select("robots").set("loading", false);
       State.select("robots").set("loadError", undefined);
       Router.transitionTo("robot-index");
-      addAlert({message: "Action `Robot.remove` succeed", category: "success"});
+      CommonActions.addAlert({message: "Action `Robot.remove` succeed", category: "success"});
       return response.status;
     })
     .catch(response => {
@@ -34,7 +34,7 @@ export default function remove(id) {
         State.select("robots").set("loading", false);
         State.select("robots").set("loadError", status);
         State.select("robots", "models").set(id, oldModel); // Cancel remove
-        addAlert({message: "Action `Robot.remove` failed: " + loadError.description, category: "error"});
+        CommonActions.addAlert({message: "Action `Robot.remove` failed: " + loadError.description, category: "error"});
         return response.status;
       }
     });

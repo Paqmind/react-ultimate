@@ -1,20 +1,21 @@
 // IMPORTS =========================================================================================
 let Axios = require("axios");
+
 let {toObject} = require("frontend/common/helpers");
-let Router = require("frontend/router");
-let Alert = require("frontend/alert/models");
-let addAlert = require("frontend/alert/actions/add");
 let State = require("frontend/state");
 
 // ACTIONS =========================================================================================
-export default function loadOne() {
-  let apiURL = `/api/alerts/`;
+export default function loadOne(id) {
+  let apiURL = `/api/alerts/${id}`;
 
+  State.select("robots").set("loading", false);
   // TODO
   //return Axios.get(apiURL)
   //  .then(response => {
   //    let models = toObject(response.data);
-  //    State.select("robots").edit({loading: false, loadError: undefined, models: models});
+  //    State.select("alerts").set("loading", false);
+  //    State.select("alerts").set("loadError", undefined);
+  //    State.select("alerts").set("models", models);
   //    return models;
   //  })
   //  .catch(response => {
@@ -24,7 +25,7 @@ export default function loadOne() {
   //      let loadError = {status: response.statusText, url: apiURL};
   //      State.select("robots").set("loading", false);
   //      State.select("robots").set("loadError", loadError);
-  //      addAlert({message: "Action `Alert.loadOne` failed", category: "error"});
+  //      alert("Action `Alert.loadOne` failed");
   //      return loadError;
   //    }
   //  });
