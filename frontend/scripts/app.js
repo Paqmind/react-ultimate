@@ -1,13 +1,12 @@
 // IMPORTS =========================================================================================
 let React = require("react");
-let ReactRouter = require("react-router");
-let {HistoryLocation} = ReactRouter;
+let {create: createRouter, HistoryLocation} = require("react-router");
 
 require("shared/shims");
 let routes = require("frontend/routes");
 
 // APP =============================================================================================
-let router = ReactRouter.create({
+let router = createRouter({
   routes: routes,
   location: HistoryLocation
 });

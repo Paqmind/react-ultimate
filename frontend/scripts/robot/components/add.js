@@ -9,8 +9,7 @@ let flatten = require("lodash.flatten");
 let Class = require("classnames");
 //let Joi = require("joi");
 let React = require("react");
-let ReactRouter = require("react-router");
-let {Link} = ReactRouter;
+let {Link} = require("react-router");
 let DocumentTitle = require("react-document-title");
 
 //let Validators = require("shared/robot/validators");

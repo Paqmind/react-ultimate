@@ -1,4 +1,8 @@
-// PROXY ROUTER TO SOLVE CIRCULAR DEPENDENCY =======================================================
+// PROXY ROUTER TO REMOVE CIRCULAR DEPENDENCY ======================================================
+// Turns:
+//   app (router) <- routes <- components <- actions <- app (router)
+// to:
+//   app (router) <- routes <- components <- actions <- proxy (router)
 let proxy = {
   makePath(to, params, query) {
     return window.router.makePath(to, params, query);
