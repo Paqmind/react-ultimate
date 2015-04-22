@@ -5,7 +5,7 @@ let {toObject} = require("frontend/common/helpers");
 let State = require("frontend/state");
 
 // ACTIONS =========================================================================================
-export default function loadOne(id) {
+export function fetchOne(id) {
   let apiURL = `/api/alerts/${id}`;
 
   State.select("robots").set("loading", false);
@@ -25,8 +25,13 @@ export default function loadOne(id) {
   //      let loadError = {status: response.statusText, url: apiURL};
   //      State.select("robots").set("loading", false);
   //      State.select("robots").set("loadError", loadError);
-  //      alert("Action `Alert.loadOne` failed");
+  //      alert("Action `Alert:fetchOne` failed");
   //      return loadError;
   //    }
   //  });
+}
+
+export default function loadOne(id) {
+  // TODO read from cache here
+  return fetchOne(id);
 }

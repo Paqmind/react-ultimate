@@ -5,7 +5,7 @@ let {toObject} = require("frontend/common/helpers");
 let State = require("frontend/state");
 
 // ACTIONS =========================================================================================
-export default function loadMany(page, query) {
+export function fetchMany(page, query) {
   let apiURL = `api/alerts`;
   let limit = State.select("robots").get("perpage");
   let offset = (page - 1) * limit;
@@ -36,4 +36,9 @@ export default function loadMany(page, query) {
   //      return loadError;
   //    }
   //  });
+}
+
+export default function loadMany(page, query) {
+  // TODO read from cache here
+  return fetchMany(page, query);
 }
