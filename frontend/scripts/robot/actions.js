@@ -1,5 +1,9 @@
-module.exports["add"] = require("./actions/add");
-module.exports["edit"] = require("./actions/edit");
-module.exports["loadMany"] = require("./actions/load-many");
-module.exports["loadOne"] = require("./actions/load-one");
-module.exports["remove"] = require("./actions/remove");
+import add from "./actions/add";
+import edit from "./actions/edit";
+import loadPage from "./actions/load-page";
+import loadModel from "./actions/load-model";
+import remove from "./actions/remove";
+
+export default {
+  add, edit, loadPage, loadModel, remove
+}
