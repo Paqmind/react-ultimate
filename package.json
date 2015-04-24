@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "axios": "^0.5.4",
-    "baobab": "^1.0.0",
+    "baobab": "^1.0.1",
+    "baobab-react": "git://github.com/Yomguithereal/baobab-react.git",
     "body-parser": "^1.12.3",
     "bower": "^1.4.1",
     "classnames": "^1.2.0",

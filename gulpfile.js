@@ -11,7 +11,6 @@ let Gulp = require("gulp");
 let GulpJshint = require("gulp-jshint");
 let JshintStylish = require("jshint-stylish");
 let GulpCached = require("gulp-cached");
-let GulpSourcemaps = require("gulp-sourcemaps");
 let GulpLess = require("gulp-less");
 let GulpPlumber = require("gulp-plumber");
 require("shared/shims");

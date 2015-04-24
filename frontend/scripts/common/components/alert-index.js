@@ -6,11 +6,11 @@ let {toArray} = require("frontend/common/helpers");
 let Loading = require("frontend/common/components/loading");
 let NotFound = require("frontend/common/components/not-found");
 let AlertItem = require("frontend/common/components/alert-item");
-let State = require("frontend/state");
+let state = require("frontend/state");
 
 // COMPONENTS ======================================================================================
 export default React.createClass({
-  mixins: [State.mixin],
+  mixins: [state.mixin],
 
   cursors: {
     alerts: ["alerts"],

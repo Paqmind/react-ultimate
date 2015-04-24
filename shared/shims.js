@@ -43,23 +43,27 @@ Array.chunked = function chunked(array, n) {
   return Array.range(l).map((x, i) => array.slice(i*n, i*n + n));
 };
 
-if (process) {
-  // IOJS has `unhandledRejection` hook
-  process.on("unhandledRejection", function (reason, p) {
-    throw Error(`UnhandledRejection: ${reason}`);
-  });
-} else {
-  // BROWSER (Canary logs unhandled exceptions others just swallow)
-  Promise.prototype.done = function (resolve, reject) {
+// Uncomment if use IoJS
+// let process = process || undefined;
+//if (process) {
+  // IoJS has `unhandledRejection` hook
+  //process.on("unhandledRejection", function (reason, p) {
+  //  throw Error(`UnhandledRejection: ${reason}`);
+  //});
+//} else {
+  Promise.prototype.done = function done(resolve, reject) {
     this
       .then(resolve, reject)
-      .catch(function (e) {
-        setTimeout(function () { throw e; }, 1);
+      .catch(e => {
+        setTimeout(() => { throw e; }, 0);
       });
   };
+//}
 
-  // Workaround method as native browser string representation of Immutable is awful
-  window.console.echo = function log() {
+// Workaround method as native browser string representation of Immutable is awful
+let window = window || undefined;
+if (window) {
+  window.console.echo = function echo() {
     console.log.apply(console, Array.prototype.slice.call(arguments).map(v => Inspect(v)));
   };
 }

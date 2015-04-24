@@ -1,21 +1,21 @@
 // IMPORTS =========================================================================================
+let {root} = require("baobab-react/decorators");
 let React = require("react");
-let ReactRouter = require("react-router");
-let {Link, RouteHandler} = ReactRouter;
+let {Link, RouteHandler} = require("react-router");
 
-let CommonActions = require("frontend/common/actions");
 let Component = require("frontend/common/component");
+let commonActions = require("frontend/common/actions");
 let Headroom = require("frontend/common/components/headroom");
 let AlertIndex = require("frontend/common/components/alert-index");
+let state = require("frontend/state");
 
 // EXPORTS =========================================================================================
-export default React.createClass({
-  statics: {
-    fetchData(params, query) {
-      // Ignore params and query
-      return CommonActions.loadAlerts();
-    }
-  },
+@root(state)
+export default class Body extends Component {
+  static loadData(params, query) {
+    // Ignore params and query
+    return commonActions.alert.loadPage();
+  }
 
   render() {
     let headroomClassNames = {visible: "navbar-down", hidden: "navbar-up"};
@@ -44,8 +44,8 @@ export default React.createClass({
           <RouteHandler/>
         </main>
 
-        <AlertIndex/>
+        {/*<AlertIndex/>*/}
       </div>
     );
   }
-});
+}

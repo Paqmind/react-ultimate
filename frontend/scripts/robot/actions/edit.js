@@ -1,27 +1,29 @@
 // IMPORTS =========================================================================================
 let Axios = require("axios");
 
-let Router = require("frontend/common/router");
-let CommonActions = require("frontend/common/actions");
+let router = require("frontend/common/router");
+let commonActions = require("frontend/common/actions");
 let Robot = require("frontend/robot/models");
-let State = require("frontend/state");
+let state = require("frontend/state");
 
 // ACTIONS =========================================================================================
 export default function edit(model) {
   let newModel = Robot(model);
   let id = newModel.id;
-  let oldModel = State.select("robots", "models", id).get();
+  let oldModel = state.select("robots", "models", id).get();
   let apiURL = `/api/robots/${id}`;
 
   // Optimistic edit
-  State.select("robots").set("loading", true);
-  State.select("robots", "models").set(id, newModel);
+  state.select("robots", "loading").set(true);
+  state.select("robots", "models", id).set(newModel);
 
   return Axios.put(apiURL, newModel)
     .then(response => {
-      State.select("robots").set("loading", false);
-      State.select("robots").set("loadError", undefined);
-      CommonActions.addAlert({message: "Action `Robot.edit` succeed", category: "success"});
+      state.select("robots").merge({
+        loading: false,
+        loadError: undefined,
+      });
+      commonActions.alert.add({message: "Action `Robot.edit` succeed", category: "success"});
       return response.status;
     })
     .catch(response => {
@@ -33,13 +35,13 @@ export default function edit(model) {
           description: response.statusText,
           url: apiURL
         };
-        State.select("robots").set("loading", false);
-        State.select("robots").set("loadError", loadError);
-        State.select("robots", "models").set(id, oldModel); // Cancel edit
-        CommonActions.addAlert({message: "Action `Robot.edit` failed: " + loadError.description, category: "error"});
+        state.select("robots").merge({loading: false, loadError});
+        state.select("robots", "models", id).set(oldModel); // Cancel edit
+        commonActions.alert.add({message: "Action `Robot.edit` failed: " + loadError.description, category: "error"});
         return response.status
       }
-    });
+    })
+    .done();
 
   /* Async-Await style. Wait for proper IDE support
   // Optimistic edit
@@ -49,16 +51,8 @@ export default function edit(model) {
   try {
     response = await Axios.put(`/api/robots/${id}`, newModel);
   } catch (response) {
-    let status = response.statusText;
-    State.select("robots").set("loading", false);
-    State.select("robots").set("loadError", status);
-    State.select("robots", "models").set(id, oldModel); // Cancel edit
-    return status;
+    ...
   } // else
-    let status = response.statusText;
-    State.select("robots").set("loading", false);
-    State.select("robots").set("loadError", undefined);
-    CommonActions.addAlert({message: "Action `Robot.edit` failed", category: "error"});
-    return status;
+    ...
   */
 }

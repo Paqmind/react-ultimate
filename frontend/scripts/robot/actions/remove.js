@@ -1,25 +1,27 @@
 // IMPORTS =========================================================================================
 let Axios = require("axios");
 
-let Router = require("frontend/common/router");
-let CommonActions = require("frontend/common/actions");
-let State = require("frontend/state");
+let router = require("frontend/common/router");
+let commonActions = require("frontend/common/actions");
+let state = require("frontend/state");
 
 // ACTIONS =========================================================================================
 export default function remove(id) {
-  let oldModel = State.select("robots", "models", id).get();
+  let oldModel = state.select("robots", "models", id).get();
   let apiURL = `/api/robots/${id}`;
 
   // Optimistic remove
-  State.select("robots").set("loading", true);
-  State.select("robots", "models").unset(id);
+  state.select("robots", "loading").set(true);
+  state.select("robots", "models").unset(id);
 
   return Axios.delete(apiURL)
     .then(response => {
-      State.select("robots").set("loading", false);
-      State.select("robots").set("loadError", undefined);
-      Router.transitionTo("robot-index");
-      CommonActions.addAlert({message: "Action `Robot.remove` succeed", category: "success"});
+      state.select("robots").merge({
+        loading: false,
+        loadError: loadError,
+      });
+      router.transitionTo("robot-index");
+      commonActions.alert.add({message: "Action `Robot.remove` succeed", category: "success"});
       return response.status;
     })
     .catch(response => {
@@ -31,13 +33,13 @@ export default function remove(id) {
           description: response.statusText,
           url: apiURL
         };
-        State.select("robots").set("loading", false);
-        State.select("robots").set("loadError", status);
-        State.select("robots", "models").set(id, oldModel); // Cancel remove
-        CommonActions.addAlert({message: "Action `Robot.remove` failed: " + loadError.description, category: "error"});
+        state.select("robots").merge({loading: false, loadError});
+        state.select("robots", "models", id).set(oldModel); // Cancel remove
+        commonActions.alert.add({message: "Action `Robot.remove` failed: " + loadError.description, category: "error"});
         return response.status;
       }
-    });
+    })
+    .done();
 
   /* Async-Await style. Wait for proper IDE support
   // Optimistic remove
@@ -47,15 +49,8 @@ export default function remove(id) {
   try {
     response = await Axios.put(`/api/robots/${id}`, newModel);
   } catch (response) {
-    let status = response.statusText;
-    State.select("robots").set("loading", false);
-    State.select("robots").set("loadError", status);
-    State.select("robots", "models").set(id, oldModel); // Cancel remove
-    return status;
+    ...
   } // else
-    let status = response.statusText;
-    State.select("robots").set("loading", false);
-    State.select("robots").set("loadError", undefined);
-    return status;
+    ...
   */
 }

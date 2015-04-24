@@ -1,33 +1,38 @@
 // IMPORTS =========================================================================================
+let {branch} = require("baobab-react/decorators");
 let React = require("react");
-let ReactRouter = require("react-router");
-let {Link} = ReactRouter;
+let {Link} = require("react-router");
 let DocumentTitle = require("react-document-title");
 
 let {toArray} = require("frontend/common/helpers");
+let Component = require("frontend/common/component");
 let {Error, Loading, NotFound, Pagination} = require("frontend/common/components");
-let RobotActions = require("frontend/robot/actions");
+let robotActions = require("frontend/robot/actions");
 let RobotItem = require("frontend/robot/components/item");
-let State = require("frontend/state");
+let state = require("frontend/state");
 
 // COMPONENTS ======================================================================================
-export default React.createClass({
-  statics: {
-    fetchData(params, query) {
-      return RobotActions.loadMany(params.page, query);
-    },
-  },
-
-  mixins: [ReactRouter.State, State.mixin],
-
+@branch({
   cursors: {
-    robots: ["robots"],
+    url: "url",
+    robots: "robots",
   },
+
+  facets: {
+    models: "currentRobots",
+  }
+})
+export default class RobotIndex extends Component {
+  static loadPage = robotActions.loadPage;
+
+  static contextTypes = {
+    router: React.PropTypes.func.isRequired,
+  }
 
   render() {
-    let page = parseInt(this.getParams().page || 1);
-    let {models, total, loading, loadError, perpage} = this.state.cursors.robots;
-    models = toArray(models);
+    let page = this.props.url.page;
+    let {total, loading, loadError, perpage} = this.props.robots;
+    let models = this.props.models;
 
     if (loadError) {
       return <Error loadError={loadError}/>;
@@ -56,8 +61,8 @@ export default React.createClass({
         </DocumentTitle>
       );
     }
-  },
-});
+  }
+}
 
 /*
 <div className="buttons btn-group">

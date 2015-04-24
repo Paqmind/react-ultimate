@@ -26,3 +26,31 @@ export function toArray(object) {
   }
 }
 
+export function parseJsonApiQuery(query) {
+  return {
+    filters: query.filter,
+    sorts: (query.sort ? query.sort.split(",").map(v => v.replace(/^ /, "+")) : undefined)
+  };
+}
+
+export function formatJsonApiQuery(page, perpage, filters, sorts) {
+  let pageObj, filterObj, sortObj;
+  if (page && perpage) {
+    pageObj = {
+      "page[offset]": (page > 1 ? page - 1 : 0) * perpage,
+      "page[limit]": perpage,
+    };
+  }
+  if (filters) {
+    filterObj = Object.keys(filters).reduce((filterObj, key) => {
+      filterObj[`filter[${key}]`] = filters[key];
+      return filterObj;
+    }, {});
+  }
+  if (sorts) {
+    sortObj = {
+      "sort": sorts.join(","),
+    };
+  }
+  return Object.assign({}, pageObj, filterObj, sortObj);
+}

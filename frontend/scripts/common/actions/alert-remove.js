@@ -1,10 +1,10 @@
 // IMPORTS =========================================================================================
-let State = require("frontend/state");
+let state = require("frontend/state");
 
 // ACTIONS =========================================================================================
 export default function remove(id) {
   let apiURL = `/api/alerts/${id}`;
 
   // Non-persistent remove
-  State.select("alerts", "models").unset(id);
+  state.select("alerts", "models").unset(id);
 }

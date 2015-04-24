@@ -3,7 +3,7 @@ let React = require("react");
 let {Link} = require("react-router");
 
 let Component = require("frontend/common/component");
-let RobotActions = require("frontend/robot/actions");
+let robotActions = require("frontend/robot/actions");
 
 // COMPONENTS ======================================================================================
 export default class RobotItem extends Component {
@@ -33,7 +33,7 @@ export default class RobotItem extends Component {
                 <Link to="robot-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
                   <span className="fa fa-edit"></span>
                 </Link>
-                <a className="btn btn-red" title="Remove" onClick={RobotActions.remove.bind(this, model.id)}>
+                <a className="btn btn-red" title="Remove" onClick={robotActions.remove.bind(this, model.id)}>
                   <span className="fa fa-times"></span>
                 </a>
               </div>

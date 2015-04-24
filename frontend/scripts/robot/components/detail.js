@@ -1,33 +1,34 @@
 // IMPORTS =========================================================================================
+let {branch} = require("baobab-react/decorators");
 let React = require("react");
-let ReactRouter = require("react-router");
-let {Link} = ReactRouter;
+let {Link} = require("react-router");
 let DocumentTitle = require("react-document-title");
 
+let Component = require("frontend/common/component");
 let {Error, Loading, NotFound} = require("frontend/common/components");
-let RobotActions = require("frontend/robot/actions");
-let State = require("frontend/state");
+let robotActions = require("frontend/robot/actions");
+let state = require("frontend/state");
 
 // COMPONENTS ======================================================================================
-export default React.createClass({
-  statics: {
-    fetchData(params, query) {
-      return RobotActions.loadOne(params.id);
-    }
+@branch({
+  cursors: {
+    robots: "robots",
   },
-
-  mixins: [ReactRouter.State, State.mixin],
-
-  cursors() {
-    return {
-      robots: ["robots"],
-      model: ["robots", "models", this.getParams().id],
-    };
+  facets: {
+    model: "currentRobot",
   },
+})
+export default class RobotDetail extends Component {
+  static contextTypes = {
+    router: React.PropTypes.func.isRequired,
+  }
+
+  static loadModel = robotActions.loadModel;
 
   render() {
-    let {models, loading, loadError} = this.state.cursors.robots;
-    let model = this.state.cursors.model;
+    //console.log("this.props.robots", this.props.robots);
+    let {loading, loadError} = this.props.robots;
+    let model = this.props.model;
 
     if (loading) {
       return <Loading/>;
@@ -49,7 +50,7 @@ export default React.createClass({
                   <Link to="robot-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
                     <span className="fa fa-edit"></span>
                   </Link>
-                  <a className="btn btn-red" title="Remove" onClick={RobotActions.remove.bind(this, model.id)}>
+                  <a className="btn btn-red" title="Remove" onClick={robotActions.remove.bind(this, model.id)}>
                     <span className="fa fa-times"></span>
                   </a>
                 </div>
@@ -79,5 +80,5 @@ export default React.createClass({
         </DocumentTitle>
       );
     }
-  },
-});
+  }
+}

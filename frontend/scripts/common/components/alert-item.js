@@ -3,7 +3,7 @@ let classNames = require("classnames");
 let React = require("react");
 let {Link} = require("react-router");
 
-let CommonActions = require("frontend/common/actions");
+let commonActions = require("frontend/common/actions");
 
 // EXPORTS =========================================================================================
 let Expire = React.createClass({
@@ -82,13 +82,13 @@ let Item = React.createClass({
 
     let result = (
       <div className={classes} {...this.props}>
-        {model.closable ? <CloseLink onClick={CommonActions.removeAlert.bind(this, model.id)}/> : ""}
+        {model.closable ? <CloseLink onClick={commonActions.alert.remove.bind(this, model.id)}/> : ""}
         {model.message}
       </div>
     );
 
     if (model.expire) {
-      result = <Expire onExpire={CommonActions.removeAlert.bind(this, model.id)} delay={model.expire}>{result}</Expire>;
+      result = <Expire onExpire={commonActions.alert.remove.bind(this, model.id)} delay={model.expire}>{result}</Expire>;
     }
 
     return result;
