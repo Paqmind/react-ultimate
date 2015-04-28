@@ -1,22 +1,22 @@
 // IMPORTS =========================================================================================
-let result = require("lodash.result");
-let isArray = require("lodash.isarray");
-let isPlainObject = require("lodash.isplainobject");
-let isEmpty = require("lodash.isempty");
-let merge = require("lodash.merge");
-let debounce = require("lodash.debounce");
-let flatten = require("lodash.flatten");
-let Class = require("classnames");
-//let Joi = require("joi");
-let React = require("react");
-let {Link} = require("react-router");
-let DocumentTitle = require("react-document-title");
+import result from "lodash.result";
+import isArray from "lodash.isarray";
+import isPlainObject from "lodash.isplainobject";
+import isEmpty from "lodash.isempty";
+import merge from "lodash.merge";
+import debounce from "lodash.debounce";
+import flatten from "lodash.flatten";
+import Class from "classnames";
+//import Joi from "joi";
+import React from "react";
+import {Link} from "react-router";
+import DocumentTitle from "react-document-title";
 
-//let Validators = require("shared/robot/validators");
-let Component = require("frontend/common/component");
-let {Error, Loading, NotFound} = require("frontend/common/components");
-let robotActions = require("frontend/robot/actions");
-let state = require("frontend/state");
+//let Validators from "shared/robot/validators";
+import state from "frontend/common/state";
+import Component from "frontend/common/component";
+import {Error, Loading, NotFound} from "frontend/common/components";
+import robotActions from "frontend/robot/actions";
 
 // HELPERS =========================================================================================
 function flattenAndResetTo(obj, to, path) {
@@ -66,17 +66,14 @@ function flattenAndResetTo(obj, to, path) {
 //}
 
 // COMPONENTS ======================================================================================
+//cursors() {
+//  return {
+//    robots: ["robots"],
+//    loadModel: ["robots", "models", this.getParams().id],
+//  }
+//},
 export default class RobotEdit extends Component {
-  static loadModel = robotActions.loadModel;
-
-  //mixins: [--ReactRouter.State--, state.mixin],
-
-  //cursors() {
-  //  return {
-  //    robots: ["robots"],
-  //    loadModel: ["robots", "models", this.getParams().id],
-  //  }
-  //},
+  static loadData = robotActions.establishModel;
 
   render() {
     return <div>Edit</div>;

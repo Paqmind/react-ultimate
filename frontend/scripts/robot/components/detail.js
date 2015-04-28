@@ -1,13 +1,13 @@
 // IMPORTS =========================================================================================
-let {branch} = require("baobab-react/decorators");
-let React = require("react");
-let {Link} = require("react-router");
-let DocumentTitle = require("react-document-title");
+import {branch} from "baobab-react/decorators";
+import React from "react";
+import {Link} from "react-router";
+import DocumentTitle from "react-document-title";
 
-let Component = require("frontend/common/component");
-let {Error, Loading, NotFound} = require("frontend/common/components");
-let robotActions = require("frontend/robot/actions");
-let state = require("frontend/state");
+import state from "frontend/common/state";
+import Component from "frontend/common/component";
+import {Error, Loading, NotFound} from "frontend/common/components";
+import robotActions from "frontend/robot/actions";
 
 // COMPONENTS ======================================================================================
 @branch({
@@ -23,10 +23,9 @@ export default class RobotDetail extends Component {
     router: React.PropTypes.func.isRequired,
   }
 
-  static loadModel = robotActions.loadModel;
+  static loadData = robotActions.establishModel;
 
   render() {
-    //console.log("this.props.robots", this.props.robots);
     let {loading, loadError} = this.props.robots;
     let model = this.props.model;
 

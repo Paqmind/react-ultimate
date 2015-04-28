@@ -1,21 +1,22 @@
 // IMPORTS =========================================================================================
-let {root} = require("baobab-react/decorators");
-let React = require("react");
-let {Link, RouteHandler} = require("react-router");
+import {root} from "baobab-react/decorators";
+import React from "react";
+import {Link, RouteHandler} from "react-router";
 
-let Component = require("frontend/common/component");
-let commonActions = require("frontend/common/actions");
-let Headroom = require("frontend/common/components/headroom");
-let AlertIndex = require("frontend/common/components/alert-index");
-let state = require("frontend/state");
+import state from "frontend/common/state";
+import Component from "frontend/common/component";
+import commonActions from "frontend/common/actions";
+import Headroom from "frontend/common/components/headroom";
+import AlertIndex from "frontend/common/components/alert-index";
 
 // EXPORTS =========================================================================================
 @root(state)
 export default class Body extends Component {
-  static loadData(params, query) {
+  //static loadPage(params, query) {
     // Ignore params and query
-    return commonActions.alert.loadPage();
-  }
+    // establishPage(params, query);
+    //return commonActions.alert.loadPage();
+  //}
 
   render() {
     let headroomClassNames = {visible: "navbar-down", hidden: "navbar-up"};

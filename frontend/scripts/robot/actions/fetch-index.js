@@ -1,16 +1,20 @@
 // IMPORTS =========================================================================================
-let Axios = require("axios");
+import Axios from "axios";
 
-let {toObject, formatJsonApiQuery} = require("frontend/common/helpers");
-let commonActions = require("frontend/common/actions");
-let state = require("frontend/state");
+import {toObject, formatJsonApiQuery} from "frontend/common/helpers";
+import state from "frontend/common/state";
+import commonActions from "frontend/common/actions";
 
 // ACTIONS =========================================================================================
-export function fetchPage(page, perpage, filters, sorts) {
-  let apiURL = `/api/robots/`;
-  let params = formatJsonApiQuery(page, perpage, filters, sorts);
-  state.select("robots", "loading").set(true);
-  return Axios.get(apiURL, {params})
+export default function fetchIndex(filters, sorts, offset, limit) {
+  console.debug("fetchIndex");
+
+  let url = `/api/robots/`;
+  let cursor = state.select("robots");
+  let query = formatJsonApiQuery({filters, sorts, offset, limit});
+
+  cursor.set("loading", true);
+  return Axios.get(url, {params: query})
     .then(response => {
       // Current state
       let models = state.select("robots", "models").get();
@@ -18,16 +22,17 @@ export function fetchPage(page, perpage, filters, sorts) {
 
       // New data
       let {data, meta} = response.data;
-      let fetchedModels = toObject(data)
+      let fetchedModels = toObject(data);
 
       // Update state
-      state.select("robots").merge({
+      cursor.merge({
         total: meta.page && meta.page.total || Object.keys(models).length,
         models: Object.assign(models, fetchedModels),
-        pagination: Object.assign(pagination, {[page]: Object.keys(fetchedModels)}),
+        pagination: Object.assign(pagination, {[offset]: Object.keys(fetchedModels)}),
         loading: false,
         loadError: false
       });
+      state.commit();
 
       return response.status;
     })
@@ -40,21 +45,12 @@ export function fetchPage(page, perpage, filters, sorts) {
           description: response.statusText,
           url: apiURL
         };
-        state.select("robots").merge({loading: false, loadError});
-        state.commit(); // God, this is required just about everwhere! :(
+        cursor.merge({loading: false, loadError});
+        state.commit(); // God, this is required just about everywhere! :(
         commonActions.alert.add({message: "Action `Robot:fetchPage` failed: " + loadError.description, category: "error"});
+
         return response.status;
       }
     })
     .done();
-}
-
-export default function loadPage(page, filters, sorts) {
-  let pagination = state.select("robots", "pagination").get();
-  let perpage = state.select("robots", "perpage").get();
-  let ids = pagination[page];
-  if (!ids) {
-    console.debug("Robots: fetch page", page);
-    return fetchPage(page, perpage, filters, sorts);
-  }
 }

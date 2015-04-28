@@ -1,9 +1,9 @@
 // IMPORTS =========================================================================================
-let React = require("react");
-let {Link} = require("react-router");
+import React from "react";
+import {Link} from "react-router";
 
-let Component = require("frontend/common/component");
-let robotActions = require("frontend/robot/actions");
+import Component from "frontend/common/component";
+import robotActions from "frontend/robot/actions";
 
 // COMPONENTS ======================================================================================
 export default class RobotItem extends Component {

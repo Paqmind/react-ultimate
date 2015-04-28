@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-let state = require("frontend/state");
+import state from "frontend/common/state";
 
 // ACTIONS =========================================================================================
 export default function remove(id) {

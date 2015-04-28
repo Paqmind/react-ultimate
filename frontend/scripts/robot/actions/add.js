@@ -1,10 +1,10 @@
 // IMPORTS =========================================================================================
-let Axios = require("axios");
+import Axios from "axios";
 
-let router = require("frontend/common/router");
-let commonActions = require("frontend/common/actions");
-let Robot = require("frontend/robot/models");
-let state = require("frontend/state");
+import state from "frontend/common/state";
+import router from "frontend/common/router";
+import commonActions from "frontend/common/actions";
+import Robot from "frontend/robot/models";
 
 // ACTIONS =========================================================================================
 export default function add(model) {

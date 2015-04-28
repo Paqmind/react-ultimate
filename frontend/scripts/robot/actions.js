@@ -1,9 +1,26 @@
+import fetchModel from "./actions/fetch-model";
+import fetchIndex from "./actions/fetch-index";
+
+import loadModel from "./actions/load-model";
+import loadIndex from "./actions/load-index";
+
+import setFilters from "./actions/set-filters";
+import setSorts from "./actions/set-sorts";
+import setOffset from "./actions/set-offset";
+import setLimit from "./actions/set-limit";
+
+import establishModel from "./actions/establish-model";
+import establishIndex from "./actions/establish-index";
+import establishPage from "./actions/establish-page";
+
 import add from "./actions/add";
 import edit from "./actions/edit";
-import loadPage from "./actions/load-page";
-import loadModel from "./actions/load-model";
 import remove from "./actions/remove";
 
 export default {
-  add, edit, loadPage, loadModel, remove
+  fetchModel, fetchIndex,
+  loadModel, loadIndex,
+  setFilters, setSorts, setOffset, setLimit,
+  establishModel, establishIndex, establishPage,
+  add, edit, remove
 }

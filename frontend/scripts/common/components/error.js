@@ -1,9 +1,9 @@
 // IMPORTS =========================================================================================
-let Class = require("classnames");
-let React = require("react");
-let DocumentTitle = require("react-document-title");
+import Class from "classnames";
+import React from "react";
+import DocumentTitle from "react-document-title";
 
-let Component = require("frontend/common/component");
+import Component from "frontend/common/component";
 
 // EXPORTS =========================================================================================
 export default class Error extends Component {

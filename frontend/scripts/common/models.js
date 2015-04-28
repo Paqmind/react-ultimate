@@ -1,1 +1,3 @@
-module.exports["Alert"] = require("./models/alert");
+import Alert from "./models/alert";
+
+export default {Alert};

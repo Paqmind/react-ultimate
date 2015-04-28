@@ -1,38 +1,36 @@
 // IMPORTS =========================================================================================
-let {branch} = require("baobab-react/decorators");
-let React = require("react");
-let {Link} = require("react-router");
-let DocumentTitle = require("react-document-title");
+import {branch} from "baobab-react/decorators";
+import React from "react";
+import {Link} from "react-router";
+import DocumentTitle from "react-document-title";
 
-let {toArray} = require("frontend/common/helpers");
-let Component = require("frontend/common/component");
-let {Error, Loading, NotFound, Pagination} = require("frontend/common/components");
-let robotActions = require("frontend/robot/actions");
-let RobotItem = require("frontend/robot/components/item");
-let state = require("frontend/state");
+import {toArray} from "frontend/common/helpers";
+import state from "frontend/common/state";
+import Component from "frontend/common/component";
+import {Error, Loading, NotFound, ExternalPagination, InternalPagination} from "frontend/common/components";
+import robotActions from "frontend/robot/actions";
+import RobotItem from "frontend/robot/components/item";
 
 // COMPONENTS ======================================================================================
 @branch({
   cursors: {
-    url: "url",
     robots: "robots",
   },
 
   facets: {
-    models: "currentRobots",
+    currentRobots: "currentRobots",
   }
 })
 export default class RobotIndex extends Component {
-  static loadPage = robotActions.loadPage;
-
   static contextTypes = {
     router: React.PropTypes.func.isRequired,
   }
 
+  static loadData = robotActions.establishIndex;
+
   render() {
-    let page = this.props.url.page;
-    let {total, loading, loadError, perpage} = this.props.robots;
-    let models = this.props.models;
+    let {total, loading, loadError, offset, limit} = this.props.robots;
+    let models = this.props.currentRobots;
 
     if (loadError) {
       return <Error loadError={loadError}/>;
@@ -43,6 +41,23 @@ export default class RobotIndex extends Component {
             <div id="page-actions">
               <div className="container">
                 <div className="pull-right">
+                  <div className="btn-group">
+                    <button type="button"
+                      className="btn btn-sm btn-secondary"
+                      onClick={() => robotActions.setLimit(3)}>
+                      Perpage 3
+                    </button>
+                    <button type="button"
+                      className="btn btn-sm btn-secondary"
+                      onClick={() => robotActions.setLimit(5)}>
+                      Perpage 5
+                    </button>
+                    <button type="button"
+                      className="btn btn-sm btn-secondary"
+                      onClick={() => robotActions.setLimit(10)}>
+                      Perpage 10
+                    </button>
+                  </div>
                   <Link to="robot-add" className="btn btn-sm btn-green" title="Add">
                     <span className="fa fa-plus"></span>
                   </Link>
@@ -51,10 +66,11 @@ export default class RobotIndex extends Component {
             </div>
             <section className="container">
               <h1>Robots</h1>
+              <ExternalPagination endpoint="robot-index" total={total} offset={offset} limit={limit}/>
               <div className="row">
-                <Pagination endpoint="robot-index" total={total} page={page} perpage={perpage}/>
                 {models.map(model => <RobotItem model={model} key={model.id}/>)}
               </div>
+              <InternalPagination onClick={offset => robotActions.setOffset(offset)} total={total} offset={offset} limit={limit}/>
             </section>
             {loading ? <Loading/> : ""}
           </div>

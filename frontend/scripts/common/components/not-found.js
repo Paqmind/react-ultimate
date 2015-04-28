@@ -1,8 +1,8 @@
 // IMPORTS =========================================================================================
-let React = require("react");
-let DocumentTitle = require("react-document-title");
+import React from "react";
+import DocumentTitle from "react-document-title";
 
-let Component = require("frontend/common/component");
+import Component from "frontend/common/component";
 
 // EXPORTS =========================================================================================
 export default class NotFound extends Component {

@@ -1,12 +1,12 @@
 // IMPORTS =========================================================================================
-let React = require("react");
-//let CSSTransitionGroup = require("rc-css-transition-group");
+import React from "react";
+//let CSSTransitionGroup from "rc-css-transition-group";
 
-let {toArray} = require("frontend/common/helpers");
-let Loading = require("frontend/common/components/loading");
-let NotFound = require("frontend/common/components/not-found");
-let AlertItem = require("frontend/common/components/alert-item");
-let state = require("frontend/state");
+import {toArray} from "frontend/common/helpers";
+import state from "frontend/common/state";
+import Loading from "frontend/common/components/loading";
+import NotFound from "frontend/common/components/not-found";
+import AlertItem from "frontend/common/components/alert-item";
 
 // COMPONENTS ======================================================================================
 export default React.createClass({

@@ -1,43 +1,50 @@
 // IMPORTS =========================================================================================
-let React = require("react");
-let {create: createRouter, HistoryLocation} = require("react-router");
+import "babel/polyfill";
+import "shared/shims";
 
-require("shared/shims");
-let {parseJsonApiQuery} = require("frontend/common/helpers");
-let routes = require("frontend/routes");
-let state = require("frontend/state");
+import React from "react";
+import {create as createRouter, HistoryLocation} from "react-router";
+
+import {parseJsonApiQuery} from "frontend/common/helpers";
+import state from "frontend/common/state";
+import routes from "frontend/routes";
 
 // APP =============================================================================================
-window.router = createRouter({
+window._router = createRouter({
   routes: routes,
   location: HistoryLocation
 });
 
-window.router.run((Application, url) => {
+window._router.run((Application, url) => {
   // you might want to push the state of the router to a
   // store for whatever reason
   // RouterActions.routeChange({routerState: state});
 
   // SET BAOBAB URL DATA ---------------------------------------------------------------------------
+  let urlCursor = state.select("url");
   let handler = url.routes.slice(-1)[0].name;
-  state.select("url", "handler").set(handler);
+  urlCursor.set("handler", handler);
+  urlCursor.set("params", url.params);
+  urlCursor.set("query", url.query);
 
   let id = url.params.id;
   if (id) {
-    state.select("url", "id").set(id);
+    urlCursor.set("id", id);
   }
 
-  let page = url.params.page && parseInt(url.params.page);
-  if (page) {
-    state.select("url", "page").set(page);
-  }
-
-  let {filters, sorts} = parseJsonApiQuery(url.query);
+  let {filters, sorts, offset, limit} = parseJsonApiQuery(url.query);
+  urlCursor.set("route", url.routes.slice(-1)[0].name);
   if (filters) {
-    state.select("url", "filters").set(filters);
+    urlCursor.set("filters", filters);
   }
   if (sorts) {
-    state.select("url", "sorts").set(sorts);
+    urlCursor.set("sorts", sorts);
+  }
+  if (offset || offset === 0) {
+    urlCursor.set("offset", offset);
+  }
+  if (limit || limit === 0) {
+    urlCursor.set("limit", limit);
   }
 
   state.commit();
@@ -46,10 +53,8 @@ window.router.run((Application, url) => {
   let promises = url.routes
     .map(route => route.handler.original || {})
     .map(original => {
-      if (original.loadPage) {
-        return original.loadPage(page, filters, sorts);
-      } else if (original.loadModel) {
-        return original.loadModel(id);
+      if (original.loadData) {
+        original.loadData();
       }
     });
 

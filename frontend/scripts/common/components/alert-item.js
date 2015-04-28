@@ -1,9 +1,9 @@
 // IMPORTS =========================================================================================
-let classNames = require("classnames");
-let React = require("react");
-let {Link} = require("react-router");
+import classNames from "classnames";
+import React from "react";
+import {Link} from "react-router";
 
-let commonActions = require("frontend/common/actions");
+import commonActions from "frontend/common/actions";
 
 // EXPORTS =========================================================================================
 let Expire = React.createClass({

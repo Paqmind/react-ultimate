@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
-let sortBy = require("lodash.sortby");
-let isArray = require("lodash.isarray");
-let isPlainObject = require("lodash.isplainobject");
+import sortBy from "lodash.sortby";
+import isArray from "lodash.isarray";
+import isPlainObject from "lodash.isplainobject";
 
 // HELPERS =========================================================================================
 export function toObject(array) {
@@ -11,7 +11,7 @@ export function toObject(array) {
       return object;
     }, {});
   } else {
-    throw Error("expected type is Array, get " + typeof array);
+    throw Error(`array must be plain Array, got ${array}`);
   }
 }
 
@@ -22,35 +22,43 @@ export function toArray(object) {
       item => item.id
     );
   } else {
-    throw Error("expected type is Object, get " + typeof object);
+    throw Error(`object must be plain Object, got ${object}`);
   }
 }
 
 export function parseJsonApiQuery(query) {
   return {
     filters: query.filter,
-    sorts: (query.sort ? query.sort.split(",").map(v => v.replace(/^ /, "+")) : undefined)
+    sorts: query.sort ? query.sort.split(",").map(v => v.replace(/^ /, "+")) : undefined,
+    offset: query.page && (query.page.offset || query.page.offset == 0) ? parseInt(query.page.offset) : undefined,
+    limit: query.page && (query.page.limit || query.page.offset == 0) ? parseInt(query.page.limit) : undefined,
   };
 }
 
-export function formatJsonApiQuery(page, perpage, filters, sorts) {
-  let pageObj, filterObj, sortObj;
-  if (page && perpage) {
-    pageObj = {
-      "page[offset]": (page > 1 ? page - 1 : 0) * perpage,
-      "page[limit]": perpage,
-    };
+export function formatJsonApiQuery(modifiers) {
+  if (!isPlainObject(modifiers)) {
+    throw new Error(`modifiers must be plain Object, got ${modifiers}`);
   }
-  if (filters) {
-    filterObj = Object.keys(filters).reduce((filterObj, key) => {
+
+  let sortObj = {};
+  let filterObj = {};
+  let pageObj = {};
+
+  if (modifiers.filters) {
+    filterObj = Object.keys(modifiers.filters).reduce((filterObj, key) => {
       filterObj[`filter[${key}]`] = filters[key];
       return filterObj;
-    }, {});
+    }, filterObj);
   }
-  if (sorts) {
-    sortObj = {
-      "sort": sorts.join(","),
-    };
+  if (modifiers.sorts) {
+    sortObj["sort"] = modifiers.sorts.join(",");
   }
-  return Object.assign({}, pageObj, filterObj, sortObj);
+  if (modifiers.offset || modifiers.offset == 0) {
+    pageObj["page[offset]"] = modifiers.offset;
+  }
+  if (modifiers.limit || modifiers.limit == 0) {
+    pageObj["page[limit]"] = modifiers.limit;
+  }
+
+  return Object.assign({}, sortObj, filterObj, pageObj);
 }

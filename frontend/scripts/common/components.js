@@ -1,8 +1,13 @@
-module.exports["About"] = require("./components/about");
-module.exports["Body"] = require("./components/body");
-module.exports["Error"] = require("./components/error");
-module.exports["Headroom"] = require("./components/headroom");
-module.exports["Home"] = require("./components/home");
-module.exports["Loading"] = require("./components/loading");
-module.exports["NotFound"] = require("./components/not-found");
-module.exports["Pagination"] = require("./components/pagination");
+import About from "./components/about";
+import Body from "./components/body";
+import Error from "./components/error";
+import Headroom from "./components/headroom";
+import Home from "./components/home";
+import Loading from "./components/loading";
+import NotFound from "./components/not-found";
+import InternalPagination from "./components/pagination-internal";
+import ExternalPagination from "./components/pagination-external";
+
+export default {
+  About, Body, Error, Headroom, Home, Loading, NotFound, InternalPagination, ExternalPagination
+}
