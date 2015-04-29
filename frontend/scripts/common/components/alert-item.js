@@ -1,9 +1,9 @@
 // IMPORTS =========================================================================================
 import classNames from "classnames";
 import React from "react";
-import {Link} from "react-router";
 
 import commonActions from "frontend/common/actions";
+import {Link} from "frontend/common/components";
 
 // EXPORTS =========================================================================================
 let Expire = React.createClass({

@@ -1,18 +1,18 @@
 // IMPORTS =========================================================================================
-import state from "frontend/common/state";
-import loadIndex from "./load-index";
+import isEqual from "lodash.isequal";
+import state, {ROBOT} from "frontend/common/state";
 
 // ACTIONS =========================================================================================
-export default function setFilters(filters) {
-  console.debug("setFilters:", filters);
+export default function setFilters(filters=ROBOT.FILTERS) {
+  console.debug(`setFilters(${JSON.stringify(filters)}`);
 
   let cursor = state.select("robots");
-  cursor.set("filters", filters);
-  // TODO reevaluate pagination
-  cursor.set("pagination", []);
-  state.commit();
-
-  loadIndex();
+  if (!isEqual(filters, cursor.get("filters"))) {
+    cursor.set("filters", filters);
+    // TODO reevaluate pagination
+    cursor.set("pagination", {});
+    state.commit();
+  }
 }
 
 // FILTER

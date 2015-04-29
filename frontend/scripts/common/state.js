@@ -112,18 +112,6 @@ export default new Baobab(
   }
 );
 
-/**
- * Converts sort table in **short** format to sort table in **lodash** format
- * @param sorts {Array<string>} - **short** sort table, e.g. ["+name", "-age"]
- * @returns {Array<Array<string>>} **lodash** sort table, e.g. [["name", "age"], [true, false]]
- */
-function lodashifySorts(sorts) {
-  return [
-    sorts.map(v => v.slice(1)),
-    sorts.map(v => v[0] == "+"),
-  ];
-}
-
 /*
 Change filters:
   //if pagination.length < total:

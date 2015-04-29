@@ -3,31 +3,21 @@ import {formatJsonApiQuery} from "frontend/common/helpers";
 import state from "frontend/common/state";
 import router from "frontend/common/router";
 import loadIndex from "./load-index";
+import setFilters from "./set-filters";
+import setSorts from "./set-sorts";
+import setOffset from "./set-offset";
+import setLimit from "./set-limit";
 
 // ACTIONS =========================================================================================
 export default function establishIndex() {
   console.debug("establishIndex");
 
-  let urlCursor = state.select("url");
-  let robotsCursor = state.select("robots");
-  let urlFilters = urlCursor.get("filters");
-  let urlSorts = urlCursor.get("sorts");
-  let urlOffset = urlCursor.get("offset");
-  let urlLimit = urlCursor.get("limit");
+  let cursor = state.select("url");
 
-  if (urlFilters) {
-    robotsCursor.set("filters", urlFilters);
-  }
-  if (urlSorts) {
-    robotsCursor.set("sorts", urlSorts);
-  }
-  if (urlOffset || urlOffset === 0) {
-    robotsCursor.set("offset", urlOffset);
-  }
-  if (urlLimit || urlLimit === 0) {
-    robotsCursor.set("limit", urlLimit);
-  }
-  state.commit();
+  //setFilters(cursor.get("filters"));
+  setSorts(cursor.get("sorts"));
+  setOffset(cursor.get("offset"));
+  setLimit(cursor.get("limit"));
 
   loadIndex();
 }

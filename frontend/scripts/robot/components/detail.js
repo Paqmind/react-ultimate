@@ -1,12 +1,11 @@
 // IMPORTS =========================================================================================
 import {branch} from "baobab-react/decorators";
 import React from "react";
-import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 
 import state from "frontend/common/state";
 import Component from "frontend/common/component";
-import {Error, Loading, NotFound} from "frontend/common/components";
+import {Error, Loading, NotFound, Link} from "frontend/common/components";
 import robotActions from "frontend/robot/actions";
 
 // COMPONENTS ======================================================================================

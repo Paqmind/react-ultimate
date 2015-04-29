@@ -8,6 +8,7 @@ import setFilters from "./actions/set-filters";
 import setSorts from "./actions/set-sorts";
 import setOffset from "./actions/set-offset";
 import setLimit from "./actions/set-limit";
+import setId from "./actions/set-id";
 
 import establishModel from "./actions/establish-model";
 import establishIndex from "./actions/establish-index";

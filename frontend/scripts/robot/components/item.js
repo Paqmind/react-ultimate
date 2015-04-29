@@ -1,8 +1,8 @@
 // IMPORTS =========================================================================================
 import React from "react";
-import {Link} from "react-router";
 
 import Component from "frontend/common/component";
+import {Link} from "frontend/common/components";
 import robotActions from "frontend/robot/actions";
 
 // COMPONENTS ======================================================================================

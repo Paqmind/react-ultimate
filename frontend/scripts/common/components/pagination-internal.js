@@ -2,9 +2,9 @@
 import range from "lodash.range";
 import Class from "classnames";
 import React from "react";
-import {Link} from "react-router";
 
 import Component from "frontend/common/component";
+import Link from "./link";
 import {formatJsonApiQuery} from "frontend/common/helpers";
 
 // EXPORTS =========================================================================================
@@ -40,43 +40,45 @@ export default class InternalPagination extends Component {
     let nextOffset = this.nextOffset(this.props.offset);
     let minOffset = 0;
     let maxOffset = this.maxOffset();
-    return (
-      <nav>
-        <ul className="pagination">
-          <li>
-            <button type="button"
-              onClick={() => onClick(prevOffset)}
-              className={Class({btn: true, "btn-link": true, disabled: currOffset == minOffset})}
-              title={`To offset ${prevOffset}`}>
-              <span>&laquo;</span>
-            </button>
-          </li>
-          {range(0, maxOffset, limit).map(offset => {
-            return (
-              <li key={offset}>
-                <button type="button"
-                  onClick={() => onClick(offset)}
-                  query={{"page[offset]": offset}}
-                  className={Class({btn: true, "btn-link": true, disabled: offset == currOffset})}
-                  title={`To offset ${offset}`}>
-                  {offset}
-                </button>
-              </li>
-            );
-          })}
-          <li>
-            <button type="button"
-              onClick={() => onClick(nextOffset)}
-              className={Class({btn: true, "btn-link": true, disabled: currOffset == maxOffset})}
-              title={`To offset ${nextOffset}`}>
-              <span>&raquo;</span>
-            </button>
-          </li>
-        </ul>
-        {/*Total: {this.props.total}<br/>*/}
-        {/*Perpage: {this.props.perpage}<br/>*/}
-        {/*TotalPages: {this.totalPages()}<br/>*/}
-      </nav>
-    );
+
+    if (this.totalPages() > 1) {
+      return (
+        <nav>
+          <ul className="pagination">
+            <li>
+              <button type="button"
+                onClick={() => onClick(prevOffset)}
+                className={Class({btn: true, "btn-link": true, disabled: currOffset == minOffset})}
+                title={`To offset ${prevOffset}`}>
+                <span>&laquo;</span>
+              </button>
+            </li>
+            {range(0, maxOffset, limit).map(offset => {
+              return (
+                <li key={offset}>
+                  <button type="button"
+                    onClick={() => onClick(offset)}
+                    query={{"page[offset]": offset}}
+                    className={Class({btn: true, "btn-link": true, disabled: offset == currOffset})}
+                    title={`To offset ${offset}`}>
+                    {offset}
+                  </button>
+                </li>
+              );
+            })}
+            <li>
+              <button type="button"
+                onClick={() => onClick(nextOffset)}
+                className={Class({btn: true, "btn-link": true, disabled: currOffset == maxOffset})}
+                title={`To offset ${nextOffset}`}>
+                <span>&raquo;</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      );
+    } else {
+      return <nav/>;
+    }
   }
 }

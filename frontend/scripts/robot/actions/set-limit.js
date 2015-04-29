@@ -1,41 +1,27 @@
 // IMPORTS =========================================================================================
 import filter from "lodash.filter";
-import flatten from "lodash.flatten";
 import sortBy from "lodash.sortby";
 
 import {chunked} from "shared/common/helpers";
 import {formatJsonApiQuery} from "frontend/common/helpers";
-import state from "frontend/common/state";
+import state, {ROBOT} from "frontend/common/state";
 import router from "frontend/common/router";
-import loadIndex from "./load-index";
 
 // ACTIONS =========================================================================================
-export default function setLimit(limit) {
-  console.debug("setLimit:", limit);
+export default function setLimit(limit=ROBOT.LIMIT) {
+  console.debug("setLimit(" + limit + ")");
 
-  let urlCursor = state.select("url");
-  let currentUrlParams = urlCursor.get("params");
-  let currentUrlQuery = urlCursor.get("query");
-
-  let robotCursor = state.select("robots");
-  let currentOffset = robotCursor.get("offset");
-  let currentLimit = robotCursor.get("limit");
-  let currentPagination = robotCursor.get("pagination");
-
-  if (limit != currentLimit) {
-    let newLimit = limit;
-    let newPagination = recalculatePaginationWithLimit(currentPagination, newLimit);
-
-    robotCursor.set("limit", newLimit);
-    robotCursor.set("pagination", newPagination);
-    if (!newPagination[currentOffset]) {
-      let newOffset = firstLesserOffset(newPagination, currentOffset);
-      let newUrlQuery = formatJsonApiQuery({offset: newOffset});
-      router.transitionTo(undefined, undefined, newUrlQuery);
+  let cursor = state.select("robots");
+  if (limit != cursor.get("limit")) {
+    let pagination = recalculatePaginationWithLimit(cursor.get("pagination"), limit);
+    cursor.set("limit", limit);
+    cursor.set("pagination", pagination);
+    if (!pagination[cursor.get("offset")]) {
+      let offset = firstLesserOffset(pagination, cursor.get("offset"));
+      let query = formatJsonApiQuery({offset});
+      router.transitionTo(undefined, undefined, query);
     }
     state.commit();
-
-    loadIndex();
   }
 }
 
@@ -52,23 +38,27 @@ function recalculatePaginationWithLimit(pagination, newLimit) {
   if (newLimit <=0 ) {
     throw new Error(`newLimit must be >= 0, got ${newLimit}`);
   }
-  let maxOffset = Math.max.apply(Math, Object.keys(pagination));
-  let length = maxOffset + pagination[maxOffset].length;
-  let offsets = sortBy(Object.keys(pagination).map(v => parseInt(v)));
-  let flatValues = offsets
-    .reduce((memo, offset) => {
-      pagination[offset].forEach((id, i) => {
-        memo[offset + i] = id;
-      });
-      return memo;
-    }, Array(length));
-  return chunked(flatValues, newLimit).reduce((obj, ids, i) => {
-    ids = filter(ids);
-    if (ids.length) {
-      obj[i * newLimit] = ids;
-    }
-    return obj;
-  }, {});
+  if (Object.keys(pagination).length) {
+    let maxOffset = Math.max.apply(Math, Object.keys(pagination));
+    let length = maxOffset + pagination[maxOffset].length;
+    let offsets = sortBy(Object.keys(pagination).map(v => parseInt(v)));
+    let flatValues = offsets
+      .reduce((memo, offset) => {
+        pagination[offset].forEach((id, i) => {
+          memo[offset + i] = id;
+        });
+        return memo;
+      }, Array(length));
+    return chunked(flatValues, newLimit).reduce((obj, ids, i) => {
+      ids = filter(ids);
+      if (ids.length) {
+        obj[i * newLimit] = ids;
+      }
+      return obj;
+    }, {});
+  } else {
+    return {};
+  }
 }
 
 function firstLesserOffset(pagination, offset) {

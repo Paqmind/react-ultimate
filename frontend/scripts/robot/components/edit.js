@@ -9,13 +9,12 @@ import flatten from "lodash.flatten";
 import Class from "classnames";
 //import Joi from "joi";
 import React from "react";
-import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 
 //let Validators from "shared/robot/validators";
 import state from "frontend/common/state";
 import Component from "frontend/common/component";
-import {Error, Loading, NotFound} from "frontend/common/components";
+import {Error, Loading, NotFound, Link} from "frontend/common/components";
 import robotActions from "frontend/robot/actions";
 
 // HELPERS =========================================================================================

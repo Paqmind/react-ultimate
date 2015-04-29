@@ -1,13 +1,12 @@
 // IMPORTS =========================================================================================
 import {branch} from "baobab-react/decorators";
 import React from "react";
-import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 
 import {toArray} from "frontend/common/helpers";
 import state from "frontend/common/state";
 import Component from "frontend/common/component";
-import {Error, Loading, NotFound, ExternalPagination, InternalPagination} from "frontend/common/components";
+import {Error, Loading, NotFound, ExternalPagination, InternalPagination, Link} from "frontend/common/components";
 import robotActions from "frontend/robot/actions";
 import RobotItem from "frontend/robot/components/item";
 
@@ -23,9 +22,14 @@ import RobotItem from "frontend/robot/components/item";
 })
 export default class RobotIndex extends Component {
   static loadData = robotActions.establishIndex;
-  
+
   static contextTypes = {
     router: React.PropTypes.func.isRequired,
+  }
+
+  setLimit(limit) {
+    robotActions.setLimit(limit);
+    robotActions.loadIndex();
   }
 
   render() {
@@ -42,19 +46,33 @@ export default class RobotIndex extends Component {
               <div className="container">
                 <div className="pull-right">
                   <div className="btn-group">
+                    <Link
+                      to="robot-index"
+                      withQuery={{sort: "+name"}}
+                      className="btn btn-sm btn-secondary">
+                      SortBy +name
+                    </Link>
+                    <Link
+                      to="robot-index"
+                      withQuery={{sort: "-name"}}
+                      className="btn btn-sm btn-secondary">
+                      SortBy -name
+                    </Link>
+                  </div>
+                  <div className="btn-group">
                     <button type="button"
                       className="btn btn-sm btn-secondary"
-                      onClick={() => robotActions.setLimit(3)}>
+                      onClick={() => this.setLimit(3)}>
                       Perpage 3
                     </button>
                     <button type="button"
                       className="btn btn-sm btn-secondary"
-                      onClick={() => robotActions.setLimit(5)}>
+                      onClick={() => this.setLimit(5)}>
                       Perpage 5
                     </button>
                     <button type="button"
                       className="btn btn-sm btn-secondary"
-                      onClick={() => robotActions.setLimit(10)}>
+                      onClick={() => this.setLimit(10)}>
                       Perpage 10
                     </button>
                   </div>
