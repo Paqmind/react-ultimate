@@ -22,11 +22,11 @@ import RobotItem from "frontend/robot/components/item";
   }
 })
 export default class RobotIndex extends Component {
+  static loadData = robotActions.establishIndex;
+  
   static contextTypes = {
     router: React.PropTypes.func.isRequired,
   }
-
-  static loadData = robotActions.establishIndex;
 
   render() {
     let {total, loading, loadError, offset, limit} = this.props.robots;

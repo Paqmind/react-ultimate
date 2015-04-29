@@ -10,6 +10,18 @@ $ cd react-starter
 $ npm install; bower install; bin/install
 ```
 
+### Temporary workaround
+
+See https://github.com/Yomguithereal/baobab-react/issues/26
+We use a temporary https://github.com/ivan-kleshnin/baobab-react fork to workaround this.
+
+Run this to convert ES6 -> ES5 syntaxes.
+```
+$ cd node_modules/baobab-react
+$ npm run prepublish
+$ cd ../../
+```
+
 ## Run
 
 Production

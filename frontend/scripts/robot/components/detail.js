@@ -19,11 +19,11 @@ import robotActions from "frontend/robot/actions";
   },
 })
 export default class RobotDetail extends Component {
+  static loadData = robotActions.establishModel;
+
   static contextTypes = {
     router: React.PropTypes.func.isRequired,
   }
-
-  static loadData = robotActions.establishModel;
 
   render() {
     let {loading, loadError} = this.props.robots;

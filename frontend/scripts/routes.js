@@ -14,7 +14,7 @@ import RobotEdit from "frontend/robot/components/edit";
 export default (
   <Route path="/" handler={Body}>
     <DefaultRoute handler={Home} name="home"/>
-    <Route path="/about" name="about" handler={About}/>
+    <Route path="/about" name="about" handler={About} loader="xxx"/>
     <Route path="/robots/" name="robot-index" handler={RobotIndex}/>
     <Route path="/robots/add" name="robot-add" handler={RobotAdd}/>
     <Route path="/robots/:id" name="robot-detail" handler={RobotDetail}/>
