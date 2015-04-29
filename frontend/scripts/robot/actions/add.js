@@ -10,13 +10,13 @@ import Robot from "frontend/robot/models";
 export default function add(model) {
   let newModel = Robot(model);
   let id = newModel.id;
-  let apiURL = `/api/robots/${id}`;
+  let url = `/api/robots/${id}`;
 
   // Optimistic add
   state.select("robots", "loading").set(true);
   state.select("robots", "models", id).set(newModel);
 
-  return Axios.put(apiURL, newModel)
+  return Axios.put(url, newModel)
     .then(response => {
       state.select("robots").merge({loading: false, loadError: undefined});
       commonActions.alert.add({message: "Action `Robot.add` succeed", category: "success"});
@@ -29,7 +29,7 @@ export default function add(model) {
         let loadError = {
           status: response.status,
           description: response.statusText,
-          url: apiURL
+          url: url
         };
         state.select("robots").merge({loading: false, loadError});
         state.select("robots", "models").unset(id); // Cancel add

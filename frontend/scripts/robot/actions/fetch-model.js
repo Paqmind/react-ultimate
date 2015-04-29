@@ -49,7 +49,7 @@ export default function fetchModel(id) {
         let loadError = {
           status: response.status,
           description: response.statusText,
-          url: apiURL
+          url: url
         };
         cursor.merge({loading: false, loadError});
         state.commit(); // God, this is required just about everywhere! :(

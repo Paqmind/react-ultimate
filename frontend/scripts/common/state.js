@@ -1,8 +1,5 @@
 // IMPORTS =========================================================================================
-import take from "lodash.take";
-import sortByOrder from "lodash.sortbyorder";
 import Baobab from "baobab";
-import {toArray} from "frontend/common/helpers";
 
 // STATE ===========================================================================================
 export const EXAMPLE = {

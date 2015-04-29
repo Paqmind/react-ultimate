@@ -17,8 +17,8 @@ export default function fetchIndex(filters, sorts, offset, limit) {
   return Axios.get(url, {params: query})
     .then(response => {
       // Current state
-      let models = state.select("robots", "models").get();
-      let pagination = state.select("robots", "pagination").get();
+      let models = cursor.get("models");
+      let pagination = cursor.get("pagination");
 
       // New data
       let {data, meta} = response.data;
@@ -43,7 +43,7 @@ export default function fetchIndex(filters, sorts, offset, limit) {
         let loadError = {
           status: response.status,
           description: response.statusText,
-          url: apiURL
+          url: url
         };
         cursor.merge({loading: false, loadError});
         state.commit(); // God, this is required just about everywhere! :(

@@ -36,7 +36,7 @@ window._router.run(function (Application, url) {
   // store for whatever reason
   // RouterActions.routeChange({routerState: state});
 
-  console.debug("Router run");
+  console.debug("router.run");
 
   // SET BAOBAB URL DATA ---------------------------------------------------------------------------
   var urlCursor = _state2["default"].select("url");

@@ -20,7 +20,7 @@ window._router.run((Application, url) => {
   // store for whatever reason
   // RouterActions.routeChange({routerState: state});
 
-  console.debug("Router run");
+  console.debug("router.run");
 
   // SET BAOBAB URL DATA ---------------------------------------------------------------------------
   let urlCursor = state.select("url");

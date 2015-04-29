@@ -8,13 +8,13 @@ import commonActions from "frontend/common/actions";
 // ACTIONS =========================================================================================
 export default function remove(id) {
   let oldModel = state.select("robots", "models", id).get();
-  let apiURL = `/api/robots/${id}`;
+  let url = `/api/robots/${id}`;
 
   // Optimistic remove
   state.select("robots", "loading").set(true);
   state.select("robots", "models").unset(id);
 
-  return Axios.delete(apiURL)
+  return Axios.delete(url)
     .then(response => {
       state.select("robots").merge({
         loading: false,
@@ -31,7 +31,7 @@ export default function remove(id) {
         let loadError = {
           status: response.status,
           description: response.statusText,
-          url: apiURL
+          url: url
         };
         state.select("robots").merge({loading: false, loadError});
         state.select("robots", "models", id).set(oldModel); // Cancel remove

@@ -12,10 +12,8 @@ export default class Error extends Component {
     size: React.PropTypes.oneOf(["xs", "sm", "md", "lg"]),
   }
 
-  getDefaultProps() {
-    return {
-      size: "md",
-    }
+  static defaultProps = {
+    size: "md",
   }
 
   render() {

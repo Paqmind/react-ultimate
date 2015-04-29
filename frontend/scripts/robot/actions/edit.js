@@ -11,13 +11,13 @@ export default function edit(model) {
   let newModel = Robot(model);
   let id = newModel.id;
   let oldModel = state.select("robots", "models", id).get();
-  let apiURL = `/api/robots/${id}`;
+  let url = `/api/robots/${id}`;
 
   // Optimistic edit
   state.select("robots", "loading").set(true);
   state.select("robots", "models", id).set(newModel);
 
-  return Axios.put(apiURL, newModel)
+  return Axios.put(url, newModel)
     .then(response => {
       state.select("robots").merge({
         loading: false,
@@ -33,7 +33,7 @@ export default function edit(model) {
         let loadError = {
           status: response.status,
           description: response.statusText,
-          url: apiURL
+          url: url
         };
         state.select("robots").merge({loading: false, loadError});
         state.select("robots", "models", id).set(oldModel); // Cancel edit
