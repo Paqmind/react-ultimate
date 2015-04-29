@@ -31,7 +31,6 @@
     "glob": "^5.0.5",
     "gulp-jshint": "^1.10.0",
     "helmet": "^0.8.0",
-    "immutable": "^3.7.2",
     "joi": "^6.2.0",
     "lodash": "^3.7.0",
     "lodash.debounce": "^3.0.3",

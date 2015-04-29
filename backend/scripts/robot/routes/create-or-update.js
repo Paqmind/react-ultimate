@@ -1,6 +1,5 @@
 // IMPORTS =========================================================================================
-let {Map} = require("immutable");
-
+import mergeDeep from "shared/common/helpers";
 let CommonValidators = require("shared/common/validators");
 let RobotValidators = require("shared/robot/validators");
 let Middlewares = require("backend/common/middlewares");
@@ -14,17 +13,16 @@ router.put("/robots/:id",
   Middlewares.createParseQuery({}),
   Middlewares.createParseBody(RobotValidators.model),
   function handler(req, res, cb) {
-    let robot = robotsDB.get(req.params.id);
-    if (robot) {
-      robot = robot.mergeDeep(req.body);
-      robots = robotsDB.set(robot.get("id"), robot);
+    let oldModel = robotsDB[req.params.id];
+    if (oldModel) {
+      let newModel = mergeDeep(oldModel, req.body);
+      robotsDB[newModel.id] = newModel;
       return res.status(204).send(); // Status: no-content
     } else {
-      robot = Map(generateRobot());
-      robot = robot.mergeDeep(req.body);
-      robotsDB.set(robot.get("id"), robot);
+      let newModel = mergeDeep(generateRobot(), req.body);
+      robotsDB[newModel.id] = newModel;
       let response = {
-        data: robot,
+        data: newModel,
       }
       return res.status(201).send(response); // Status: created
     }

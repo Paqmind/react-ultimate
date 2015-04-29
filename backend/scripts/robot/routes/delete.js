@@ -9,9 +9,9 @@ router.delete("/robots/:id",
   Middlewares.createParseParams(CommonValidators.id),
   Middlewares.createParseQuery({}),
   function handler(req, res, cb) {
-    let robot = robotsDB.get(req.params.id);
-    if (robot) {
-      robotsDB.delete(req.params.id);
+    let model = robotsDB[req.params.id];
+    if (model) {
+      delete robotsDB[req.params.id];
       return res.status(204).send(); // Status: no-content
     } else {
       return cb();

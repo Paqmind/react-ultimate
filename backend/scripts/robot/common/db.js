@@ -1,16 +1,16 @@
 // IMPORTS =========================================================================================
-let {fromJS, OrderedMap, Map, Range, List} = require("immutable");
-let {generateRobot} = require("backend/robot/common/helpers");
+import {sortBy, range} from "lodash";
+import {generateRobot} from "backend/robot/common/helpers";
 
 // PSEUDO DB =======================================================================================
 // Create first robot with predefined id separately (useful for tests)
-let firstRobot = generateRobot({id: "7f368fc0-5754-493d-b5f6-b5729fc298f7"});
-let robotListHead = [[firstRobot.id, Map(firstRobot)]];
-let robotList = [for (robot of Range(1, 42).map(generateRobot)) [robot.id, robot]];
-let robots = OrderedMap(
-  List(robotListHead).concat(
-    fromJS(robotList).sortBy(pair => pair.get(1).get("name"))
-  )
-);
+let robotHead = generateRobot({id: "7f368fc0-5754-493d-b5f6-b5729fc298f7"});
+let robotTail = range(1, 42).map(generateRobot);
+let robotsDB = [robotHead]
+  .concat(sortBy(robotTail, model => model.name))
+  .reduce((obj, model) => {
+    obj[model.id] = model;
+    return obj;
+  }, {});
 
-export default robots;
+export default robotsDB;

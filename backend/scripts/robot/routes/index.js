@@ -1,4 +1,6 @@
 // IMPORTS =========================================================================================
+import {sortByOrder} from "lodash";
+import {lodashifySorts} from "shared/common/helpers";
 let CommonValidators = require("shared/common/validators");
 let Middlewares = require("backend/common/middlewares");
 let robotsDB = require("backend/robot/common/db");
@@ -8,13 +10,22 @@ let router = require("backend/robot/common/router");
 router.get("/robots/",
   Middlewares.createParseQuery(CommonValidators.page),
   function handler(req, res, cb) {
-    let page = req.query.page || {};
-    let offset = page.offset || 0;
-    let limit = page.limit || 20;
-    let robots = robotsDB.toList().slice(offset, offset + limit);
-    let total = robotsDB.count();
+    let filters = req.filters || {};
+    let sorts = (req.query.sort || "").split(",");
+    let {offset=0, limit=20} = req.query.page || {};
+
+    let models = Object.values(robotsDB);
+    if (Object.keys(filters).length) {
+      // ...
+    }
+    if (sorts.length) {
+      models = sortByOrder(models, ...lodashifySorts(sorts));
+    }
+    let total = models.length;
+    models = models.slice(offset, offset + limit);
+
     let response = {
-      data: robots,
+      data: models,
       meta: {
         page: {offset, limit, total}
       }

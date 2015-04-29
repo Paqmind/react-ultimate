@@ -9,10 +9,10 @@ router.get("/robots/:id",
   Middlewares.createParseParams(CommonValidators.id),
   Middlewares.createParseQuery({}),
   function handler(req, res, cb) {
-    let robot = robotsDB.get(req.params.id);
-    if (robot) {
+    let model = robotsDB[req.params.id];
+    if (model) {
       let response = {
-        data: robot,
+        data: model,
       }
       return res.status(200).send(response); // Status: ok
     } else {

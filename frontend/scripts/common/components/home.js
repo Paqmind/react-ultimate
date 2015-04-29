@@ -37,7 +37,6 @@ export default class Home extends Component {
             <li><a href="http://gulpjs.com/">Gulp</a> streaming build system</li>
             <li><a href="https://lodash.com/">Lodash</a> utility library</li>
             <li><a href="https://github.com/mzabriskie/axios">Axios</a> promise-based HTTP client</li>
-            <li><a href="https://github.com/facebook/immutable-js">Immutable</a> persistent immutable data for JS</li>
             <li><a href="http://momentjs.com/">Moment</a> date-time stuff</li>
             <li><a href="https://github.com/marak/Faker.js/">Faker</a> fake data generation</li>
           </ul>

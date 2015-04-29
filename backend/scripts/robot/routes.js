@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
-require("backend/robot/routes/create");
-require("backend/robot/routes/create-or-update");
-require("backend/robot/routes/delete");
-require("backend/robot/routes/detail");
-require("backend/robot/routes/index");
-require("backend/robot/routes/random");
+import "backend/robot/routes/create";
+import "backend/robot/routes/create-or-update";
+import "backend/robot/routes/delete";
+import "backend/robot/routes/detail";
+import "backend/robot/routes/index";
+import "backend/robot/routes/random";

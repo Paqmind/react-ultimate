@@ -7,9 +7,9 @@ let router = require("backend/robot/common/router");
 router.get("/robots/random",
   Middlewares.createParseQuery({}),
   function handler(req, res, cb) {
-    let robot = Map(generateRobot());
+    let model = generateRobot();
     let response = {
-      data: robot,
+      data: model,
     }
     return res.status(200).send(response); // Status: ok
   }
