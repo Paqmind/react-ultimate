@@ -45,20 +45,12 @@ export default class RobotIndex extends Component {
             <div id="page-actions">
               <div className="container">
                 <div className="pull-right">
-                  <div className="btn-group">
-                    <Link
-                      to="robot-index"
-                      withQuery={{sort: "+name"}}
-                      className="btn btn-sm btn-secondary">
-                      SortBy +name
-                    </Link>
-                    <Link
-                      to="robot-index"
-                      withQuery={{sort: "-name"}}
-                      className="btn btn-sm btn-secondary">
-                      SortBy -name
-                    </Link>
-                  </div>
+                  <Link to="robot-add" className="btn btn-sm btn-green" title="Add">
+                    <span className="fa fa-plus"></span>
+                  </Link>
+                </div>
+
+                <div className="pull-right">
                   <div className="btn-group">
                     <button type="button"
                       className="btn btn-sm btn-secondary"
@@ -76,9 +68,40 @@ export default class RobotIndex extends Component {
                       Perpage 10
                     </button>
                   </div>
-                  <Link to="robot-add" className="btn btn-sm btn-green" title="Add">
-                    <span className="fa fa-plus"></span>
-                  </Link>
+                </div>
+
+                <div className="pull-right">
+                  <div className="btn-group">
+                    <Link
+                      to="robot-index"
+                      withQuery={{sort: "+name"}}
+                      className="btn btn-sm btn-secondary">
+                      SortBy +name
+                    </Link>
+                    <Link
+                      to="robot-index"
+                      withQuery={{sort: "-name"}}
+                      className="btn btn-sm btn-secondary">
+                      SortBy -name
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="pull-right">
+                  <div className="btn-group">
+                    <Link
+                      to="robot-index"
+                      withQuery={{filter: false}}
+                      className="btn btn-sm btn-secondary">
+                      Reset filters
+                    </Link>
+                    <Link
+                      to="robot-index"
+                      withQuery={{filter: {manufacturer: "Russia"}}}
+                      className="btn btn-sm btn-secondary">
+                      FilterBy manufacturer=Russia
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

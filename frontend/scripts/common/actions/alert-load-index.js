@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
 
-import {toObject, formatJsonApiQuery} from "shared/common/helpers";
+import {toObject} from "shared/common/helpers";
 import state from "frontend/common/state";
 import fetchIndex from "./alert-fetch-index";
 

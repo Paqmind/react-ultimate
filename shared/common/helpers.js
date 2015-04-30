@@ -83,8 +83,8 @@ export function parseJsonApiQuery(query) {
   return {
     filters: query.filter,
     sorts: query.sort ? query.sort.split(",").map(v => v.replace(/^ /, "+")) : undefined,
-    offset: query.page && (query.page.offset || query.page.offset == 0) ? parseInt(query.page.offset) : undefined,
-    limit: query.page && (query.page.limit || query.page.offset == 0) ? parseInt(query.page.limit) : undefined,
+    offset: query.page && (query.page.offset || query.page.offset == 0) ? query.page.offset : undefined,
+    limit: query.page && (query.page.limit || query.page.offset == 0) ? query.page.limit : undefined,
   };
 }
 
@@ -99,7 +99,7 @@ export function formatJsonApiQuery(modifiers) {
 
   if (modifiers.filters) {
     filterObj = Object.keys(modifiers.filters).reduce((filterObj, key) => {
-      filterObj[`filter[${key}]`] = filters[key];
+      filterObj[`filter[${key}]`] = modifiers.filters[key];
       return filterObj;
     }, filterObj);
   }
@@ -114,4 +114,33 @@ export function formatJsonApiQuery(modifiers) {
   }
 
   return Object.assign({}, sortObj, filterObj, pageObj);
+}
+
+export function normalize(data) {
+  if (data instanceof Array) {
+    return data.map(v => normalize(v));
+  } else if (data instanceof Object) {
+    return Object.keys(data).reduce((obj, k) => {
+      obj[k] = normalize(data[k]);
+      return obj;
+    }, {});
+  } else if (typeof data == "string") {
+    if (data === "false") {
+      return false;
+    } else if (data === "true") {
+      return true;
+    } else if (data === "undefined") {
+      return undefined;
+    } else if (data === "null") {
+      return null;
+    } else if (data.match(/^-?\d+\.\d+/)) {
+      return parseFloat(data);
+    } else if (data.match(/^-?\d+/)) {
+      return parseInt(data);
+    } else {
+      return data;
+    }
+  } else {
+    return data;
+  }
 }

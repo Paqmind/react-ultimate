@@ -1,4 +1,6 @@
 // IMPORTS =========================================================================================
+import merge from "lodash.merge";
+
 import state from "frontend/common/state";
 
 // PROXY ROUTER TO REMOVE CIRCULAR DEPENDENCY ======================================================
@@ -7,39 +9,39 @@ import state from "frontend/common/state";
 // to:
 //   app (router) <- routes <- components <- actions <- proxy (router)
 let proxy = {
-  makePath(route=undefined, params=undefined, query=undefined) {
+  makePath(route=undefined, params=undefined, query=undefined, withParams={}, withQuery={}) {
     let cursor = state.select("url");
     return window._router.makePath(
       route || cursor.get("route"),
-      params || cursor.get("params"),
-      query || cursor.get("query")
+      merge({}, params || cursor.get("params"), withParams),
+      merge({}, query || cursor.get("query"), withQuery)
     );
   },
 
-  makeHref(route=undefined, params=undefined, query=undefined) {
+  makeHref(route=undefined, params=undefined, query=undefined, withParams={}, withQuery={}) {
     let cursor = state.select("url");
     return window._router.makeHref(
       route || cursor.get("route"),
-      params || cursor.get("params"),
-      query || cursor.get("query")
+      merge({}, params || cursor.get("params"), withParams),
+      merge({}, query || cursor.get("query"), withQuery)
     );
   },
 
-  transitionTo(route=undefined, params=undefined, query=undefined) {
+  transitionTo(route=undefined, params=undefined, query=undefined, withParams={}, withQuery={}) {
     let cursor = state.select("url");
     window._router.transitionTo(
       route || cursor.get("route"),
-      params || cursor.get("params"),
-      query || cursor.get("query")
+      merge({}, params || cursor.get("params"), withParams),
+      merge({}, query || cursor.get("query"), withQuery)
     );
   },
 
-  replaceWith(route=undefined, params=undefined, query=undefined) {
+  replaceWith(route=undefined, params=undefined, query=undefined, withParams={}, withQuery={}) {
     let cursor = state.select("url");
     window._router.replaceWith(
       route || cursor.get("route"),
-      params || cursor.get("params"),
-      query || cursor.get("query")
+      merge({}, params || cursor.get("params"), withParams),
+      merge({}, query || cursor.get("query"), withQuery)
     );
   },
 

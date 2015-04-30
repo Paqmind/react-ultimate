@@ -2,7 +2,7 @@
 import filter from "lodash.filter";
 import sortBy from "lodash.sortby";
 
-import {chunked, formatJsonApiQuery, firstLesserOffset} from "shared/common/helpers";
+import {chunked, firstLesserOffset} from "shared/common/helpers";
 import state, {ROBOT} from "frontend/common/state";
 import router from "frontend/common/router";
 
@@ -20,8 +20,13 @@ export default function setLimit(limit=ROBOT.LIMIT) {
     if (!pagination[cursor.get("offset")]) {
       // Number of pages reduced - redirect to closest
       let offset = firstLesserOffset(pagination, cursor.get("offset"));
-      let query = formatJsonApiQuery({offset});
-      router.transitionTo(undefined, undefined, query);
+      router.transitionTo(
+        undefined,       // route
+        undefined,       // params
+        undefined,       // query
+        {},              // withParams
+        {page: {offset}} // withQuery
+      );
     }
     cursor.set("pagination", pagination);
     state.commit();

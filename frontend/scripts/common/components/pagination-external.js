@@ -5,7 +5,6 @@ import React from "react";
 
 import Component from "frontend/common/component";
 import Link from "./link";
-import {formatJsonApiQuery} from "shared/common/helpers";
 
 // EXPORTS =========================================================================================
 export default class ExternalPagination extends Component {

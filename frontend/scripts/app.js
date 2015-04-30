@@ -5,7 +5,7 @@ import "shared/shims";
 import React from "react";
 import {create as createRouter, HistoryLocation} from "react-router";
 
-import {parseJsonApiQuery} from "shared/common/helpers";
+import {normalize, parseJsonApiQuery} from "shared/common/helpers";
 import state from "frontend/common/state";
 import routes from "frontend/routes";
 
@@ -25,28 +25,31 @@ window._router.run((Application, url) => {
   // SET BAOBAB URL DATA ---------------------------------------------------------------------------
   let urlCursor = state.select("url");
   let handler = url.routes.slice(-1)[0].name;
+  let params = normalize(url.params);
+  let query = normalize(url.query);
+
   urlCursor.set("handler", handler);
-  urlCursor.set("params", url.params);
-  urlCursor.set("query", url.query);
+  urlCursor.set("route", url.routes.slice(-1)[0].name);
+  urlCursor.set("params", params);
+  urlCursor.set("query", query);
 
   let id = url.params.id;
   if (id) {
     urlCursor.set("id", id);
   }
 
-  let {filters, sorts, offset, limit} = parseJsonApiQuery(url.query);
-  urlCursor.set("route", url.routes.slice(-1)[0].name);
-  if (filters) {
-    urlCursor.set("filters", filters);
+  let parsedQuery = parseJsonApiQuery(query);
+  if (parsedQuery.hasOwnProperty("filters")) {
+    urlCursor.set("filters", parsedQuery.filters);
   }
-  if (sorts) {
-    urlCursor.set("sorts", sorts);
+  if (parsedQuery.hasOwnProperty("sorts")) {
+    urlCursor.set("sorts", parsedQuery.sorts);
   }
-  if (offset || offset === 0) {
-    urlCursor.set("offset", offset);
+  if (parsedQuery.hasOwnProperty("offset")) {
+    urlCursor.set("offset", parsedQuery.offset);
   }
-  if (limit || limit === 0) {
-    urlCursor.set("limit", limit);
+  if (parsedQuery.hasOwnProperty("limit")) {
+    urlCursor.set("limit", parsedQuery.limit);
   }
 
   state.commit();

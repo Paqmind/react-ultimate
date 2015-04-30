@@ -3,7 +3,6 @@ import range from "lodash.range";
 import Class from "classnames";
 import React from "react";
 
-import {formatJsonApiQuery} from "shared/common/helpers";
 import Component from "frontend/common/component";
 import Link from "./link";
 

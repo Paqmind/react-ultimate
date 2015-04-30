@@ -2,7 +2,7 @@
 import isEqual from "lodash.isequal";
 import filter from "lodash.filter";
 
-import {chunked, formatJsonApiQuery, flattenArrayGroup, firstLesserOffset} from "shared/common/helpers";
+import {chunked, flattenArrayGroup, firstLesserOffset} from "shared/common/helpers";
 import state, {ROBOT} from "frontend/common/state";
 import router from "frontend/common/router";
 
@@ -10,21 +10,27 @@ import router from "frontend/common/router";
 export default function setFilters(filters=ROBOT.FILTERS) {
   console.debug(`setFilters(${JSON.stringify(filters)})`);
 
+  let urlCursor = state.select("url");
   let cursor = state.select("robots");
   if (!isEqual(filters, cursor.get("filters"))) {
     cursor.set("filters", filters);
     let paginationLength = flattenArrayGroup(cursor.get("pagination")).length;
     if (paginationLength && paginationLength >= cursor.get("total")) {
       // Full index loaded – can recalculate pagination
-      console.log("Full index loaded, recalculating pagination...");
+      console.debug("Full index loaded, recalculating pagination...");
       let pagination = recalculatePaginationWithFilters(
         cursor.get("pagination"), filters, cursor.get("models"), cursor.get("limit")
       );
       if (!pagination[cursor.get("offset")]) {
         // Number of pages reduced - redirect to closest
         let offset = firstLesserOffset(pagination, cursor.get("offset"));
-        let query = formatJsonApiQuery({offset});
-        router.transitionTo(undefined, undefined, query);
+        router.transitionTo(
+          undefined,       // route
+          undefined,       // params
+          undefined,       // query
+          {},              // withParams
+          {page: {offset}} // withQuery
+        );
       }
       cursor.set("pagination", pagination);
     } else {

@@ -14,12 +14,12 @@ export default class Link extends Component {
     let query = cursor.get("query");
 
     let props = Object.assign({}, this.props);
-    if (props.withParams) {
+    if (props.hasOwnProperty("withParams")) {
       props.withParams = props.withParams === true ? {} : props.withParams;
       props.params = merge({}, params, props.withParams);
       delete props.withParams;
     }
-    if (props.withQuery) {
+    if (props.hasOwnProperty("withQuery")) {
       props.withQuery = props.withQuery === true ? {} : props.withQuery;
       props.query = merge({}, query, props.withQuery);
       delete props.withQuery;
