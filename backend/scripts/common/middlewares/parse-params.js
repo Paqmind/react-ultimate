@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
 let Joi = require("joi");
-let toSingleMessage = require("backend/common/helpers");
+let {toSingleMessage} = require("backend/common/helpers");
 
 // MIDDLEWARES =====================================================================================
 export default function createParseParams(scheme, options={allowUnknown: true}) {
