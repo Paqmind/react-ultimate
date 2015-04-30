@@ -42,16 +42,13 @@ $ npm run nodemon [terminal-1]
 $ npm run dev     [terminal-2]
 ```
 
-## Architecture
+## Architecture FAQ
 
 All React starters / tutorials suffer from being oversimplified.
 They don't show any architecture (the most complex part), only a basic file layouts at their best.
 TodoApps have similar issues: very specific, single page only, unrealistic models (one field),
-no backend, no validation, no users, etc.
-We want to approach this differently – provide application which is close to real-world examples.
-
-We also want to test-n-proof Domain Driven architecture (we are bored of models/controllers/views folders
-at the root).
+no backend, no validation, no users, etc. We want to approach this differently – provide application
+which is closer to production (not saying enterprise) level.
 
 ### Flux vs Baobab
 
@@ -78,6 +75,11 @@ than reduced. We still considering [Seamless-Immutable](https://github.com/rtfel
 Despite ES6, builds are quite fast thanks to Watchify, Babelify and parallel execution (spawns).
 Only app files are under constant watching. All vendors go to separate bundle.
 
+### Domain-Driven vs Aspect-Driven
+
+We want to test-n-proof Domain Driven architecture.
+TODO describe...
+
 ### Browserify vs WebPack.
 
 We're going to switch to WebPack a bit later.
@@ -85,6 +87,22 @@ We're going to switch to WebPack a bit later.
 ### Browser Sync (live reload)
 
 Will be available with WebPack builds.
+
+## Architecture in Depth
+
+Read this only after a look on the code.
+
+### External vs Internal components
+
+External component's state can be changed through URL.
+It allows to bookmark and share page link. Most obvious limitation is that there is no namespacing
+in URL (we could add one, but URL is rather short for that sort of things,
+and we want to reuse JSON API format on frontend for simplicity).
+Another tradeoff is that new URL means `ReactRouter.run` is triggered
+which hurts rendering performance (VDOM root redraw).
+
+To sum up: make primary (content) components either external or internal.
+Secondary components should be always internal.
 
 ## Wiki
 
