@@ -1,6 +1,12 @@
-# React Starter
+# React Ultimate
 
-[Demo instance.](http://react-starter.paqmind.com/)
+Tired of **React Starters** reexplaining another hello-world?
+
+Dreamt of something closer to the industry?
+
+Welcome to **React Ultimate** then.
+
+[Demo instance](http://react-starter.paqmind.com/) (may be outdated to GitHub version).
 
 ## Install
 
