@@ -10,14 +10,14 @@ export const EXAMPLE = {
 };
 
 export const ROBOT = {
-  FILTERS: undefined,
+  FILTERS: {},
   SORTS: ["+name"],
   OFFSET: 0,
   LIMIT: 5,
 };
 
 export const ALERT = {
-  FILTERS: undefined,
+  FILTERS: {},
   SORTS: ["+createdOn"],
   OFFSET: 0,
   LIMIT: 5,

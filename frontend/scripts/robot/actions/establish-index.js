@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import {formatJsonApiQuery} from "frontend/common/helpers";
+import {formatJsonApiQuery} from "shared/common/helpers";
 import state from "frontend/common/state";
 import router from "frontend/common/router";
 import loadIndex from "./load-index";
@@ -14,7 +14,7 @@ export default function establishIndex() {
 
   let cursor = state.select("url");
 
-  //setFilters(cursor.get("filters"));
+  setFilters(cursor.get("filters"));
   setSorts(cursor.get("sorts"));
   setOffset(cursor.get("offset"));
   setLimit(cursor.get("limit"));

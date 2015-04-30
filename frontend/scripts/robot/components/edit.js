@@ -1,8 +1,5 @@
 // IMPORTS =========================================================================================
 import result from "lodash.result";
-import isArray from "lodash.isarray";
-import isPlainObject from "lodash.isplainobject";
-import isEmpty from "lodash.isempty";
 import merge from "lodash.merge";
 import debounce from "lodash.debounce";
 import flatten from "lodash.flatten";
@@ -21,10 +18,10 @@ import robotActions from "frontend/robot/actions";
 function flattenAndResetTo(obj, to, path) {
   path = path || "";
   return Object.keys(obj).reduce(function (memo, key) {
-    if (isPlainObject(obj[key])) {
-      Object.assign(memo, flattenAndResetTo(obj[key], to, path + key+ "."));
-    } else {
+    if (obj[key] instanceof Array || !obj[key] instanceof Object) {
       memo[path + key] = to;
+    } else {
+      Object.assign(memo, flattenAndResetTo(obj[key], to, path + key+ "."));
     }
     return memo;
   }, {});
@@ -53,7 +50,7 @@ function flattenAndResetTo(obj, to, path) {
 //function formatErrors(joiResult) {
 //  if (joiResult.error !== null) {
 //    return joiResult.error.details.reduce(function (memo, detail) {
-//      if (!Array.isArray(memo[detail.path])) {
+//      if (!memo[detail.path] instanceof Array) {
 //        memo[detail.path] = [];
 //      }
 //      memo[detail.path].push(detail.message);
@@ -92,7 +89,7 @@ export default class RobotEdit extends Component {
 //  },
 //
 //  componentWillReceiveProps(props) {
-//    if (isEmpty(this.state.model)) {
+//    if (!Object.values(this.state.model).length) {
 //      this.setState({
 //        model: Object.assign({}, props.loadModel),
 //      })
@@ -113,7 +110,7 @@ export default class RobotEdit extends Component {
 //    //let schema = result(this, "validatorTypes") || {};
 //    //let data = result(this, "validatorData") || this.state;
 //    //let nextErrors = merge({}, this.state.errors, validate(schema, data, key), function (a, b) {
-//    //  return isArray(b) ? b : undefined;
+//    //  return b instanceof Array ? b : undefined;
 //    //});
 //    //return new Promise((resolve, reject) => {
 //    //  this.setState({
@@ -164,7 +161,7 @@ export default class RobotEdit extends Component {
 //
 //  getValidationMessages: function (key) {
 //    let errors = this.state.errors || {};
-//    if (isEmpty(errors)) {
+//    if (!Object.values(errors).length) {
 //      return [];
 //    } else {
 //      if (key === undefined) {
@@ -179,7 +176,7 @@ export default class RobotEdit extends Component {
 //
 //  isValid: function (key) {
 //    return true;
-//    //return isEmpty(this.getValidationMessages(key));
+//    //return Object.values(this.getValidationMessages(key).length == 0);
 //  },
 //
 //  render() {

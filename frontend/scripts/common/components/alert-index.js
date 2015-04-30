@@ -2,7 +2,7 @@
 import React from "react";
 //let CSSTransitionGroup from "rc-css-transition-group";
 
-import {toArray} from "frontend/common/helpers";
+import {toArray} from "shared/common/helpers";
 import state from "frontend/common/state";
 import Loading from "frontend/common/components/loading";
 import NotFound from "frontend/common/components/not-found";

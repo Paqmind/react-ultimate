@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
-import isArray from "lodash.isarray";
 import range from "lodash.range";
 import merge from "lodash.merge";
+import sortBy from "lodash.sortby";
 
 // HELPERS =========================================================================================
 /**
@@ -35,8 +35,83 @@ export function lodashifySorts(sorts) {
 
 export function mergeDeep(object, other) {
   return merge({}, object, other, (a, b) => {
-    if (isArray(a)) {
+    if (a instanceof Array) {
       return a.concat(b);
     }
   });
+}
+
+export function flattenArrayGroup(object, sorter=(v => v)) {
+  return sortBy(Object.keys(object), sorter).reduce((combinedArray, key) => {
+    return combinedArray.concat(object[key]);
+  }, [])
+}
+
+export function firstLesserOffset(pagination, offset) {
+  let offsets = Object.keys(pagination).map(v => parseInt(v)).sort().reverse();
+  for (let o of offsets) {
+    if (parseInt(o) < offset) {
+      return o;
+    }
+  }
+  return 0;
+}
+
+export function toObject(array) {
+  if (array instanceof Array) {
+    return array.reduce((object, item) => {
+      object[item.id] = item;
+      return object;
+    }, {});
+  } else {
+    throw Error(`array must be plain Array, got ${array}`);
+  }
+}
+
+export function toArray(object) {
+  if (object instanceof Object) {
+    return sortBy(
+      Object.keys(object).map(key => object[key]),
+      item => item.id
+    );
+  } else {
+    throw Error(`object must be a basic Object, got ${object}`);
+  }
+}
+
+export function parseJsonApiQuery(query) {
+  return {
+    filters: query.filter,
+    sorts: query.sort ? query.sort.split(",").map(v => v.replace(/^ /, "+")) : undefined,
+    offset: query.page && (query.page.offset || query.page.offset == 0) ? parseInt(query.page.offset) : undefined,
+    limit: query.page && (query.page.limit || query.page.offset == 0) ? parseInt(query.page.limit) : undefined,
+  };
+}
+
+export function formatJsonApiQuery(modifiers) {
+  if (!modifiers instanceof Object) {
+    throw new Error(`modifiers must be a basic Object, got ${modifiers}`);
+  }
+
+  let sortObj = {};
+  let filterObj = {};
+  let pageObj = {};
+
+  if (modifiers.filters) {
+    filterObj = Object.keys(modifiers.filters).reduce((filterObj, key) => {
+      filterObj[`filter[${key}]`] = filters[key];
+      return filterObj;
+    }, filterObj);
+  }
+  if (modifiers.sorts) {
+    sortObj["sort"] = modifiers.sorts.join(",");
+  }
+  if (modifiers.offset || modifiers.offset == 0) {
+    pageObj["page[offset]"] = modifiers.offset;
+  }
+  if (modifiers.limit || modifiers.limit == 0) {
+    pageObj["page[limit]"] = modifiers.limit;
+  }
+
+  return Object.assign({}, sortObj, filterObj, pageObj);
 }

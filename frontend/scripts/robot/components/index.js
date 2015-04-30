@@ -3,7 +3,7 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import DocumentTitle from "react-document-title";
 
-import {toArray} from "frontend/common/helpers";
+import {toArray} from "shared/common/helpers";
 import state from "frontend/common/state";
 import Component from "frontend/common/component";
 import {Error, Loading, NotFound, ExternalPagination, InternalPagination, Link} from "frontend/common/components";

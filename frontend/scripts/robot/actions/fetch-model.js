@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
 
-import {toObject} from "frontend/common/helpers";
+import {toObject} from "shared/common/helpers";
 import state from "frontend/common/state";
 import commonActions from "frontend/common/actions";
 

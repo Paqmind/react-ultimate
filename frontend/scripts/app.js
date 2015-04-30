@@ -5,7 +5,7 @@ import "shared/shims";
 import React from "react";
 import {create as createRouter, HistoryLocation} from "react-router";
 
-import {parseJsonApiQuery} from "frontend/common/helpers";
+import {parseJsonApiQuery} from "shared/common/helpers";
 import state from "frontend/common/state";
 import routes from "frontend/routes";
 

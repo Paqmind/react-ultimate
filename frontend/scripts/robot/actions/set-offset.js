@@ -3,7 +3,7 @@ import state, {ROBOT} from "frontend/common/state";
 
 // ACTIONS =========================================================================================
 export default function setOffset(offset=ROBOT.OFFSET) {
-  console.debug("setOffset(" + offset + ")");
+  console.debug(`setOffset(${offset})`);
 
   let cursor = state.select("robots");
   if (offset != cursor.get("offset")) {
