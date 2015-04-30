@@ -98,7 +98,6 @@
     "classnames",
     "lodash.debounce",
     "lodash.filter",
-    "lodash.findwhere",
     "lodash.flatten",
     "lodash.isequal",
     "lodash.merge",

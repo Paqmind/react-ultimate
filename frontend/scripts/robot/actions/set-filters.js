@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
 import isEqual from "lodash.isequal";
-import findWhere from "lodash.findwhere";
+import filter from "lodash.filter";
 
 import {chunked, formatJsonApiQuery, flattenArrayGroup, firstLesserOffset} from "shared/common/helpers";
 import state, {ROBOT} from "frontend/common/state";
@@ -63,7 +63,7 @@ function recalculatePaginationWithFilters(pagination, filters, models, limit) {
   if (Object.keys(pagination).length) {
     if (Object.keys(filters).length) {
       let unfilteredModels = Object.values(models);
-      let filteredModels = findWhere(unfilteredModels, filters);
+      let filteredModels = filter(unfilteredModels, filters);
       return chunked(filteredModels.map(m => m.id), limit).reduce((obj, ids, i) => {
         obj[i * limit] = ids;
         return obj;
@@ -75,3 +75,4 @@ function recalculatePaginationWithFilters(pagination, filters, models, limit) {
     return {};
   }
 }
+
