@@ -4,7 +4,8 @@ Tired of **React Starters** reexplaining another hello-world?
 
 Dreamt of something closer to the industry?
 
-Welcome to **React Ultimate** then.
+Welcome to **React Ultimate** then. This project is fairly experimental but we've already
+got much of interesting experience observations during development. Just give it a try.
 
 [Demo instance](http://react-starter.paqmind.com/) (may be outdated to GitHub version).
 
@@ -41,81 +42,7 @@ $ npm run nodemon [terminal-1]
 $ npm run dev     [terminal-2]
 ```
 
-There are a few of react-starters out there. Let's compare.
-
-## Comparison
-
-<table>
-<tr>
-  <td>Vendor</td>
-  <th>Paqmind</th>
-  <th>Kriasoft</th>
-</tr>
-<tr>
-  <td>Links</td>
-  <th><a href="https://github.com/Paqmind/react-starter">GitHub</a></th>
-  <th><a href="https://github.com/kriasoft/react-starter-kit">GitHub</a>, <a href="http://reactjs.kriasoft.com">Demo</a></th>
-</tr>
-<tr>
-  <td>Language</td>
-  <th>ES6 (Babel)</th>
-  <th>ES6 (Babel)</th>
-</tr>
-<tr>
-  <td>Frontend</td>
-  <th>React / Baobab</th>
-  <th>React / Flux</th>
-</tr>
-<tr>
-  <td>Backend</td>
-  <th>Express</th>
-  <th>Express</th>
-</tr>
-<tr>
-  <td>Bundlers</td>
-  <th>Gulp, Browserify</th>
-  <th>Gulp, Webpack</th>
-</tr>
-<tr>
-  <td>Architecture</td>
-  <th>Domain Driven</th>
-  <th>Aspect Driven</th>
-</tr>
-<tr>
-  <td>Immutable</td>
-  <th>yes</th>
-  <th>no</th>
-</tr>
-<tr>
-  <td>Index example</td>
-  <th>yes (in progress)</th>
-  <th>no</th>
-</tr>
-<tr>
-  <td>CRUD example</td>
-  <th>yes</th>
-  <th>no</th>
-</tr>
-<tr>
-  <td>Streaming example</td>
-  <th>no (in progress)</th>
-  <th>no</th>
-</tr>
-<tr>
-  <td>Tests</td>
-  <th>–</th>
-  <th>Jest (unit), Karma (unit), Protractor (e2e)</th>
-</tr>
-<tr>
-  <td>Additional</td>
-  <th>–</th>
-  <th>BrowserSync, Flow</th>
-</tr>
-</table>
-
-## Remarks
-
-### Architecture
+## Architecture
 
 All React starters / tutorials suffer from being oversimplified.
 They don't show any architecture (the most complex part), only a basic file layouts at their best.
@@ -126,9 +53,15 @@ We want to approach this differently – provide application which is close to r
 We also want to test-n-proof Domain Driven architecture (we are bored of models/controllers/views folders
 at the root).
 
+### Flux vs Baobab
+
+We don't use Flux. Check next links for a shallow information *Why*:
+https://github.com/acdlite/flummox/issues/63
+http://christianalfoni.github.io/javascript/2015/02/06/plant-a-baobab-tree-in-your-flux-application.html
+
 ### Relative imports
 
-One of the Node.js biggest fails – the absence of relative imports. Fortunately they can be emulated with
+One of the NodeJS biggest fails – the absence of relative imports. Fortunately they can be emulated with
 some amount of twist. The requirement here is to keep IDE navigation and autocompletion features working.
 Script **bin/linkfolders** symlinks application entry points in **node_modules**. Every such point must contain distinct
 **package.json** to be compatible with Browserify expectations. But now you may replace all those
@@ -136,21 +69,22 @@ ugly, unreadable, unsupportable relative imports with brand shiny absolute.
 
 ### Immutable
 
-[Immutable-js](http://facebook.github.io/immutable-js/docs/#/) is used at backend.
-Baobab is incompatible with Immutable.
-
-### Browser Sync (live reload)
-
-TODO
-
-### Browserify vs WebPack.
-
-Not really like both. TODO take a second look at WebPack
+We tried to use [Immutable](https://github.com/facebook/immutable-js) and [Mori](https://github.com/swannodette/mori)
+but the resulting code was extremely bloated and noisy. The potential for bugs was surely increased rather
+than reduced. We still considering [Seamless-Immutable](https://github.com/rtfeldman/seamless-immutable) though.
 
 ### Builds
 
 Despite ES6, builds are quite fast thanks to Watchify, Babelify and parallel execution (spawns).
 Only app files are under constant watching. All vendors go to separate bundle.
+
+### Browserify vs WebPack.
+
+We're going to switch to WebPack a bit later.
+
+### Browser Sync (live reload)
+
+Will be available with WebPack builds.
 
 ## Wiki
 
