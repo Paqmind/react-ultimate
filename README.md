@@ -1,11 +1,11 @@
 # React Ultimate
 
-Tired of **React Starters** reexplaining another hello-world?
+Tired of **React Starters** reexplaining another helloworld?
 
-Dreamt of something closer to the industry?
+Dreamed of something closer to the industry?
 
-Welcome to **React Ultimate** then. This project is fairly experimental but we've already
-got much of interesting experience observations during development. Just give it a try.
+Welcome to **React Ultimate** then. This project is fairly experimental but we're sure it already
+yields a lot of interesting observations. Just give it a try.
 
 [Demo instance](http://react-starter.paqmind.com/) (may be outdated to GitHub version).
 
@@ -55,9 +55,9 @@ at the root).
 
 ### Flux vs Baobab
 
-We don't use Flux. Check next links for a shallow information *Why*:
-https://github.com/acdlite/flummox/issues/63
-http://christianalfoni.github.io/javascript/2015/02/06/plant-a-baobab-tree-in-your-flux-application.html
+We don't use Flux. Check [this](https://github.com/acdlite/flummox/issues/63) and
+[this](http://christianalfoni.github.io/javascript/2015/02/06/plant-a-baobab-tree-in-your-flux-application.html)
+for a shallow answer to *why*.
 
 ### Relative imports
 
