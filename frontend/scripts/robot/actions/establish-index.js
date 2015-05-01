@@ -1,6 +1,5 @@
 // IMPORTS =========================================================================================
 import state from "frontend/common/state";
-import router from "frontend/common/router";
 import loadIndex from "./load-index";
 import setFilters from "./set-filters";
 import setSorts from "./set-sorts";
@@ -11,12 +10,17 @@ import setLimit from "./set-limit";
 export default function establishIndex() {
   console.debug("establishIndex");
 
-  let cursor = state.select("url");
+  let urlCursor = state.select("url");
+  let robotCursor = state.select("robots");
 
-  setFilters(cursor.get("filters") || undefined); // false -> undefined
-  setSorts(cursor.get("sorts") || undefined);     // false -> undefined
-  setOffset(cursor.get("offset"));
-  setLimit(cursor.get("limit"));
+  if (urlCursor.get("reset")) {
+    robotCursor.set("pagination", {});
+    state.commit();
+  }
+  setFilters(urlCursor.get("filters"));
+  setSorts(urlCursor.get("sorts"));
+  setOffset(urlCursor.get("offset"));
+  setLimit(urlCursor.get("limit"));
 
   loadIndex();
 }

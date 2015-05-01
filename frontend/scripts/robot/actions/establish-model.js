@@ -1,6 +1,5 @@
 // IMPORTS =========================================================================================
 import state from "frontend/common/state";
-import router from "frontend/common/router";
 import loadModel from "./load-model";
 
 // ACTIONS =========================================================================================

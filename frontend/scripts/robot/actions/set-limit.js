@@ -2,7 +2,7 @@
 import filter from "lodash.filter";
 import sortBy from "lodash.sortby";
 
-import {chunked, firstLesserOffset} from "shared/common/helpers";
+import {chunked, findFirstLesserOffset} from "shared/common/helpers";
 import state, {ROBOT} from "frontend/common/state";
 import router from "frontend/common/router";
 
@@ -12,22 +12,11 @@ export default function setLimit(limit=ROBOT.LIMIT) {
 
   let cursor = state.select("robots");
   if (limit != cursor.get("limit")) {
-    console.debug("Recalculating pagination...");
     cursor.set("limit", limit);
+    console.debug("Recalculating pagination...");
     let pagination = recalculatePaginationWithLimit(
       cursor.get("pagination"), limit
     );
-    if (!pagination[cursor.get("offset")]) {
-      // Number of pages reduced - redirect to closest
-      let offset = firstLesserOffset(pagination, cursor.get("offset"));
-      router.transitionTo(
-        undefined,       // route
-        undefined,       // params
-        undefined,       // query
-        {},              // withParams
-        {page: {offset}} // withQuery
-      );
-    }
     cursor.set("pagination", pagination);
     state.commit();
   }

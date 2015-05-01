@@ -91,7 +91,7 @@ export default class RobotIndex extends Component {
                   <div className="btn-group">
                     <Link
                       to="robot-index"
-                      withQuery={{filter: false}}
+                      withQuery={{filter: "undefined", reset: true}}
                       className="btn btn-sm btn-secondary">
                       Reset filters
                     </Link>
