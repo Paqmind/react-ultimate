@@ -51,6 +51,5 @@ export default function fetchIndex(filters, sorts, offset, limit) {
 
         return response.status;
       }
-    })
-    .done();
+    });
 }

@@ -2,9 +2,8 @@
 import isEqual from "lodash.isequal";
 import filter from "lodash.filter";
 
-import {chunked, flattenArrayGroup, firstLesserOffset} from "shared/common/helpers";
+import {chunked, flattenArrayGroup, findFirstLesserOffset} from "shared/common/helpers";
 import state, {ROBOT} from "frontend/common/state";
-import router from "frontend/common/router";
 
 // ACTIONS =========================================================================================
 export default function setFilters(filters=ROBOT.FILTERS) {
@@ -12,6 +11,7 @@ export default function setFilters(filters=ROBOT.FILTERS) {
 
   let urlCursor = state.select("url");
   let cursor = state.select("robots");
+
   if (!isEqual(filters, cursor.get("filters"))) {
     cursor.set("filters", filters);
     let paginationLength = flattenArrayGroup(cursor.get("pagination")).length;
@@ -21,17 +21,6 @@ export default function setFilters(filters=ROBOT.FILTERS) {
       let pagination = recalculatePaginationWithFilters(
         cursor.get("pagination"), filters, cursor.get("models"), cursor.get("limit")
       );
-      if (!pagination[cursor.get("offset")]) {
-        // Number of pages reduced - redirect to closest
-        let offset = firstLesserOffset(pagination, cursor.get("offset"));
-        router.transitionTo(
-          undefined,       // route
-          undefined,       // params
-          undefined,       // query
-          {},              // withParams
-          {page: {offset}} // withQuery
-        );
-      }
       cursor.set("pagination", pagination);
     } else {
       // Part of index loaded – can only reset

@@ -1,5 +1,6 @@
 // IMPORTS =========================================================================================
 import Baobab from "baobab";
+import {flattenArrayGroup} from "shared/common/helpers";
 
 // STATE ===========================================================================================
 export const EXAMPLE = {
@@ -34,6 +35,7 @@ export default new Baobab(
       sorts: undefined,
       offset: undefined,
       limit: undefined,
+      reset: undefined,
     },
 
     robots: {
@@ -78,6 +80,21 @@ export default new Baobab(
   },
   { // OPTIONS
     facets: {
+      allRobotsAreLoaded: {
+        cursors: {
+          robots: "robots",
+        },
+
+        get: function (data) {
+          let {pagination, total} = data.robots;
+          if (flattenArrayGroup(pagination).length) {
+            return flattenArrayGroup(pagination).length >= total;
+          } else {
+            return false;
+          }
+        }
+      },
+
       currentRobot: {
         cursors: {
           robots: "robots",

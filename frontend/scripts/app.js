@@ -27,30 +27,27 @@ window._router.run((Application, url) => {
   let handler = url.routes.slice(-1)[0].name;
   let params = normalize(url.params);
   let query = normalize(url.query);
+  let reset;
+  if (query.reset) {
+    reset = true;
+    delete query.reset;
+  }
 
   urlCursor.set("handler", handler);
   urlCursor.set("route", url.routes.slice(-1)[0].name);
   urlCursor.set("params", params);
   urlCursor.set("query", query);
+  urlCursor.set("reset", reset);
 
   let id = url.params.id;
-  if (id) {
-    urlCursor.set("id", id);
-  }
+  urlCursor.set("id", id);
 
   let parsedQuery = parseJsonApiQuery(query);
-  if (parsedQuery.hasOwnProperty("filters")) {
-    urlCursor.set("filters", parsedQuery.filters);
-  }
-  if (parsedQuery.hasOwnProperty("sorts")) {
-    urlCursor.set("sorts", parsedQuery.sorts);
-  }
-  if (parsedQuery.hasOwnProperty("offset")) {
-    urlCursor.set("offset", parsedQuery.offset);
-  }
-  if (parsedQuery.hasOwnProperty("limit")) {
-    urlCursor.set("limit", parsedQuery.limit);
-  }
+  urlCursor.set("filters", parsedQuery.filters);
+  urlCursor.set("sorts", parsedQuery.sorts);
+  urlCursor.set("offset", parsedQuery.offset);
+  urlCursor.set("limit", parsedQuery.limit);
+  urlCursor.set("limit", parsedQuery.limit);
 
   state.commit();
   //------------------------------------------------------------------------------------------------

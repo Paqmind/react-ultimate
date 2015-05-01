@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import isEqual from "lodash.isequal";
 import sortByOrder from "lodash.sortbyorder";
-import {chunked, lodashifySorts, flattenArrayGroup, firstLesserOffset} from "shared/common/helpers";
+import {chunked, lodashifySorts, flattenArrayGroup, findFirstLesserOffset} from "shared/common/helpers";
 import state, {ROBOT} from "frontend/common/state";
 
 // ACTIONS =========================================================================================

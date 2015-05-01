@@ -47,7 +47,7 @@ export function flattenArrayGroup(object, sorter=(v => v)) {
   }, [])
 }
 
-export function firstLesserOffset(pagination, offset) {
+export function findFirstLesserOffset(pagination, offset) {
   let offsets = Object.keys(pagination).map(v => parseInt(v)).sort().reverse();
   for (let o of offsets) {
     if (parseInt(o) < offset) {
@@ -82,9 +82,10 @@ export function toArray(object) {
 export function parseJsonApiQuery(query) {
   return {
     filters: query.filter,
-    sorts: query.sort ? query.sort.split(",").map(v => v.replace(/^ /, "+")) : undefined,
+    sorts: query.sort ? query.sort.split(",").map(v => v.trim()).map(v => v.replace(/^(\w|\d)/, "+$1")) : undefined,
     offset: query.page && (query.page.offset || query.page.offset == 0) ? query.page.offset : undefined,
     limit: query.page && (query.page.limit || query.page.offset == 0) ? query.page.limit : undefined,
+    reset: query.reset == "true" ? true : undefined,
   };
 }
 
@@ -121,7 +122,12 @@ export function normalize(data) {
     return data.map(v => normalize(v));
   } else if (data instanceof Object) {
     return Object.keys(data).reduce((obj, k) => {
-      obj[k] = normalize(data[k]);
+      if (k.includes(".")) {
+        let kk = k.split(".");
+        obj[kk[0]] = normalize({[kk.slice(1).join(".")]: data[k]});
+      } else {
+        obj[k] = normalize(data[k]);
+      }
       return obj;
     }, {});
   } else if (typeof data == "string") {

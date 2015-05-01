@@ -2,7 +2,6 @@
 import Axios from "axios";
 
 import state from "frontend/common/state";
-import router from "frontend/common/router";
 import commonActions from "frontend/common/actions";
 import Robot from "frontend/robot/models";
 
