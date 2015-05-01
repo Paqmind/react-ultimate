@@ -33,3 +33,21 @@ router.get("/robots/",
     return res.status(200).send(response); // Status: ok
   }
 );
+
+router.get("/robots/total",
+  Middlewares.createParseQuery({}),
+  function handler(req, res, cb) {
+    let filters = req.query.filter || {};
+
+    let models = Object.values(robotsDB);
+    if (Object.keys(filters).length) {
+      models = filter(models, filters);
+    }
+    let total = models.length;
+
+    let response = {
+      data: total,
+    };
+    return res.status(200).send(response); // Status: ok
+  }
+);
