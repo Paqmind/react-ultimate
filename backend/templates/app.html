@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 
+{% block head %}
+  {{ super() }}
+  <link rel="dns-prefetch" href="//robohash.org"/>
+{% endblock %}
+
 {% block body %}
   <main id="main">
   </main>
