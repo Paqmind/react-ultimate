@@ -42,7 +42,7 @@ export default class RobotIndex extends Component {
       return (
         <DocumentTitle title="Robots">
           <div>
-            <div id="page-actions">
+            <div id="actions">
               <div className="container">
                 <div className="pull-right">
                   <Link to="robot-add" className="btn btn-sm btn-green" title="Add">

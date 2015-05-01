@@ -181,7 +181,7 @@ export default React.createClass({
 //      return (
 //        <DocumentTitle title={"Add Robot"}>
 //          <div>
-//            <div id="page-actions">
+//            <div id="actions">
 //              <div className="container">
 //                <div className="btn-group btn-group-sm pull-left">
 //                  <Link to="robot-index" params={{page: 1}} className="btn btn-gray-light" title="Back to list">

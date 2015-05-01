@@ -64,6 +64,6 @@ window._router.run((Application, url) => {
     });
 
   Promise.all(promises).then(() => {
-    React.render(<Application/>, document.getElementById("main"));
+    React.render(<Application/>, document.getElementById("app"));
   });
 });
