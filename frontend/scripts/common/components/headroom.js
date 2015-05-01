@@ -24,7 +24,9 @@ export default class Headroom extends Component {
   }
 
   hasScrolled() {
-    let topPosition = $(window).scrollTop();
+    let windowHeight = window.innerHeight;
+    let topPosition = document.body.scrollTop;
+    let documentHeight = document.body.clientHeight;
 
     // Make sure users scroll more than delta
     if (Math.abs(this.lastScrollTop - topPosition) <= this.deltaHeight) return;
@@ -35,7 +37,7 @@ export default class Headroom extends Component {
       this.setState({className: this.props.headroomClassNames.hidden});
     }
     else {
-      if ((topPosition + $(window).height()) < $(document).height()) {
+      if ((topPosition + windowHeight) < documentHeight) {
         this.setState({className: this.props.headroomClassNames.visible});
       }
     }
