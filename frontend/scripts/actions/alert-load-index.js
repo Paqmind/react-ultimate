@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
-import {toObject} from "shared/helpers";
+import {toObject} from "shared/helpers/common";
 import state from "frontend/state";
 import fetchIndex from "./alert-fetch-index";
 

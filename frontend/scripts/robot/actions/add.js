@@ -1,9 +1,8 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
-
-import state from "frontend/common/state";
-import commonActions from "frontend/common/actions";
-import Robot from "frontend/robot/models";
+import Robot from "shared/models/robot";
+import state from "frontend/state";
+import commonActions from "frontend/actions";
 
 // ACTIONS =========================================================================================
 export default function add(model) {

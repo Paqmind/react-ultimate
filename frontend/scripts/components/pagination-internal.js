@@ -44,33 +44,33 @@ export default class InternalPagination extends Component {
         <nav>
           <ul className="pagination">
             <li>
-              <button type="button"
+              <a href="#"
                 onClick={() => onClick(prevOffset)}
-                className={Class({btn: true, "btn-link": true, disabled: currOffset == minOffset})}
+                className={Class({disabled: currOffset == minOffset})}
                 title={`To offset ${prevOffset}`}>
                 <span>&laquo;</span>
-              </button>
+              </a>
             </li>
             {range(0, maxOffset, limit).map(offset => {
               return (
                 <li key={offset}>
-                  <button type="button"
+                  <a href="#"
                     onClick={() => onClick(offset)}
                     query={{page: {offset}}}
-                    className={Class({btn: true, "btn-link": true, disabled: offset == currOffset})}
+                    className={Class({disabled: offset == currOffset})}
                     title={`To offset ${offset}`}>
                     {offset}
-                  </button>
+                  </a>
                 </li>
               );
             })}
             <li>
-              <button type="button"
+              <a href="#"
                 onClick={() => onClick(nextOffset)}
-                className={Class({btn: true, "btn-link": true, disabled: currOffset == maxOffset})}
+                className={Class({disabled: currOffset == maxOffset})}
                 title={`To offset ${nextOffset}`}>
                 <span>&raquo;</span>
-              </button>
+              </a>
             </li>
           </ul>
         </nav>

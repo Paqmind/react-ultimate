@@ -1,12 +1,10 @@
 // IMPORTS =========================================================================================
-import "babel/polyfill";
 import "shared/shims";
-
 import React from "react";
 import {create as createRouter, HistoryLocation} from "react-router";
-
-import {normalize, parseJsonApiQuery} from "shared/common/helpers";
-import state from "frontend/common/state";
+import {normalize} from "shared/helpers/common";
+import {parseQuery} from "shared/helpers/jsonapi";
+import state from "frontend/state";
 import routes from "frontend/routes";
 
 // APP =============================================================================================
@@ -42,7 +40,7 @@ window._router.run((Application, url) => {
   let id = url.params.id;
   urlCursor.set("id", id);
 
-  let parsedQuery = parseJsonApiQuery(query);
+  let parsedQuery = parseQuery(query);
   urlCursor.set("filters", parsedQuery.filters);
   urlCursor.set("sorts", parsedQuery.sorts);
   urlCursor.set("offset", parsedQuery.offset);

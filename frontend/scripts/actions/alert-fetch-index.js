@@ -1,5 +1,6 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
+import {formatQuery} from "shared/helpers/jsonapi";
 import state from "frontend/state";
 
 // ACTIONS =========================================================================================
@@ -8,7 +9,7 @@ export default function fetchIndex(filters, sorts, offset, limit) {
 
   let url = `api/alerts`;
   let cursor = state.select("alerts");
-  let query = formatJsonApiQuery(filters, sorts, offset, limit);
+  let query = formatQuery(filters, sorts, offset, limit);
 
   cursor.merge({
     loading: false,

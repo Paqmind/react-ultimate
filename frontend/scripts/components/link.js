@@ -16,7 +16,6 @@ export default class Link extends Component {
       delete props.withParams;
     }
     if (props.withQuery) {
-      props.withQuery = props.withQuery === true ? {} : props.withQuery;
       props.query = merge({}, urlCursor.get("query"), props.withQuery);
       delete props.withQuery;
     }

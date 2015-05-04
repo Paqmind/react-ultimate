@@ -1,9 +1,9 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
-
-import {toObject, formatJsonApiQuery} from "shared/common/helpers";
-import state from "frontend/common/state";
-import commonActions from "frontend/common/actions";
+import {toObject} from "shared/helpers/common";
+import {formatQuery} from "shared/helpers/jsonapi";
+import state from "frontend/state";
+import commonActions from "frontend/actions";
 
 // ACTIONS =========================================================================================
 export default function fetchIndex(filters, sorts, offset, limit) {
@@ -11,7 +11,7 @@ export default function fetchIndex(filters, sorts, offset, limit) {
 
   let url = `/api/robots/`;
   let cursor = state.select("robots");
-  let query = formatJsonApiQuery({filters, sorts, offset, limit});
+  let query = formatQuery({filters, sorts, offset, limit});
 
   cursor.set("loading", true);
   return Axios.get(url, {params: query})

@@ -1,6 +1,5 @@
 // IMPORTS =========================================================================================
 import Baobab from "baobab";
-import {flattenArrayGroup} from "shared/helpers";
 
 // STATE ===========================================================================================
 export const EXAMPLE = {
@@ -107,20 +106,7 @@ export default new Baobab(
   },
   { // OPTIONS
     facets: {
-      allRobotsAreLoaded: {
-        cursors: {
-          robots: "robots",
-        },
-
-        get: function (data) {
-          let {pagination, total} = data.robots;
-          if (flattenArrayGroup(pagination).length) {
-            return flattenArrayGroup(pagination).length >= total;
-          } else {
-            return false;
-          }
-        }
-      },
+      // TODO wee need nested (namespaced) facets. Post an issue
 
       currentRobot: {
         cursors: {
@@ -129,6 +115,21 @@ export default new Baobab(
 
         get: function (data) {
           let {models, id} = data.robots;
+          if (id) {
+            return models[id];
+          } else {
+            return undefined;
+          }
+        }
+      },
+
+      currentMonster: {
+        cursors: {
+          monsters: "monsters",
+        },
+
+        get: function (data) {
+          let {models, id} = data.monsters;
           if (id) {
             return models[id];
           } else {
@@ -151,7 +152,23 @@ export default new Baobab(
             return [];
           }
         }
-      }
+      },
+
+      currentMonsters: {
+        cursors: {
+          monsters: "monsters",
+        },
+
+        get: function (data) {
+          let {models, pagination, offset} = data.monsters;
+          let ids = pagination[offset];
+          if (ids) {
+            return ids.map(id => models[id]);
+          } else {
+            return [];
+          }
+        }
+      },
     }
   }
 );

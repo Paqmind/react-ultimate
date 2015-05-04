@@ -1,8 +1,8 @@
 // IMPORTS =========================================================================================
-import state from "frontend/common/state";
+import state from "frontend/state";
 
 // ACTIONS =========================================================================================
-export default function setOffset(id) {
+export default function setId(id) {
   console.debug(`setId(${id})`);
 
   let cursor = state.select("robots");

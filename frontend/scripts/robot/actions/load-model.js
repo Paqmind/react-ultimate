@@ -1,7 +1,6 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
-
-import state from "frontend/common/state";
+import state from "frontend/state";
 import fetchModel from "./fetch-model";
 
 // ACTIONS =========================================================================================

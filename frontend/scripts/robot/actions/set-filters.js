@@ -1,21 +1,16 @@
 // IMPORTS =========================================================================================
 import isEqual from "lodash.isequal";
-import filter from "lodash.filter";
-
-import {chunked, flattenArrayGroup, findFirstLesserOffset} from "shared/common/helpers";
-import state, {ROBOT} from "frontend/common/state";
+import {isFullIndex, recalculatePaginationWithFilters} from "frontend/helpers/pagination";
+import state, {ROBOT} from "frontend/state";
 
 // ACTIONS =========================================================================================
 export default function setFilters(filters=ROBOT.FILTERS) {
   console.debug(`setFilters(${JSON.stringify(filters)})`);
 
-  let urlCursor = state.select("url");
   let cursor = state.select("robots");
-
   if (!isEqual(filters, cursor.get("filters"))) {
     cursor.set("filters", filters);
-    let paginationLength = flattenArrayGroup(cursor.get("pagination")).length;
-    if (paginationLength && paginationLength >= cursor.get("total")) {
+    if (isFullIndex(cursor.get("total"), cursor.get("pagination"))) {
       // Full index loaded – can recalculate pagination
       console.debug("Full index loaded, recalculating pagination...");
       let pagination = recalculatePaginationWithFilters(
@@ -29,45 +24,3 @@ export default function setFilters(filters=ROBOT.FILTERS) {
     state.commit();
   }
 }
-
-// HELPERS =========================================================================================
-/**
- * Recalculates `pagination` with new `filters`
- * May be applied only when `models.length == total`, so `models`
- * represent full set of ids and `pagination` can then be recreated from scrath.
- * @pure
- * @param pagination {Object<string, Array>} - input pagination
- * @param filters {number} - new filters
- * @param models {Object<string, Object>} - obj of models
- * @param limit {number} - current limit
- * @returns {Object<string, Array>} - recalculated pagination
- */
-function recalculatePaginationWithFilters(pagination, filters, models, limit) {
-  if (!pagination instanceof Object) {
-    throw new Error(`pagination must be a basic Object, got ${pagination}`);
-  }
-  if (!filters instanceof Object) {
-    throw new Error(`filters must be a basic Object, got ${filters}`);
-  }
-  if (!models instanceof Object) {
-    throw new Error(`models must be a basic Object, got ${models}`);
-  }
-  if (typeof limit != "number" || limit <= 0) {
-    throw new Error(`limit must be a positive number, got ${limit}`);
-  }
-  if (Object.keys(pagination).length) {
-    if (Object.keys(filters).length) {
-      let unfilteredModels = Object.values(models);
-      let filteredModels = filter(unfilteredModels, filters);
-      return chunked(filteredModels.map(m => m.id), limit).reduce((obj, ids, i) => {
-        obj[i * limit] = ids;
-        return obj;
-      }, {});
-    } else {
-      return pagination;
-    }
-  } else {
-    return {};
-  }
-}
-

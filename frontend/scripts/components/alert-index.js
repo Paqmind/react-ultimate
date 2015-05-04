@@ -1,11 +1,11 @@
 // IMPORTS =========================================================================================
 import React from "react";
 //let CSSTransitionGroup from "rc-css-transition-group";
-import {toArray} from "shared/helpers";
+import {toArray} from "shared/helpers/common";
 import state from "frontend/state";
-import Loading from "frontend/common/components/loading";
-import NotFound from "frontend/common/components/not-found";
-import AlertItem from "frontend/common/components/alert-item";
+import Loading from "frontend/components/loading";
+import NotFound from "frontend/components/not-found";
+import AlertItem from "frontend/components/alert-item";
 
 // COMPONENTS ======================================================================================
 export default React.createClass({

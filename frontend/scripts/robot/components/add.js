@@ -7,10 +7,9 @@ import Class from "classnames";
 //import Joi from "joi";
 import React from "react";
 import DocumentTitle from "react-document-title";
-
 //import Validators from "shared/robot/validators";
-import state from "frontend/common/state";
-import {Error, Loading, NotFound, Link} from "frontend/common/components";
+import state from "frontend/state";
+import {Error, Loading, NotFound, Link} from "frontend/components";
 import robotActions from "frontend/robot/actions";
 
 // HELPERS =========================================================================================

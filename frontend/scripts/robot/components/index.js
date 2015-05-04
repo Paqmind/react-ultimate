@@ -2,11 +2,10 @@
 import {branch} from "baobab-react/decorators";
 import React from "react";
 import DocumentTitle from "react-document-title";
-
-import {toArray} from "shared/common/helpers";
-import state from "frontend/common/state";
-import Component from "frontend/common/component";
-import {Error, Loading, NotFound, ExternalPagination, InternalPagination, Link} from "frontend/common/components";
+import {toArray} from "shared/helpers/common";
+import state from "frontend/state";
+import Component from "frontend/component";
+import {Error, Loading, NotFound, ExternalPagination, InternalPagination, Link} from "frontend/components";
 import robotActions from "frontend/robot/actions";
 import RobotItem from "frontend/robot/components/item";
 
@@ -25,11 +24,6 @@ export default class RobotIndex extends Component {
 
   static contextTypes = {
     router: React.PropTypes.func.isRequired,
-  }
-
-  setLimit(limit) {
-    robotActions.setLimit(limit);
-    robotActions.loadIndex();
   }
 
   render() {
@@ -52,34 +46,32 @@ export default class RobotIndex extends Component {
 
                 <div className="pull-right">
                   <div className="btn-group">
-                    <button type="button"
-                      className="btn btn-sm btn-secondary"
-                      onClick={() => this.setLimit(3)}>
+                    <Link to="robot-index"
+                      withQuery={{page: {limit: 3}}}
+                      className="btn btn-sm btn-secondary">
                       Perpage 3
-                    </button>
-                    <button type="button"
-                      className="btn btn-sm btn-secondary"
-                      onClick={() => this.setLimit(5)}>
+                    </Link>
+                    <Link to="robot-index"
+                      withQuery={{page: {limit: 5}}}
+                      className="btn btn-sm btn-secondary">
                       Perpage 5
-                    </button>
-                    <button type="button"
-                      className="btn btn-sm btn-secondary"
-                      onClick={() => this.setLimit(10)}>
+                    </Link>
+                    <Link to="robot-index"
+                      withQuery={{page: {limit: 10}}}
+                      className="btn btn-sm btn-secondary">
                       Perpage 10
-                    </button>
+                    </Link>
                   </div>
                 </div>
 
                 <div className="pull-right">
                   <div className="btn-group">
-                    <Link
-                      to="robot-index"
+                    <Link to="robot-index"
                       withQuery={{sort: "+name"}}
                       className="btn btn-sm btn-secondary">
                       SortBy +name
                     </Link>
-                    <Link
-                      to="robot-index"
+                    <Link to="robot-index"
                       withQuery={{sort: "-name"}}
                       className="btn btn-sm btn-secondary">
                       SortBy -name
@@ -89,14 +81,12 @@ export default class RobotIndex extends Component {
 
                 <div className="pull-right">
                   <div className="btn-group">
-                    <Link
-                      to="robot-index"
+                    <Link to="robot-index"
                       withQuery={{filter: "undefined", reset: true}}
                       className="btn btn-sm btn-secondary">
                       Reset filters
                     </Link>
-                    <Link
-                      to="robot-index"
+                    <Link to="robot-index"
                       withQuery={{filter: {manufacturer: "Russia"}}}
                       className="btn btn-sm btn-secondary">
                       FilterBy manufacturer=Russia
@@ -111,7 +101,7 @@ export default class RobotIndex extends Component {
               <div className="row">
                 {models.map(model => <RobotItem model={model} key={model.id}/>)}
               </div>
-              <InternalPagination onClick={offset => robotActions.setOffset(offset)} total={total} offset={offset} limit={limit}/>
+              <ExternalPagination endpoint="robot-index" total={total} offset={offset} limit={limit}/>
             </section>
             {loading ? <Loading/> : ""}
           </div>
@@ -120,13 +110,3 @@ export default class RobotIndex extends Component {
     }
   }
 }
-
-/*
-<div className="buttons btn-group">
-  <button className="btn btn-default" data-hook="reset">Reset Collection</button>
-  <button className="btn btn-default" data-hook="remove">Remove Collection</button>
-  <button className="btn btn-default" data-hook="shuffle">Shuffle Collection</button>
-  <button className="btn btn-default" data-hook="fetch">Refetch Collection</button>
-  <button className="btn btn-default" data-hook="add">Add Random</button>
-</div>
-*/

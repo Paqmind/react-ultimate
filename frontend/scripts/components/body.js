@@ -4,9 +4,9 @@ import React from "react";
 import {Link, RouteHandler} from "react-router";
 import state from "frontend/state";
 import Component from "frontend/component";
-import commonActions from "frontend/common/actions";
-import Headroom from "frontend/common/components/headroom";
-import AlertIndex from "frontend/common/components/alert-index";
+import commonActions from "frontend/actions";
+import Headroom from "frontend/components/headroom";
+import AlertIndex from "frontend/components/alert-index";
 
 // EXPORTS =========================================================================================
 @root(state)
@@ -33,7 +33,8 @@ export default class Body extends Component {
             <nav className="collapse navbar-collapse navbar-page-header navbar-right brackets-effect">
               <ul className="nav navbar-nav">
                 <li><Link to="home">Home</Link></li>
-                <li><Link to="robot-index" params={{page: 1}}>Robots</Link></li>
+                <li><Link to="robot-index">Robots</Link></li>
+                <li><Link to="monster-index">Monsters</Link></li>
                 <li><Link to="about">About</Link></li>
               </ul>
             </nav>
