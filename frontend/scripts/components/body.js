@@ -43,7 +43,7 @@ export default class Body extends Component {
     this.setState({menuCollapse: false});
   }
 
-  onCickOnNavbarToggle(event) {
+  onClickOnNavbarToggle(event) {
     event.stopPropagation();
     event.nativeEvent.stopImmediatePropagation();
     this.setState({menuCollapse: !this.state.menuCollapse});
@@ -71,7 +71,7 @@ export default class Body extends Component {
          <Headroom component="header" id="header" className="navbar navbar-default" headroomClassNames={headroomClassNames}>
           <div className="container">
             <div className="navbar-header">
-              <button className="navbar-toggle collapsed" type="button" data-target=".navbar-page-header" onClick={this.onCickOnNavbarToggle}>
+              <button className="navbar-toggle collapsed" type="button" data-target=".navbar-page-header" onClick={this.onClickOnNavbarToggle}>
                 <span className="sr-only">Toggle navigation</span>
                 <span className="fa fa-bars fa-lg"></span>
               </button>
