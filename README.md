@@ -7,8 +7,6 @@ Dreamed of something closer to the industry?
 Welcome to **React Ultimate** then. This project is fairly experimental but we're sure it already
 yields a lot of interesting observations. Just give it a try.
 
-[Demo instance](http://react-starter.paqmind.com/) (may be outdated to GitHub version).
-
 ## Install
 
 ```
