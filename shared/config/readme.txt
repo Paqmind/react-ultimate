@@ -32,7 +32,7 @@ https://github.com/lorenwest/node-config/wiki/
 
 4. Usage:
 
-   var config = require("config");
+   import Config from "config";
 
    Config.get("option"); // throws an error!
    Config.has("option");

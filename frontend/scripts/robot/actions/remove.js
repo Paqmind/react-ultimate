@@ -1,9 +1,8 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
-
-import state from "frontend/common/state";
-import router from "frontend/common/router";
-import commonActions from "frontend/common/actions";
+import state from "frontend/state";
+import router from "frontend/router";
+import commonActions from "frontend/actions";
 
 // ACTIONS =========================================================================================
 export default function remove(id) {

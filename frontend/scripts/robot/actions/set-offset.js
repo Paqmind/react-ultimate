@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import state, {ROBOT} from "frontend/common/state";
+import state, {ROBOT} from "frontend/state";
 
 // ACTIONS =========================================================================================
 export default function setOffset(offset=ROBOT.OFFSET) {

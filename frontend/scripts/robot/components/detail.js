@@ -2,10 +2,10 @@
 import {branch} from "baobab-react/decorators";
 import React from "react";
 import DocumentTitle from "react-document-title";
-
-import state from "frontend/common/state";
-import Component from "frontend/common/component";
-import {Error, Loading, NotFound, Link} from "frontend/common/components";
+import {formatQuery} from "shared/helpers/jsonapi";
+import state from "frontend/state";
+import Component from "frontend/component";
+import {Error, Loading, NotFound, Link} from "frontend/components";
 import robotActions from "frontend/robot/actions";
 
 // COMPONENTS ======================================================================================
@@ -39,7 +39,7 @@ export default class RobotDetail extends Component {
             <div id="actions">
               <div className="container">
                 <div className="btn-group btn-group-sm pull-left">
-                  <Link to="robot-index" params={{page: 1}} className="btn btn-gray-light" title="Back to list">
+                  <Link to="robot-index" query={formatQuery(this.props.robots)} className="btn btn-gray-light" title="Back to list">
                     <span className="fa fa-arrow-left"></span>
                     <span className="hidden-xs margin-left-sm">Back to list</span>
                   </Link>
@@ -57,7 +57,7 @@ export default class RobotDetail extends Component {
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-3">
-                  <div className="thumbnail thumbnail-robot">
+                  <div className="thumbnail">
                     <img src={"http://robohash.org/" + model.id + "?size=200x200"} width="200px" height="200px"/>
                   </div>
                 </div>

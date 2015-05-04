@@ -1,26 +1,24 @@
-// DEFAULTS ========================================================================================
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
-process.env.NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR || "./shared/config";
-
 // APP =============================================================================================
-let Fs = require("fs");
-let Express = require("express");
-let Config = require("config");
-require("shared/shims");
+import "shared/env";
+import "shared/shims";
+import Fs from "fs";
+import Express from "express";
+import Config from "config";
 
 let app = Express();
 app.set("etag", Config.get("http-use-etag"));
 
 // LOGGER ==========================================================================================
-let logger = require("backend/logger");
+import logger from "backend/logger";
 
 // TEMPLATES =======================================================================================
-let templater = require("backend/templater")(app);
+import templater from "backend/templater";
+templater(app);
 
 // MIDDLEWARES =====================================================================================
-let Morgan = require("morgan");
-let CookieParser = require("cookie-parser");
-let BodyParser = require("body-parser");
+import Morgan from "morgan";
+import CookieParser from "cookie-parser";
+import BodyParser from "body-parser";
 
 app.use(CookieParser());
 app.use(BodyParser.json());                        // parse application/json
@@ -32,18 +30,22 @@ app.use(Morgan("dev", {
   }
 }));
 
-let appRouter = require("backend/common/router");
-require("backend/common/routes");
+import commonRouter from "./routers/common";
+import "backend/routes/common";
 
-let apiRouter = require("backend/robot/common/router");
-require("backend/robot/routes");
+import robotRouter from "./routers/robot";
+import "backend/routes/robot";
+
+import monsterRouter from "./routers/monster";
+import "backend/routes/monster";
 
 let staticRouter = Express.static("public", {etag: Config.get("http-use-etag")});
 
 //app.use(favicon(__dirname + "/favicon.ico"));
 app.use("/public", staticRouter);
-app.use("/api", apiRouter);
-app.use("/", appRouter);
+app.use("/api/robots", robotRouter);
+app.use("/api/monsters", monsterRouter);
+app.use("/", commonRouter);
 
 app.use(function (req, res, cb) {
   res.status(404).render("errors/404.html");
@@ -59,7 +61,7 @@ app.use(function (err, req, res, cb) {
 });
 
 // LISTENERS =======================================================================================
-let Http = require("http");
+import Http from "http";
 
 let server = Http.createServer(app);
 server.on("error", onError);
@@ -68,26 +70,26 @@ server.listen(Config.get("http-port"));
 //var socketEngine = SocketIO(server);
 
 // SOCKET-IO =======================================================================================
-let ChildProcess = require("child_process");
-let SocketIO = require("socket.io");
-let SocketIOStream = require("socket.io-stream");
+import ChildProcess from "child_process";
+import SocketIO from "socket.io";
+import SocketIOStream from "socket.io-stream";
 //let exec  = ChildProcess.exec,
 //let spawn = ChildProcess.spawn;
 
-/*socketEngine.sockets.on("connection", function (socket) {
-  console.log("[]-> connection");
-  var logFile = Config.get("project-dir") + "/log-osx.log";
-  ss(socket).on("enter", function (stream, data) {
-    var top = spawn("top", ["-l 0"]);
-    top.stderr.on("data", function (data) {
-      console.log("ps stderr: " + data);
-    });
-    console.log("[]-> enter:");
-    console.log(`[]-> piping ${logFile}`);
+//socketEngine.sockets.on("connection", function (socket) {
+//  console.log("[]-> connection");
+//  var logFile = Config.get("project-dir") + "/log-osx.log";
+//  ss(socket).on("enter", function (stream, data) {
+//    var top = spawn("top", ["-l 0"]);
+//    top.stderr.on("data", function (data) {
+//      console.log("ps stderr: " + data);
+//    });
+//    console.log("[]-> enter:");
+//    console.log(`[]-> piping ${logFile}`);
 //    top.stdout.pipe(stream);
 //    console.log("[]-> enter:", Config.get("project-dir") + "/log-osx.log");
-    Fs.createReadStream(logFile).pipe(stream);
-  });
+//    Fs.createReadStream(logFile).pipe(stream);
+//  });
 
 //  ss(socket).emit("streaming", top.stdout);
 //  socket.emit("message", {message: "Welcome to the chat!"});
@@ -105,26 +107,25 @@ let SocketIOStream = require("socket.io-stream");
 //  socket.on("disconnect", function () {
 //    socketEngine.sockets.emit("message", {message: socket.username + " leaves the chat"});
 //  });
-});*/
+//});
 
-/*
+
 // all environments
-app.set('title', 'Application Title');
+//app.set('title', 'Application Title');
 
 // development only
-if (app.get('env') == "development") {
-  app.use(Express.errorHandler({ dumpExceptions: true, showStack: true }));
-  app.set('mongodb_uri', 'mongo://localhost/dev');
-  mongo.connect('development',logger); // mongodb initialization
-}
+//if (app.get('env') == "development") {
+//  app.use(Express.errorHandler({ dumpExceptions: true, showStack: true }));
+//  app.set('mongodb_uri', 'mongo://localhost/dev');
+//  mongo.connect('development',logger); // mongodb initialization
+//}
 
 // production only
-if (app.get('env') == "production") {
-  app.use(Express.errorHandler());
-  app.set('mongodb_uri', 'mongo://localhost/prod');
-  mongo.connect('production',logger); // mongodb initialization
-}
-*/
+//if (app.get('env') == "production") {
+//  app.use(Express.errorHandler());
+//  app.set('mongodb_uri', 'mongo://localhost/prod');
+//  mongo.connect('production',logger); // mongodb initialization
+//}
 
 // HELPERS =========================================================================================
 function onError(error) {
@@ -149,7 +150,7 @@ function onListening() {
   logger.info("Listening on port " + Config.get("http-port"));
 }
 
-/*process.on('uncaughtException', function (err) {
-console.error('uncaughtException:', err.message)
-console.error(err.stack)
-process.exit(1)})*/
+//process.on('uncaughtException', function (err) {
+//console.error('uncaughtException:', err.message)
+//console.error(err.stack)
+//process.exit(1)})

@@ -2,14 +2,13 @@
 import {branch} from "baobab-react/decorators";
 import React from "react";
 import DocumentTitle from "react-document-title";
-
-import {toArray} from "shared/common/helpers";
-import state from "frontend/common/state";
-import Component from "frontend/common/component";
-import {Error, Loading, NotFound, ExternalPagination, InternalPagination, Link} from "frontend/common/components";
+import {toArray} from "shared/helpers/common";
+import state from "frontend/state";
+import Component from "frontend/component";
+import {Error, Loading, NotFound, ExternalPagination, InternalPagination, Link} from "frontend/components";
 import robotActions from "frontend/robot/actions";
 import RobotItem from "frontend/robot/components/item";
-import router from "frontend/common/router";
+import router from "frontend/router";
 
 // COMPONENTS ======================================================================================
 class PerPage extends Component {
@@ -152,7 +151,7 @@ class Filters extends Component {
             <button type="submit" className="btn btn-sm btn-primary">Filter</button>
           </div>
           <div className="form-group margin-right">
-            <Link to="robot-index" withQuery={{filter: false}} className="btn btn-sm btn-gray">Reset</Link>
+            <Link to="robot-index" withQuery={{filter: "undefined", reset: true}} className="btn btn-sm btn-gray">Reset</Link>
           </div>
         </form>
       </div>
@@ -207,7 +206,7 @@ export default class RobotIndex extends Component {
               <div className="row">
                 {models.map(model => <RobotItem model={model} key={model.id}/>)}
               </div>
-              <InternalPagination onClick={offset => robotActions.setOffset(offset)} total={total} offset={offset} limit={limit}/>
+              <ExternalPagination endpoint="robot-index" total={total} offset={offset} limit={limit}/>
             </section>
             {loading ? <Loading/> : ""}
           </div>

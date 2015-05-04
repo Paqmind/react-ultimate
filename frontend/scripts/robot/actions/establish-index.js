@@ -1,11 +1,11 @@
 // IMPORTS =========================================================================================
-import state from "frontend/common/state";
-import router from "frontend/common/router";
-import loadIndex from "./load-index";
+import state from "frontend/state";
+import setPagination from "./set-pagination";
 import setFilters from "./set-filters";
 import setSorts from "./set-sorts";
 import setOffset from "./set-offset";
 import setLimit from "./set-limit";
+import loadIndex from "./load-index";
 
 // ACTIONS =========================================================================================
 export default function establishIndex() {
@@ -13,8 +13,11 @@ export default function establishIndex() {
 
   let cursor = state.select("url");
 
-  setFilters(cursor.get("filters") || undefined); // false -> undefined
-  setSorts(cursor.get("sorts") || undefined);     // false -> undefined
+  if (cursor.get("reset")) {
+    setPagination({});
+  }
+  setFilters(cursor.get("filters"));
+  setSorts(cursor.get("sorts"));
   setOffset(cursor.get("offset"));
   setLimit(cursor.get("limit"));
 

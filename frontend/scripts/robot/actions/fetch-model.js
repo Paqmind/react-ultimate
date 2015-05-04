@@ -1,9 +1,8 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
-
-import {toObject} from "shared/common/helpers";
-import state from "frontend/common/state";
-import commonActions from "frontend/common/actions";
+import {toObject} from "shared/helpers/common";
+import state from "frontend/state";
+import commonActions from "frontend/actions";
 
 // ACTIONS =========================================================================================
 export default function fetchModel(id) {

@@ -1,20 +1,17 @@
-// ENV =============================================================================================
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
-process.env.NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR || "./shared/config";
-
 // IMPORTS =========================================================================================
-let Path = require("path");
-let ChildProcess = require("child_process");
-let Config = require("config");
-let runSequence = require("run-sequence");
-let Gulp = require("gulp");
-let GulpJshint = require("gulp-jshint");
-let JshintStylish = require("jshint-stylish");
-let GulpCached = require("gulp-cached");
-let GulpLess = require("gulp-less");
-let GulpPlumber = require("gulp-plumber");
-require("shared/shims");
-let frontendVendors = require("./package.json").frontendVendors;
+import "shared/env";
+import "shared/shims";
+import Path from "path";
+import ChildProcess from "child_process";
+import Config from "config";
+import runSequence from "run-sequence";
+import Gulp from "gulp";
+import GulpJshint from "gulp-jshint";
+import JshintStylish from "jshint-stylish";
+import GulpCached from "gulp-cached";
+import GulpLess from "gulp-less";
+import GulpPlumber from "gulp-plumber";
+import {frontendVendors} from "./package.json";
 
 // OPTIONS =========================================================================================
 let exitOnError = false;
@@ -43,7 +40,7 @@ Gulp.task("dist-styles", function () {
 //});
 
 Gulp.task("dist-images", function () {
-  return Gulp.src(["./images/**/*"])
+  return Gulp.src(["./frontend/images/**/*"])
     .pipe(Gulp.dest("./public/images"));
 });
 
