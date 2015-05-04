@@ -1,6 +1,3 @@
-/*******************************************************************************
-  THEME. MODULES. NAV
-*******************************************************************************/
 .navbar-default {
   border-radius: 0;
   border-top: 0;
@@ -37,6 +34,14 @@
   .navbar-collapse,
   .navbar-form {
     border-color: @metalic;
+  }
+  @media (max-width: @screen-sm-min) {
+    .navbar-brand {
+      font-size: @font-size-base * 2;
+    }
+    .navbar-toggle {
+      margin-top: 0;
+    }
   }
 }
 .navbar-right {
