@@ -1,8 +1,8 @@
 // IMPORTS =========================================================================================
-let Winston = require("winston");
-let WinstonMail = require("winston-mail");
-let Moment = require("moment");
-let Config = require("config");
+import Winston from "winston";
+import WinstonMail from "winston-mail";
+import Moment from "moment";
+import Config from "config";
 
 // LOGGING =========================================================================================
 let customColors = {

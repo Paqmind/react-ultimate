@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-let Nunjucks = require("nunjucks");
+import Nunjucks from "nunjucks";
 
 // TEMPLATER =======================================================================================
 export default function (app) {
