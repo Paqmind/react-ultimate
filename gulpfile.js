@@ -40,7 +40,7 @@ Gulp.task("dist-styles", function () {
 //});
 
 Gulp.task("dist-images", function () {
-  return Gulp.src(["./images/**/*"])
+  return Gulp.src(["./frontend/images/**/*"])
     .pipe(Gulp.dest("./public/images"));
 });
 

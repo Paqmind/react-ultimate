@@ -43,33 +43,30 @@ export default class ExternalPagination extends Component {
       return (
         <nav>
           <ul className="pagination">
-            <li>
+            <li className={Class({disabled: currOffset == minOffset})}>
               <Link to={endpoint}
                 withParams={true}
                 withQuery={{page: {offset: prevOffset}}}
-                className={Class({disabled: currOffset == minOffset})}
                 title={`To offset ${prevOffset}`}>
                 <span>&laquo;</span>
               </Link>
             </li>
             {range(0, maxOffset, limit).map(offset => {
               return (
-                <li key={offset}>
+                <li key={offset} className={Class({disabled: offset == currOffset})}>
                   <Link to={endpoint}
                     withParams={true}
                     withQuery={{page: {offset}}}
-                    className={Class({disabled: offset == currOffset})}
                     title={`To offset ${offset}`}>
                     {offset}
                   </Link>
                 </li>
               );
             })}
-            <li>
+            <li className={Class({disabled: currOffset == maxOffset})}>
               <Link to={endpoint}
                 withParams={true}
                 withQuery={{page: {offset: nextOffset}}}
-                className={Class({disabled: currOffset == maxOffset})}
                 title={`To offset ${nextOffset}`}>
                 <span>&raquo;</span>
               </Link>

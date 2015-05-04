@@ -36,7 +36,7 @@ export default class RobotDetail extends Component {
       return (
         <DocumentTitle title={"Detail " + model.name}>
           <div>
-            <div id="page-actions">
+            <div id="actions">
               <div className="container">
                 <div className="btn-group btn-group-sm pull-left">
                   <Link to="robot-index" query={formatQuery(this.props.robots)} className="btn btn-gray-light" title="Back to list">
