@@ -54,6 +54,7 @@ export default class ExternalPagination extends Component {
                   <Link to={endpoint}
                     withParams={true}
                     withQuery={{page: {offset}}}
+                    className={Class({disabled: offset == currOffset})}
                     title={`To offset ${offset}`}>
                     {offset}
                   </Link>
