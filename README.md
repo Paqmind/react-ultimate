@@ -73,11 +73,6 @@ than reduced. We still considering [Seamless-Immutable](https://github.com/rtfel
 Despite ES6, builds are quite fast thanks to Watchify, Babelify and parallel execution (spawns).
 Only app files are under constant watching. All vendors go to separate bundle.
 
-### Domain-Driven vs Aspect-Driven
-
-We want to test-n-proof Domain Driven architecture.
-TODO describe...
-
 ### Browserify vs WebPack.
 
 We're going to switch to WebPack a bit later.
