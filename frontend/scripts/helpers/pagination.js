@@ -4,16 +4,15 @@ import sortBy from "lodash.sortby";
 import {chunked, flattenArrayGroup, lodashifySorts} from "shared/helpers/common";
 
 // PAGINATION ======================================================================================
-export function isFullIndex(total, pagination) {
-  let paginationLength = flattenArrayGroup(pagination).length;
-  return paginationLength && paginationLength >= total;
+export function groupLength(group) {
+  return group ? flattenArrayGroup(group).length : 0;
 }
 
 export function isCacheAvailable(total, pagination, offset, limit) {
   let ids = pagination[offset];
   if (ids && ids.length) {
-    if (isLastOffset(total, limit)) {
-      let totalPages = Math.ceil(total / limit);
+    if (offset == getLastOffset(total, limit)) {
+      let totalPages = getTotalPages(total, limit);
       return ids.length >= limit - ((totalPages * limit) - total);
     } else {
       return ids.length >= limit;
@@ -23,17 +22,27 @@ export function isCacheAvailable(total, pagination, offset, limit) {
   }
 }
 
-export function isLastOffset(pagination, offset) {
-  return offset == getLastOffset(pagination, offset);
+export function getLastOffset(total, limit) {
+  let totalPages = getTotalPages(total, limit);
+  if (totalPages <= 1) {
+    return 0;
+  } else {
+    return (totalPages - 1)  * limit;
+  }
 }
 
-export function getLastOffset(total, limit) {
-  let totalPages = Math.ceil(total / limit);
-  return (totalPages - 1)  * limit;
+export function getTotalPages(total, limit) {
+  if (typeof total != "number" || total < 0) {
+    throw Error(`total must be >= 0, got ${total}`);
+  }
+  if (typeof limit != "number" || limit < 1) {
+    throw Error(`limit must be >= 1, got ${limit}`);
+  }
+  return Math.ceil(total / limit);
 }
 
 //export function areAllOffsetsLoaded(total, pagination) {
-//  let paginationTotal = flattenArrayGroup(pagination).length;
+//  let paginationTotal = groupLength(pagination);
 //  if (paginationTotal) {
 //    return paginationTotal >= total;
 //  } else {

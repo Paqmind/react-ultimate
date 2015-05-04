@@ -16,20 +16,19 @@ export default function loadIndex() {
   let offset = cursor.get("offset");
   let limit = cursor.get("limit");
   let pagination = cursor.get("pagination");
+  let lastOffset = getLastOffset(total, limit);
 
-  if (!isCacheAvailable(total, pagination, offset, limit)) {
-    fetchIndex(filters, sorts, offset, limit).then(status => {
-      if (offset > total) {
-        console.debug("Offset > max. Performing redirect");
-        let offset = getLastOffset(pagination, offset);
-        router.transitionTo(
-          undefined,       // route
-          undefined,       // params
-          undefined,       // query
-          {},              // withParams
-          {page: {offset}} // withQuery
-        );
-      }
-    });
+  if (offset && offset > lastOffset) {
+    router.transitionTo(
+      undefined,                   // route
+      undefined,                   // params
+      undefined,                   // query
+      {},                          // withParams
+      {page: {offset: lastOffset}} // withQuery
+    );
+  } else {
+    if (!isCacheAvailable(total, pagination, offset, limit)) {
+      fetchIndex(filters, sorts, offset, limit);
+    }
   }
 }

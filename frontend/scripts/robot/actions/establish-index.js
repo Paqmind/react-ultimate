@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
 import state from "frontend/state";
-import setPagination from "./set-pagination";
+import reset from "./reset";
 import setFilters from "./set-filters";
 import setSorts from "./set-sorts";
 import setOffset from "./set-offset";
@@ -14,7 +14,7 @@ export default function establishIndex() {
   let cursor = state.select("url");
 
   if (cursor.get("reset")) {
-    setPagination({});
+    reset();
   }
   setFilters(cursor.get("filters"));
   setSorts(cursor.get("sorts"));

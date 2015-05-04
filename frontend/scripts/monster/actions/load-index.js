@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
-import {isCacheAvailable, getLastOffset} from "frontend/helpers/pagination";
+import {isCacheAvailable} from "frontend/helpers/pagination";
 import state from "frontend/state";
 import router from "frontend/router";
 import fetchIndex from "./fetch-index";
@@ -18,18 +18,6 @@ export default function loadIndex() {
   let pagination = cursor.get("pagination");
 
   if (!isCacheAvailable(total, pagination, offset, limit)) {
-    fetchIndex(filters, sorts, offset, limit).then(status => {
-      if (offset > total) {
-        console.debug("Offset > max. Performing redirect");
-        let offset = getLastOffset(pagination, offset);
-        router.transitionTo(
-          undefined,       // route
-          undefined,       // params
-          undefined,       // query
-          {},              // withParams
-          {page: {offset}} // withQuery
-        );
-      }
-    });
+    fetchIndex(filters, sorts, offset, limit);
   }
 }

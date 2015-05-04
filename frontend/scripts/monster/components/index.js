@@ -28,7 +28,7 @@ export default class MonsterIndex extends Component {
 
   setFilters(filters) {
     if (!filters) {
-      monsterActions.setPagination({});
+      monsterActions.reset();
     }
     monsterActions.setFilters(filters);
     monsterActions.loadIndex();
@@ -110,9 +110,9 @@ export default class MonsterIndex extends Component {
                       Reset filters
                     </button>
                     <button type="button"
-                      onClick={() => this.setFilters({manufacturer: "Russia"})}
+                      onClick={() => this.setFilters({citizenship: "USA"})}
                       className="btn btn-sm btn-secondary">
-                      FilterBy homeland=USA
+                      FilterBy citizenship=USA
                     </button>
                   </div>
                 </div>

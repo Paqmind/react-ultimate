@@ -4,7 +4,7 @@ import fetchIndex from "./actions/fetch-index";
 import loadModel from "./actions/load-model";
 import loadIndex from "./actions/load-index";
 
-import setPagination from "./actions/set-pagination";
+import reset from "./actions/reset";
 import setFilters from "./actions/set-filters";
 import setSorts from "./actions/set-sorts";
 import setOffset from "./actions/set-offset";
@@ -18,6 +18,6 @@ import remove from "./actions/remove";
 export default {
   fetchModel, fetchIndex,
   loadModel, loadIndex,
-  setPagination, setFilters, setSorts, setOffset, setLimit, setId,
+  reset, setFilters, setSorts, setOffset, setLimit, setId,
   add, edit, remove,
 }

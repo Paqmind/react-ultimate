@@ -8,25 +8,25 @@ import Class from "classnames";
 import React from "react";
 import DocumentTitle from "react-document-title";
 import {formatQuery} from "shared/helpers/jsonapi";
-//let Validators from "shared/robot/validators";
+//import Validators from "shared/robot/validators";
 import state from "frontend/state";
 import Component from "frontend/component";
 import {Error, Loading, NotFound, Link} from "frontend/components";
 import robotActions from "frontend/robot/actions";
 
 // HELPERS =========================================================================================
-function flattenAndResetTo(obj, to, path) {
-  path = path || "";
-  return Object.keys(obj).reduce(function (memo, key) {
-    if (obj[key] instanceof Array || !obj[key] instanceof Object) {
-      memo[path + key] = to;
-    } else {
-      Object.assign(memo, flattenAndResetTo(obj[key], to, path + key+ "."));
-    }
-    return memo;
-  }, {});
-}
-
+//function flattenAndResetTo(obj, to, path) {
+//  path = path || "";
+//  return Object.keys(obj).reduce((memo, key) => {
+//    if (!obj[key] instanceof Object || obj[key] instanceof Array) {
+//      memo[path + key] = to;
+//    } else {
+//      Object.assign(memo, flattenAndResetTo(obj[key], to, path + key+ "."));
+//    }
+//    return memo;
+//  }, {});
+//}
+//
 //function validate(joiSchema, data, key) {
 //  joiSchema = joiSchema || {};
 //  data = data || {};
