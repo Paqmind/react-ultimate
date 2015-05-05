@@ -13,6 +13,6 @@ export default function loadModel() {
 
   let model = models[id];
   if (!model) {
-    fetchModel(id);
+    fetchModel();
   }
 }

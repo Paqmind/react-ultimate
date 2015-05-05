@@ -6,14 +6,19 @@ import state from "frontend/state";
 import commonActions from "frontend/actions";
 
 // ACTIONS =========================================================================================
-export default function fetchIndex(filters, sorts, offset, limit) {
-  console.debug("fetchIndex");
+export default function fetchIndex() {
+  console.debug("fetchIndex()");
+
+  let cursor = state.select("monsters");
+  cursor.set("loading", true);
+  let filters = cursor.get("filters");
+  let sorts = cursor.get("sorts");
+  let offset = cursor.get("offset");
+  let limit = cursor.get("limit");
 
   let url = `/api/monsters/`;
-  let cursor = state.select("monsters");
   let query = formatQuery({filters, sorts, offset, limit});
 
-  cursor.set("loading", true);
   return Axios.get(url, {params: query})
     .then(response => {
       // Current state

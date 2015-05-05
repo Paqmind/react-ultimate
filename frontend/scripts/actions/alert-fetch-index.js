@@ -5,10 +5,11 @@ import state from "frontend/state";
 
 // ACTIONS =========================================================================================
 export default function fetchIndex(filters, sorts, offset, limit) {
-  console.debug("fetchIndex");
+  console.debug("fetchIndex()");
+
+  let cursor = state.select("alerts");
 
   let url = `api/alerts`;
-  let cursor = state.select("alerts");
   let query = formatQuery(filters, sorts, offset, limit);
 
   cursor.merge({

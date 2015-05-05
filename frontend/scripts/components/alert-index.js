@@ -4,7 +4,7 @@ import React from "react";
 import {toArray} from "shared/helpers/common";
 import state from "frontend/state";
 import Loading from "frontend/components/loading";
-import NotFound from "frontend/components/not-found";
+import NotFound from "frontend/components/notfound";
 import AlertItem from "frontend/components/alert-item";
 
 // COMPONENTS ======================================================================================

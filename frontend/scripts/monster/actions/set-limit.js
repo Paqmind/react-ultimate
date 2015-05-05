@@ -2,20 +2,25 @@
 import filter from "lodash.filter";
 import sortBy from "lodash.sortby";
 import {recalculatePaginationWithLimit} from "frontend/helpers/pagination";
-import state, {ZOMBIE} from "frontend/state";
+import state, {MONSTER} from "frontend/state";
 import router from "frontend/router";
 
 // ACTIONS =========================================================================================
-export default function setLimit(limit=ZOMBIE.LIMIT) {
-  console.debug(`setLimit(${limit})`);
+export default function setLimit(newLimit=MONSTER.LIMIT) {
+  console.debug(`setLimit(${newLimit})`);
 
   let cursor = state.select("monsters");
-  if (limit != cursor.get("limit")) {
-    cursor.set("limit", limit);
-    let pagination = recalculatePaginationWithLimit(
-      cursor.get("pagination"), limit
+  let limit = cursor.get("limit");
+  let pagination = cursor.get("pagination");
+
+  if (newLimit != limit) {
+    cursor.set("limit", newLimit);
+    let newPagination = recalculatePaginationWithLimit(
+      pagination, newLimit
     );
-    cursor.set("pagination", pagination);
+    cursor.set("pagination", newPagination);
     state.commit();
   }
+
+  return newLimit;
 }

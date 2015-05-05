@@ -16,7 +16,7 @@ export const ROBOT = {
   LIMIT: 5,
 };
 
-export const ZOMBIE = {
+export const MONSTER = {
   FILTERS: {},
   SORTS: ["+name"],
   OFFSET: 0,

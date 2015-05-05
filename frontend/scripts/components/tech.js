@@ -4,14 +4,19 @@ import DocumentTitle from "react-document-title";
 import Component from "frontend/component";
 
 // EXPORTS =========================================================================================
-export default class Home extends Component {
+export default class Tech extends Component {
   render() {
     return (
-      <DocumentTitle title="React Starter">
+      <DocumentTitle title="React Ultimate :: Tech">
         <section className="container page home">
-          <h1>React starter app</h1>
-          <p>Proof of concepts, CRUD, whatever...</p>
-          <p>Proudly build on ES6 with the help of <a href="https://babeljs.io/">Babel</a> transpiler.</p>
+          <h1>Tech Stack</h1>
+
+          <h3>Tools</h3>
+          <ul>
+            <li><a href="https://babeljs.io/">Babel</a> transpiler</li>
+            <li><a href="http://gulpjs.com/">Gulp</a> streaming build system</li>
+          </ul>
+
           <h3>Frontend</h3>
           <ul>
             <li><a href="http://facebook.github.io/react/">React</a> declarative UI</li>
@@ -32,22 +37,10 @@ export default class Home extends Component {
 
           <h3>Common</h3>
           <ul>
-            <li><a href="https://babeljs.io/">Babel</a> JS transpiler</li>
-            <li><a href="http://gulpjs.com/">Gulp</a> streaming build system</li>
             <li><a href="https://lodash.com/">Lodash</a> utility library</li>
             <li><a href="https://github.com/mzabriskie/axios">Axios</a> promise-based HTTP client</li>
-            <li><a href="http://momentjs.com/">Moment</a> date-time stuff</li>
+            <li><a href="http://momentjs.com/">Moment</a> date and time calculations</li>
             <li><a href="https://github.com/marak/Faker.js/">Faker</a> fake data generation</li>
-          </ul>
-
-          <h3>VCS</h3>
-          <ul>
-            <li><a href="http://git-scm.com/">Git</a> version control system</li>
-          </ul>
-
-          <h3>Credits</h3>
-          <ul>
-            <li><a href="http://robohash.org/">robohash.org</a></li>
           </ul>
         </section>
       </DocumentTitle>

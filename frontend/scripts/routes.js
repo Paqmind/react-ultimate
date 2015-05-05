@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import React from "react";
 import {Route, DefaultRoute, NotFoundRoute} from "react-router";
-import {Body, Home, About, NotFound} from "frontend/components";
+import {Body, About, Tech, Credits, NotFound} from "frontend/components";
 
 import RobotIndex from "frontend/robot/components/index";
 import RobotAdd from "frontend/robot/components/add";
@@ -16,8 +16,7 @@ import MonsterEdit from "frontend/monster/components/edit";
 // ROUTES ==========================================================================================
 export default (
   <Route path="/" handler={Body}>
-    <DefaultRoute handler={Home} name="home"/>
-    <Route path="/about" name="about" handler={About}/>
+    <DefaultRoute handler={About} name="about"/>
     <Route path="/robots/" name="robot-index" handler={RobotIndex}/>
     <Route path="/robots/add" name="robot-add" handler={RobotAdd}/>
     <Route path="/robots/:id" name="robot-detail" handler={RobotDetail}/>
@@ -27,6 +26,9 @@ export default (
     <Route path="/monsters/add" name="monster-add" handler={MonsterAdd}/>
     <Route path="/monsters/:id" name="monster-detail" handler={MonsterDetail}/>
     <Route path="/monsters/:id/edit" name="monster-edit" handler={MonsterEdit}/>
+
+    <Route path="/tech" name="tech" handler={Tech}/>
+    <Route path="/credits" name="credits" handler={Credits}/>
 
     <NotFoundRoute handler={NotFound}/>
   </Route>

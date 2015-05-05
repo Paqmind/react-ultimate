@@ -5,13 +5,15 @@ import state from "frontend/state";
 import commonActions from "frontend/actions";
 
 // ACTIONS =========================================================================================
-export default function fetchModel(id) {
-  console.debug("fetchModel:", id);
+export default function fetchModel() {
+  console.debug(`fetchModel()`);
+
+  let cursor = state.select("monsters");
+  cursor.set("loading", true);
+  let id = cursor.get("id");
 
   let url = `/api/monsters/${id}`;
-  let cursor = state.select("monsters");
 
-  cursor.set("loading", true);
   return Axios.get(url)
     .then(response => {
       let {data, meta} = response.data;

@@ -6,16 +6,21 @@ import state, {ROBOT} from "frontend/state";
 import router from "frontend/router";
 
 // ACTIONS =========================================================================================
-export default function setLimit(limit=ROBOT.LIMIT) {
-  console.debug(`setLimit(${limit})`);
+export default function setLimit(newLimit=ROBOT.LIMIT) {
+  console.debug(`setLimit(${newLimit})`);
 
   let cursor = state.select("robots");
-  if (limit != cursor.get("limit")) {
-    cursor.set("limit", limit);
-    let pagination = recalculatePaginationWithLimit(
-      cursor.get("pagination"), limit
+  let limit = cursor.get("limit");
+  let pagination = cursor.get("pagination");
+
+  if (newLimit != limit) {
+    cursor.set("limit", newLimit);
+    let newPagination = recalculatePaginationWithLimit(
+      pagination, newLimit
     );
-    cursor.set("pagination", pagination);
+    cursor.set("pagination", newPagination);
     state.commit();
   }
+
+  return newLimit;
 }

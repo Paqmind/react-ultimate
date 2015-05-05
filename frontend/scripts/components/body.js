@@ -5,25 +5,11 @@ import {Link, RouteHandler} from "react-router";
 import state from "frontend/state";
 import Component from "frontend/component";
 import commonActions from "frontend/actions";
-import Headroom from "frontend/components/headroom";
-import AlertIndex from "frontend/components/alert-index";
+import Menu from "./menu";
+import Headroom from "./headroom";
+import AlertIndex from "./alert-index";
 
-
-class Menu extends Component {
-  render() {
-    return (
-      <nav className={"navbar-collapse navbar-page-header navbar-right effect brackets collapse" + (this.props.menuCollapse ? "in" : "")}>
-        <ul className="nav navbar-nav">
-          <li><Link to="home">Home</Link></li>
-          <li><Link to="robot-index" params={{page: 1}}>Robots</Link></li>
-          <li><Link to="monster-index">Monsters</Link></li>
-          <li><Link to="about">About</Link></li>
-        </ul>
-      </nav>
-    );
-  }
-}
-// EXPORTS =========================================================================================
+// BODY ============================================================================================
 @root(state)
 export default class Body extends Component {
   constructor() {
@@ -75,7 +61,7 @@ export default class Body extends Component {
                 <span className="sr-only">Toggle navigation</span>
                 <span className="fa fa-bars fa-lg"></span>
               </button>
-              <Link className="navbar-brand" to="home"><span className="light">React</span>Starter</Link>
+              <Link className="navbar-brand" to="about"><span className="light">React</span>Ultimate</Link>
             </div>
             <Menu menuCollapse={this.state.menuCollapse}/>
           </div>

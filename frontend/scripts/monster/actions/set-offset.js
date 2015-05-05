@@ -1,13 +1,17 @@
 // IMPORTS =========================================================================================
-import state, {ZOMBIE} from "frontend/state";
+import state, {MONSTER} from "frontend/state";
 
 // ACTIONS =========================================================================================
-export default function setOffset(offset=ZOMBIE.OFFSET) {
-  console.debug(`setOffset(${offset})`);
+export default function setOffset(newOffset=MONSTER.OFFSET) {
+  console.debug(`setOffset(${newOffset})`);
 
   let cursor = state.select("monsters");
-  if (offset != cursor.get("offset")) {
-    cursor.set("offset", offset);
+  let offset = cursor.get("offset");
+
+  if (newOffset != offset) {
+    cursor.set("offset", newOffset);
     state.commit();
   }
+
+  return newOffset;
 }
