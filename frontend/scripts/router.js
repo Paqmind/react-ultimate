@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import merge from "lodash.merge";
+import {merge} from "ramda";
 import state from "frontend/state";
 
 // PROXY ROUTER TO REMOVE CIRCULAR DEPENDENCY ======================================================
@@ -12,8 +12,8 @@ let proxy = {
     let urlCursor = state.select("url");
     return window._router.makePath(
       route || urlCursor.get("route"),
-      withParams ? merge({}, urlCursor.get("params"), withParams) : params,
-      withQuery  ? merge({}, urlCursor.get("query") , withQuery)  : query
+      withParams ? merge(urlCursor.get("params"), withParams) : params,
+      withQuery  ? merge(urlCursor.get("query"),  withQuery)  : query
     );
   },
 
@@ -21,8 +21,8 @@ let proxy = {
     let urlCursor = state.select("url");
     return window._router.makeHref(
       route || urlCursor.get("route"),
-      withParams ? merge({}, urlCursor.get("params"), withParams) : params,
-      withQuery  ? merge({}, urlCursor.get("query") , withQuery)  : query
+      withParams ? merge(urlCursor.get("params"), withParams) : params,
+      withQuery  ? merge(urlCursor.get("query"),  withQuery)  : query
     );
   },
 
@@ -30,8 +30,8 @@ let proxy = {
     let urlCursor = state.select("url");
     window._router.transitionTo(
       route || urlCursor.get("route"),
-      withParams ? merge({}, urlCursor.get("params"), withParams) : params,
-      withQuery  ? merge({}, urlCursor.get("query") , withQuery)  : query
+      withParams ? merge(urlCursor.get("params"), withParams) : params,
+      withQuery  ? merge(urlCursor.get("query"),  withQuery)  : query
     );
   },
 
@@ -39,8 +39,8 @@ let proxy = {
     let urlCursor = state.select("url");
     window._router.replaceWith(
       route || urlCursor.get("route"),
-      withParams ? merge({}, urlCursor.get("params"), withParams) : params,
-      withQuery  ? merge({}, urlCursor.get("query") , withQuery)  : query
+      withParams ? merge(urlCursor.get("params"), withParams) : params,
+      withQuery  ? merge(urlCursor.get("query"),  withQuery)  : query
     );
   },
 
@@ -54,5 +54,3 @@ let proxy = {
 };
 
 export default proxy;
-
-
