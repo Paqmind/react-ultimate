@@ -9,7 +9,8 @@ import {Body, About, Tech, Credits, NotFound} from "frontend/components/page";
 //import {RobotIndex, RobotAdd, RobotDetail, RobotEdit} from "react-proxy!frontend/components/model/robot";
 //import {MonsterIndex, MonsterAdd, MonsterDetail, MonsterEdit} from "react-proxy!frontend/components/model/monster";
 // Not compatible. Check for React-Router to allow metadata passing!
-import {RobotIndex} from "frontend/components/model/robot";
+import {RobotIndex, RobotAdd, RobotDetail, RobotEdit} from "frontend/components/model/robot";
+import {MonsterIndex, MonsterAdd, MonsterDetail, MonsterEdit} from "frontend/components/model/monster";
 
 // ROUTES ==========================================================================================
 export default (
@@ -20,5 +21,13 @@ export default (
     <NotFoundRoute handler={NotFound}/>
 
     <Route path="/robots/" name="robot-index" handler={RobotIndex}/>
+    <Route path="/robots/add" name="robot-add" handler={RobotAdd}/>
+    <Route path="/robots/:id" name="robot-detail" handler={RobotDetail}/>
+    <Route path="/robots/:id/edit" name="robot-edit" handler={RobotEdit}/>
+
+    <Route path="/monsters/" name="monster-index" handler={MonsterIndex}/>
+    <Route path="/monsters/add" name="monster-add" handler={MonsterAdd}/>
+    <Route path="/monsters/:id" name="monster-detail" handler={MonsterDetail}/>
+    <Route path="/monsters/:id/edit" name="monster-edit" handler={MonsterEdit}/>
   </Route>
 );
