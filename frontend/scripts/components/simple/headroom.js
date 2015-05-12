@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import React from "react";
 import throttle from "lodash.throttle";
-import Component from "frontend/component";
+import {Component} from "./component";
 
 // EXPORTS =========================================================================================
 export default class Headroom extends Component {
@@ -28,7 +28,7 @@ export default class Headroom extends Component {
     let documentHeight = document.body.clientHeight;
 
     // Make sure users scroll more than delta
-    if (Math.abs(this.lastScrollTop - topPosition) <= this.deltaHeight) return;
+    if (Math.abs(this.lastScrollTop - topPosition) <= this.deltaHeight) { return; }
 
     // If they scrolled down and are past the navbar, add class `this.props.headroomClassNames.visible`.
     // This is necessary so you never see what is "behind" the navbar.

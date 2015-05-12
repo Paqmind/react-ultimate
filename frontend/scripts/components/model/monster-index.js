@@ -1,13 +1,15 @@
 // IMPORTS =========================================================================================
+import {map} from "ramda";
 import {branch} from "baobab-react/decorators";
 import React from "react";
 import DocumentTitle from "react-document-title";
 import {toArray} from "shared/helpers/common";
 import state from "frontend/state";
-import Component from "frontend/component";
-import {Error, Loading, NotFound, ExternalPagination, InternalPagination, Link} from "frontend/components";
-import monsterActions from "frontend/monster/actions";
-import MonsterItem from "frontend/monster/components/item";
+import monsterActions from "frontend/actions/monster";
+import {ShallowComponent, DeepComponent, Link, Pagination} from "frontend/components/simple";
+import {FilterBy, SortBy, PerPage} from "frontend/components/form";
+import {Error, Loading, NotFound} from "frontend/components/page";
+import MonsterItem from "./monster-item";
 
 // COMPONENTS ======================================================================================
 @branch({
@@ -19,17 +21,68 @@ import MonsterItem from "frontend/monster/components/item";
     currentMonsters: "currentMonsters",
   }
 })
-export default class MonsterIndex extends Component {
+export default class MonsterIndex extends DeepComponent {
   static loadData = monsterActions.loadIndex;
 
-  static contextTypes = {
-    router: React.PropTypes.func.isRequired,
+  render() {
+    let {total, loading, loadError, filters, sorts, offset, limit} = this.props.monsters;
+    let models = this.props.currentMonsters;
+
+    if (loadError) {
+      return <Error loadError={loadError}/>;
+    } else {
+      return (
+        <DocumentTitle title="Monsters">
+          <div>
+            <MonsterIndexActions {...this.props}/>
+            <section className="container">
+              <h1>Monsters</h1>
+              <Pagination onClick={offset => this.setOffset(offset)} total={total} offset={offset} limit={limit}/>
+              <div className="row">
+                {map(model => <MonsterItem model={model} key={model.id}/>, models)}
+              </div>
+              <Pagination onClick={offset => this.setOffset(offset)} total={total} offset={offset} limit={limit}/>
+            </section>
+            {loading ? <Loading/> : ""}
+          </div>
+        </DocumentTitle>
+      );
+    }
+  }
+
+  setOffset(offset) {
+    monsterActions.setOffset(offset);
+    monsterActions.loadIndex();
+  }
+}
+
+class MonsterIndexActions extends ShallowComponent {
+  render() {
+    let {filters, sorts, limit} = this.props.monsters;
+
+    return (
+      <div id="actions">
+        <div className="container">
+          <div className="pull-left">
+            <PerPage onClick={limit => this.setLimit(limit)} options={[3, 5, 10]} current={limit}/>
+          </div>
+          <div className="pull-left">
+            <SortBy onClick={sorts => this.setSorts(sorts)} options={["+name", "-name"]} current={sorts[0]}/>
+          </div>
+          <div className="pull-left">
+            <FilterBy field="citizenship" onClick={filters => this.setFilters(filters)} options={[undefined, "Russia", "USA"]} current={filters.citizenship}/>
+          </div>
+          <div className="pull-right">
+            <Link to="robot-add" className="btn btn-sm btn-green" title="Add">
+              <span className="fa fa-plus"></span>
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   setFilters(filters) {
-    if (!filters) {
-      monsterActions.reset();
-    }
     monsterActions.setFilters(filters);
     monsterActions.loadIndex();
   }
@@ -39,97 +92,8 @@ export default class MonsterIndex extends Component {
     monsterActions.loadIndex();
   }
 
-  setOffset(offset) {
-    monsterActions.setOffset(offset);
-    monsterActions.loadIndex();
-  }
-
   setLimit(limit) {
     monsterActions.setLimit(limit);
     monsterActions.loadIndex();
-  }
-
-  render() {
-    let {total, loading, loadError, offset, limit} = this.props.monsters;
-    let models = this.props.currentMonsters;
-
-    if (loadError) {
-      return <Error loadError={loadError}/>;
-    } else {
-      return (
-        <DocumentTitle title="Monsters">
-          <div>
-            <div id="page-actions">
-              <div className="container">
-                <div className="pull-right">
-                  <Link to="monster-add" className="btn btn-sm btn-green" title="Add">
-                    <span className="fa fa-plus"></span>
-                  </Link>
-                </div>
-
-                <div className="pull-right">
-                  <div className="btn-group">
-                    <button type="button"
-                      onClick={() => this.setLimit(3)}
-                      className="btn btn-sm btn-secondary">
-                      Perpage 3
-                    </button>
-                    <button type="button"
-                      onClick={() => this.setLimit(5)}
-                      className="btn btn-sm btn-secondary">
-                      Perpage 5
-                    </button>
-                    <button type="button"
-                      onClick={() => this.setLimit(10)}
-                      className="btn btn-sm btn-secondary">
-                      Perpage 10
-                    </button>
-                  </div>
-                </div>
-
-                <div className="pull-right">
-                  <div className="btn-group">
-                    <button type="button"
-                      onClick={() => this.setSorts(["+name"])}
-                      className="btn btn-sm btn-secondary">
-                      SortBy +name
-                    </button>
-                    <button type="button"
-                      onClick={() => this.setSorts(["-name"])}
-                      className="btn btn-sm btn-secondary">
-                      SortBy -name
-                    </button>
-                  </div>
-                </div>
-
-                <div className="pull-right">
-                  <div className="btn-group">
-                    <button type="button"
-                      onClick={() => this.setFilters(undefined)}
-                      className="btn btn-sm btn-secondary">
-                      Reset filters
-                    </button>
-                    <button type="button"
-                      onClick={() => this.setFilters({citizenship: "USA"})}
-                      className="btn btn-sm btn-secondary">
-                      FilterBy citizenship=USA
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <section className="container">
-              <h1>Monsters</h1>
-              <InternalPagination onClick={offset => this.setOffset(offset)} total={total} offset={offset} limit={limit}/>
-              <div className="row">
-                {models.map(model => <MonsterItem model={model} key={model.id}/>)}
-              </div>
-              <InternalPagination onClick={offset => this.setOffset(offset)} total={total} offset={offset} limit={limit}/>
-            </section>
-            {loading ? <Loading/> : ""}
-          </div>
-        </DocumentTitle>
-      );
-    }
   }
 }

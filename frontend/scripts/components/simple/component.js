@@ -1,9 +1,11 @@
 // IMPORTS =========================================================================================
+import {filter} from "ramda";
+import {shallowCompare, deepCompare} from "frontend/helpers/react";
 import React from "react";
 
 // HELPERS =========================================================================================
 function getAllMethods(obj) {
-  return Object.getOwnPropertyNames(obj).filter(key => typeof obj[key] == "function");
+  return filter(key => typeof obj[key] == "function", Object.getOwnPropertyNames(obj));
 }
 
 function autoBind(obj) {
@@ -13,9 +15,20 @@ function autoBind(obj) {
     });
 }
 
-export default class Component extends React.Component {
+export class Component extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
   }
 }
+
+export class ShallowComponent extends Component {
+  shouldComponentUpdate = shallowCompare;
+}
+
+export class DeepComponent extends Component {
+  shouldComponentUpdate = deepCompare;
+}
+
+
+

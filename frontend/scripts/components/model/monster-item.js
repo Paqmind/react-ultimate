@@ -1,17 +1,17 @@
 // IMPORTS =========================================================================================
 import React from "react";
-import Component from "frontend/component";
-import {Link} from "frontend/components";
-import monsterActions from "frontend/monster/actions";
+import monsterActions from "frontend/actions/monster";
+import {ShallowComponent, Link} from "frontend/components/simple";
 
 // COMPONENTS ======================================================================================
-export default class MonsterItem extends Component {
+export default class MonsterItem extends ShallowComponent {
   static propTypes = {
     model: React.PropTypes.object,
   }
 
   render() {
     let model = this.props.model;
+
     return (
       <div key={model.id} className="col-sm-6 col-md-3">
         <div className="panel panel-default" key={model.id}>
@@ -32,7 +32,7 @@ export default class MonsterItem extends Component {
                 <Link to="monster-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
                   <span className="fa fa-edit"></span>
                 </Link>
-                <a className="btn btn-red" title="Remove" onClick={monsterActions.remove.bind(this, model.id)}>
+                <a className="btn btn-red" title="Remove" onClick={() => monsterActions.remove(model.id)}>
                   <span className="fa fa-times"></span>
                 </a>
               </div>

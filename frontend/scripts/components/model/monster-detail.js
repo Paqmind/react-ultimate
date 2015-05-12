@@ -4,9 +4,9 @@ import React from "react";
 import DocumentTitle from "react-document-title";
 import {formatQuery} from "shared/helpers/jsonapi";
 import state from "frontend/state";
-import Component from "frontend/component";
-import {Error, Loading, NotFound, Link} from "frontend/components";
-import monsterActions from "frontend/monster/actions";
+import monsterActions from "frontend/actions/monster";
+import {ShallowComponent, DeepComponent, Link} from "frontend/components/simple";
+import {Error, Loading, NotFound} from "frontend/components/page";
 
 // COMPONENTS ======================================================================================
 @branch({
@@ -14,15 +14,11 @@ import monsterActions from "frontend/monster/actions";
     monsters: "monsters",
   },
   facets: {
-    model: "currentmonster",
+    model: "currentMonster",
   },
 })
-export default class MonsterDetail extends Component {
+export default class MonsterDetail extends DeepComponent {
   static loadData = monsterActions.loadModel;
-
-  static contextTypes = {
-    router: React.PropTypes.func.isRequired,
-  }
 
   render() {
     let {loading, loadError} = this.props.monsters;
@@ -36,24 +32,7 @@ export default class MonsterDetail extends Component {
       return (
         <DocumentTitle title={"Detail " + model.name}>
           <div>
-            <div id="page-actions">
-              <div className="container">
-                <div className="btn-group btn-group-sm pull-left">
-                  <Link to="monster-index" query={formatQuery(this.props.monsters)} withQuery={{}} className="btn btn-gray-light" title="Back to list">
-                    <span className="fa fa-arrow-left"></span>
-                    <span className="hidden-xs margin-left-sm">Back to list</span>
-                  </Link>
-                </div>
-                <div className="btn-group btn-group-sm pull-right">
-                  <Link to="monster-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
-                    <span className="fa fa-edit"></span>
-                  </Link>
-                  <a className="btn btn-red" title="Remove" onClick={monsterActions.remove.bind(this, model.id)}>
-                    <span className="fa fa-times"></span>
-                  </a>
-                </div>
-              </div>
-            </div>
+            <MonsterDetailActions {...this.props}/>
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-3">
@@ -78,5 +57,32 @@ export default class MonsterDetail extends Component {
         </DocumentTitle>
       );
     }
+  }
+}
+
+class MonsterDetailActions extends DeepComponent {
+  render() {
+    let model = this.props.model;
+
+    return (
+      <div id="actions">
+        <div className="container">
+          <div className="btn-group btn-group-sm pull-left">
+            <Link to="monster-index" className="btn btn-gray-light" title="Back to list">
+              <span className="fa fa-arrow-left"></span>
+              <span className="hidden-xs margin-left-sm">Back to list</span>
+            </Link>
+          </div>
+          <div className="btn-group btn-group-sm pull-right">
+            <Link to="monster-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
+              <span className="fa fa-edit"></span>
+            </Link>
+            <a className="btn btn-red" title="Remove" onClick={() => monsterActions.remove(model.id)}>
+              <span className="fa fa-times"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    );
   }
 }

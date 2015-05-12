@@ -1,13 +1,11 @@
 // IMPORTS =========================================================================================
 import {root} from "baobab-react/decorators";
 import React from "react";
-import {Link, RouteHandler} from "react-router";
+import {RouteHandler} from "react-router";
 import state from "frontend/state";
-import Component from "frontend/component";
-import commonActions from "frontend/actions";
-import Menu from "./menu";
-import Headroom from "./headroom";
-import AlertIndex from "./alert-index";
+import {Component, Link, Menu, Headroom} from "frontend/components/simple";
+import alertActions from "frontend/actions/alert";
+import AlertIndex from "frontend/components/model/alert-index";
 
 // BODY ============================================================================================
 @root(state)
@@ -22,7 +20,7 @@ export default class Body extends Component {
   //static loadPage(params, query) {
     // Ignore params and query
     // establishPage(params, query);
-    //return commonActions.alert.loadPage();
+    //return alertActions.loadPage();
   //}
 
   hideMenu() {
@@ -36,7 +34,7 @@ export default class Body extends Component {
   }
 
   documentClickHandler() {
-    if (!this.state.menuCollapse) return;
+    if (!this.state.menuCollapse) { return; }
 
     // Menu should collapsed on any click (on link, on toogler or outside the block)
     this.hideMenu();
@@ -70,9 +68,9 @@ export default class Body extends Component {
         <main id="main">
           <RouteHandler/>
         </main>
-
-        {/*<AlertIndex/>*/}
       </div>
     );
   }
 }
+
+// <AlertIndex/>

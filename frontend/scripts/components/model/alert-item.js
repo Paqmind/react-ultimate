@@ -1,33 +1,31 @@
 // IMPORTS =========================================================================================
 import classNames from "classnames";
 import React from "react";
-import commonActions from "frontend/actions";
-import {Link} from "frontend/components";
+import alertActions from "frontend/actions/alert";
+import {ShallowComponent, Link} from "frontend/components/simple";
 
 // EXPORTS =========================================================================================
-let Expire = React.createClass({
-  propTypes: {
+class Expire extends ShallowComponent {
+  static propTypes = {
     delay: React.PropTypes.number,
     //onExpire: React.PropTypes.function,
-  },
+  }
 
-  getDefaultProps() {
-    return {
-      delay: 500,
-      //onExpire: undefined,
-    };
-  },
+  static defaultProps = {
+    delay: 500,
+    //onExpire: undefined,
+  }
 
   componentDidMount() {
     this.startTimer();
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
     // Reset the timer if children are changed
     if (nextProps.children !== this.props.children) {
       this.startTimer();
     }
-  },
+  }
 
   startTimer() {
     let model = this.props.model;
@@ -46,30 +44,30 @@ let Expire = React.createClass({
         delete this._timer;
       }, this.props.delay);
     }
-  },
+  }
 
   render() {
     return <div>{this.props.children}</div>;
-  },
-});
+  }
+}
 
-let CloseLink = React.createClass({
+class CloseLink extends ShallowComponent {
   handleClick(event) {
     event.preventDefault();
     this.props.onClick();
-  },
+  }
 
   render() {
     return (
       <a className="close pull-right" href="#" onClick={this.handleClick}>&times;</a>
     );
   }
-});
+}
 
-let Item = React.createClass({
-  propTypes: {
+export default class Item extends ShallowComponent {
+  static propTypes = {
     model: React.PropTypes.object,
-  },
+  }
 
   render() {
     let model = this.props.model;
@@ -81,20 +79,18 @@ let Item = React.createClass({
 
     let result = (
       <div className={classes} {...this.props}>
-        {model.closable ? <CloseLink onClick={commonActions.alert.remove.bind(this, model.id)}/> : ""}
+        {model.closable ? <CloseLink onClick={() => alertActions.remove(model.id)}/> : ""}
         {model.message}
       </div>
     );
 
     if (model.expire) {
-      result = <Expire onExpire={commonActions.alert.remove.bind(this, model.id)} delay={model.expire}>{result}</Expire>;
+      result = <Expire onExpire={() => alertActions.remove(model.id)} delay={model.expire}>{result}</Expire>;
     }
 
     return result;
-  },
-});
-
-export default Item;
+  }
+}
 
 
 /*

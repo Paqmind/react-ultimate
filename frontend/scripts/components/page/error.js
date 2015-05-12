@@ -2,7 +2,7 @@
 import Class from "classnames";
 import React from "react";
 import DocumentTitle from "react-document-title";
-import Component from "frontend/component";
+import {Component} from "frontend/components/simple";
 
 // EXPORTS =========================================================================================
 export default class Error extends Component {
@@ -18,9 +18,7 @@ export default class Error extends Component {
   render() {
     return (
       <DocumentTitle title={"Error " + this.props.loadError.status + ": " + this.props.loadError.description}>
-        <div className={Class({
-          "alert-as-icon": true,
-          "fa-stack": true,
+        <div className={Class("alert-as-icon", "fa-stack", {
           [this.props.size]: true
         })}>
           <i className="fa fa-cog fa-stack-1x"></i>
