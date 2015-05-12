@@ -8,7 +8,7 @@ function makeDB() {
     let model = makeModel();
     db[model.id] = model;
     return db;
-  }, {}, range(0, 100));
+  }, {}, range(0, 50));
 }
 
 export default makeDB();

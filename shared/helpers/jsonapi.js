@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import {join, keys, map, split, reduce} from "ramda";
+import {join, keys, map, pipe, split, reduce} from "ramda";
 
 // JSON API ========================================================================================
 export function parseQuery(query) {
