@@ -1,9 +1,11 @@
 // IMPORTS =========================================================================================
+import {keys, map, merge, reduce, reduceIndexed} from "ramda";
 import Axios from "axios";
 import {toObject} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
+import Monster from "shared/models/monster";
 import state from "frontend/state";
-import commonActions from "frontend/actions";
+import alertActions from "frontend/actions/alert";
 
 // ACTIONS =========================================================================================
 export default function fetchIndex() {
@@ -11,6 +13,8 @@ export default function fetchIndex() {
 
   let cursor = state.select("monsters");
   cursor.set("loading", true);
+  let models = cursor.get("models");
+  let pagination = cursor.get("pagination");
   let filters = cursor.get("filters");
   let sorts = cursor.get("sorts");
   let offset = cursor.get("offset");
@@ -21,23 +25,23 @@ export default function fetchIndex() {
 
   return Axios.get(url, {params: query})
     .then(response => {
-      // Current state
-      let models = cursor.get("models");
-      let pagination = cursor.get("pagination");
-
-      // New data
       let {data, meta} = response.data;
-      let fetchedModels = toObject(data);
+      let newModelsArray = map(m => Monster(m), data);
+      let newModelsObject = merge(models, toObject(newModelsArray));
+      let newTotal = meta.page && meta.page.total || keys(models).length;
 
-      // Update state
+      let newPagination = reduceIndexed((pagination, model, i) => {
+        pagination[offset + i] = model.id;
+        return pagination;
+      }, pagination, newModelsArray);
+
       cursor.merge({
-        total: meta.page && meta.page.total || Object.keys(models).length,
-        models: Object.assign(models, fetchedModels),
-        pagination: Object.assign(pagination, {[offset]: Object.keys(fetchedModels)}),
+        total: newTotal,
+        models: newModelsObject,
+        pagination: newPagination,
         loading: false,
         loadError: false
       });
-      state.commit();
 
       return response.status;
     })
@@ -51,8 +55,8 @@ export default function fetchIndex() {
           url: url
         };
         cursor.merge({loading: false, loadError});
-        state.commit(); // God, this is required just about everywhere! :(
-        commonActions.alert.add({message: "Action `Monster:fetchPage` failed: " + loadError.description, category: "error"});
+
+        alertActions.add({message: "Action `Monster:fetchPage` failed: " + loadError.description, category: "error"});
 
         return response.status;
       }

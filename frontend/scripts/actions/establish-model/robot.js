@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import state from "frontend/state";
-import setId from "./set-id";
-import loadModel from "./load-model";
+import setId from "frontend/actions/set-id/robot";
+import loadModel from "frontend/actions/load-model/robot";
 
 // ACTIONS =========================================================================================
 export default function establishModel() {

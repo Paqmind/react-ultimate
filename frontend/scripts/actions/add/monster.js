@@ -2,7 +2,7 @@
 import Axios from "axios";
 import Monster from "shared/models/monster";
 import state from "frontend/state";
-import commonActions from "frontend/actions";
+import alertActions from "frontend/actions/alert";
 
 // ACTIONS =========================================================================================
 export default function add(model) {
@@ -17,7 +17,7 @@ export default function add(model) {
   return Axios.put(url, newModel)
     .then(response => {
       state.select("monsters").merge({loading: false, loadError: undefined});
-      commonActions.alert.add({message: "Action `Monster.add` succeed", category: "success"});
+      alertActions.add({message: "Action `Monster.add` succeed", category: "success"});
       return response.status;
     })
     .catch(response => {
@@ -31,11 +31,10 @@ export default function add(model) {
         };
         state.select("monsters").merge({loading: false, loadError});
         state.select("monsters", "models").unset(id); // Cancel add
-        commonActions.alert.add({message: "Action `Monster.add` failed: " + loadError.description, category: "error"});
+        alertActions.add({message: "Action `Monster.add` failed: " + loadError.description, category: "error"});
         return response.status;
       }
-    })
-    .done();
+    });
 
   /* Async-Await style. Wait for proper IDE support
   // Optimistic add

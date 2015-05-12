@@ -2,7 +2,7 @@
 import Axios from "axios";
 import Monster from "shared/models/monster";
 import state from "frontend/state";
-import commonActions from "frontend/actions";
+import alertActions from "frontend/actions/alert";
 
 // ACTIONS =========================================================================================
 export default function edit(model) {
@@ -21,7 +21,7 @@ export default function edit(model) {
         loading: false,
         loadError: undefined,
       });
-      commonActions.alert.add({message: "Action `Monster.edit` succeed", category: "success"});
+      alertActions.add({message: "Action `Monster.edit` succeed", category: "success"});
       return response.status;
     })
     .catch(response => {
@@ -35,11 +35,10 @@ export default function edit(model) {
         };
         state.select("monsters").merge({loading: false, loadError});
         state.select("monsters", "models", id).set(oldModel); // Cancel edit
-        commonActions.alert.add({message: "Action `Monster.edit` failed: " + loadError.description, category: "error"});
-        return response.status
+        alertActions.add({message: "Action `Monster.edit` failed: " + loadError.description, category: "error"});
+        return response.status;
       }
-    })
-    .done();
+    });
 
   /* Async-Await style. Wait for proper IDE support
   // Optimistic edit

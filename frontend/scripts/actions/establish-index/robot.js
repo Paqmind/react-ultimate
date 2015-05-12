@@ -1,11 +1,11 @@
 // IMPORTS =========================================================================================
 import state from "frontend/state";
-import reset from "./reset";
-import setFilters from "./set-filters";
-import setSorts from "./set-sorts";
-import setOffset from "./set-offset";
-import setLimit from "./set-limit";
-import loadIndex from "./load-index";
+import reset from "frontend/actions/reset/robot";
+import setFilters from "frontend/actions/set-filters/robot";
+import setSorts from "frontend/actions/set-sorts/robot";
+import setOffset from "frontend/actions/set-offset/robot";
+import setLimit from "frontend/actions/set-limit/robot";
+import loadIndex from "frontend/actions/load-index/robot";
 
 // ACTIONS =========================================================================================
 export default function establishIndex() {
