@@ -14,5 +14,6 @@ export function Alert(data) {
     id: UUID.v4(),
     closable: true,
     expire: data.category == "error" ? 0 : 5000,
+    createdDate: data.createdDate ? data.createdDate : new Date()
   }, data);
 }
