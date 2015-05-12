@@ -7,4 +7,5 @@ export default function remove(id) {
 
   // Non-persistent remove
   state.select("alerts", "models").unset(id);
+  state.commit();
 }
