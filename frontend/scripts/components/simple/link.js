@@ -10,7 +10,7 @@ export default class Link extends Component {
   render() {
     let urlCursor = state.select("url");
 
-    let props = clone(this.props);
+    let props = Object.assign({}, this.props);
     if (props.withParams) {
       props.params = merge(urlCursor.get("params"), props.withParams);
       delete props.withParams;
