@@ -7,5 +7,4 @@ export default function reset() {
 
   state.select("monsters").set("pagination", {});
   state.select("monsters").set("total", 0);
-  state.commit();
 }

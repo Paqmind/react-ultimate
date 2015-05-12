@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
-import isEqual from "lodash.isequal";
-import {groupLength, recalculatePaginationWithFilters} from "frontend/helpers/pagination";
+import {keys, eqDeep} from "ramda";
+import {recalculatePaginationWithFilters} from "frontend/helpers/pagination";
 import state, {MONSTER} from "frontend/state";
 
 // ACTIONS =========================================================================================
@@ -14,22 +14,19 @@ export default function setFilters(newFilters=MONSTER.FILTERS) {
   let limit = cursor.get("limit");
   let pagination = cursor.get("pagination");
 
-  if (!isEqual(newFilters, filters)) {
+  if (!eqDeep(newFilters, filters)) {
     cursor.set("filters", newFilters);
-    if (total && groupLength(pagination) >= total) {
+    if (total && keys(models).length >= total) {
       // Full index loaded – can recalculate pagination
-      console.debug("Full index loaded, recalculating pagination...");
       let newPagination = recalculatePaginationWithFilters(
         pagination, newFilters, models, limit
       );
-      let newTotal = groupLength(newPagination);
       cursor.set("pagination", newPagination);
-      cursor.set("total", newTotal);
+      cursor.set("total", newPagination.length);
     } else {
       // Part of index loaded – can only reset
-      cursor.set("pagination", {});
+      cursor.set("pagination", []);
       cursor.set("total", 0);
     }
-    state.commit();
   }
 }

@@ -1,8 +1,9 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
 import {toObject} from "shared/helpers/common";
+import Robot from "shared/models/robot";
 import state from "frontend/state";
-import commonActions from "frontend/actions";
+import alertActions from "frontend/actions/alert";
 
 // ACTIONS =========================================================================================
 export default function fetchModel() {
@@ -12,34 +13,15 @@ export default function fetchModel() {
   cursor.set("loading", true);
   let id = cursor.get("id");
 
-  let url = `/api/monsters/${id}`;
+  let url = `/api/robots/${id}`;
 
   return Axios.get(url)
     .then(response => {
       let {data, meta} = response.data;
-      let model = data;
+      let model = Robot(data);
 
-      // BUG, NOT WORKING ==========================================================================
-      // TRACK: https://github.com/Yomguithereal/baobab/issues/190
-      //        https://github.com/Yomguithereal/baobab/issues/194
-      //cursor.merge({
-      //  loading: false,
-      //  loadError: undefined,
-      //});
-      //cursor.select("models").set(model.id, model);
-      // ===========================================================================================
-      // WORKAROUND:
-      cursor.apply(robots => {
-        let models = Object.assign({}, robots.models);
-        models[model.id] = model;
-        return Object.assign({}, robots, {
-          loading: false,
-          loadError: undefined,
-          models: models,
-        });
-      });
-      state.commit();
-      // ===========================================================================================
+      cursor.merge({loading: false, loadError: undefined});
+      cursor.select("models").set(model.id, model);
 
       return response.status;
     })
@@ -53,11 +35,10 @@ export default function fetchModel() {
           url: url
         };
         cursor.merge({loading: false, loadError});
-        state.commit(); // God, this is required just about everywhere! :(
-        commonActions.alert.add({message: "Action `Robot:fetchModel` failed: " + loadError.description, category: "error"});
+
+        alertActions.add({message: "Action `Robot:fetchModel` failed: " + loadError.description, category: "error"});
 
         return response.status;
       }
-    })
-    .done();
+    });
 }

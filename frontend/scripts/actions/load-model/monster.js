@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
 import state from "frontend/state";
-import fetchModel from "./fetch-model";
+import fetchModel from "frontend/actions/fetch-model/monster";
 
 // ACTIONS =========================================================================================
 export default function loadModel() {

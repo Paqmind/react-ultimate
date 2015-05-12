@@ -1,7 +1,4 @@
 // IMPORTS =========================================================================================
-import filter from "lodash.filter";
-import sortBy from "lodash.sortby";
-import {recalculatePaginationWithLimit} from "frontend/helpers/pagination";
 import state, {ROBOT} from "frontend/state";
 import router from "frontend/router";
 
@@ -15,11 +12,6 @@ export default function setLimit(newLimit=ROBOT.LIMIT) {
 
   if (newLimit != limit) {
     cursor.set("limit", newLimit);
-    let newPagination = recalculatePaginationWithLimit(
-      pagination, newLimit
-    );
-    cursor.set("pagination", newPagination);
-    state.commit();
   }
 
   return newLimit;

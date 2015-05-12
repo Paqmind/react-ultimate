@@ -2,7 +2,7 @@
 import Axios from "axios";
 import state from "frontend/state";
 import router from "frontend/router";
-import commonActions from "frontend/actions";
+import alertActions from "frontend/actions/alert";
 
 // ACTIONS =========================================================================================
 export default function remove(id) {
@@ -20,7 +20,7 @@ export default function remove(id) {
         loadError: loadError,
       });
       router.transitionTo("monster-index");
-      commonActions.alert.add({message: "Action `Monster.remove` succeed", category: "success"});
+      alertActions.add({message: "Action `Monster.remove` succeed", category: "success"});
       return response.status;
     })
     .catch(response => {
@@ -34,11 +34,10 @@ export default function remove(id) {
         };
         state.select("monsters").merge({loading: false, loadError});
         state.select("monsters", "models", id).set(oldModel); // Cancel remove
-        commonActions.alert.add({message: "Action `Monster.remove` failed: " + loadError.description, category: "error"});
+        alertActions.add({message: "Action `Monster.remove` failed: " + loadError.description, category: "error"});
         return response.status;
       }
-    })
-    .done();
+    });
 
   /* Async-Await style. Wait for proper IDE support
   // Optimistic remove

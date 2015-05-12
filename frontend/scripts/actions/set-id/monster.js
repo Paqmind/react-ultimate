@@ -10,7 +10,6 @@ export default function setId(newId) {
 
   if (newId != id) {
     cursor.set("id", newId);
-    state.commit();
   }
 
   return newId;

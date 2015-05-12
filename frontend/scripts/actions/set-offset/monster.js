@@ -10,7 +10,6 @@ export default function setOffset(newOffset=MONSTER.OFFSET) {
 
   if (newOffset != offset) {
     cursor.set("offset", newOffset);
-    state.commit();
   }
 
   return newOffset;

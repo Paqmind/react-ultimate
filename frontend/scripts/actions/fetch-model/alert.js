@@ -3,13 +3,14 @@ import Axios from "axios";
 import state from "frontend/state";
 
 // ACTIONS =========================================================================================
-export default function fetchModel(id) {
-  console.debug("fetchModel:", id);
+export default function fetchModel() {
+  console.debug("fetchModel()");
+
+  let cursor = state.select("alerts");
+  cursor.set("loading", true);
+  let id = cursor.get("id");
 
   let url = `/api/alerts/${id}`;
-  let cursor = state.select("alerts");
 
-  cursor.set("loading", false);
-
-  return Promise.resolve(200); // HTTP response.status
+  // TODO
 }
