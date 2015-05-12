@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "main": "backend/scripts/app.js",
   "scripts": {
+    "lint": "eslint .",
     "start": "babel-node backend/scripts/app.js",
     "nodemon": "nodemon backend/scripts/app.js",
-    "dist": "gu dist",
+    "dist": "gulp dist",
     "dev": "gulp dev",
     "prod": "gulp prod",
     "release-patch": "git checkout master && gulp prod && git commit -am 'Distribute' && npm version patch && git push origin master --tags",
@@ -69,6 +70,8 @@
     "yargs": "^3.7.2"
   },
   "devDependencies": {
+    "babel-eslint": "^3.1.1",
+    "eslint": "^0.21.0",
     "babel": "^5.1.11",
     "babelify": "^6.0.2",
     "browserify": "^9.0.8",
