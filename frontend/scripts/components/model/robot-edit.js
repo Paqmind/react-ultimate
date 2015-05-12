@@ -148,12 +148,18 @@ class RobotEditActions extends DeepComponent {
   render() {
     let robots = this.props.robots;
     let model = this.props.model;
+    let query = formatQuery({
+      filters: robots.filters,
+      sorts: robots.sorts,
+      offset: robots.offset,
+      limit: robots.limit
+    });
 
     return (
       <div id="actions">
         <div className="container">
           <div className="btn-group btn-group-sm pull-left">
-            <Link to="robot-index" query={robots} className="btn btn-gray-light" title="Back to list">
+            <Link to="robot-index" query={query} className="btn btn-gray-light" title="Back to list">
               <span className="fa fa-arrow-left"></span>
               <span className="hidden-xs margin-left-sm">Back to list</span>
             </Link>
