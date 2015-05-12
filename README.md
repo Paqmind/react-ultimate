@@ -64,22 +64,19 @@ ugly, unreadable, unsupportable relative imports with brand shiny absolute.
 
 ### Immutable
 
-We tried to use [Immutable](https://github.com/facebook/immutable-js) and [Mori](https://github.com/swannodette/mori)
-but the resulting code was extremely bloated and noisy. The potential for bugs was surely increased rather
-than reduced. We still considering [Seamless-Immutable](https://github.com/rtfeldman/seamless-immutable) though.
+We experimented with most popular libs: [ImmutableJS](https://github.com/facebook/immutable-js), [Mori](https://github.com/swannodette/mori)
+and [Seamless-Immutable](https://github.com/rtfeldman/seamless-immutable).
+We tried our best, but the resulting code was really messy and bug-prone all the time.
+So we decided to switch to [Ramda](http://ramdajs.com/) which is API incompatible with all of them
+above. It does not enforce immutability, but encourage it, having zero mutable operations in toolkit.
 
 ### Builds
 
-Despite ES6, builds are quite fast thanks to Watchify, Babelify and parallel execution (spawns).
-Only app files are under constant watching. All vendors go to separate bundle.
+Webpack TODO describe
 
-### Browserify vs WebPack.
+### Live and Hot Reloads
 
-We're going to switch to WebPack a bit later.
-
-### Browser Sync (live reload)
-
-Will be available with WebPack builds.
+TODO describe
 
 ## Architecture in Depth
 
