@@ -1,4 +1,5 @@
 // IMPORTS =========================================================================================
+import {pipe, map} from "ramda";
 import "shared/shims";
 import React from "react";
 import {create as createRouter, HistoryLocation} from "react-router";
@@ -46,17 +47,16 @@ window._router.run((Application, url) => {
   urlCursor.set("offset", parsedQuery.offset);
   urlCursor.set("limit", parsedQuery.limit);
   urlCursor.set("limit", parsedQuery.limit);
-
-  state.commit();
   //------------------------------------------------------------------------------------------------
 
-  let promises = url.routes
-    .map(route => route.handler.original || {})
-    .map(original => {
+  let promises = pipe(
+    map(route => route.handler.original || {}),
+    map(original => {
       if (original.loadData) {
-        original.loadData();
+        return original.loadData();
       }
-    });
+    })
+  )(url.routes);
 
   Promise.all(promises).then(() => {
     React.render(<Application/>, document.getElementById("app"));

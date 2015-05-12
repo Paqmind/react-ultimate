@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {{ super() }}
+  <link rel="dns-prefetch" href="//robohash.org"/>
+{% endblock %}
+
+{% block body %}
+  <main id="app">
+  </main>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+
+  <script src="http://localhost:2992/public/main.js"></script>
+{% endblock %}

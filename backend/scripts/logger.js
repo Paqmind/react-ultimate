@@ -1,4 +1,6 @@
 // IMPORTS =========================================================================================
+import {keys} from "ramda";
+import Util from "util-inspect";
 import Winston from "winston";
 import WinstonMail from "winston-mail";
 import Moment from "moment";
@@ -41,7 +43,7 @@ let logger = new (Winston.Logger)({
         if (options.meta instanceof Error) {
           meta = "\n  " + options.meta.stack;
         } else {
-          meta = Object.keys(options.meta).length ? Util.inspect(options.meta) : "";
+          meta = keys(options.meta).length ? Util.inspect(options.meta) : "";
         }
         return `${timestamp} ${level} ${message} ${meta}`;
       }

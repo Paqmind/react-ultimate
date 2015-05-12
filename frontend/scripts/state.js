@@ -1,4 +1,5 @@
 // IMPORTS =========================================================================================
+import {filter, map} from "ramda";
 import Baobab from "baobab";
 
 // STATE ===========================================================================================
@@ -28,7 +29,7 @@ export const ALERT = {
   SORTS: ["+createdOn"],
   OFFSET: 0,
   LIMIT: 5,
-}
+};
 
 export default new Baobab(
   { // DATA
@@ -48,7 +49,7 @@ export default new Baobab(
       // DATA
       models: {},
       total: 0,
-      pagination: {},
+      pagination: [],
 
       // LOAD ARTEFACTS
       loading: true,
@@ -68,7 +69,7 @@ export default new Baobab(
       // DATA
       models: {},
       total: 0,
-      pagination: {},
+      pagination: [],
 
       // LOAD ARTEFACTS
       loading: true,
@@ -88,7 +89,7 @@ export default new Baobab(
       // DATA
       models: {},
       total: 0,
-      pagination: {},
+      pagination: [],
 
       // LOAD ARTEFACTS
       loading: true,
@@ -105,9 +106,10 @@ export default new Baobab(
     },
   },
   { // OPTIONS
+    syncwrite: true,
+
     facets: {
       // TODO wee need nested (namespaced) facets. Post an issue
-
       currentRobot: {
         cursors: {
           robots: "robots",
@@ -115,6 +117,7 @@ export default new Baobab(
 
         get: function (data) {
           let {models, id} = data.robots;
+
           if (id) {
             return models[id];
           } else {
@@ -144,10 +147,10 @@ export default new Baobab(
         },
 
         get: function (data) {
-          let {models, pagination, offset} = data.robots;
-          let ids = pagination[offset];
+          let {models, pagination, offset, limit} = data.robots;
+          let ids = filter(v => v, pagination.slice(offset, offset + limit));
           if (ids) {
-            return ids.map(id => models[id]);
+            return map(id => models[id], ids);
           } else {
             return [];
           }
@@ -160,10 +163,10 @@ export default new Baobab(
         },
 
         get: function (data) {
-          let {models, pagination, offset} = data.monsters;
-          let ids = pagination[offset];
+          let {models, pagination, offset, limit} = data.monsters;
+          let ids = filter(v => v, pagination.slice(offset, offset + limit));
           if (ids) {
-            return ids.map(id => models[id]);
+            return map(id => models[id], ids);
           } else {
             return [];
           }
@@ -172,26 +175,3 @@ export default new Baobab(
     }
   }
 );
-
-/*
-Change filters:
-  //if pagination.length < total:
-  //  purge pagination!
-  fetch!
-  redirect to offset = 0!
-
-Change sorts:
-  //if pagination.length < total:
-  //  purge pagination!
-  fetch!
-  redirect to offset = 0!
-
-Change offset:
-  //if can't be loaded:
-  //  fetch!
-  // update pagination
-  redirect to new offset!
-
-Change limit:
-  redirect to offset = 0! || rebuild pagination and if can't be loaded: fetch
-*/

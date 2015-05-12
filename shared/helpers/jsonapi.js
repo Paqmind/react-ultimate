@@ -1,11 +1,30 @@
+// IMPORTS =========================================================================================
+import {join, keys, map, pipe, split, reduce} from "ramda";
+
 // JSON API ========================================================================================
 export function parseQuery(query) {
   return {
     filters: query.filter,
-    sorts: query.sort ? query.sort.split(",").map(v => v.trim()).map(v => v.replace(/^(\w|\d)/, "+$1")) : undefined,
-    offset: query.page && (query.page.offset || query.page.offset == 0) ? query.page.offset : undefined,
-    limit: query.page && (query.page.limit || query.page.offset == 0) ? query.page.limit : undefined,
-    reset: query.reset == "true" ? true : undefined,
+
+    sorts: query.sort ?
+      pipe(
+        map(v => v.trim()),
+        map(v => v.replace(/^(\w|\d)/, "+$1")),
+        split(",", query.sort)
+      ) :
+      undefined,
+
+    offset: query.page && (query.page.offset || query.page.offset == 0) ?
+      query.page.offset :
+      undefined,
+
+    limit: query.page && (query.page.limit || query.page.offset == 0) ?
+      query.page.limit :
+      undefined,
+
+    reset: query.reset == "true" ?
+      true :
+      undefined,
   };
 }
 
@@ -19,13 +38,13 @@ export function formatQuery(modifiers) {
   let pageObj = {};
 
   if (modifiers.filters) {
-    filterObj = Object.keys(modifiers.filters).reduce((filterObj, key) => {
+    filterObj = reduce((filterObj, key) => {
       filterObj[`filter[${key}]`] = modifiers.filters[key];
       return filterObj;
-    }, filterObj);
+    }, filterObj, keys(modifiers.filters));
   }
   if (modifiers.sorts) {
-    sortObj["sort"] = modifiers.sorts.join(",");
+    sortObj["sort"] = join(",", modifiers.sorts);
   }
   if (modifiers.offset || modifiers.offset == 0) {
     pageObj["page[offset]"] = modifiers.offset;

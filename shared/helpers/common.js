@@ -1,7 +1,6 @@
 // IMPORTS =========================================================================================
-import range from "lodash.range";
-import merge from "lodash.merge";
-import sortBy from "lodash.sortby";
+import {keys, filter, pipe, prop, map, range, reduce, reverse, sortBy} from "ramda";
+import flat from "flat";
 
 // HELPERS =========================================================================================
 /**
@@ -15,44 +14,54 @@ import sortBy from "lodash.sortby";
  */
 export function chunked(array, n) {
   let l = Math.ceil(array.length / n);
-  return range(l).map((x, i) => array.slice(i*n, i*n + n));
+  return map(
+    (x, i) => array.slice(i * n, i * n + n),
+    range(0, l)
+  );
 }
 
 /**
- * Converts sorting array in "short" format to sorting array in "lodash" (lodash.sortByOrder) format.
- * Example:
- *   lodashifySorts(["+name", "-age"]) == [["name", "age"], [true, false]]
+ * Sort array by `sorts` argument
  * @pure
- * @param sorts {Array<string>} - array in "short" format
- * @returns {Array<Array<string>>} - array in "lodash" format
+ * @param sorts {Array<string>} - array in format ["+name", "-age"]
+ * @param data {Array<*>} - unsorted data
+ * @returns {Array<*>} - sorted data
  */
-export function lodashifySorts(sorts) {
-  return [
-    sorts.map(v => v.slice(1)),
-    sorts.map(v => v[0] == "+"),
-  ];
-}
-
-export function mergeDeep(object, other) {
-  return merge({}, object, other, (a, b) => {
-    if (a instanceof Array) {
-      return a.concat(b);
+export function sortByAll(sorts, data) {
+  return reduce((data, sort) => {
+    let sorter;
+    if (sort.startsWith("-")) {
+      sorter = pipe(sortBy(prop(sort.slice(1))), reverse);
+    } else if (sort.startsWith("+")) {
+      sorter = sortBy(prop(sort.slice(1)));
+    } else {
+      sorter = sortBy(prop(sort));
     }
-  });
+    return sorter(data);
+  }, data, sorts);
 }
 
-export function flattenArrayGroup(object, sorter=(v => v)) {
-  return sortBy(Object.keys(object), sorter).reduce((combinedArray, key) => {
+export function flattenArrayObject(object, sorter=(v => v)) {
+  let sortedKeys = sortBy(sorter, keys(object));
+  return reduce((combinedArray, key) => {
     return combinedArray.concat(object[key]);
-  }, [])
+  }, [], sortedKeys);
+}
+
+export function flattenObject(obj) {
+  return flat(obj, {safe: true});
+}
+
+export function unflattenObject(obj) {
+  return flat.unflatten(obj, {object: false});
 }
 
 export function toObject(array) {
   if (array instanceof Array) {
-    return array.reduce((object, item) => {
+    return reduce((object, item) => {
       object[item.id] = item;
       return object;
-    }, {});
+    }, {}, array);
   } else {
     throw Error(`array must be plain Array, got ${array}`);
   }
@@ -61,8 +70,8 @@ export function toObject(array) {
 export function toArray(object) {
   if (object instanceof Object) {
     return sortBy(
-      Object.keys(object).map(key => object[key]),
-      item => item.id
+      item => item.id,
+      map(key => object[key], keys(object))
     );
   } else {
     throw Error(`object must be a basic Object, got ${object}`);
@@ -71,9 +80,9 @@ export function toArray(object) {
 
 export function normalize(data) {
   if (data instanceof Array) {
-    return data.map(v => normalize(v));
+    return map(v => normalize(v), data);
   } else if (data instanceof Object) {
-    return Object.keys(data).reduce((obj, k) => {
+    return reduce((obj, k) => {
       if (k.includes(".")) {
         let kk = k.split(".");
         obj[kk[0]] = normalize({[kk.slice(1).join(".")]: data[k]});
@@ -81,7 +90,7 @@ export function normalize(data) {
         obj[k] = normalize(data[k]);
       }
       return obj;
-    }, {});
+    }, {}, keys(data));
   } else if (typeof data == "string") {
     if (data === "false") {
       return false;

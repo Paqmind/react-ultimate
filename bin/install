@@ -6,19 +6,18 @@ rm -f node_modules/shared   && ln -s ../shared           node_modules/shared
 rm -f node_modules/frontend && ln -s ../frontend/scripts node_modules/frontend
 rm -f node_modules/backend  && ln -s ../backend/scripts  node_modules/backend
 
-rm -f build/node_modules/shared   && ln -s ../shared           build/node_modules/shared
-rm -f build/node_modules/frontend && ln -s ../frontend/scripts build/node_modules/frontend
-rm -f build/node_modules/backend  && ln -s ../backend/scripts  build/node_modules/backend
-
 # Seed default config
 mv -i shared/config/development.default.js shared/config/development.js
 
-# Setup local gulp.js to be runned through `babel-node`
-if [[ `uname` == 'Darwin' ]]; then
-  gulp_file=`greadlink -f node_modules/.bin/gulp`
-else
-  gulp_file=`readlink -f node_modules/.bin/gulp`
-fi
-sed '1 s/ node$/ babel-node/' ${gulp_file} > .gulp.js
-mv .gulp.js ${gulp_file}
-chmod +x ${gulp_file}
+# Setup local Gulp to be runned through `babel-node`
+gulpBin=node_modules/gulp/bin/gulp.js
+sed '1 s/ node$/ babel-node/' ${gulpBin} > .gulp.js && mv .gulp.js ${gulpBin} && chmod +x ${gulpBin}
+
+# Setup Webpack to be runned through `babel-node`
+webpackBin=node_modules/webpack/bin/webpack.js
+sed '1 s/ node$/ babel-node/' ${webpackBin} > .webpack.js && mv .webpack.js ${webpackBin} && chmod +x ${webpackBin}
+
+# Setup Webpack Dev Server to be runned through `babel-node`
+webpackServerBin=node_modules/webpack-dev-server/bin/webpack-dev-server.js
+sed '1 s/ node$/ babel-node/' ${webpackServerBin} > .webpack-dev-server.js && mv .webpack-dev-server.js ${webpackServerBin} && chmod +x ${webpackServerBin}
+

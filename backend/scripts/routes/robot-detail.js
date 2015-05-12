@@ -13,7 +13,7 @@ router.get("/:id",
     if (model) {
       let response = {
         data: model,
-      }
+      };
       return res.status(200).send(response); // Status: ok
     } else {
       return cb();

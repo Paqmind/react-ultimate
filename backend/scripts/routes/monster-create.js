@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import {mergeDeep} from "shared/helpers/common";
+import {merge} from "ramda";
 import commonValidators from "shared/validators/common";
 import monsterValidators from "shared/validators/monster";
 import makeMonster from "shared/makers/monster";
@@ -12,11 +12,11 @@ router.post("/",
   middlewares.createParseQuery({}),
   middlewares.createParseBody(monsterValidators.model),
   function handler(req, res, cb) {
-    let model = mergeDeep(makeMonster(), req.body);
+    let model = merge(makeMonster(), req.body);
     monstersDB[model.id] = model;
     let response = {
       data: model,
-    }
+    };
     return res.status(201).send(response); // Status: created
   }
 );

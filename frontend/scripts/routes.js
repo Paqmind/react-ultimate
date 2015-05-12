@@ -1,22 +1,25 @@
 // IMPORTS =========================================================================================
 import React from "react";
+
+// Eager Components
 import {Route, DefaultRoute, NotFoundRoute} from "react-router";
-import {Body, About, Tech, Credits, NotFound} from "frontend/components";
+import {Body, About, Tech, Credits, NotFound} from "frontend/components/page";
 
-import RobotIndex from "frontend/robot/components/index";
-import RobotAdd from "frontend/robot/components/add";
-import RobotDetail from "frontend/robot/components/detail";
-import RobotEdit from "frontend/robot/components/edit";
-
-import MonsterIndex from "frontend/monster/components/index";
-import MonsterAdd from "frontend/monster/components/add";
-import MonsterDetail from "frontend/monster/components/detail";
-import MonsterEdit from "frontend/monster/components/edit";
+// Lazy Components
+//import {RobotIndex, RobotAdd, RobotDetail, RobotEdit} from "react-proxy!frontend/components/model/robot";
+//import {MonsterIndex, MonsterAdd, MonsterDetail, MonsterEdit} from "react-proxy!frontend/components/model/monster";
+// Not compatible. Check for React-Router to allow metadata passing!
+import {RobotIndex, RobotAdd, RobotDetail, RobotEdit} from "frontend/components/model/robot";
+import {MonsterIndex, MonsterAdd, MonsterDetail, MonsterEdit} from "frontend/components/model/monster";
 
 // ROUTES ==========================================================================================
 export default (
   <Route path="/" handler={Body}>
-    <DefaultRoute handler={About} name="about"/>
+    <DefaultRoute name="about" handler={About}/>
+    <Route path="/tech" name="tech" handler={Tech}/>
+    <Route path="/credits" name="credits" handler={Credits}/>
+    <NotFoundRoute handler={NotFound}/>
+
     <Route path="/robots/" name="robot-index" handler={RobotIndex}/>
     <Route path="/robots/add" name="robot-add" handler={RobotAdd}/>
     <Route path="/robots/:id" name="robot-detail" handler={RobotDetail}/>
@@ -26,10 +29,5 @@ export default (
     <Route path="/monsters/add" name="monster-add" handler={MonsterAdd}/>
     <Route path="/monsters/:id" name="monster-detail" handler={MonsterDetail}/>
     <Route path="/monsters/:id/edit" name="monster-edit" handler={MonsterEdit}/>
-
-    <Route path="/tech" name="tech" handler={Tech}/>
-    <Route path="/credits" name="credits" handler={Credits}/>
-
-    <NotFoundRoute handler={NotFound}/>
   </Route>
 );

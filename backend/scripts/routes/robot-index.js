@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
-import {filter, sortByOrder} from "lodash";
-import {lodashifySorts} from "shared/helpers/common";
+import {keys, filter, values} from "lodash";
+import {sortByAll} from "shared/helpers/common";
 import commonValidators from "shared/validators/common";
 import middlewares from "backend/middlewares";
 import robotsDB from "backend/dbs/robot";
@@ -14,12 +14,12 @@ router.get("/",
     let sorts = (req.query.sort || "").split(",");
     let {offset=0, limit=20} = req.query.page || {};
 
-    let models = Object.values(robotsDB);
-    if (Object.keys(filters).length) {
-      models = filter(models, filters);
+    let models = values(robotsDB);
+    if (keys(filters).length) {
+      models = filter(filters, models);
     }
     if (sorts.length) {
-      models = sortByOrder(models, ...lodashifySorts(sorts));
+      models = sortByAll(sorts, models);
     }
     let total = models.length;
     models = models.slice(offset, offset + limit);
@@ -39,9 +39,9 @@ router.get("/total",
   function handler(req, res, cb) {
     let filters = req.query.filter || {};
 
-    let models = Object.values(robotsDB);
-    if (Object.keys(filters).length) {
-      models = filter(models, filters);
+    let models = values(robotsDB);
+    if (keys(filters).length) {
+      models = filter(filters, models);
     }
     let total = models.length;
 

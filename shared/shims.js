@@ -1,5 +1,6 @@
 // IMPORTS =========================================================================================
 import "babel/polyfill";
+import {map} from "ramda";
 import Inspect from "util-inspect";
 
 // SHIMS ===========================================================================================
@@ -29,6 +30,6 @@ RegExp.escape = function(string) {
 let window = window || undefined;
 if (window) {
   window.console.echo = function echo() {
-    console.log.apply(console, Array.prototype.slice.call(arguments).map(v => Inspect(v)));
+    console.log.apply(console, map(v => Inspect(v), Array.prototype.slice.call(arguments)));
   };
 }

@@ -85,17 +85,22 @@ Will be available with WebPack builds.
 
 Read this only after a look on the code.
 
-### External vs Internal components
+### URL-bound vs URL-unbound components
 
-External component's state can be changed through URL.
-It allows to bookmark and share page link. Most obvious limitation is that there is no namespacing
-in URL (we could add one, but URL is rather short for that sort of things,
-and we want to reuse JSON API format on frontend for simplicity).
+All stateful components can be divided to URL-bound and URL-unbound.
+By definition, state of URL-bound components can be changed through URL.
+It allows to bookmark and share page link and reproduce expectable state by
+just entring page.
+
+There is no namespacing in URL (we could add one, but URL is rather short for that sort of things,
+and we want to keep JSON API format in client for simplicity) that's why the possible number of URL-bound
+components is limited to one per page.
+
 Another tradeoff is that new URL means `ReactRouter.run` is triggered
-which hurts rendering performance (VDOM root redraw).
+which means redraw of the Root component which hurts rendering performance ().
 
-To sum up: make primary (content) components either external or internal.
-Secondary components should be always internal.
+To sum up: make primary (content) components either URL-bound or URL-unbound depending
+on your business priorities. Secondary components will always be URL-unbound.
 
 ## Wiki
 

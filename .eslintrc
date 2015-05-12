@@ -1,0 +1,22 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "comma-dangle": false,
+    "quotes": false,
+    "strict": false,
+    "no-unused-vars": false,
+    "eqeqeq": false,
+    "new-cap": false,
+    "no-underscore-dangle": false,
+    "no-multi-spaces": false,
+    "no-process-exit": false,
+    "no-wrap-func": false,
+    "eol-last": [0],
+    "no-alert": [0],
+    "dot-notation": [0],
+    "no-use-before-define": [2, "nofunc"]
+  }
+}
