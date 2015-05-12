@@ -21,9 +21,24 @@ export function chunked(array, n) {
 }
 
 /**
+ * Filter array by `filters` argument
+ * @pure
+ * @param filters {Object<string, *>} - filters, e.g. {age: 30}
+ * @param data {Array<*>} - unsorted data
+ * @returns {Array<*>} - sorted data
+ */
+export function filterByAll(filters, data) {
+  return reduce((data, filterKey) => {
+    let filterValue = filters[filterKey];
+    let filterer = filter(data => data[filterKey] == filterValue);
+    return filterer(data);
+  }, data, keys(filters));
+}
+
+/**
  * Sort array by `sorts` argument
  * @pure
- * @param sorts {Array<string>} - array in format ["+name", "-age"]
+ * @param sorts {Array<string>} - sorts, e.g. ["+name", "-age"]
  * @param data {Array<*>} - unsorted data
  * @returns {Array<*>} - sorted data
  */

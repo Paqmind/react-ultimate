@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
-import {keys, filter, values} from "lodash";
-import {sortByAll} from "shared/helpers/common";
+import {keys, values} from "lodash";
+import {filterByAll, sortByAll} from "shared/helpers/common";
 import commonValidators from "shared/validators/common";
 import middlewares from "backend/middlewares";
 import robotsDB from "backend/dbs/robot";
@@ -16,7 +16,7 @@ router.get("/",
 
     let models = values(robotsDB);
     if (keys(filters).length) {
-      models = filter(filters, models);
+      models = filterByAll(filters, models);
     }
     if (sorts.length) {
       models = sortByAll(sorts, models);

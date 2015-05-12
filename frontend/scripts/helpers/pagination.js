@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
-import {keys, filter, map, values} from "ramda";
-import {chunked, sortByAll} from "shared/helpers/common";
+import {keys, map, pipe, values} from "ramda";
+import {chunked, filterByAll, sortByAll} from "shared/helpers/common";
 
 // EXPORTS =========================================================================================
 export function getLastOffset(total, limit) {
@@ -30,10 +30,9 @@ export function getTotalPages(total, limit) {
  * @param pagination {Array<string>} - input pagination
  * @param filters {number} - new filters
  * @param models {Object<string, Object>} - obj of models
- * @param limit {number} - current limit
  * @returns {Array<string>} - recalculated pagination
  */
-export function recalculatePaginationWithFilters(pagination, filters, models, limit) {
+export function recalculatePaginationWithFilters(pagination, filters, models) {
   if (!(pagination instanceof Array)) {
     throw new Error(`pagination must be a basic Array, got ${pagination}`);
   }
@@ -43,12 +42,9 @@ export function recalculatePaginationWithFilters(pagination, filters, models, li
   if (!(models instanceof Object)) {
     throw new Error(`models must be a basic Object, got ${models}`);
   }
-  if (typeof limit != "number" || limit <= 0) {
-    throw new Error(`limit must be a positive number, got ${limit}`);
-  }
   if (pagination.length) {
     if (keys(filters).length) {
-      return map(m => m.id, filter(filters, values(models)));
+      return map(m => m.id, filterByAll(filters, values(models)));
     } else {
       return pagination;
     }
@@ -65,10 +61,9 @@ export function recalculatePaginationWithFilters(pagination, filters, models, li
  * @param pagination {Array<string>} - input pagination
  * @param sorts {Array<string>} - new sorts
  * @param models {Object<string, Object>} - obj of models
- * @param limit {number} - current limit
  * @returns {Array<string>} - recalculated pagination
  */
-export function recalculatePaginationWithSorts(pagination, sorts, models, limit) {
+export function recalculatePaginationWithSorts(pagination, sorts, models) {
   if (!(pagination instanceof Array)) {
     throw new Error(`pagination must be a basic Array, got ${pagination}`);
   }
@@ -77,9 +72,6 @@ export function recalculatePaginationWithSorts(pagination, sorts, models, limit)
   }
   if (!(models instanceof Object)) {
     throw new Error(`models must be a basic Object, got ${models}`);
-  }
-  if (typeof limit != "number" || limit <= 0) {
-    throw new Error(`limit must be a positive number, got ${limit}`);
   }
   if (pagination.length) {
     if (sorts.length) {

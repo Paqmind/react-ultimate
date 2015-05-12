@@ -18,9 +18,7 @@ export default function setFilters(newFilters=MONSTER.FILTERS) {
     cursor.set("filters", newFilters);
     if (total && keys(models).length >= total) {
       // Full index loaded – can recalculate pagination
-      let newPagination = recalculatePaginationWithFilters(
-        pagination, newFilters, models, limit
-      );
+      let newPagination = recalculatePaginationWithFilters(pagination, newFilters, models);
       cursor.set("pagination", newPagination);
       cursor.set("total", newPagination.length);
     } else {
