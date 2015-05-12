@@ -4,8 +4,15 @@ Tired of **React Starters** reexplaining another helloworld?
 
 Dreamed of something closer to the industry?
 
-Welcome to **React Ultimate** then. This project is fairly experimental but we're sure it already
-yields a lot of interesting observations. Just give it a try.
+Welcome to **React Ultimate** then.
+
+This project aims to provide examples of fundamental Index & CRUD operations, being relatively framework agnostic.
+We're trying to build an architecture that may be ported to different frameworks and even languages.
+That should be at least possible, if not easy.
+
+A lot of experiments going on here, so it's definitely not a stable package.
+But as this is an app, and not a library, a "backward compatibility" issues are inapplicable.
+Fork it, tweak it, break it... if you wish.
 
 ## Install
 
@@ -67,7 +74,7 @@ ugly, unreadable, unsupportable relative imports with brand shiny absolute.
 We experimented with most popular libs: [ImmutableJS](https://github.com/facebook/immutable-js), [Mori](https://github.com/swannodette/mori)
 and [Seamless-Immutable](https://github.com/rtfeldman/seamless-immutable).
 We tried our best, but the resulting code was really messy and bug-prone all the time.
-So we decided to switch to [Ramda](http://ramdajs.com/) which is API incompatible with all of them
+So we decided to switch to [Ramda](http://ramdajs.com/) which is API incompatible with all of the
 above. It does not enforce immutability, but encourage it, having zero mutable operations in toolkit.
 
 ### Builds
