@@ -10,7 +10,7 @@ router.get("/random",
     let model = makeMonster();
     let response = {
       data: model,
-    }
+    };
     return res.status(200).send(response); // Status: ok
   }
 );

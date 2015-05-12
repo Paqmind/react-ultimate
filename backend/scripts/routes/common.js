@@ -8,6 +8,10 @@ router.get("*", function (req, res, cb) {
   } else if (req.path.startsWith("/api/")) {
     return cb();
   } else {
-    return res.render("app.html");
+    if (process.env.NODE_ENV == "development") {
+      return res.render("app-dev.html");
+    } else {
+      return res.render("app-prod.html");
+    }
   }
 });

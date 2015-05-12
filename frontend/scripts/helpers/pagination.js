@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import filter from "lodash.filter";
 import sortBy from "lodash.sortby";
-import {chunked, flattenArrayGroup, lodashifySorts} from "shared/helpers/common";
+import {chunked, flattenArrayGroup, sortByAll} from "shared/helpers/common";
 
 // PAGINATION ======================================================================================
 export function groupLength(group) {
@@ -117,7 +117,7 @@ export function recalculatePaginationWithSorts(pagination, sorts, models, limit)
   if (Object.keys(pagination).length) {
     if (sorts.length) {
       let unsortedModels = Object.values(models);
-      let sortedModels = sortByOrder(unsortedModels, ...lodashifySorts(sorts));
+      let sortedModels = sortByAll(sorts, unsortedModels);
       return chunked(sortedModels.map(m => m.id), limit).reduce((obj, ids, i) => {
         obj[i * limit] = ids;
         return obj;
