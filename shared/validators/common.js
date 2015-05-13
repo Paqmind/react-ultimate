@@ -8,11 +8,13 @@ export default {
     id: Joi.string().guid().required()
   },
 
-  // PAGE
-  page: {
+  // URL QUERY
+  urlQuery: {
+    filters: Joi.object(),
+    sorts: Joi.array(),
     page: {
-      offset: Joi.number(),
-      limit: Joi.number()
+      offset: Joi.number().min(0),
+      limit: Joi.number().min(1),
     }
   },
 };

@@ -8,7 +8,7 @@ import router from "backend/routers/robot";
 
 // ROUTES ==========================================================================================
 router.get("/",
-  middlewares.createParseQuery(commonValidators.page),
+  middlewares.createParseQuery(commonValidators.urlQuery),
   function handler(req, res, cb) {
     let filters = req.query.filter || {};
     let sorts = (req.query.sort || "").split(",");
