@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
 import {merge} from "lodash";
-import {keys, filter, pipe, prop, map, range, reduce, reverse, sortBy} from "ramda";
+import {keys, filter, pipe, prop, map, mapIndexed, range, reduce, reverse, sortBy} from "ramda";
 import flat from "flat";
 
 // HELPERS =========================================================================================
@@ -29,10 +29,10 @@ export function chunked(n, array) {
     return chunked.bind(null, n);
   } else {
     let l = Math.ceil(array.length / n);
-      return map(
-        (x, i) => array.slice(i * n, i * n + n),
-        range(0, l)
-      );
+    return mapIndexed(
+      (x, i) => array.slice(i * n, i * n + n),
+      range(0, l)
+    );
   }
 }
 

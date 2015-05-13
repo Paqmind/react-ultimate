@@ -1,5 +1,12 @@
 import {expect} from "chai";
-import {filterByAll, sortByAll} from "shared/helpers/common";
+import {chunked, filterByAll, sortByAll} from "shared/helpers/common";
+
+describe("chunked()", function() {
+  it("should work", function() {
+    expect(chunked(5, [1, 2, 3, 4, 5])).eql([[1, 2, 3, 4, 5]]);
+    expect(chunked(5, [1, 2, 3, 4, 5, 6, 7])).eql([[1, 2, 3, 4, 5], [6, 7]]);
+  });
+});
 
 describe("filterByAll()", function() {
   it("should handle undefined values", function() {
