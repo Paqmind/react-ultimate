@@ -9,9 +9,8 @@ export function parseQuery(query) {
     sorts: query.sort ?
       pipe(
         map(v => v.trim()),
-        map(v => v.replace(/^(\w|\d)/, "+$1")),
-        split(",", query.sort)
-      ) :
+        map(v => v.replace(/^(\w|\d)/, "+$1"))
+      )(split(",", query.sort)) :
       undefined,
 
     offset: query.page && (query.page.offset || query.page.offset == 0) ?
