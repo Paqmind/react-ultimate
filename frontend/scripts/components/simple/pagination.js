@@ -28,7 +28,8 @@ export default class Pagination extends ShallowComponent {
   }
 
   lastOffset() {
-    return getLastOffset(this.props.total, this.props.limit);
+    let totalPages = this.totalPages();
+    return (totalPages <= 1) ? 0 : (totalPages - 1)  * this.props.limit;
   }
 
   prevOffset(offset) {

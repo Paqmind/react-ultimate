@@ -1,23 +1,45 @@
 // IMPORTS =========================================================================================
-import {append, keys, filter, map, pipe, values} from "ramda";
+import {append, keys, filter, find, map, pipe, range, reject, reverse, values} from "ramda";
 import {chunked, filterByAll, sortByAll} from "shared/helpers/common";
 
 // EXPORTS =========================================================================================
-export function getLastOffset(total, limit) {
-  let totalPages = getTotalPages(total, limit);
-  if (totalPages <= 1) {
-    return 0;
+export function recommendOffset(total, offset, limit) {
+  if (typeof total != "number" || total < 0) {
+    throw Error(`total must be natural number, got ${total}`);
+  }
+  if (typeof offset != "number" || offset < 0) {
+    throw Error(`offset must be natural number, got ${offset}`);
+  }
+  if (typeof limit != "number" || limit <= 0) {
+    throw Error(`limit must be positive number, got ${limit}`);
+  }
+
+  if (total == 0) {
+    return offset;
   } else {
-    return (totalPages - 1)  * limit;
+    let totalPages = getTotalPages(total, limit);
+    let lastOffset;
+    if (totalPages <= 1) {
+      lastOffset = 0;
+    } else {
+      lastOffset = (totalPages - 1)  * limit;
+    }
+
+    let possibleOffsets = reject(
+      offset => offset % limit,     // reject everything but 0, 5, 10, 15... for limit = 5
+      range(0, lastOffset + limit)  // from this range
+    );
+
+    return find(_offset => _offset <= offset, reverse(possibleOffsets)); // can't be undefined with all the code above
   }
 }
 
 export function getTotalPages(total, limit) {
   if (typeof total != "number" || total < 0) {
-    throw Error(`total must be >= 0, got ${total}`);
+    throw Error(`total must be natural number, got ${total}`);
   }
-  if (typeof limit != "number" || limit < 1) {
-    throw Error(`limit must be >= 1, got ${limit}`);
+  if (typeof limit != "number" || limit <= 0) {
+    throw Error(`limit must be positive number, got ${limit}`);
   }
   return Math.ceil(total / limit);
 }
