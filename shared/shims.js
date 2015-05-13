@@ -1,5 +1,4 @@
 // IMPORTS =========================================================================================
-import "babel/polyfill";
 import {map} from "ramda";
 import Inspect from "util-inspect";
 
