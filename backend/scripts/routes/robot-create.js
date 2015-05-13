@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import {merge} from "ramda";
+import {mergeDeep} from "shared/helpers/common";
 import commonValidators from "shared/validators/common";
 import robotValidators from "shared/validators/robot";
 import makeRobot from "shared/makers/robot";
@@ -12,7 +12,7 @@ router.post("/",
   middlewares.createParseQuery({}),
   middlewares.createParseBody(robotValidators.model),
   function handler(req, res, cb) {
-    let model = merge(makeRobot(), req.body);
+    let model = mergeDeep(makeRobot(), req.body);
     robotsDB[model.id] = model;
     let response = {
       data: model,

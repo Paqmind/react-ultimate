@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import {merge} from "ramda";
+import {mergeDeep} from "shared/helpers/common";
 import {makeRobot} from "shared/makers/robot";
 import commonValidators from "shared/validators/common";
 import robotValidators from "shared/validators/robot";
@@ -15,11 +15,11 @@ router.put("/:id",
   function handler(req, res, cb) {
     let oldModel = robotsDB[req.params.id];
     if (oldModel) {
-      let newModel = merge(oldModel, req.body);
+      let newModel = mergeDeep(oldModel, req.body);
       robotsDB[newModel.id] = newModel;
       return res.status(204).send(); // Status: no-content
     } else {
-      let newModel = merge(makeRobot(), req.body);
+      let newModel = mergeDeep(makeRobot(), req.body);
       robotsDB[newModel.id] = newModel;
       let response = {
         data: newModel,

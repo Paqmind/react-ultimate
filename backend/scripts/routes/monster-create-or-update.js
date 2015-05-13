@@ -15,11 +15,11 @@ router.put("/:id",
   function handler(req, res, cb) {
     let oldModel = monstersDB[req.params.id];
     if (oldModel) {
-      let newModel = merge(oldModel, req.body);
+      let newModel = mergeDeep(oldModel, req.body);
       monstersDB[newModel.id] = newModel;
       return res.status(204).send(); // Status: no-content
     } else {
-      let newModel = merge(makeMonster(), req.body);
+      let newModel = mergeDeep(makeMonster(), req.body);
       monstersDB[newModel.id] = newModel;
       let response = {
         data: newModel,

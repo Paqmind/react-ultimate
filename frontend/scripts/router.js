@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import {merge} from "ramda";
+import {mergeDeep} from "shared/helpers/common";
 import state from "frontend/state";
 
 // PROXY ROUTER TO REMOVE CIRCULAR DEPENDENCY ======================================================
@@ -12,8 +12,8 @@ let proxy = {
     let urlCursor = state.select("url");
     return window._router.makePath(
       route || urlCursor.get("route"),
-      withParams ? merge(urlCursor.get("params"), withParams) : params,
-      withQuery  ? merge(urlCursor.get("query"),  withQuery)  : query
+      withParams ? mergeDeep(urlCursor.get("params"), withParams) : params,
+      withQuery  ? mergeDeep(urlCursor.get("query"),  withQuery)  : query
     );
   },
 
@@ -21,8 +21,8 @@ let proxy = {
     let urlCursor = state.select("url");
     return window._router.makeHref(
       route || urlCursor.get("route"),
-      withParams ? merge(urlCursor.get("params"), withParams) : params,
-      withQuery  ? merge(urlCursor.get("query"),  withQuery)  : query
+      withParams ? mergeDeep(urlCursor.get("params"), withParams) : params,
+      withQuery  ? mergeDeep(urlCursor.get("query"),  withQuery)  : query
     );
   },
 
@@ -30,8 +30,8 @@ let proxy = {
     let urlCursor = state.select("url");
     window._router.transitionTo(
       route || urlCursor.get("route"),
-      withParams ? merge(urlCursor.get("params"), withParams) : params,
-      withQuery  ? merge(urlCursor.get("query"),  withQuery)  : query
+      withParams ? mergeDeep(urlCursor.get("params"), withParams) : params,
+      withQuery  ? mergeDeep(urlCursor.get("query"),  withQuery)  : query
     );
   },
 
@@ -39,8 +39,8 @@ let proxy = {
     let urlCursor = state.select("url");
     window._router.replaceWith(
       route || urlCursor.get("route"),
-      withParams ? merge(urlCursor.get("params"), withParams) : params,
-      withQuery  ? merge(urlCursor.get("query"),  withQuery)  : query
+      withParams ? mergeDeep(urlCursor.get("params"), withParams) : params,
+      withQuery  ? mergeDeep(urlCursor.get("query"),  withQuery)  : query
     );
   },
 
