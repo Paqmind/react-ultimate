@@ -16,9 +16,9 @@ export default function setFilters(newFilters=ROBOT.FILTERS) {
 
   if (!eqDeep(newFilters, filters)) {
     cursor.set("filters", newFilters);
-    if (total && keys(models).length >= total) {
+    if (false && total && pagination.length >= total) { // TODO check that `filters` are subset of `newFilters`, otherwise `total` is meaningless
       // Full index loaded – can recalculate pagination
-      let newPagination = recalculatePaginationWithFilters(pagination, newFilters, models);
+      let newPagination = recalculatePaginationWithFilters(newFilters, pagination, models);
       cursor.set("pagination", newPagination);
       cursor.set("total", newPagination.length);
     } else {

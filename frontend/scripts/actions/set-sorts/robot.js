@@ -16,9 +16,9 @@ export default function setSorts(newSorts=ROBOT.SORTS) {
 
   if (!eqDeep(newSorts, sorts)) {
     cursor.set("sorts", newSorts);
-    if (total && keys(models).length >= total) {
+    if (total && pagination.length >= total) {
       // Full index loaded – can recalculate pagination
-      let newPagination = recalculatePaginationWithSorts(pagination, newSorts, models);
+      let newPagination = recalculatePaginationWithSorts(newSorts, pagination, models);
       cursor.set("pagination", newPagination);
     } else {
       // Part of index loaded – can only reset
