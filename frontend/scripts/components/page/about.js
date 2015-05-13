@@ -11,9 +11,15 @@ export default class About extends Component {
         <section className="container page home">
           <h1>About</h1>
 
+          <h3>Code</h3>
+          <p>
+            Ultimate JavaScript.
+            Newest ES2015&mdash;2016 versions everywhere: frontend, backend, tests, tasks.
+          </p>
+
           <h3>General</h3>
           <p>
-            App uses AJAX loaders heavily to avoid "white screen" issue.
+            App uses AJAX loaders heavily to avoid "white screen" UX issue.
           </p>
 
           <h3>Index</h3>
@@ -60,7 +66,13 @@ export default class About extends Component {
             Ultimate Backend and Frontend solution.
             Performant: uses cache whenever possible to avoid unnecessary API request.
             User friendly: keeps current page whenever new sorts are applied (old offset
-            holds meaning).
+            keeps meaning with new sorts).
+          </p>
+
+          <h3>CRUD</h3>
+          <p>
+            Architecture: validation rules are shared between Backend and Frontend.
+            User friendly: live validation.
           </p>
 
           <h3>CRUD</h3>
