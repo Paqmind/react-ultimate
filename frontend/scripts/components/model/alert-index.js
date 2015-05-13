@@ -1,43 +1,94 @@
 // IMPORTS =========================================================================================
+import {branch} from "baobab-react/decorators";
 import {map} from "ramda";
 import React from "react";
-//let CSSTransitionGroup from "rc-css-transition-group";
+import min from "lodash.min";
+import sortBy from "lodash.sortby";
+import ReactAddons from "react/addons";
 import {toArray} from "shared/helpers/common";
 import state from "frontend/state";
 import {DeepComponent} from "frontend/components/simple";
 import {Loading, NotFound} from "frontend/components/page";
+import alertActions from "frontend/actions/alert";
 import AlertItem from "frontend/components/model/alert-item";
 
+let CSSTransitionGroup = ReactAddons.addons.CSSTransitionGroup;
+
+// tests  ======>
+//
+//alertActions.add({message: "1. Message success", category: "success"});
+//alertActions.add({message: "2. Message loooong success", category: "success"});
+//alertActions.add({message: "3. Message success", category: "success"});
+//
+//setTimeout(function(){
+//  alertActions.add({message: "4. Message error", category: "error"});
+//}, 3000);
+//
+//setTimeout(function(){
+//  alertActions.add({message: "5. Message warning", category: "warning"});
+//}, 11000);
+//
+//setTimeout(function(){
+//  alertActions.add({message: "6. Message info", category: "info"});
+//}, 18000);
+//
+// <=======
+
+let alertsQueue = new Set();
+let alertsQueueBlocked = false;
+
 // COMPONENTS ======================================================================================
+@branch({
+   cursors: {
+    alerts: "alerts",
+   },
+})
 export default class AlertIndex extends DeepComponent {
-  //mixins: [state.mixin],
-  //
-  //cursors: {
-  //  alerts: ["alerts"],
-  //},
+  static loadData = alertActions.establishIndex;
+
+  processAlertsQueue() {
+    if (!alertsQueue.size || alertsQueueBlocked) return;
+    alertsQueueBlocked = true;
+    let oldestAlert = min([...alertsQueue], (item) => item.createdDate);
+    setTimeout(() => {
+      alertActions.remove(oldestAlert.id);
+      alertsQueue.delete(oldestAlert);
+      alertsQueueBlocked = false;
+      this.processAlertsQueue();
+    }, oldestAlert.expire);
+  }
+
+  updateAlertsQueue() {
+    toArray(this.props.alerts.models)
+      .filter((item) => { return item.expire ? item : null })
+      .forEach((item) => alertsQueue.add(item));
+  }
+
+  componentDidMount() {
+    this.updateAlertsQueue();
+    this.processAlertsQueue();
+  }
+
+  componentDidUpdate() {
+    this.updateAlertsQueue();
+    this.processAlertsQueue();
+  }
 
   render() {
-    let {models, loading, loadError} = this.state.cursors.alerts;
-    models = toArray(models);
+    let {models, loading, loadError} = this.props.alerts;
+    models =  sortBy(toArray(models), v => v.createdDate);
 
     if (loadError) {
       return <Error loadError={loadError}/>;
     } else {
       return (
-        <div className="notifications top-left">
-          {map(model => <AlertItem model={model} key={model.id}/>, models)}
-          {loading ? <Loading/> : ""}
+        <div className="alerts top-right">
+          <CSSTransitionGroup component="div" transitionName="fadeUp">
+            {map(model => <AlertItem model={model} key={model.id} animated={true}/>, models)}
+          </CSSTransitionGroup>
+          { /*#loading ? <Loading/> : ""*/}
         </div>
       );
     }
   }
 }
-
-// Can't run this crap for now TODO recheck after transition to Webpack
-// 1) react/addons pulls whole new react clone in browserify
-// 2) rc-css-transition-group contains uncompiled JSX syntax
-// OMG what an idiots &_&
-
-//<CSSTransitionGroup transitionName="fade" component="div">
-//  {map(model => <AlertItem model={model} key={model.id}/>, models)}
-//</CSSTransitionGroup>

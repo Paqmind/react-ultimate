@@ -68,9 +68,9 @@ export default class Body extends Component {
         <main id="main">
           <RouteHandler/>
         </main>
+
+        <AlertIndex/>
       </div>
     );
   }
 }
-
-// <AlertIndex/>

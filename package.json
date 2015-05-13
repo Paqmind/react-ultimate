@@ -67,7 +67,6 @@
     "nunjucks-markdown": "^1.0.0",
     "paqmind.data-lens": "^0.3.0",
     "ramda": "^0.14.0",
-    "rc-css-transition-group": "^1.0.2",
     "react": "^0.13.3",
     "react-document-title": "^1.0.1",
     "react-proxy-loader": "^0.3.4",
@@ -107,6 +106,8 @@
   ],
   "devDependencies": {
     "babel-eslint": "^3.1.1",
-    "eslint": "^0.21.0"
+    "babel-loader": "^5.0.0",
+    "eslint": "^0.21.0",
+    "jsx-loader": "^0.13.2"
   }
 }
