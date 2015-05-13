@@ -1,11 +1,13 @@
 // IMPORTS =========================================================================================
 import "babel/polyfill";
-import {pipe, map} from "ramda";
+import {keys, map, pipe} from "ramda";
 import React from "react";
 import {create as createRouter, HistoryLocation} from "react-router";
 import "shared/shims"; // TODO except for prerender (isomorphic) step, because babel-node auto-injects it's polyfill
-import {normalize} from "shared/helpers/common";
+import {normalize, flattenArrayObject} from "shared/helpers/common";
 import {parseQuery} from "shared/helpers/jsonapi";
+import {joiValidate} from "shared/helpers/validation";
+import commonValidators from "shared/validators/common";
 import state from "frontend/state";
 import routes from "frontend/routes";
 

@@ -1,9 +1,31 @@
 import {expect} from "chai";
 import {
+  recommendOffset,
   recalculatePaginationWithFilters, recalculatePaginationWithSorts,
   recalculatePaginationWithoutModel, recalculatePaginationWithModel,
 } from "frontend/helpers/pagination";
-import {sortByAll} from "shared/helpers/common";
+
+describe("recommendOffset()", function() {
+  it("should work with offset 3", function() {
+    expect(recommendOffset(30, 3, 0)).equals(0);
+    expect(recommendOffset(30, 3, 1)).equals(0);
+    expect(recommendOffset(30, 3, 2)).equals(0);
+    expect(recommendOffset(30, 3, 3)).equals(3);
+    expect(recommendOffset(30, 3, 29)).equals(27);
+    expect(recommendOffset(30, 3, 30)).equals(27);
+    expect(recommendOffset(30, 3, 31)).equals(27);
+  });
+
+  it("should work with offset 5", function() {
+    expect(recommendOffset(50, 5, 0)).equals(0);
+    expect(recommendOffset(50, 5, 4)).equals(0);
+    expect(recommendOffset(50, 5, 5)).equals(5);
+    expect(recommendOffset(50, 5, 44)).equals(40);
+    expect(recommendOffset(50, 5, 45)).equals(45);
+    expect(recommendOffset(50, 5, 50)).equals(45);
+    expect(recommendOffset(50, 5, 51)).equals(45);
+  });
+});
 
 describe("recalculatePaginationWithFilters()", function() {
   it("should handle undefined values", function() {

@@ -2,7 +2,7 @@
 import {map, mapIndexed, range, reject} from "ramda";
 import Class from "classnames";
 import React from "react";
-import {getTotalPages, getLastOffset} from "frontend/helpers/pagination";
+import {getTotalPages} from "frontend/helpers/pagination";
 import {ShallowComponent} from "./component";
 import Link from "./link";
 
