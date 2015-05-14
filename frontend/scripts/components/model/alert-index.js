@@ -1,9 +1,7 @@
 // IMPORTS =========================================================================================
+import {map, minBy, sortBy} from "ramda";
 import {branch} from "baobab-react/decorators";
-import {map} from "ramda";
 import React from "react";
-import min from "lodash.min";
-import sortBy from "lodash.sortbyorder";
 import ReactAddons from "react/addons";
 import {toArray} from "shared/helpers/common";
 import state from "frontend/state";
@@ -47,9 +45,11 @@ export default class AlertIndex extends DeepComponent {
   static loadData = alertActions.establishIndex;
 
   processAlertsQueue() {
-    if (!alertsQueue.size || alertsQueueBlocked) return;
+    if (!alertsQueue.size || alertsQueueBlocked) {
+      return;
+    }
     alertsQueueBlocked = true;
-    let oldestAlert = min([...alertsQueue], (item) => item.createdDate);
+    let oldestAlert = minBy(m => m.createdDate, Array.from(alertsQueue));
     setTimeout(() => {
       alertActions.removeModel(oldestAlert.id);
       alertsQueue.delete(oldestAlert);
@@ -76,7 +76,7 @@ export default class AlertIndex extends DeepComponent {
 
   render() {
     let {models, loading, loadError} = this.props.alerts;
-    models =  sortBy(toArray(models), v => v.createdDate);
+    models =  sortBy(m => m.createdDate, toArray(models));
 
     if (loadError) {
       return <Error loadError={loadError}/>;

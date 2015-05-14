@@ -37,6 +37,7 @@ export default class Tech extends Component {
 
           <h3>Common</h3>
           <ul>
+            <li><a href="https://http://ramdajs.com/">Ramda</a> functional library</li>
             <li><a href="https://lodash.com/">Lodash</a> utility library</li>
             <li><a href="https://github.com/mzabriskie/axios">Axios</a> promise-based HTTP client</li>
             <li><a href="http://momentjs.com/">Moment</a> date and time calculations</li>
