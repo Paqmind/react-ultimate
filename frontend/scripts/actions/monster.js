@@ -10,6 +10,7 @@ import setIndexOffset from "./set-index-offset/monster";
 import setIndexLimit from "./set-index-limit/monster";
 
 // CRUD
+import establishModel from "./establish-model/monster";
 import loadModel from "./load-model/monster";
 import fetchModel from "./fetch-model/monster";
 import setModelId from "./set-model-id/monster";
@@ -23,5 +24,5 @@ export default {
   setIndexFilters, setIndexLimit, setIndexOffset, setIndexSorts,
 
   // CRUD
-  loadModel, fetchModel, setModelId, addModel, editModel, removeModel,
+  establishModel, loadModel, fetchModel, setModelId, addModel, editModel, removeModel,
 };

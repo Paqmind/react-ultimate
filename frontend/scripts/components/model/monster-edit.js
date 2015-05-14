@@ -6,7 +6,7 @@ import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import monsterValidators from "shared/validators/monster";
-import monsterActions from "frontend/actions/monster";
+import * as modelActions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, ModelLink} from "frontend/components/simple";
 import {Error, Loading, NotFound} from "frontend/components/page";
 import {Form} from "frontend/components/form";
@@ -21,7 +21,7 @@ import {Form} from "frontend/components/form";
   },
 })
 export default class MonsterEdit extends Form {
-  static loadData = monsterActions.loadModel;
+  static loadData = modelActions.establishModel;
 
   constructor(props) {
     super();
@@ -130,7 +130,7 @@ export default class MonsterEdit extends Form {
   handleSubmit() {
     this.validate().then(isValid => {
       if (isValid) {
-        monsterActions.editModel(this.state.model);
+        modelActions.editModel(this.state.model);
       } else {
         alert("Can't submit form with errors");
       }
@@ -159,7 +159,7 @@ class MonsterEditActions extends DeepComponent {
             <ModelLink to="monster-detail" className="btn btn-blue" title="Detail">
               <span className="fa fa-eye"></span>
             </ModelLink>
-            <a className="btn btn-red" title="Remove" onClick={() => monsterActions.removeModel(model.id)}>
+            <a className="btn btn-red" title="Remove" onClick={() => modelActions.removeModel(model.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>

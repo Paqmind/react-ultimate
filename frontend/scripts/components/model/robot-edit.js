@@ -6,7 +6,7 @@ import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import robotValidators from "shared/validators/robot";
-import robotActions from "frontend/actions/robot";
+import * as modelActions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent, ModelLink} from "frontend/components/simple";
 import {Error, Loading, NotFound} from "frontend/components/page";
 import {Form} from "frontend/components/form";
@@ -21,7 +21,7 @@ import {Form} from "frontend/components/form";
   },
 })
 export default class RobotEdit extends Form {
-  static loadData = robotActions.establishModel;
+  static loadData = modelActions.establishModel;
 
   constructor(props) {
     super();
@@ -130,7 +130,7 @@ export default class RobotEdit extends Form {
   handleSubmit() {
     this.validate().then(isValid => {
       if (isValid) {
-        robotActions.editModel(this.state.model);
+        modelActions.editModel(this.state.model);
       } else {
         alert("Can't submit form with errors");
       }
@@ -168,7 +168,7 @@ class RobotEditActions extends DeepComponent {
             <ModelLink to="robot-detail" className="btn btn-blue" title="Detail">
               <span className="fa fa-eye"></span>
             </ModelLink>
-            <a className="btn btn-red" title="Remove" onClick={() => robotActions.removeModel(model.id)}>
+            <a className="btn btn-red" title="Remove" onClick={() => modelActions.removeModel(model.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>

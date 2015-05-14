@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint .",
     "build": "webpack --config webpack.config-prod.js --progress --profile --colors",
-    "dev": "webpack-dev-server --config webpack.config-dev.js --progress --colors --port 2992",
+    "dev": "webpack-dev-server --config webpack.config-dev.js --progress --colors --port 2992 --inline",
     "node": "NODE_ENV=production babel-node backend/scripts/app.js",
     "nodemon": "nodemon backend/scripts/app.js",
     "release-patch": "git checkout master && npm version patch && git push origin master --tags",

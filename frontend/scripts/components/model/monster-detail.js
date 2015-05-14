@@ -4,7 +4,7 @@ import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import state from "frontend/state";
-import monsterActions from "frontend/actions/monster";
+import * as modelActions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, ModelLink} from "frontend/components/simple";
 import {Error, Loading, NotFound} from "frontend/components/page";
 
@@ -18,7 +18,7 @@ import {Error, Loading, NotFound} from "frontend/components/page";
   },
 })
 export default class MonsterDetail extends DeepComponent {
-  static loadData = monsterActions.loadModel;
+  static loadData = modelActions.establishModel;
 
   render() {
     let {loading, loadError} = this.props.monsters;
@@ -77,7 +77,7 @@ class MonsterDetailActions extends DeepComponent {
             <ModelLink to="monster-edit" className="btn btn-orange" title="Edit">
               <span className="fa fa-edit"></span>
             </ModelLink>
-            <a className="btn btn-red" title="Remove" onClick={() => monsterActions.removeModel(model.id)}>
+            <a className="btn btn-red" title="Remove" onClick={() => modelActions.removeModel(model.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>

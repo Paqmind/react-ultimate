@@ -6,7 +6,7 @@ import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import robotValidators from "shared/validators/robot";
-import robotActions from "frontend/actions/robot";
+import * as modelActions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent} from "frontend/components/simple";
 import {Error, Loading, NotFound} from "frontend/components/page";
 import {Form} from "frontend/components/form";
@@ -18,7 +18,7 @@ import {Form} from "frontend/components/form";
   },
 })
 export default class RobotAdd extends Form {
-  static loadData = robotActions.loadIndex;
+  static loadData = modelActions.loadIndex;
 
   constructor(props) {
     super();
@@ -119,7 +119,7 @@ export default class RobotAdd extends Form {
   handleSubmit() {
     this.validate().then(isValid => {
       if (isValid) {
-        robotActions.addModel(this.state.model);
+        modelActions.addModel(this.state.model);
       } else {
         alert("Can't submit form with errors");
       }

@@ -6,7 +6,7 @@ import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import {toArray} from "shared/helpers/common";
 import state from "frontend/state";
-import monsterActions from "frontend/actions/monster";
+import * as modelActions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/simple";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import {Error, Loading, NotFound} from "frontend/components/page";
@@ -23,7 +23,7 @@ import MonsterItem from "./monster-item";
   }
 })
 export default class MonsterIndex extends DeepComponent {
-  static loadData = monsterActions.loadIndex;
+  static loadData = modelActions.loadIndex;
 
   render() {
     let {total, loading, loadError, filters, sorts, offset, limit} = this.props.monsters;
@@ -56,8 +56,8 @@ export default class MonsterIndex extends DeepComponent {
   }
 
   setOffset(offset) {
-    monsterActions.setIndexOffset(offset);
-    monsterActions.loadIndex();
+    modelActions.setIndexOffset(offset);
+    modelActions.loadIndex();
   }
 }
 
@@ -101,17 +101,17 @@ class MonsterIndexActions extends ShallowComponent {
   }
 
   setFilters(filters) {
-    monsterActions.setIndexFilters(filters);
-    monsterActions.loadIndex();
+    modelActions.setIndexFilters(filters);
+    modelActions.loadIndex();
   }
 
   setSorts(sorts) {
-    monsterActions.setIndexSorts(sorts);
-    monsterActions.loadIndex();
+    modelActions.setIndexSorts(sorts);
+    modelActions.loadIndex();
   }
 
   setLimit(limit) {
-    monsterActions.setIndexLimit(limit);
-    monsterActions.loadIndex();
+    modelActions.setIndexLimit(limit);
+    modelActions.loadIndex();
   }
 }

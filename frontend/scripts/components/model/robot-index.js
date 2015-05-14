@@ -7,7 +7,7 @@ import DocumentTitle from "react-document-title";
 import {toArray} from "shared/helpers/common";
 import state from "frontend/state";
 import {indexRouter} from "frontend/router";
-import robotActions from "frontend/actions/robot";
+import * as modelActions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/simple";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import {Error, Loading, NotFound} from "frontend/components/page";
@@ -24,7 +24,7 @@ import RobotItem from "./robot-item";
   }
 })
 export default class RobotIndex extends DeepComponent {
-  static loadData = robotActions.establishIndex;
+  static loadData = modelActions.establishIndex;
 
   render() {
     let {total, loading, loadError, filters, sorts, offset, limit} = this.props.robots;
@@ -59,7 +59,7 @@ export default class RobotIndex extends DeepComponent {
 
   setOffset(offset) {
     indexRouter.transitionTo("robot-index", {page: {offset}});
-    robotActions.loadIndex();
+    modelActions.loadIndex();
   }
 
   showOffset(offset) {
@@ -111,17 +111,17 @@ class RobotIndexActions extends ShallowComponent {
 
   setFilters(filters) {
     indexRouter.transitionTo("robot-index", {filters});
-    robotActions.loadIndex();
+    modelActions.loadIndex();
   }
 
   setSorts(sorts) {
     indexRouter.transitionTo("robot-index", {sorts});
-    robotActions.loadIndex();
+    modelActions.loadIndex();
   }
 
   setLimit(limit) {
     indexRouter.transitionTo("robot-index", {page: {limit}});
-    robotActions.loadIndex();
+    modelActions.loadIndex();
   }
 
   showFilters(filters) {
