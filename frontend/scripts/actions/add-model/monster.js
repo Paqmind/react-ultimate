@@ -1,27 +1,33 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
 import Monster from "shared/models/monster";
+import {recalculatePaginationWithModel} from "frontend/helpers/pagination";
 import state from "frontend/state";
 import alertActions from "frontend/actions/alert";
 
 // ACTIONS =========================================================================================
-export default function edit(model) {
+export default function add(model) {
+  let cursor = state.select("monsters");
+
+  let oldModels = cursor.get("models");
+  let oldPagination = cursor.get("pagination");
   let newModel = Monster(model);
   let id = newModel.id;
-  let oldModel = state.select("monsters", "models", id).get();
+  let newPagination = recalculatePaginationWithModel(id, oldPagination, oldModels);
   let url = `/api/monsters/${id}`;
 
-  // Optimistic edit
-  state.select("monsters", "loading").set(true);
-  state.select("monsters", "models", id).set(newModel);
+  // Optimistic action
+  cursor.set("loading", true);
+  cursor.set("pagination", newPagination);
+  cursor.select("models").set(id, newModel);
 
   return Axios.put(url, newModel)
     .then(response => {
-      state.select("monsters").merge({
-        loading: false,
-        loadError: undefined,
-      });
-      alertActions.add({message: "Action `Monster.edit` succeed", category: "success"});
+      cursor.merge({loading: false, loadError: undefined});
+
+      // Add alert
+      alertActions.add({message: "Action succeed", category: "success"});
+
       return response.status;
     })
     .catch(response => {
@@ -33,20 +39,26 @@ export default function edit(model) {
           description: response.statusText,
           url: url
         };
-        state.select("monsters").merge({loading: false, loadError});
-        state.select("monsters", "models", id).set(oldModel); // Cancel edit
-        alertActions.add({message: "Action `Monster.edit` failed: " + loadError.description, category: "error"});
+
+        // Cancel action
+        cursor.merge({loading: false, loadError});
+        cursor.select("models").unset(id);
+        cursor.set("pagination", oldPagination);
+
+        // Add alert
+        alertActions.add({message: "Action failed: " + loadError.description, category: "error"});
+
         return response.status;
       }
     });
 
   /* Async-Await style. Wait for proper IDE support
-  // Optimistic edit
+  // Optimistic action
   ...
 
   let response = {data: []};
   try {
-    response = await Axios.put(`/api/monsters/${id}`, newModel);
+    response = await Axios.put(url, newModel);
   } catch (response) {
     ...
   } // else

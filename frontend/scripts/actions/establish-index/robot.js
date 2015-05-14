@@ -1,25 +1,25 @@
 // IMPORTS =========================================================================================
 import state from "frontend/state";
-import reset from "frontend/actions/reset/robot";
-import setFilters from "frontend/actions/set-filters/robot";
-import setSorts from "frontend/actions/set-sorts/robot";
-import setOffset from "frontend/actions/set-offset/robot";
-import setLimit from "frontend/actions/set-limit/robot";
+import resetIndex from "frontend/actions/reset-index/robot";
+import setFilters from "frontend/actions/set-index-filters/robot";
+import setSorts from "frontend/actions/set-index-sorts/robot";
+import setOffset from "frontend/actions/set-index-offset/robot";
+import setLimit from "frontend/actions/set-index-limit/robot";
 import loadIndex from "frontend/actions/load-index/robot";
 
 // ACTIONS =========================================================================================
 export default function establishIndex() {
   console.debug("establishIndex");
 
-  let cursor = state.select("url");
+  let urlCursor = state.select("url");
 
-  if (cursor.get("reset")) {
-    reset();
+  if (urlCursor.get("reset")) {
+    resetIndex();
   }
-  setFilters(cursor.get("filters"));
-  setSorts(cursor.get("sorts"));
-  setOffset(cursor.get("offset"));
-  setLimit(cursor.get("limit"));
+  setFilters(urlCursor.get("filters"));
+  setSorts(urlCursor.get("sorts"));
+  setOffset(urlCursor.get("offset"));
+  setLimit(urlCursor.get("limit"));
 
   loadIndex();
 }

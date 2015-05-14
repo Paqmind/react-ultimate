@@ -2,8 +2,8 @@
 import state from "frontend/state";
 
 // ACTIONS =========================================================================================
-export default function setId(newId) {
-  console.debug(`setId(${newId})`);
+export default function viewModel(newId) {
+  console.debug(`viewModel(${newId})`);
 
   let cursor = state.select("monsters");
   let id = cursor.get("id");

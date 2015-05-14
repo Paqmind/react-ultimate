@@ -1,26 +1,32 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
+import {recalculatePaginationWithoutModel} from "frontend/helpers/pagination";
 import state from "frontend/state";
-import router from "frontend/router";
 import alertActions from "frontend/actions/alert";
 
 // ACTIONS =========================================================================================
 export default function remove(id) {
+  let cursor = state.select("monsters");
+
+  let oldTotal = cursor.get("total");
+  let oldPagination = cursor.get("pagination");
   let oldModel = state.select("monsters", "models", id).get();
+  let newPagination = recalculatePaginationWithoutModel(id, oldPagination);
   let url = `/api/monsters/${id}`;
 
-  // Optimistic remove
-  state.select("monsters", "loading").set(true);
-  state.select("monsters", "models").unset(id);
+  // Optimistic action
+  cursor.set("loading", true);
+  cursor.set("total", oldTotal - 1);
+  cursor.set("pagination", newPagination);
+  cursor.select("models").unset(id);
 
   return Axios.delete(url)
     .then(response => {
-      state.select("monsters").merge({
-        loading: false,
-        loadError: loadError,
-      });
-      router.transitionTo("monster-index");
-      alertActions.add({message: "Action `Monster.remove` succeed", category: "success"});
+      cursor.merge({loading: false, loadError: undefined});
+
+      // Add alert
+      alertActions.add({message: "Action succeed", category: "success"});
+
       return response.status;
     })
     .catch(response => {
@@ -32,20 +38,26 @@ export default function remove(id) {
           description: response.statusText,
           url: url
         };
-        state.select("monsters").merge({loading: false, loadError});
-        state.select("monsters", "models", id).set(oldModel); // Cancel remove
-        alertActions.add({message: "Action `Monster.remove` failed: " + loadError.description, category: "error"});
+
+        // Cancel action
+        cursor.merge({loading: false, loadError});
+        cursor.select("models").set(id, oldModel);
+        cursor.set("pagination", oldPagination);
+
+        // Add alert
+        alertActions.add({message: "Action failed: " + loadError.description, category: "error"});
+
         return response.status;
       }
     });
 
   /* Async-Await style. Wait for proper IDE support
-  // Optimistic remove
+  // Optimistic action
   ...
 
   let response = {data: []};
   try {
-    response = await Axios.put(`/api/monsters/${id}`, newModel);
+    response = await Axios.put(url, newModel);
   } catch (response) {
     ...
   } // else
