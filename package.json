@@ -107,7 +107,6 @@
   "devDependencies": {
     "babel-eslint": "^3.1.1",
     "babel-loader": "^5.0.0",
-    "eslint": "^0.21.0",
-    "jsx-loader": "^0.13.2"
+    "eslint": "^0.21.0"
   }
 }
