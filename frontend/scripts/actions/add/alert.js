@@ -8,6 +8,6 @@ export default function add(model) {
   let id = newModel.id;
   let url = `/api/alerts/${id}`;
 
+  // Nonpersistent add
   state.select("alerts", "models", id).set(newModel);
-  state.commit();
 }
