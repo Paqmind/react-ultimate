@@ -29,8 +29,7 @@ export default class Item extends ShallowComponent {
 
     let classes = classNames({
       "alert": true,
-      ["alert-" + model.category]: true,
-      "animated": this.props.animated ? true : false
+      ["alert-" + model.category]: true
     });
 
     return (

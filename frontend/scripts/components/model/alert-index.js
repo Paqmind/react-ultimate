@@ -83,8 +83,8 @@ export default class AlertIndex extends DeepComponent {
     } else {
       return (
         <div className="alerts top-right">
-          <CSSTransitionGroup component="div" transitionName="fadeUp">
-            {map(model => <AlertItem model={model} key={model.id} animated={true}/>, models)}
+          <CSSTransitionGroup component="div" transitionName="fadeUp" className="animated">
+            {map(model => <AlertItem model={model} key={model.id}/>, models)}
           </CSSTransitionGroup>
           { /*#loading ? <Loading/> : ""*/}
         </div>
