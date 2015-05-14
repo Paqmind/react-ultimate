@@ -5,7 +5,7 @@ import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import state from "frontend/state";
 import monsterActions from "frontend/actions/monster";
-import {ShallowComponent, DeepComponent, MoldeLink} from "frontend/components/simple";
+import {ShallowComponent, DeepComponent, ModelLink} from "frontend/components/simple";
 import {Error, Loading, NotFound} from "frontend/components/page";
 
 // COMPONENTS ======================================================================================
