@@ -33,13 +33,13 @@ app.use(Morgan("dev", {
 }));
 
 import commonRouter from "./routers/common";
-import "backend/routes/common";
+import "backend/actions/common";
 
 import robotRouter from "./routers/robot";
-import "backend/routes/robot";
+import "backend/actions/robot";
 
 import monsterRouter from "./routers/monster";
-import "backend/routes/monster";
+import "backend/actions/monster";
 
 let staticRouter = Express.static("public", {etag: Config.get("http-use-etag")});
 
