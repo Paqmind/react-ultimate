@@ -1,51 +1,26 @@
-.notifications {
+.alerts {
   position: fixed;
-  z-index: 9999;
-}
-
-/* Positioning */
-.notifications.top-right {
-  right: 10px;
-  top: 25px;
-}
-
-.notifications.top-left {
-  left: 10px;
-  top: 25px;
-}
-
-.notifications.bottom-left {
-  left: 10px;
-  bottom: 25px;
-}
-
-.notifications.bottom-right {
-  right: 10px;
-  bottom: 25px;
-}
-
-/* Notification Element */
-.notifications > div {
-  position: relative;
-  margin: 5px 0px;
-}
-
-.fade-enter {
-  opacity: 0.01;
-  transition: opacity .5s ease-in;
-}
-
-.fade-enter.fade-enter-active {
-  opacity: 1;
-}
-
-.fade-leave {
-  opacity: 1;
-  transition: opacity .5s ease-in;
-}
-
-.fade-leave.fade-leave-active {
-  opacity: 0.01;
+  z-index: @zindex-modal;
+  &.top-right {
+    top: @line-height-computed / 2;
+    right: @line-height-computed;
+  }
+  &.top-left {
+    top: @line-height-computed / 2;
+    left: @line-height-computed;
+  }
+  &.bottom-left {
+    bottom: @line-height-computed / 2;
+    left: @line-height-computed;
+  }
+  &.bottom-right {
+    bottom: @line-height-computed / 2;
+    right: @line-height-computed;
+  }
+  .item {
+    position: relative;
+    margin: @line-height-computed / 2;
+  }
 }
 
 .alert-as-icon {
