@@ -24,6 +24,8 @@ export default class RobotDetail extends DeepComponent {
     let {loading, loadError} = this.props.robots;
     let model = this.props.model;
 
+    console.log("!!!", model);
+
     if (loading) {
       return <Loading/>;
     } else if (loadError) {

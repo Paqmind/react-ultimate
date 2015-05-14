@@ -1,6 +1,7 @@
 // IMPORTS =========================================================================================
 import {reduce} from "ramda";
 import Joi from "joi";
+import {unflattenObject} from "shared/helpers/common";
 
 // EXPORTS =========================================================================================
 export const joiOptions = {
@@ -10,19 +11,20 @@ export const joiOptions = {
 
 export function joiValidate(data, joiSchema) {
   let {value, error: joiError} = Joi.validate(data, joiSchema, joiOptions);
-  return [value, formatErrors(joiError)];
+  return [value, joiFormatErrors(joiError)];
 }
 
 // HELPERS =========================================================================================
-function formatErrors(joiError) {
+function joiFormatErrors(joiError) {
   if (joiError) {
-    return reduce((memo, detail) => {
+    let errorObject = reduce((memo, detail) => {
       if (!(memo[detail.path] instanceof Array)) {
         memo[detail.path] = [];
       }
       memo[detail.path].push(detail.message);
       return memo;
     }, {}, joiError.details);
+    return unflattenObject(errorObject);
   } else {
     return {};
   }

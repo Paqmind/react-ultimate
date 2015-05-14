@@ -5,8 +5,8 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
-import robotValidators from "shared/validators/robot";
-import * as modelActions from "frontend/actions/robot";
+import modelValidators from "shared/validators/robot";
+import modelActions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent, ModelLink} from "frontend/components/simple";
 import {Error, Loading, NotFound} from "frontend/components/page";
 import {Form} from "frontend/components/form";
@@ -26,20 +26,26 @@ export default class RobotEdit extends Form {
   constructor(props) {
     super();
     this.state = {
+      // Raw state for all fields
+      form: clone(props.model),
+      // Validated and converter state for action
       model: clone(props.model),
+      // Errors
       errors: {},
     };
   }
 
   componentWillReceiveProps(props) {
     this.setState({
+      form: clone(props.model),
       model: clone(props.model),
+      errors: {},
     });
   }
 
   render() {
     let {loading, loadError} = this.props.robots;
-    let model = this.state.model;
+    let form = this.state.form;
 
     if (loading) {
       return <Loading/>;
@@ -47,76 +53,76 @@ export default class RobotEdit extends Form {
       return <Error loadError={loadError}/>;
     } else {
       return (
-        <DocumentTitle title={"Edit " + model.name}>
+        <DocumentTitle title={"Edit " + form.name}>
           <div>
-            <RobotEditActions {...this.props} model={model}/>
+            <ModelActions {...this.props} form={form}/>
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-3">
                   <div className="thumbnail">
-                    <img src={"http://robohash.org/" + model.id + "?size=200x200"} width="200px" height="200px"/>
+                    <img src={"http://robohash.org/" + form.id + "?size=200x200"} width="200px" height="200px"/>
                   </div>
                 </div>
                 <div className="col-xs-12 col-sm-9">
-                  <h1 className="nomargin-top">{model.name}</h1>
+                  <h1 className="nomargin-top">{form.name}</h1>
                   <fieldset>
                     <div className={Class("form-group", {
                       required: false,
-                      error: this.hasErrors("model.name"),
+                      error: this.hasErrors("name"),
                     })}>
                       <label htmlFor="name">Name</label>
                       <input type="text"
-                        value={model.name}
-                        onBlur={() => this.validate("model.name")}
-                        onChange={this.makeHandleChange("model.name")}
+                        value={form.name}
+                        onBlur={() => this.validate("name")}
+                        onChange={this.makeHandleChange("name")}
                         id="name" ref="name"
                         className="form-control"/>
                       <div className={Class("help", {
-                        error: this.hasErrors("model.name"),
+                        error: this.hasErrors("name"),
                       })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("model.name"))}
+                        {map(message => <span key="">{message}</span>, this.getErrors("name"))}
                       </div>
                     </div>
 
                     <div className={Class("form-group", {
                       required: false,
-                      error: this.hasErrors("model.assemblyDate"),
+                      error: this.hasErrors("assemblyDate"),
                     })}>
                       <label htmlFor="assemblyDate">Assembly Date</label>
-                      <input type="text"
-                        value={model.assemblyDate}
-                        onBlur={() => this.validate("model.assemblyDate")}
-                        onChange={this.makeHandleChange("model.assemblyDate")}
+                      <input type="date"
+                        value={form.assemblyDate}
+                        onBlur={() => this.validate("assemblyDate")}
+                        onChange={this.makeHandleChange("assemblyDate")}
                         id="assemblyDate" ref="assemblyDate"
                         className="form-control"/>
                       <div className={Class("help", {
-                        error: this.hasErrors("model.assemblyDate"),
+                        error: this.hasErrors("assemblyDate"),
                       })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("model.assemblyDate"))}
+                        {map(message => <span key="">{message}</span>, this.getErrors("assemblyDate"))}
                       </div>
                     </div>
 
                     <div className={Class("form-group", {
                       required: false,
-                      error: this.hasErrors("model.manufacturer"),
+                      error: this.hasErrors("manufacturer"),
                     })}>
                       <label htmlFor="manufacturer">Manufacturer</label>
                       <input type="text"
-                        value={model.manufacturer}
-                        onBlur={() => this.validate("model.manufacturer")}
-                        onChange={this.makeHandleChange("model.manufacturer")}
+                        value={form.manufacturer}
+                        onBlur={() => this.validate("manufacturer")}
+                        onChange={this.makeHandleChange("manufacturer")}
                         id="manufacturer" ref="manufacturer"
                         className="form-control"/>
                       <div className={Class("help", {
-                        error: this.hasErrors("model.manufacturer"),
+                        error: this.hasErrors("manufacturer"),
                       })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("model.manufacturer"))}
+                        {map(message => <span key="">{message}</span>, this.getErrors("manufacturer"))}
                       </div>
                     </div>
                   </fieldset>
                   <div className="btn-group">
                     <button className="btn btn-default" type="button" onClick={this.handleReset}>Reset</button>
-                    <button className="btn btn-primary" type="button" onClick={this.handleSubmit} disabled={this.hasErrors("model")}>Submit</button>
+                    <button className="btn btn-primary" type="button" onClick={this.handleSubmit} disabled={this.hasErrors()}>Submit</button>
                   </div>
                 </div>
               </div>
@@ -130,22 +136,23 @@ export default class RobotEdit extends Form {
   handleSubmit() {
     this.validate().then(isValid => {
       if (isValid) {
-        modelActions.editModel(this.state.model);
+        alert("Submit will be here soon!");
+        //modelActions.editModel(this.state.model);
       } else {
         alert("Can't submit form with errors");
       }
     });
   }
 
-  get stateSchema() {
-    return robotValidators;
+  get schema() {
+    return modelValidators.model;
   }
 }
 
-class RobotEditActions extends DeepComponent {
+class ModelActions extends DeepComponent {
   render() {
     let robots = this.props.robots;
-    let model = this.props.model;
+    let form = this.props.form;
     let query = {
       filters: robots.filters,
       sorts: robots.sorts,
@@ -168,7 +175,7 @@ class RobotEditActions extends DeepComponent {
             <ModelLink to="robot-detail" className="btn btn-blue" title="Detail">
               <span className="fa fa-eye"></span>
             </ModelLink>
-            <a className="btn btn-red" title="Remove" onClick={() => modelActions.removeModel(model.id)}>
+            <a className="btn btn-red" title="Remove" onClick={() => modelActions.removeModel(form.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>
@@ -187,3 +194,5 @@ class RobotEditActions extends DeepComponent {
 //(this.validatorTypes().manufacturer._flags.presence == "required")
 //(this.validatorTypes().name._flags.presence == "required"),
 //(this.validatorTypes().assemblyDate._flags.presence == "required"),
+
+// TODO min date, max date

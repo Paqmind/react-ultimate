@@ -5,7 +5,7 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
-import monsterValidators from "shared/validators/monster";
+import modelValidators from "shared/validators/monster";
 import modelActions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent} from "frontend/components/simple";
 import {Error, Loading, NotFound} from "frontend/components/page";
@@ -23,17 +23,26 @@ export default class MonsterAdd extends Form {
   constructor(props) {
     super();
     this.state = {
+      // Raw state for all fields
+      form: {
+        name: undefined,
+        birthDate: undefined,
+        citizenship: undefined,
+      },
+      // Validated and converter state for action
       model: {
         name: undefined,
         birthDate: undefined,
         citizenship: undefined,
       },
+      // Errors
+      errors: {},
     };
   }
 
   render() {
     let {loading, loadError} = this.props.monsters;
-    let model = this.state.model;
+    let form = this.state.form;
 
     if (loading) {
       return <Loading/>;
@@ -43,7 +52,7 @@ export default class MonsterAdd extends Form {
       return (
         <DocumentTitle title={"Add Monster"}>
           <div>
-            <MonsterAddActions/>
+            <ModelActions {...this.props}/>
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-9">
@@ -51,35 +60,35 @@ export default class MonsterAdd extends Form {
                   <fieldset>
                     <div className={Class("form-group", {
                       required: false,
-                      error: this.hasErrors("model.name"),
+                      error: this.hasErrors("name"),
                     })}>
                       <label htmlFor="name">Name</label>
                       <input type="text"
-                        value={model.name}
-                        onBlur={() => this.validate("model.name")}
-                        onChange={this.makeHandleChange("model.name")}
+                        value={form.name}
+                        onBlur={() => this.validate("name")}
+                        onChange={this.makeHandleChange("name")}
                         id="name" ref="name"
                         className="form-control"/>
                       <div className={Class("help", {
-                        error: this.hasErrors("model.name"),
+                        error: this.hasErrors("name"),
                       })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("model.name"))}
+                        {map(message => <span key="">{message}</span>, this.getErrors("name"))}
                       </div>
                     </div>
 
                     <div className={Class("form-group", {
                       required: false,
-                      error: this.hasErrors("model.birthDate"),
+                      error: this.hasErrors("birthDate"),
                     })}>
                       <label htmlFor="birthDate">Birth Date</label>
-                      <input type="text"
-                        value={model.assemblyDate}
-                        onBlur={() => this.validate("model.birthDate")}
-                        onChange={this.makeHandleChange("model.birthDate")}
+                      <input type="date"
+                        value={form.assemblyDate}
+                        onBlur={() => this.validate("birthDate")}
+                        onChange={this.makeHandleChange("birthDate")}
                         id="birthDate" ref="birthDate"
                         className="form-control"/>
                       <div className={Class("help", {
-                        error: this.hasErrors("model.birthDate"),
+                        error: this.hasErrors("birthDate"),
                       })}>
                         {map(message => <span key="">{message}</span>, this.getErrors("model.birthDate"))}
                       </div>
@@ -87,25 +96,25 @@ export default class MonsterAdd extends Form {
 
                     <div className={Class("form-group", {
                       required: false,
-                      error: this.hasErrors("model.citizenship"),
+                      error: this.hasErrors("citizenship"),
                     })}>
                       <label htmlFor="citizenship">Citizenship</label>
                       <input type="text"
-                        value={model.citizenship}
-                        onBlur={() => this.validate("model.citizenship")}
-                        onChange={this.makeHandleChange("model.citizenship")}
+                        value={form.citizenship}
+                        onBlur={() => this.validate("citizenship")}
+                        onChange={this.makeHandleChange("citizenship")}
                         id="citizenship" ref="citizenship"
                         className="form-control"/>
                       <div className={Class("help", {
-                        error: this.hasErrors("model.citizenship"),
+                        error: this.hasErrors("citizenship"),
                       })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("model.citizenship"))}
+                        {map(message => <span key="">{message}</span>, this.getErrors("citizenship"))}
                       </div>
                     </div>
                   </fieldset>
                   <div className="btn-group">
                     <button className="btn btn-default" type="button" onClick={this.handleReset}>Reset</button>
-                    <button className="btn btn-primary" type="button" onClick={this.handleSubmit} disabled={this.hasErrors("model")}>Submit</button>
+                    <button className="btn btn-primary" type="button" onClick={this.handleSubmit} disabled={this.hasErrors()}>Submit</button>
                   </div>
                 </div>
               </div>
@@ -119,19 +128,20 @@ export default class MonsterAdd extends Form {
   handleSubmit() {
     this.validate().then(isValid => {
       if (isValid) {
-        modelActions.addModel(this.state.model);
+        alert("Submit will be here soon!");
+        // modelActions.addModel(this.state.model);
       } else {
         alert("Can't submit form with errors");
       }
     });
   }
 
-  get stateSchema() {
-    return monsterValidators;
+  get schema() {
+    return modelValidators.model;
   }
 }
 
-class MonsterAddActions extends ShallowComponent {
+class ModelActions extends ShallowComponent {
   render() {
     return (
       <div id="actions">

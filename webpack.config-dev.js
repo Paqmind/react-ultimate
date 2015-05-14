@@ -49,7 +49,7 @@ export default {
   module: {
     loaders: [ // http://webpack.github.io/docs/loaders.html
       // JS
-      {test: /\.(js(\?.*)?)$/, loaders: ["babel?stage=0"], exclude: /node_modules/ }, // "react-hot",
+      {test: /\.(js(\?.*)?)$/, loaders: ["react-hot", "babel?stage=0"], exclude: /node_modules/ },
 
       // JSON
       {test: /\.(json(\?.*)?)$/,  loaders: ["json"]},
@@ -112,6 +112,8 @@ export default {
     new Webpack.IgnorePlugin(/^vertx$/),
   //  new Webpack.IgnorePlugin(/^dns$/),
   //  new Webpack.IgnorePlugin(/^net$/),
+  //  new Webpack.HotModuleReplacementPlugin(), TODO Bug?! Crashes on getters. Investigate...
+  //  new Webpack.NoErrorsPlugin()
   ],
 
   /*plugins: [
