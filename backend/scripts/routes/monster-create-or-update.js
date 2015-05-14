@@ -1,26 +1,26 @@
 // IMPORTS =========================================================================================
-import {merge} from "ramda";
-import {makeMonster} from "shared/makers/monster";
+import {mergeDeep} from "shared/helpers/common";
+import * as makeModel from "shared/makers/monster";
 import commonValidators from "shared/validators/common";
-import monsterValidators from "shared/validators/monster";
+import * as modelValidators from "shared/validators/monster";
 import middlewares from "backend/middlewares";
-import monstersDB from "backend/dbs/monster";
+import DB from "backend/dbs/monster";
 import router from "backend/routers/monster";
 
 // ROUTES ==========================================================================================
 router.put("/:id",
   middlewares.createParseParams(commonValidators.id),
   middlewares.createParseQuery({}),
-  middlewares.createParseBody(monsterValidators.model),
+  middlewares.createParseBody(modelValidators.model),
   function handler(req, res, cb) {
-    let oldModel = monstersDB[req.params.id];
+    let oldModel = DB[req.params.id];
     if (oldModel) {
       let newModel = mergeDeep(oldModel, req.body);
-      monstersDB[newModel.id] = newModel;
+      DB[newModel.id] = newModel;
       return res.status(204).send(); // Status: no-content
     } else {
-      let newModel = mergeDeep(makeMonster(), req.body);
-      monstersDB[newModel.id] = newModel;
+      let newModel = mergeDeep(makeModel(), req.body);
+      DB[newModel.id] = newModel;
       let response = {
         data: newModel,
       };

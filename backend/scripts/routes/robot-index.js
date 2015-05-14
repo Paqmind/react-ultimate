@@ -1,9 +1,9 @@
 // IMPORTS =========================================================================================
-import {keys, values} from "lodash";
+import {keys, values} from "ramda";
 import {filterByAll, sortByAll} from "shared/helpers/common";
 import commonValidators from "shared/validators/common";
 import middlewares from "backend/middlewares";
-import robotsDB from "backend/dbs/robot";
+import DB from "backend/dbs/robot";
 import router from "backend/routers/robot";
 
 // ROUTES ==========================================================================================
@@ -14,7 +14,7 @@ router.get("/",
     let sorts = (req.query.sort || "").split(",");
     let {offset=0, limit=20} = req.query.page || {};
 
-    let models = values(robotsDB);
+    let models = values(DB);
     if (keys(filters).length) {
       models = filterByAll(filters, models);
     }
@@ -39,7 +39,7 @@ router.get("/total",
   function handler(req, res, cb) {
     let filters = req.query.filter || {};
 
-    let models = values(robotsDB);
+    let models = values(DB);
     if (keys(filters).length) {
       models = filter(filters, models);
     }

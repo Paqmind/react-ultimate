@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import makeRobot from "shared/makers/robot";
+import * as makeModel from "shared/makers/robot";
 import middlewares from "backend/middlewares";
 import router from "backend/routers/robot";
 
@@ -7,7 +7,7 @@ import router from "backend/routers/robot";
 router.get("/random",
   middlewares.createParseQuery({}),
   function handler(req, res, cb) {
-    let model = makeRobot();
+    let model = makeModel();
     let response = {
       data: model,
     };

@@ -1,9 +1,9 @@
 // IMPORTS =========================================================================================
-import {filter, keys, values} from "ramda";
-import {sortByAll} from "shared/helpers/common";
+import {keys, values} from "ramda";
+import {filterByAll, sortByAll} from "shared/helpers/common";
 import commonValidators from "shared/validators/common";
 import middlewares from "backend/middlewares";
-import monstersDB from "backend/dbs/monster";
+import DB from "backend/dbs/monster";
 import router from "backend/routers/monster";
 
 // ROUTES ==========================================================================================
@@ -14,9 +14,9 @@ router.get("/",
     let sorts = (req.query.sort || "").split(",");
     let {offset=0, limit=20} = req.query.page || {};
 
-    let models = values(monstersDB);
+    let models = values(DB);
     if (keys(filters).length) {
-      models = filter(filters, models);
+      models = filterByAll(filters, models);
     }
     if (sorts.length) {
       models = sortByAll(sorts, models);
@@ -39,7 +39,7 @@ router.get("/total",
   function handler(req, res, cb) {
     let filters = req.query.filter || {};
 
-    let models = values(monstersDB);
+    let models = values(DB);
     if (keys(filters).length) {
       models = filter(filters, models);
     }

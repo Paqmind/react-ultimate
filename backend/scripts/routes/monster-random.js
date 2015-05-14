@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import makeMonster from "shared/makers/monster";
+import * as makeModel from "shared/makers/monster";
 import middlewares from "backend/middlewares";
 import router from "backend/routers/monster";
 
@@ -7,7 +7,7 @@ import router from "backend/routers/monster";
 router.get("/random",
   middlewares.createParseQuery({}),
   function handler(req, res, cb) {
-    let model = makeMonster();
+    let model = makeModel();
     let response = {
       data: model,
     };
