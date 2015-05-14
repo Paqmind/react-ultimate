@@ -14,7 +14,7 @@ import {Form} from "frontend/components/form";
 // COMPONENTS ======================================================================================
 @branch({
   cursors: {
-    robots: "monsters",
+    monsters: "monsters",
   },
 })
 export default class MonsterAdd extends Form {
