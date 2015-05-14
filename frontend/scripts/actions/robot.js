@@ -14,7 +14,7 @@ import setIndexLimit from "./set-index-limit/robot";
 import establishModel from "./establish-model/robot";
 import loadModel from "./load-model/robot";
 import fetchModel from "./fetch-model/robot";
-import viewModel from "./view-model/robot";
+import setModelId from "./set-model-id/robot";
 import addModel from "./add-model/robot";
 import editModel from "./edit-model/robot";
 import removeModel from "./remove-model/robot";
@@ -25,5 +25,5 @@ export default {
   setIndexFilters, setIndexLimit, setIndexOffset, setIndexSorts,
 
   // CRUD
-  establishModel, loadModel, fetchModel, viewModel, addModel, editModel, removeModel,
+  establishModel, loadModel, fetchModel, setModelId, addModel, editModel, removeModel,
 };
