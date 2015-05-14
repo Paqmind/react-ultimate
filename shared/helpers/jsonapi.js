@@ -29,29 +29,31 @@ export function parseQuery(query) {
   };
 }
 
-export function formatQuery(modifiers) {
-  if (!modifiers instanceof Object) {
-    throw new Error(`modifiers must be a basic Object, got ${modifiers}`);
+export function formatQuery(params) {
+  if (!params instanceof Object) {
+    throw new Error(`params must be a basic Object, got ${params}`);
   }
 
   let sortObj = {};
   let filterObj = {};
   let pageObj = {};
 
-  if (modifiers.filters) {
+  if (params.filters) {
     filterObj = reduce((filterObj, key) => {
-      filterObj[`filter[${key}]`] = modifiers.filters[key];
+      filterObj[`filter[${key}]`] = params.filters[key];
       return filterObj;
-    }, filterObj, keys(modifiers.filters));
+    }, filterObj, keys(params.filters));
   }
-  if (modifiers.sorts) {
-    sortObj["sort"] = join(",", modifiers.sorts);
+  if (params.sorts) {
+    sortObj["sort"] = join(",", params.sorts);
   }
-  if (modifiers.offset || modifiers.offset == 0) {
-    pageObj["page[offset]"] = modifiers.offset;
-  }
-  if (modifiers.limit || modifiers.limit == 0) {
-    pageObj["page[limit]"] = modifiers.limit;
+  if (params.page) {
+    if (params.page.offset || params.page.offset == 0) {
+      pageObj["page[offset]"] = params.page.offset;
+    }
+    if (params.page.limit || params.page.limit == 0) {
+      pageObj["page[limit]"] = params.page.limit;
+    }
   }
 
   return Object.assign({}, sortObj, filterObj, pageObj);

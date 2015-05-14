@@ -21,7 +21,7 @@ export default function fetchIndex() {
   let limit = cursor.get("limit");
 
   let url = `/api/monsters/`;
-  let query = formatQuery({filters, sorts, offset, limit});
+  let query = formatQuery({filters, sorts, page: {offset, limit}});
 
   return Axios.get(url, {params: query})
     .then(response => {

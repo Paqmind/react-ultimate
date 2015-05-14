@@ -11,7 +11,7 @@ export default function fetchIndex() {
 
   let url = `/api/alerts/`;
   // TODO
-  // let query = formatQuery({filters, sorts, offset, limit});
+  // let query = formatQuery({filters, sorts, page: {offset, limit}});
 
   cursor.merge({
     loading: false,
