@@ -2,8 +2,8 @@
 import state, {ROBOT} from "frontend/state";
 
 // ACTIONS =========================================================================================
-export default function setOffset(newOffset=ROBOT.OFFSET) {
-  console.debug(`setOffset(${newOffset})`);
+export default function setIndexOffset(newOffset=ROBOT.OFFSET) {
+  console.debug(`setIndexOffset(${newOffset})`);
 
   let cursor = state.select("robots");
   let offset = cursor.get("offset");

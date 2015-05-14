@@ -6,16 +6,16 @@ import {mergeDeep} from "shared/helpers/common";
 import {Component} from "./component";
 
 // COMPONENTS ======================================================================================
-export default class ModelLink extends Component {
+export default class IndexLink extends Component {
   render() {
     let urlCursor = state.select("url");
-    let urlId = urlCursor.get("id");
+    let urlQuery = urlCursor.get("query");
 
-    let {params, ...props} = this.props;
-    params = mergeDeep({id: urlId}, params);
+    let {query, ...props} = this.props;
+    query = mergeDeep(urlQuery, query);
 
     return (
-      <ReactRouter.Link params={params} {...props}>
+      <ReactRouter.Link query={query} {...props}>
         {this.props.children}
       </ReactRouter.Link>
     );

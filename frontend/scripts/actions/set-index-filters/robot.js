@@ -4,8 +4,8 @@ import {recalculatePaginationWithFilters} from "frontend/helpers/pagination";
 import state, {ROBOT} from "frontend/state";
 
 // ACTIONS =========================================================================================
-export default function setFilters(newFilters=ROBOT.FILTERS) {
-  console.debug(`setFilters(${JSON.stringify(newFilters)})`);
+export default function setIndexFilters(newFilters=ROBOT.FILTERS) {
+  console.debug(`setIndexFilters(${JSON.stringify(newFilters)})`);
 
   let cursor = state.select("robots");
   let models = cursor.get("models");

@@ -3,6 +3,8 @@ import Axios from "axios";
 import {recalculatePaginationWithoutModel} from "frontend/helpers/pagination";
 import state from "frontend/state";
 import alertActions from "frontend/actions/alert";
+import {handleInvalidOffset} from "../load-index/monster";
+import fetchIndex from "../fetch-index/monster";
 
 // ACTIONS =========================================================================================
 export default function remove(id) {
@@ -24,8 +26,13 @@ export default function remove(id) {
     .then(response => {
       cursor.merge({loading: false, loadError: undefined});
 
+      // Invoke new load on empty data
+      if (!state.facets.currentRobots.get().length) {
+        fetchIndex().then(handleInvalidOffset);
+      }
+
       // Add alert
-      alertActions.add({message: "Action succeed", category: "success"});
+      alertActions.addModel({message: "Action succeed", category: "success"});
 
       return response.status;
     })
@@ -41,11 +48,12 @@ export default function remove(id) {
 
         // Cancel action
         cursor.merge({loading: false, loadError});
+        cursor.set("total", oldTotal);
         cursor.select("models").set(id, oldModel);
         cursor.set("pagination", oldPagination);
 
         // Add alert
-        alertActions.add({message: "Action failed: " + loadError.description, category: "error"});
+        alertActions.addModel({message: "Action failed: " + loadError.description, category: "error"});
 
         return response.status;
       }

@@ -1,11 +1,11 @@
 // IMPORTS =========================================================================================
 import state from "frontend/state";
-import resetIndex from "frontend/actions/reset-index/robot";
-import setFilters from "frontend/actions/set-index-filters/robot";
-import setSorts from "frontend/actions/set-index-sorts/robot";
-import setOffset from "frontend/actions/set-index-offset/robot";
-import setLimit from "frontend/actions/set-index-limit/robot";
 import loadIndex from "frontend/actions/load-index/robot";
+import resetIndex from "frontend/actions/reset-index/robot";
+import setIndexFilters from "frontend/actions/set-index-filters/robot";
+import setIndexSorts from "frontend/actions/set-index-sorts/robot";
+import setIndexOffset from "frontend/actions/set-index-offset/robot";
+import setIndexLimit from "frontend/actions/set-index-limit/robot";
 
 // ACTIONS =========================================================================================
 export default function establishIndex() {
@@ -16,10 +16,10 @@ export default function establishIndex() {
   if (urlCursor.get("reset")) {
     resetIndex();
   }
-  setFilters(urlCursor.get("filters"));
-  setSorts(urlCursor.get("sorts"));
-  setOffset(urlCursor.get("offset"));
-  setLimit(urlCursor.get("limit"));
+  setIndexFilters(urlCursor.get("filters"));
+  setIndexSorts(urlCursor.get("sorts"));
+  setIndexOffset(urlCursor.get("offset"));
+  setIndexLimit(urlCursor.get("limit"));
 
   loadIndex();
 }

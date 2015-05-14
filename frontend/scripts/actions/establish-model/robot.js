@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
 import state from "frontend/state";
-import setModelId from "frontend/actions/set-model-id/robot";
+import viewModel from "frontend/actions/view-model/robot";
 import loadModel from "frontend/actions/load-model/robot";
 
 // ACTIONS =========================================================================================

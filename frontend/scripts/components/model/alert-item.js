@@ -1,8 +1,9 @@
 // IMPORTS =========================================================================================
 import classNames from "classnames";
 import React from "react";
+import {Link} from "react-router";
 import alertActions from "frontend/actions/alert";
-import {ShallowComponent, Link} from "frontend/components/simple";
+import {ShallowComponent} from "frontend/components/simple";
 
 // EXPORTS =========================================================================================
 class Expire extends ShallowComponent {
@@ -79,13 +80,13 @@ export default class Item extends ShallowComponent {
 
     let result = (
       <div className={classes} {...this.props}>
-        {model.closable ? <CloseLink onClick={() => alertActions.remove(model.id)}/> : ""}
+        {model.closable ? <CloseLink onClick={() => alertActions.removeModel(model.id)}/> : ""}
         {model.message}
       </div>
     );
 
     if (model.expire) {
-      result = <Expire onExpire={() => alertActions.remove(model.id)} delay={model.expire}>{result}</Expire>;
+      result = <Expire onExpire={() => alertActions.removeModel(model.id)} delay={model.expire}>{result}</Expire>;
     }
 
     return result;

@@ -56,7 +56,7 @@ export default function fetchIndex() {
         };
         cursor.merge({loading: false, loadError});
 
-        alertActions.add({message: "Action `Monster:fetchPage` failed: " + loadError.description, category: "error"});
+        alertActions.addModel({message: "Action `Monster:fetchPage` failed: " + loadError.description, category: "error"});
 
         return response.status;
       }

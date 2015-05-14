@@ -3,11 +3,11 @@ import {map} from "ramda";
 import Class from "classnames";
 import {branch} from "baobab-react/decorators";
 import React from "react";
+import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
-import {formatQuery} from "shared/helpers/jsonapi";
 import robotValidators from "shared/validators/robot";
 import robotActions from "frontend/actions/robot";
-import {ShallowComponent, DeepComponent, Link} from "frontend/components/simple";
+import {ShallowComponent, DeepComponent} from "frontend/components/simple";
 import {Error, Loading, NotFound} from "frontend/components/page";
 import {Form} from "frontend/components/form";
 
@@ -40,19 +40,6 @@ export default class RobotAdd extends Form {
     } else if (loadError) {
       return <Error loadError={loadError}/>;
     } else {
-      return <div>RobotAdd+</div>;
-    }
-  }
-}
-
-  //render() {
-    /*
-    if (loading) {
-      return <Loading/>;
-    } else if (loadError) {
-      return <Error loadError={loadError}/>;
-    } else {
-      return <div>Form</div>;
       return (
         <DocumentTitle title={"Add Robot"}>
           <div>
@@ -61,87 +48,100 @@ export default class RobotAdd extends Form {
               <div className="row">
                 <div className="col-xs-12 col-sm-9">
                   <h1 className="nomargin-top">Add Robot</h1>
-                  <form onSubmit={this.handleSubmit}>
-                    <fieldset>
-                      <div className={Class("form-group", {
-                        "required": (this.validatorTypes().name._flags.presence == "required"),
-                        "error": this.hasErrors("name"),
+                  <fieldset>
+                    <div className={Class("form-group", {
+                      required: false,
+                      error: this.hasErrors("model.name"),
+                    })}>
+                      <label htmlFor="name">Name</label>
+                      <input type="text"
+                        value={model.name}
+                        onBlur={() => this.validate("model.name")}
+                        onChange={this.makeHandleChange("model.name")}
+                        id="name" ref="name"
+                        className="form-control"/>
+                      <div className={Class("help", {
+                        error: this.hasErrors("model.name"),
                       })}>
-                        <label htmlFor="name">Name</label>
-                        <input type="text" onBlur={() => this.validate("name")} onChange={this.handleChangeFor("name")} className="form-control" id="name" ref="name" value={model.name}/>
-                        <div className={Class("help", {
-                          "error": this.hasErrors("name"),
-                        })}>
-                          {map(message => <span key="">{message}</span>, this.getErrors("name"))}
-                        </div>
+                        {map(message => <span key="">{message}</span>, this.getErrors("model.name"))}
                       </div>
-
-                      <div className={Class("form-group", {
-                        "required": (this.validatorTypes().assemblyDate._flags.presence == "required"),
-                        "error": this.hasErrors("assemblyDate")
-                      })}>
-                        <label htmlFor="assemblyDate">Assembly Date</label>
-                        <input type="text" onBlur={() => this.validate("assemblyDate")} onChange={this.handleChangeFor("assemblyDate")} className="form-control" id="assemblyDate" ref="assemblyDate" value={model.assemblyDate}/>
-                        <div className={Class("help", {
-                          "error": this.hasErrors("assemblyDate"),
-                        })}>
-                          {map(message => <span key="">{message}</span>, this.getErrors("assemblyDate"))}
-                        </div>
-                      </div>
-
-                      <div className={Class("form-group", {
-                        "required": (this.validatorTypes().manufacturer._flags.presence == "required"),
-                        "error": this.hasErrors("manufacturer")
-                      })}>
-                        <label htmlFor="manufacturer">Manufacturer</label>
-                        <input type="text" onBlur={() => this.validate("manufacturer")} onChange={this.handleChangeFor("manufacturer")} className="form-control" id="manufacturer" ref="manufacturer" value={model.manufacturer}/>
-                        <div className={Class("help", {
-                          "error": this.hasErrors("manufacturer"),
-                        })}>
-                          {map(message => <span key="">{message}</span>, this.getErrors("manufacturer"))}
-                        </div>
-                      </div>
-                    </fieldset>
-                    <div className="btn-group">
-                      <button className="btn btn-default" type="button" onClick={event => this.handleReset(event)}>Reset</button>
-                      <button className="btn btn-primary" type="button" disabled={this.hasErrors()}>Submit</button>
                     </div>
-                  </form>
+
+                    <div className={Class("form-group", {
+                      required: false,
+                      error: this.hasErrors("model.assemblyDate"),
+                    })}>
+                      <label htmlFor="assemblyDate">Assembly Date</label>
+                      <input type="text"
+                        value={model.assemblyDate}
+                        onBlur={() => this.validate("model.assemblyDate")}
+                        onChange={this.makeHandleChange("model.assemblyDate")}
+                        id="assemblyDate" ref="assemblyDate"
+                        className="form-control"/>
+                      <div className={Class("help", {
+                        error: this.hasErrors("model.assemblyDate"),
+                      })}>
+                        {map(message => <span key="">{message}</span>, this.getErrors("model.assemblyDate"))}
+                      </div>
+                    </div>
+
+                    <div className={Class("form-group", {
+                      required: false,
+                      error: this.hasErrors("model.manufacturer"),
+                    })}>
+                      <label htmlFor="manufacturer">Manufacturer</label>
+                      <input type="text"
+                        value={model.manufacturer}
+                        onBlur={() => this.validate("model.manufacturer")}
+                        onChange={this.makeHandleChange("model.manufacturer")}
+                        id="manufacturer" ref="manufacturer"
+                        className="form-control"/>
+                      <div className={Class("help", {
+                        error: this.hasErrors("model.manufacturer"),
+                      })}>
+                        {map(message => <span key="">{message}</span>, this.getErrors("model.manufacturer"))}
+                      </div>
+                    </div>
+                  </fieldset>
+                  <div className="btn-group">
+                    <button className="btn btn-default" type="button" onClick={this.handleReset}>Reset</button>
+                    <button className="btn btn-primary" type="button" onClick={this.handleSubmit} disabled={this.hasErrors("model")}>Submit</button>
+                  </div>
                 </div>
               </div>
             </section>
           </div>
         </DocumentTitle>
       );
-    }*/
-  //}
+    }
+  }
 
-  /*handleSubmit(event) {
-    event.preventDefault();
-    event.persist();
+  handleSubmit() {
     this.validate().then(isValid => {
       if (isValid) {
-        robotActions.add({
-          name: React.findDOMNode(this.refs.name).value,
-          assemblyDate: React.findDOMNode(this.refs.assemblyDate).value,
-          manufacturer: React.findDOMNode(this.refs.manufacturer).value,
-        });
+        robotActions.addModel(this.state.model);
       } else {
         alert("Can't submit form with errors");
       }
     });
-  }*/
-//}
+  }
+
+  get stateSchema() {
+    return robotValidators;
+  }
+}
 
 class RobotAddActions extends ShallowComponent {
   render() {
     let robots = this.props.robots;
-    let query = formatQuery({
+    let query = {
       filters: robots.filters,
       sorts: robots.sorts,
-      offset: robots.offset,
-      limit: robots.limit
-    });
+      page: {
+        offset: robots.offset,
+        limit: robots.limit,
+      }
+    };
 
     return (
       <div id="actions">
@@ -163,3 +163,7 @@ class RobotAddActions extends ShallowComponent {
 <TextInput label="Assembly Date" placeholder="Assembly Date" id="model.assemblyDate" form={this}/>
 <TextInput label="Manufacturer" placeholder="Manufacturer" id="model.manufacturer" form={this}/>
 */
+
+//(this.validatorTypes().name._flags.presence == "required")
+//(this.validatorTypes().assemblyDate._flags.presence == "required")
+//(this.validatorTypes().manufacturer._flags.presence == "required")

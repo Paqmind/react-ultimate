@@ -2,9 +2,10 @@
 import Axios from "axios";
 import {recalculatePaginationWithoutModel} from "frontend/helpers/pagination";
 import state from "frontend/state";
-import router from "frontend/router";
+import {router} from "frontend/router";
 import alertActions from "frontend/actions/alert";
-import loadIndex from "frontend/actions/load-index/robot";
+import {handleInvalidOffset} from "../load-index/robot";
+import fetchIndex from "../fetch-index/robot";
 
 // ACTIONS =========================================================================================
 export default function remove(id) {
@@ -14,9 +15,7 @@ export default function remove(id) {
   let oldTotal = cursor.get("total");
   let oldPagination = cursor.get("pagination");
   let oldModel = state.select("robots", "models", id).get();
-  console.log("oldPagination:", oldPagination);
   let newPagination = recalculatePaginationWithoutModel(id, oldPagination);
-  console.log("newPagination:", newPagination);
   let url = `/api/robots/${id}`;
 
   // Optimistic action
@@ -29,21 +28,20 @@ export default function remove(id) {
     .then(response => {
       cursor.merge({loading: false, loadError: undefined});
 
-      // Transition to index page
-      let requiredPath = router.makePath("robot-index");
+      // Transition to index page if remove was caused from other page
+      let indexPath = router.makePath("robot-index");
       let currentPath = router.makePath()
-
-      console.log("requiredPath:", requiredPath);
-      console.log("currentPath:", currentPath);
-
-      if (currentPath != requiredPath) {
+      if (currentPath != indexPath) {
         router.transitionTo("robot-index");
       }
 
-      // Add alert
-      alertActions.add({message: "Action succeed", category: "success"});
+      // Invoke new load on empty data
+      if (!state.facets.currentRobots.get().length) {
+        fetchIndex().then(handleInvalidOffset);
+      }
 
-      loadIndex();
+      // Add alert
+      alertActions.addModel({message: "Action succeed", category: "success"});
 
       return response.status;
     })
@@ -64,7 +62,7 @@ export default function remove(id) {
         cursor.set("pagination", oldPagination);
 
         // Add alert
-        alertActions.add({message: "Action failed: " + loadError.description, category: "error"});
+        alertActions.addModel({message: "Action failed: " + loadError.description, category: "error"});
 
         return response.status;
       }

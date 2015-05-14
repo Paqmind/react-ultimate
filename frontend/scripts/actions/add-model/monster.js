@@ -26,7 +26,7 @@ export default function add(model) {
       cursor.merge({loading: false, loadError: undefined});
 
       // Add alert
-      alertActions.add({message: "Action succeed", category: "success"});
+      alertActions.addModel({message: "Action succeed", category: "success"});
 
       return response.status;
     })
@@ -46,7 +46,7 @@ export default function add(model) {
         cursor.set("pagination", oldPagination);
 
         // Add alert
-        alertActions.add({message: "Action failed: " + loadError.description, category: "error"});
+        alertActions.addModel({message: "Action failed: " + loadError.description, category: "error"});
 
         return response.status;
       }

@@ -22,7 +22,7 @@ export default function edit(model) {
       cursor.merge({loading: false, loadError: undefined});
 
       // Add alert
-      alertActions.add({message: "Action succeed", category: "success"});
+      alertActions.addModel({message: "Action succeed", category: "success"});
 
       return response.status;
     })
@@ -41,7 +41,7 @@ export default function edit(model) {
         cursor.select("models").set(id, oldModel);
 
         // Add alert
-        alertActions.add({message: "Action failed: " + loadError.description, category: "error"});
+        alertActions.addModel({message: "Action failed: " + loadError.description, category: "error"});
 
         return response.status;
       }

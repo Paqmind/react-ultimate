@@ -7,41 +7,26 @@ import state from "frontend/state";
 //   app (router) <- routes <- components <- actions <- app (router)
 // to:
 //   app (router) <- routes <- components <- actions <- proxy (router)
-let proxy = {
-  makePath(route=undefined, params=undefined, query=undefined, withParams=undefined, withQuery=undefined) {
+let router = {
+  makePath(route=undefined, params=undefined, query=undefined) {
     let urlCursor = state.select("url");
-    return window._router.makePath(
-      route || urlCursor.get("route"),
-      withParams ? mergeDeep(urlCursor.get("params"), withParams) : params,
-      withQuery  ? mergeDeep(urlCursor.get("query"),  withQuery)  : query
-    );
+    let urlRoute = urlCursor.get("route");
+    return window._router.makePath(route || urlRoute, params, query);
   },
 
-  makeHref(route=undefined, params=undefined, query=undefined, withParams=undefined, withQuery=undefined) {
+  makeHref(route=undefined, params=undefined, query=undefined) {
     let urlCursor = state.select("url");
-    return window._router.makeHref(
-      route || urlCursor.get("route"),
-      withParams ? mergeDeep(urlCursor.get("params"), withParams) : params,
-      withQuery  ? mergeDeep(urlCursor.get("query"),  withQuery)  : query
-    );
+    return window._router.makeHref(route || urlRoute, params, query);
   },
 
-  transitionTo(route=undefined, params=undefined, query=undefined, withParams=undefined, withQuery=undefined) {
+  transitionTo(route=undefined, params=undefined, query=undefined) {
     let urlCursor = state.select("url");
-    window._router.transitionTo(
-      route || urlCursor.get("route"),
-      withParams ? mergeDeep(urlCursor.get("params"), withParams) : params,
-      withQuery  ? mergeDeep(urlCursor.get("query"),  withQuery)  : query
-    );
+    window._router.transitionTo(route || urlRoute, params, query);
   },
 
-  replaceWith(route=undefined, params=undefined, query=undefined, withParams=undefined, withQuery=undefined) {
+  replaceWith(route=undefined, params=undefined, query=undefined) {
     let urlCursor = state.select("url");
-    window._router.replaceWith(
-      route || urlCursor.get("route"),
-      withParams ? mergeDeep(urlCursor.get("params"), withParams) : params,
-      withQuery  ? mergeDeep(urlCursor.get("query"),  withQuery)  : query
-    );
+    window._router.replaceWith(route || urlRoute, params, query);
   },
 
   goBack() {
@@ -53,4 +38,81 @@ let proxy = {
   }
 };
 
-export default proxy;
+let modelRouter = {
+  makePath(route=undefined, id=undefined) {
+    let urlCursor = state.select("url");
+    let urlRoute = urlCursor.get("route");
+    let urlParams = urlCursor.get("params");
+    return window._router.makePath(route || urlRoute, id ? {id} : urlParams);
+  },
+
+  makeHref(route=undefined, id=undefined) {
+    let urlCursor = state.select("url");
+    let urlRoute = urlCursor.get("route");
+    let urlParams = urlCursor.get("params");
+    return window._router.makeHref(route || urlRoute, id ? {id} : urlParams);
+  },
+
+  transitionTo(route=undefined, id=undefined) {
+    let urlCursor = state.select("url");
+    let urlRoute = urlCursor.get("route");
+    let urlParams = urlCursor.get("params");
+    window._router.transitionTo(route || urlRoute, id ? {id} : urlParams);
+  },
+
+  replaceWith(route=undefined, id=undefined) {
+    let urlCursor = state.select("url");
+    let urlRoute = urlCursor.get("route");
+    let urlParams = urlCursor.get("params");
+    window._router.replaceWith(route || urlRoute, id ? {id} : urlParams);
+  },
+
+  goBack() {
+    window._router.goBack();
+  },
+
+  run(render) {
+    window._router.run(render);
+  }
+};
+
+let indexRouter = {
+  makePath(route=undefined, query={}) {
+    let urlCursor = state.select("url");
+    let urlRoute = urlCursor.get("route");
+    return window._router.makePath(route || urlRoute, undefined, mergeDeep(urlQuery));
+  },
+
+  makeHref(route=undefined, query={}) {
+    let urlCursor = state.select("url");
+    let urlRoute = urlCursor.get("route");
+    return window._router.makeHref(route || urlRoute, undefined, mergeDeep(urlQuery, query));
+  },
+
+  transitionTo(route=undefined, query={}) {
+    let urlCursor = state.select("url");
+    let urlRoute = urlCursor.get("route");
+    return window._router.transitionTo(route || urlRoute, undefined, mergeDeep(urlQuery, query));
+  },
+
+  replaceWith(route=undefined, query={}) {
+    let urlCursor = state.select("url");
+    let urlRoute = urlCursor.get("route");
+    let urlQuery = urlCursor.get("query");
+    return window._router.replaceWith(route || urlRoute, undefined, mergeDeep(urlQuery, query));
+  },
+
+  goBack() {
+    window._router.goBack();
+  },
+
+  run(render) {
+    window._router.run(render);
+  }
+};
+
+export default {
+  router,
+  modelRouter,
+  indexRouter,
+};

@@ -1,10 +1,10 @@
 // IMPORTS =========================================================================================
 import state, {MONSTER} from "frontend/state";
-import router from "frontend/router";
+import {router} from "frontend/router";
 
 // ACTIONS =========================================================================================
-export default function setLimit(newLimit=MONSTER.LIMIT) {
-  console.debug(`setLimit(${newLimit})`);
+export default function setIndexLimit(newLimit=MONSTER.LIMIT) {
+  console.debug(`setIndexLimit(${newLimit})`);
 
   let cursor = state.select("monsters");
   let limit = cursor.get("limit");

@@ -3,17 +3,17 @@ import {filter} from "ramda";
 import Axios from "axios";
 import {getTotalPages, recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
-import router from "frontend/router";
-import setOffset from "frontend/actions/set-offset/monster";
+import {router} from "frontend/router";
+import setIndexOffset from "frontend/actions/set-index-offset/monster";
 import fetchIndex from "frontend/actions/fetch-index/monster";
 
 // ACTIONS =========================================================================================
 export default function loadIndex() {
   console.debug("loadIndex()");
 
-  handleUnexistingOffset();
+  handleInvalidOffset();
   if (!isCacheAvailable()) {
-    fetchIndex().then(handleUnexistingOffset);
+    fetchIndex().then(handleInvalidOffset);
   }
 }
 
@@ -37,7 +37,7 @@ export function isCacheAvailable() {
   }
 }
 
-function handleUnexistingOffset() {
+export function handleInvalidOffset() {
   let cursor = state.select("monsters");
   let total = cursor.get("total");
   let offset = cursor.get("offset");
@@ -45,6 +45,6 @@ function handleUnexistingOffset() {
 
   if (total) {
     let recommendedOffset = recommendOffset(total, offset, limit);
-    setOffset(recommendedOffset);
+    setIndexOffset(recommendedOffset);
   }
 }

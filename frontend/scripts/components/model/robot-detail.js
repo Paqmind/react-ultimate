@@ -1,11 +1,11 @@
 // IMPORTS =========================================================================================
 import {branch} from "baobab-react/decorators";
 import React from "react";
+import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
-import {formatQuery} from "shared/helpers/jsonapi";
 import state from "frontend/state";
 import robotActions from "frontend/actions/robot";
-import {ShallowComponent, DeepComponent, Link} from "frontend/components/simple";
+import {ShallowComponent, DeepComponent, ModelLink} from "frontend/components/simple";
 import {Error, Loading, NotFound} from "frontend/components/page";
 
 // COMPONENTS ======================================================================================
@@ -32,7 +32,7 @@ export default class RobotDetail extends DeepComponent {
       return (
         <DocumentTitle title={"Detail " + model.name}>
           <div>
-            <RobotDetailActions {...this.props}/>
+            <RobotDetailActions {...this.props} model={model}/>
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-3">
@@ -64,12 +64,14 @@ class RobotDetailActions extends DeepComponent {
   render() {
     let robots = this.props.robots;
     let model = this.props.model;
-    let query = formatQuery({
+    let query = {
       filters: robots.filters,
       sorts: robots.sorts,
-      offset: robots.offset,
-      limit: robots.limit
-    });
+      page: {
+        offset: robots.offset,
+        limit: robots.limit,
+      }
+    };
 
     return (
       <div id="actions">
@@ -81,10 +83,10 @@ class RobotDetailActions extends DeepComponent {
             </Link>
           </div>
           <div className="btn-group btn-group-sm pull-right">
-            <Link to="robot-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
+            <ModelLink to="robot-edit" className="btn btn-orange" title="Edit">
               <span className="fa fa-edit"></span>
-            </Link>
-            <a className="btn btn-red" title="Remove" onClick={() => robotActions.remove(model.id)}>
+            </ModelLink>
+            <a className="btn btn-red" title="Remove" onClick={() => robotActions.removeModel(model.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>

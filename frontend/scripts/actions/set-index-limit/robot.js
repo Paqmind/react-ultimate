@@ -1,10 +1,10 @@
 // IMPORTS =========================================================================================
 import state, {ROBOT} from "frontend/state";
-import router from "frontend/router";
+import {router} from "frontend/router";
 
 // ACTIONS =========================================================================================
-export default function setLimit(newLimit=ROBOT.LIMIT) {
-  console.debug(`setLimit(${newLimit})`);
+export default function setIndexLimit(newLimit=ROBOT.LIMIT) {
+  console.debug(`setIndexLimit(${newLimit})`);
 
   let cursor = state.select("robots");
   let limit = cursor.get("limit");

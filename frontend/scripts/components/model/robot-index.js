@@ -2,12 +2,13 @@
 import {map} from "ramda";
 import {branch} from "baobab-react/decorators";
 import React from "react";
+import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import {toArray} from "shared/helpers/common";
 import state from "frontend/state";
-import router from "frontend/router";
+import {router} from "frontend/router";
 import robotActions from "frontend/actions/robot";
-import {ShallowComponent, DeepComponent, Link, Pagination} from "frontend/components/simple";
+import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/simple";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import {Error, Loading, NotFound} from "frontend/components/page";
 import RobotItem from "./robot-item";

@@ -75,12 +75,13 @@ export default class About extends Component {
             User friendly: live validation.
           </p>
 
-          <h3>CRUD</h3>
+          <h4>Index Backlinks</h4>
           <p>
-            Architecture: validation rules are shared between Backend and Frontend.
-            User friendly: live validation.
+            Backlinks from model pages to index pages point to the corresponding offsets in paginations.
+            It was practically impossible to do this "right" in backend-driven apps. As soon
+            as multiple browser tabs were opened, and cookies were overwritten, you were into trouble...
+            Fortunately that days are gone.
           </p>
-
         </section>
       </DocumentTitle>
     );

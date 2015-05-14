@@ -4,8 +4,8 @@ import {recalculatePaginationWithSorts} from "frontend/helpers/pagination";
 import state, {MONSTER} from "frontend/state";
 
 // ACTIONS =========================================================================================
-export default function setSorts(newSorts=MONSTER.SORTS) {
-  console.debug(`setSorts(${JSON.stringify(newSorts)})`);
+export default function setIndexSorts(newSorts=MONSTER.SORTS) {
+  console.debug(`setIndexSorts(${JSON.stringify(newSorts)})`);
 
   let cursor = state.select("monsters");
   let models = cursor.get("models");

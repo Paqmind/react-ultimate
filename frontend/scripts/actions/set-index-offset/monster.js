@@ -2,8 +2,8 @@
 import state, {MONSTER} from "frontend/state";
 
 // ACTIONS =========================================================================================
-export default function setOffset(newOffset=MONSTER.OFFSET) {
-  console.debug(`setOffset(${newOffset})`);
+export default function setIndexOffset(newOffset=MONSTER.OFFSET) {
+  console.debug(`setIndexOffset(${newOffset})`);
 
   let cursor = state.select("monsters");
   let offset = cursor.get("offset");

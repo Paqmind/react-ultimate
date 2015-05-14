@@ -3,7 +3,7 @@ import Axios from "axios";
 import Robot from "shared/models/robot";
 import {recalculatePaginationWithModel} from "frontend/helpers/pagination";
 import state from "frontend/state";
-import router from "frontend/router";
+import {router} from "frontend/router";
 import alertActions from "frontend/actions/alert";
 
 // ACTIONS =========================================================================================
@@ -34,7 +34,7 @@ export default function add(model) {
       router.transitionTo("robot-index");
 
       // Add alert
-      alertActions.add({message: "Action succeed", category: "success"});
+      alertActions.addModel({message: "Action succeed", category: "success"});
 
       return response.status;
     })
@@ -55,7 +55,7 @@ export default function add(model) {
         cursor.set("pagination", oldPagination);
 
         // Add alert
-        alertActions.add({message: "Action failed: " + loadError.description, category: "error"});
+        alertActions.addModel({message: "Action failed: " + loadError.description, category: "error"});
 
         return response.status;
       }

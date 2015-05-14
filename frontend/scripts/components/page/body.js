@@ -1,9 +1,10 @@
 // IMPORTS =========================================================================================
 import {root} from "baobab-react/decorators";
 import React from "react";
+import {Link} from "react-router";
 import {RouteHandler} from "react-router";
 import state from "frontend/state";
-import {Component, Link, Menu, Headroom} from "frontend/components/simple";
+import {Component, Menu, Headroom} from "frontend/components/simple";
 import alertActions from "frontend/actions/alert";
 import AlertIndex from "frontend/components/model/alert-index";
 

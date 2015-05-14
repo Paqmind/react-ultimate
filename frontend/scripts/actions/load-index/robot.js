@@ -3,16 +3,16 @@ import {filter} from "ramda";
 import Axios from "axios";
 import {getTotalPages, recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
-import router from "frontend/router";
+import {router} from "frontend/router";
 import fetchIndex from "frontend/actions/fetch-index/robot";
 
 // ACTIONS =========================================================================================
 export default function loadIndex() {
   console.debug("loadIndex()");
 
-  handleUnexistingOffset();
+  handleInvalidOffset();
   if (!isCacheAvailable()) {
-    fetchIndex().then(handleUnexistingOffset);
+    fetchIndex().then(handleInvalidOffset);
   }
 }
 
@@ -36,7 +36,7 @@ export function isCacheAvailable() {
   }
 }
 
-function handleUnexistingOffset() {
+export function handleInvalidOffset() {
   let cursor = state.select("robots");
   let total = cursor.get("total");
   let offset = cursor.get("offset");
@@ -45,13 +45,7 @@ function handleUnexistingOffset() {
   if (total) {
     let recommendedOffset = recommendOffset(total, offset, limit);
     if (offset != recommendedOffset) {
-      router.transitionTo(
-        undefined,                          // route
-        undefined,                          // params
-        undefined,                          // query
-        {},                                 // withParams
-        {page: {offset: recommendedOffset}} // withQuery
-      );
+      router.transitionTo(undefined, undefined, {page: {offset: recommendedOffset}});
     }
   }
 }
