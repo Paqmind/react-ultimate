@@ -2,7 +2,7 @@
 import {mapIndexed} from "ramda";
 import Class from "classnames";
 import React from "react";
-import {ShallowComponent, Link} from "frontend/components/simple";
+import {ShallowComponent, IndexLink} from "frontend/components/simple";
 
 // COMPONENTS ======================================================================================
 export default class FilterBy extends ShallowComponent {
@@ -57,9 +57,9 @@ export default class FilterBy extends ShallowComponent {
               // URL-bound
               return (
                 <li key={i} role="presentation" className={Class({active: item == current})}>
-                  <Link tabIndex="-1" to={route} withQuery={{filter: {[field]: item || "undefined"}}} onClick={this.hideDropdown}>
+                  <IndexLink tabIndex="-1" to={route} query={{filter: {[field]: item || "undefined"}}} onClick={this.hideDropdown}>
                     {item || "Any"}
-                  </Link>
+                  </IndexLink>
                 </li>
               );
             } else {

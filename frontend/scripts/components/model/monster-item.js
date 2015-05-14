@@ -1,7 +1,8 @@
 // IMPORTS =========================================================================================
 import React from "react";
+import {Link} from "react-router";
 import monsterActions from "frontend/actions/monster";
-import {ShallowComponent, Link} from "frontend/components/simple";
+import {ShallowComponent} from "frontend/components/simple";
 
 // COMPONENTS ======================================================================================
 export default class MonsterItem extends ShallowComponent {
@@ -32,7 +33,7 @@ export default class MonsterItem extends ShallowComponent {
                 <Link to="monster-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
                   <span className="fa fa-edit"></span>
                 </Link>
-                <a className="btn btn-red" title="Remove" onClick={() => monsterActions.remove(model.id)}>
+                <a className="btn btn-red" title="Remove" onClick={() => monsterActions.removeModel(model.id)}>
                   <span className="fa fa-times"></span>
                 </a>
               </div>

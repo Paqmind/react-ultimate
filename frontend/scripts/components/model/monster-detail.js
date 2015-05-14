@@ -1,11 +1,11 @@
 // IMPORTS =========================================================================================
 import {branch} from "baobab-react/decorators";
 import React from "react";
+import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
-import {formatQuery} from "shared/helpers/jsonapi";
 import state from "frontend/state";
 import monsterActions from "frontend/actions/monster";
-import {ShallowComponent, DeepComponent, Link} from "frontend/components/simple";
+import {ShallowComponent, DeepComponent, MoldeLink} from "frontend/components/simple";
 import {Error, Loading, NotFound} from "frontend/components/page";
 
 // COMPONENTS ======================================================================================
@@ -74,10 +74,10 @@ class MonsterDetailActions extends DeepComponent {
             </Link>
           </div>
           <div className="btn-group btn-group-sm pull-right">
-            <Link to="monster-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
+            <ModelLink to="monster-edit" className="btn btn-orange" title="Edit">
               <span className="fa fa-edit"></span>
-            </Link>
-            <a className="btn btn-red" title="Remove" onClick={() => monsterActions.remove(model.id)}>
+            </ModelLink>
+            <a className="btn btn-red" title="Remove" onClick={() => monsterActions.removeModel(model.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>

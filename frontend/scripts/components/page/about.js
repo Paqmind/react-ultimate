@@ -11,9 +11,15 @@ export default class About extends Component {
         <section className="container page home">
           <h1>About</h1>
 
+          <h3>Code</h3>
+          <p>
+            Ultimate JavaScript.
+            Newest ES2015&mdash;2016 versions everywhere: frontend, backend, tests, tasks.
+          </p>
+
           <h3>General</h3>
           <p>
-            App uses AJAX loaders heavily to avoid "white screen" issue.
+            App uses AJAX loaders heavily to avoid "white screen" UX issue.
           </p>
 
           <h3>Index</h3>
@@ -60,7 +66,7 @@ export default class About extends Component {
             Ultimate Backend and Frontend solution.
             Performant: uses cache whenever possible to avoid unnecessary API request.
             User friendly: keeps current page whenever new sorts are applied (old offset
-            holds meaning).
+            keeps meaning with new sorts).
           </p>
 
           <h3>CRUD</h3>
@@ -69,6 +75,13 @@ export default class About extends Component {
             User friendly: live validation.
           </p>
 
+          <h4>Index Backlinks</h4>
+          <p>
+            Backlinks from model pages to index pages point to the corresponding offsets in paginations.
+            It was practically impossible to do this "right" in backend-driven apps. As soon
+            as multiple browser tabs were opened, and cookies were overwritten, you were into trouble...
+            Fortunately that days are gone.
+          </p>
         </section>
       </DocumentTitle>
     );

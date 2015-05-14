@@ -1,44 +1,85 @@
 // IMPORTS =========================================================================================
-import {keys, filter, pipe, prop, map, range, reduce, reverse, sortBy} from "ramda";
+import {merge} from "lodash";
+import {keys, filter, pipe, prop, map, mapIndexed, range, reduce, reverse, sortBy} from "ramda";
 import flat from "flat";
 
 // HELPERS =========================================================================================
+// Workaround until https://github.com/ramda/ramda/issues/1073 /////////////////////////////////////
+export function mergeDeep(a, b) {
+  return merge({}, a, b, function(a, b) {
+    if (b instanceof Array) {
+      return b; // Lodash merges `Array` offsets like keys by default. This lines disable it
+    }
+  })
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /**
  * Split array into chunks with predefined chunk length. Useful for pagination.
  * Example:
  *   chunked([1, 2, 3, 4, 5], 2) == [[1, 2], [3, 4], [5]]
  * @pure
+ * @curry
  * @param array {Array} - array to be chunked
  * @param n {number} - length of chunk
- * @returns {Array} - chunked array
+ * @return {Array} - chunked array
  */
-export function chunked(array, n) {
-  let l = Math.ceil(array.length / n);
-  return map(
-    (x, i) => array.slice(i * n, i * n + n),
-    range(0, l)
-  );
+export function chunked(n, array) {
+  if (array === undefined) {
+    return chunked.bind(null, n);
+  } else {
+    let l = Math.ceil(array.length / n);
+    return mapIndexed(
+      (x, i) => array.slice(i * n, i * n + n),
+      range(0, l)
+    );
+  }
+}
+
+/**
+ * Filter array by `filters` argument
+ * @pure
+ * @curry
+ * @param filters {Object<string, *>} - filters, e.g. {age: 30}
+ * @param data {Array<*>} - unsorted data
+ * @return {Array<*>} - sorted data
+ */
+export function filterByAll(filters, data) {
+  if (data === undefined) {
+    return filterByAll.bind(null, filters);
+  } else {
+    return reduce((data, filterKey) => {
+      let filterValue = filters[filterKey];
+      let filterer = filter(data => data && (data[filterKey] == filterValue));
+      return filterer(data);
+    }, data, keys(filters));
+  }
 }
 
 /**
  * Sort array by `sorts` argument
  * @pure
- * @param sorts {Array<string>} - array in format ["+name", "-age"]
+ * @curry
+ * @param sorts {Array<string>} - sorts, e.g. ["+name", "-age"]
  * @param data {Array<*>} - unsorted data
  * @returns {Array<*>} - sorted data
  */
 export function sortByAll(sorts, data) {
-  return reduce((data, sort) => {
-    let sorter;
-    if (sort.startsWith("-")) {
-      sorter = pipe(sortBy(prop(sort.slice(1))), reverse);
-    } else if (sort.startsWith("+")) {
-      sorter = sortBy(prop(sort.slice(1)));
-    } else {
-      sorter = sortBy(prop(sort));
-    }
-    return sorter(data);
-  }, data, sorts);
+  if (data === undefined) {
+    return sortByAll.bind(null, sorts);
+  } else {
+    return reduce((data, sort) => {
+      let sorter;
+      if (sort.startsWith("-")) {
+        sorter = pipe(sortBy(prop(sort.slice(1))), reverse);
+      } else if (sort.startsWith("+")) {
+        sorter = sortBy(prop(sort.slice(1)));
+      } else {
+        sorter = sortBy(prop(sort));
+      }
+      return sorter(data);
+    }, data, reverse(sorts));
+  }
 }
 
 export function flattenArrayObject(object, sorter=(v => v)) {

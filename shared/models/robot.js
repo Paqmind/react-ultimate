@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import UUID from "node-uuid";
-import {keys, merge} from "ramda";
-import {flattenArrayObject} from "shared/helpers/common";
+import {keys} from "ramda";
+import {flattenArrayObject, mergeDeep} from "shared/helpers/common";
 import {joiValidate} from "shared/helpers/validation";
 import validators from "shared/validators/robot";
 
@@ -14,7 +14,7 @@ export default function Robot(data) {
   }
 
   // Merge with default values
-  return merge({
+  return mergeDeep({
     id: UUID.v4(),
   }, value);
 }

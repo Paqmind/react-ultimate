@@ -1,1 +1,3 @@
+--recursive
 --require mocha-clean
+--require babelhook

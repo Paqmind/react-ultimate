@@ -1,12 +1,17 @@
-import add from "./add/alert";
-import fetchIndex from "./fetch-index/alert";
-import fetchModel from "./fetch-model/alert";
+// INDEX
 import loadIndex from "./load-index/alert";
+import fetchIndex from "./fetch-index/alert";
+
+// CRUD
 import loadModel from "./load-model/alert";
-import remove from "./remove/alert";
+import fetchModel from "./fetch-model/alert";
+import addModel from "./add-model/alert";
+import removeModel from "./remove-model/alert";
 
 export default {
-  add, remove,
-  loadIndex, loadModel,
-  fetchIndex, fetchModel,
+  // INDEX
+  loadIndex, fetchIndex,
+
+  // CRUD
+  loadModel, fetchModel, addModel, removeModel,
 };

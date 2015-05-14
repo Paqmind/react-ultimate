@@ -49,7 +49,7 @@ export default {
   module: {
     loaders: [ // http://webpack.github.io/docs/loaders.html
       // JS
-      {test: /\.(js(\?.*)?)$/, loaders: ["react-hot", "babel?stage=0"], exclude: /node_modules/ },
+      {test: /\.(js(\?.*)?)$/, loaders: ["babel?stage=0"], exclude: /node_modules/ }, // "react-hot",
 
       // JSON
       {test: /\.(json(\?.*)?)$/,  loaders: ["json"]},

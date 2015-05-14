@@ -1,20 +1,27 @@
-import add from "./add/monster";
-import edit from "./edit/monster";
-import fetchIndex from "./fetch-index/monster";
-import fetchModel from "./fetch-model/monster";
+// INDEX
 import loadIndex from "./load-index/monster";
+import fetchIndex from "./fetch-index/monster";
+import resetIndex from "./reset-index/monster";
+
+// TODO rename to filterIndex, sortIndex, limitIndex, offsetIndex ???
+import setIndexFilters from "./set-index-filters/monster";
+import setIndexSorts from "./set-index-sorts/monster";
+import setIndexOffset from "./set-index-offset/monster";
+import setIndexLimit from "./set-index-limit/monster";
+
+// CRUD
 import loadModel from "./load-model/monster";
-import remove from "./remove/monster";
-import reset from "./reset/monster";
-import setFilters from "./set-filters/monster";
-import setId from "./set-id/monster";
-import setLimit from "./set-limit/monster";
-import setOffset from "./set-offset/monster";
-import setSorts from "./set-sorts/monster";
+import fetchModel from "./fetch-model/monster";
+import viewModel from "./view-model/monster";
+import addModel from "./add-model/monster";
+import editModel from "./edit-model/monster";
+import removeModel from "./remove-model/monster";
 
 export default {
-  add, edit, remove, reset,
-  loadIndex, loadModel,
-  fetchIndex, fetchModel,
-  setFilters, setId, setLimit, setOffset, setSorts,
+  // INDEX
+  loadIndex, fetchIndex, resetIndex,
+  setIndexFilters, setIndexLimit, setIndexOffset, setIndexSorts,
+
+  // CRUD
+  loadModel, fetchModel, viewModel, addModel, editModel, removeModel,
 };

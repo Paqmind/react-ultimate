@@ -2,9 +2,9 @@
 import {map, mapIndexed, range, reject} from "ramda";
 import Class from "classnames";
 import React from "react";
-import {getTotalPages, getLastOffset} from "frontend/helpers/pagination";
+import {getTotalPages} from "frontend/helpers/pagination";
 import {ShallowComponent} from "./component";
-import Link from "./link";
+import IndexLink from "./link-index";
 
 // EXPORTS =========================================================================================
 export default class Pagination extends ShallowComponent {
@@ -28,7 +28,8 @@ export default class Pagination extends ShallowComponent {
   }
 
   lastOffset() {
-    return getLastOffset(this.props.total, this.props.limit);
+    let totalPages = this.totalPages();
+    return (totalPages <= 1) ? 0 : (totalPages - 1)  * this.props.limit;
   }
 
   prevOffset(offset) {
@@ -59,12 +60,11 @@ export default class Pagination extends ShallowComponent {
         <nav>
           <ul className="pagination">
             <li className={Class({disabled: currOffset == firstOffset})}>
-              {route ? <Link to={route}
-                withParams={true}
-                withQuery={{page: {offset: prevOffset}}}
+              {route ? <IndexLink to={route}
+                query={{page: {offset: prevOffset}}}
                 title={`To page ${prevPage}`}>
                 <span>&laquo;</span>
-              </Link> : <a href="#"
+              </IndexLink> : <a href="#"
                 onClick={() => onClick(prevOffset)}
                 title={`To page ${prevPage}`}>
                 <span>&laquo;</span>
@@ -73,13 +73,12 @@ export default class Pagination extends ShallowComponent {
             {mapIndexed((offset, i) => {
                 return (
                   <li key={offset} className={Class({active: offset == currOffset})}>
-                    {route ? <Link to={route}
-                      withParams={true}
-                      withQuery={{page: {offset}}}
+                    {route ? <IndexLink to={route}
+                      query={{page: {offset}}}
                       className={Class({disabled: offset == currOffset})}
                       title={`To page ${i + 1}`}>
                       {i + 1}
-                    </Link> : <a href="#"
+                    </IndexLink> : <a href="#"
                       onClick={() => onClick(offset)}
                       query={{page: {offset}}}
                       title={`To page ${i + 1}`}>
@@ -90,12 +89,11 @@ export default class Pagination extends ShallowComponent {
               }, offsets
             )}
             <li className={Class({disabled: currOffset == lastOffset})}>
-              {route ? <Link to={route}
-                withParams={true}
-                withQuery={{page: {offset: nextOffset}}}
+              {route ? <IndexLink to={route}
+                query={{page: {offset: nextOffset}}}
                 title={`To page ${nextPage}`}>
                 <span>&raquo;</span>
-              </Link> : <a href="#"
+              </IndexLink> : <a href="#"
                 onClick={() => onClick(nextOffset)}
                 title={`To page ${nextPage}`}>
                 <span>&raquo;</span>

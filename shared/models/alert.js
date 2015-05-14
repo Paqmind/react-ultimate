@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
 import UUID from "node-uuid";
-import {merge} from "ramda";
+import {mergeDeep} from "shared/helpers/common";
 
 // MODELS ==========================================================================================
 export function Alert(data) {
@@ -11,7 +11,7 @@ export function Alert(data) {
   if (!data.category) {
     throw Error("data.category is required");
   }
-  return merge({
+  return mergeDeep({
     id: UUID.v4(),
     closable: true,
     expire: data.category == "error" ? 0 : 5000,

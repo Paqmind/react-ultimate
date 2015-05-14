@@ -16,10 +16,12 @@ import templater from "backend/templater";
 templater(app);
 
 // MIDDLEWARES =====================================================================================
+import Compression from "compression";
 import Morgan from "morgan";
 import CookieParser from "cookie-parser";
 import BodyParser from "body-parser";
 
+app.use(Compression());
 app.use(CookieParser());
 app.use(BodyParser.json());                        // parse application/json
 app.use(BodyParser.urlencoded({extended: false})); // parse application/x-www-form-urlencoded

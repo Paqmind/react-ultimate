@@ -9,18 +9,19 @@ export function parseQuery(query) {
     sorts: query.sort ?
       pipe(
         map(v => v.trim()),
-        map(v => v.replace(/^(\w|\d)/, "+$1")),
-        split(",", query.sort)
-      ) :
+        map(v => v.replace(/^(\w|\d)/, "+$1"))
+      )(split(",", query.sort)) :
       undefined,
 
-    offset: query.page && (query.page.offset || query.page.offset == 0) ?
-      query.page.offset :
-      undefined,
+    page: {
+      offset: query.page && (query.page.offset || query.page.offset == 0) ?
+        query.page.offset :
+        undefined,
 
-    limit: query.page && (query.page.limit || query.page.offset == 0) ?
-      query.page.limit :
-      undefined,
+      limit: query.page && (query.page.limit || query.page.limit == 0) ?
+        query.page.limit :
+        undefined,
+    },
 
     reset: query.reset == "true" ?
       true :

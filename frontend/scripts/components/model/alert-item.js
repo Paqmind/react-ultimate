@@ -1,8 +1,9 @@
 // IMPORTS =========================================================================================
 import classNames from "classnames";
 import React from "react";
+import {Link} from "react-router";
 import alertActions from "frontend/actions/alert";
-import {ShallowComponent, Link} from "frontend/components/simple";
+import {ShallowComponent} from "frontend/components/simple";
 
 // EXPORTS =========================================================================================
 class CloseLink extends ShallowComponent {
@@ -34,7 +35,7 @@ export default class Item extends ShallowComponent {
 
     return (
       <div className={classes} {...this.props} key={"alert-" + model.id}>
-        {model.closable ? <CloseLink onClick={() => alertActions.remove(model.id)}/> : ""}
+        {model.closable ? <CloseLink onClick={() => alertActions.removeModel(model.id)}/> : ""}
         {model.message}
       </div>
     );

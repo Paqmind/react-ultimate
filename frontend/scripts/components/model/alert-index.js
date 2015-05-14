@@ -3,7 +3,7 @@ import {branch} from "baobab-react/decorators";
 import {map} from "ramda";
 import React from "react";
 import min from "lodash.min";
-import sortBy from "lodash.sortby";
+import sortBy from "lodash.sortbyorder";
 import ReactAddons from "react/addons";
 import {toArray} from "shared/helpers/common";
 import state from "frontend/state";
@@ -16,20 +16,20 @@ let CSSTransitionGroup = ReactAddons.addons.CSSTransitionGroup;
 
 // tests  ======>
 //
-//alertActions.add({message: "1. Message success", category: "success"});
-//alertActions.add({message: "2. Message loooong success", category: "success"});
-//alertActions.add({message: "3. Message success", category: "success"});
+//alertActions.addModel({message: "1. Message success", category: "success"});
+//alertActions.addModel({message: "2. Message loooong success", category: "success"});
+//alertActions.addModel({message: "3. Message success", category: "success"});
 //
 //setTimeout(function(){
-//  alertActions.add({message: "4. Message error", category: "error"});
+//  alertActions.addModel({message: "4. Message error", category: "error"});
 //}, 3000);
 //
 //setTimeout(function(){
-//  alertActions.add({message: "5. Message warning", category: "warning"});
+//  alertActions.addModel({message: "5. Message warning", category: "warning"});
 //}, 11000);
 //
 //setTimeout(function(){
-//  alertActions.add({message: "6. Message info", category: "info"});
+//  alertActions.addModel({message: "6. Message info", category: "info"});
 //}, 18000);
 //
 // <=======
@@ -51,7 +51,7 @@ export default class AlertIndex extends DeepComponent {
     alertsQueueBlocked = true;
     let oldestAlert = min([...alertsQueue], (item) => item.createdDate);
     setTimeout(() => {
-      alertActions.remove(oldestAlert.id);
+      alertActions.removeModel(oldestAlert.id);
       alertsQueue.delete(oldestAlert);
       alertsQueueBlocked = false;
       this.processAlertsQueue();

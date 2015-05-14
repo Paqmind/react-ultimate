@@ -36,7 +36,7 @@ export default function fetchModel() {
         };
         cursor.merge({loading: false, loadError});
 
-        alertActions.add({message: "Action `Monster:fetchModel` failed: " + loadError.description, category: "error"});
+        alertActions.addModel({message: "Action `Monster:fetchModel` failed: " + loadError.description, category: "error"});
 
         return response.status;
       }

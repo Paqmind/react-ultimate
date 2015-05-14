@@ -1,6 +1,7 @@
 // IMPORTS =========================================================================================
-import {keys, map, merge, reduce, reduceIndexed} from "ramda";
+import {keys, map, reduce, reduceIndexed} from "ramda";
 import Axios from "axios";
+import {mergeDeep} from "shared/helpers/common";
 import {toObject} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
 import Robot from "shared/models/robot";
@@ -27,7 +28,7 @@ export default function fetchIndex() {
     .then(response => {
       let {data, meta} = response.data;
       let newModelsArray = map(m => Robot(m), data);
-      let newModelsObject = merge(models, toObject(newModelsArray));
+      let newModelsObject = mergeDeep(models, toObject(newModelsArray));
       let newTotal = meta.page && meta.page.total || keys(models).length;
 
       let newPagination = reduceIndexed((pagination, model, i) => {
@@ -56,7 +57,7 @@ export default function fetchIndex() {
         };
         cursor.merge({loading: false, loadError});
 
-        alertActions.add({message: "Action `Robot:fetchPage` failed: " + loadError.description, category: "error"});
+        alertActions.addModel({message: "Action `Robot:fetchPage` failed: " + loadError.description, category: "error"});
 
         return response.status;
       }

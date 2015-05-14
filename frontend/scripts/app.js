@@ -1,10 +1,13 @@
 // IMPORTS =========================================================================================
-import {pipe, map} from "ramda";
-import "shared/shims";
+import "babel/polyfill";
+import {keys, map, pipe} from "ramda";
 import React from "react";
 import {create as createRouter, HistoryLocation} from "react-router";
-import {normalize} from "shared/helpers/common";
+import "shared/shims"; // TODO except for prerender (isomorphic) step, because babel-node auto-injects it's polyfill
+import {normalize, flattenArrayObject} from "shared/helpers/common";
 import {parseQuery} from "shared/helpers/jsonapi";
+import {joiValidate} from "shared/helpers/validation";
+import commonValidators from "shared/validators/common";
 import state from "frontend/state";
 import routes from "frontend/routes";
 
@@ -32,6 +35,7 @@ window._router.run((Application, url) => {
     delete query.reset;
   }
 
+  // Update URL primary state
   urlCursor.set("handler", handler);
   urlCursor.set("route", url.routes.slice(-1)[0].name);
   urlCursor.set("params", params);
@@ -41,12 +45,20 @@ window._router.run((Application, url) => {
   let id = url.params.id;
   urlCursor.set("id", id);
 
+  // Parse and validate URL Query
   let parsedQuery = parseQuery(query);
-  urlCursor.set("filters", parsedQuery.filters);
-  urlCursor.set("sorts", parsedQuery.sorts);
-  urlCursor.set("offset", parsedQuery.offset);
-  urlCursor.set("limit", parsedQuery.limit);
-  urlCursor.set("limit", parsedQuery.limit);
+  let [cleanedQuery, errors] = joiValidate(parsedQuery, commonValidators.urlQuery);
+  if (keys(errors).length) {
+    let humanReadableErrors = flattenArrayObject(errors).join(", ");
+    alert(`Invalid URL query params. Errors: ${humanReadableErrors}`);
+    throw Error(`Invalid URL query params. Errors: ${humanReadableErrors}`);
+  }
+
+  // Update URL secondary state
+  urlCursor.set("filters", cleanedQuery.filters);
+  urlCursor.set("sorts", cleanedQuery.sorts);
+  urlCursor.set("offset", cleanedQuery.page.offset);
+  urlCursor.set("limit", parsedQuery.page.limit);
   //------------------------------------------------------------------------------------------------
 
   let promises = pipe(

@@ -1,18 +1,18 @@
 // IMPORTS =========================================================================================
 import {filter} from "ramda";
 import Axios from "axios";
-import {getTotalPages, getLastOffset} from "frontend/helpers/pagination";
+import {getTotalPages, recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
-import router from "frontend/router";
+import {router} from "frontend/router";
 import fetchIndex from "frontend/actions/fetch-index/robot";
 
 // ACTIONS =========================================================================================
 export default function loadIndex() {
   console.debug("loadIndex()");
 
-  handleUnexistingOffset();
+  handleInvalidOffset();
   if (!isCacheAvailable()) {
-    fetchIndex().then(handleUnexistingOffset);
+    fetchIndex().then(handleInvalidOffset);
   }
 }
 
@@ -25,7 +25,7 @@ export function isCacheAvailable() {
 
   let ids = filter(v => v, pagination.slice(offset, offset + limit));
   if (ids && ids.length) {
-    if (offset == getLastOffset(total, limit)) {
+    if (offset == recommendOffset(total, offset, limit)) {
       let totalPages = getTotalPages(total, limit);
       return ids.length >= limit - ((totalPages * limit) - total);
     } else {
@@ -36,20 +36,16 @@ export function isCacheAvailable() {
   }
 }
 
-function handleUnexistingOffset() {
+export function handleInvalidOffset() {
   let cursor = state.select("robots");
   let total = cursor.get("total");
   let offset = cursor.get("offset");
   let limit = cursor.get("limit");
-  let lastOffset = getLastOffset(total, limit);
 
-  if (total && offset > lastOffset) {
-    router.transitionTo(
-      undefined,                   // route
-      undefined,                   // params
-      undefined,                   // query
-      {},                          // withParams
-      {page: {offset: lastOffset}} // withQuery
-    );
+  if (total) {
+    let recommendedOffset = recommendOffset(total, offset, limit);
+    if (offset != recommendedOffset) {
+      router.transitionTo(undefined, undefined, {page: {offset: recommendedOffset}});
+    }
   }
 }
