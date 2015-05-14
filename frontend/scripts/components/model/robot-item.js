@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import React from "react";
 import {Link} from "react-router";
-import * as modelActions from "frontend/actions/robot";
+import modelActions from "frontend/actions/robot";
 import {ShallowComponent} from "frontend/components/simple";
 
 // COMPONENTS ======================================================================================

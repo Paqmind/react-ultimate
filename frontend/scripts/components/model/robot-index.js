@@ -7,7 +7,7 @@ import DocumentTitle from "react-document-title";
 import {toArray} from "shared/helpers/common";
 import state from "frontend/state";
 import {indexRouter} from "frontend/router";
-import * as modelActions from "frontend/actions/robot";
+import modelActions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/simple";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import {Error, Loading, NotFound} from "frontend/components/page";

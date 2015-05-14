@@ -1,8 +1,8 @@
 // IMPORTS =========================================================================================
 import {mergeDeep} from "shared/helpers/common";
 import commonValidators from "shared/validators/common";
-import * as modelValidators from "shared/validators/robot";
-import * as makeModel from "shared/makers/robot";
+import modelValidators from "shared/validators/robot";
+import makeModel from "shared/makers/robot";
 import middlewares from "backend/middlewares";
 import DB from "backend/dbs/robot";
 import router from "backend/routers/robot";

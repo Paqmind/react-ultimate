@@ -6,7 +6,7 @@ import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import robotValidators from "shared/validators/robot";
-import * as modelActions from "frontend/actions/robot";
+import modelActions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent} from "frontend/components/simple";
 import {Error, Loading, NotFound} from "frontend/components/page";
 import {Form} from "frontend/components/form";

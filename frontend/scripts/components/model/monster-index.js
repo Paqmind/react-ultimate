@@ -6,7 +6,7 @@ import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import {toArray} from "shared/helpers/common";
 import state from "frontend/state";
-import * as modelActions from "frontend/actions/monster";
+import modelActions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/simple";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import {Error, Loading, NotFound} from "frontend/components/page";

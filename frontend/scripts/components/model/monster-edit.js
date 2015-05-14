@@ -6,7 +6,7 @@ import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import monsterValidators from "shared/validators/monster";
-import * as modelActions from "frontend/actions/monster";
+import modelActions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, ModelLink} from "frontend/components/simple";
 import {Error, Loading, NotFound} from "frontend/components/page";
 import {Form} from "frontend/components/form";
