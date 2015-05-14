@@ -7,8 +7,8 @@ import {ShallowComponent, IndexLink} from "frontend/components/simple";
 // COMPONENTS ======================================================================================
 export default class PerPage extends ShallowComponent {
   static propTypes = {
-    route: React.PropTypes.string,
-    onClick: React.PropTypes.func,
+    makeHref: React.PropTypes.func,
+    onClick: React.PropTypes.func.isRequired,
     options: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
     current: React.PropTypes.number,
   }
@@ -41,8 +41,14 @@ export default class PerPage extends ShallowComponent {
     document.removeEventListener("click", this.hideDropdown);
   }
 
+  onClick(event, limit) {
+    event.preventDefault();
+    this.hideDropdown();
+    this.props.onClick(limit);
+  }
+
   render() {
-    let {route, onClick, options, current} = this.props;
+    let {makeHref, options, current} = this.props;
 
     return (
       <div className={"dropdown" + (this.state.expanded ? " open" : "")}>
@@ -51,26 +57,16 @@ export default class PerPage extends ShallowComponent {
           Per page {current || "Default"} <span className="caret"></span>
         </button>
         <ul className="dropdown-menu">
-          {mapIndexed((item, i) => {
-            if (route) {
-              // URL-bound
-              return (
-                <li key={i} role="presentation" className={Class({active: item == current})}>
-                  <IndexLink tabIndex="-1" to={route} query={{page: {limit: item}}} onClick={this.hideDropdown}>
-                    {item || "Any"}
-                  </IndexLink>
-                </li>
-              );
-            } else {
-              // URL-unbound
-              return (
-                <li key={i} role="presentation" className={Class({active: item == current})}>
-                  <a href="#" tabIndex="-1" onClick={() => { onClick(item); this.hideDropdown(); }}>
-                    {item || "Any"}
-                  </a>
-                </li>
-              );
-            }
+          {mapIndexed((limit, i) => {
+            return (
+              <li key={i} role="presentation" className={Class({active: limit == current})}>
+                <a href={makeHref ? makeHref(limit) : "#"}
+                  onClick={event => this.onClick(event, limit)}
+                  title="" tabIndex="-1">
+                  {limit || "Any"}
+                </a>
+              </li>
+            );
           }, options)}
         </ul>
       </div>

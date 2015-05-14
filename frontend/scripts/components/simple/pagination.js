@@ -9,8 +9,8 @@ import IndexLink from "./link-index";
 // EXPORTS =========================================================================================
 export default class Pagination extends ShallowComponent {
   static propTypes = {
-    route: React.PropTypes.string,
-    onClick: React.PropTypes.func,
+    makeHref: React.PropTypes.func,
+    onClick: React.PropTypes.func.isRequired,
     total: React.PropTypes.number.isRequired,
     offset: React.PropTypes.number.isRequired,
     limit: React.PropTypes.number.isRequired,
@@ -40,8 +40,13 @@ export default class Pagination extends ShallowComponent {
     return offset >= this.lastOffset() ? this.lastOffset() : offset + this.props.limit;
   }
 
+  onClick(event, offset) {
+    event.preventDefault();
+    this.props.onClick(offset);
+  }
+
   render() {
-    let {route, onClick, offset, limit} = this.props;
+    let {makeHref, offset, limit} = this.props;
     let currOffset = offset;
     let prevOffset = this.prevOffset(offset);
     let prevPage = Math.ceil(prevOffset / limit);
@@ -51,8 +56,8 @@ export default class Pagination extends ShallowComponent {
     let lastOffset = this.lastOffset();
 
     let offsets = reject(
-      offset => offset % limit,     // reject everything but 0, 5, 10, 15... for limit = 5
-      range(0, lastOffset + limit)  // from this range
+      offset => offset % limit,    // reject everything but 0, 5, 10, 15... for limit = 5
+      range(0, lastOffset + limit) // from this range
     );
 
     if (lastOffset) {
@@ -60,44 +65,30 @@ export default class Pagination extends ShallowComponent {
         <nav>
           <ul className="pagination">
             <li className={Class({disabled: currOffset == firstOffset})}>
-              {route ? <IndexLink to={route}
-                query={{page: {offset: prevOffset}}}
+              <a href={makeHref ? makeHref(prevOffset) : "#"}
+                onClick={event => this.onClick(event, prevOffset)}
                 title={`To page ${prevPage}`}>
                 <span>&laquo;</span>
-              </IndexLink> : <a href="#"
-                onClick={() => onClick(prevOffset)}
-                title={`To page ${prevPage}`}>
-                <span>&laquo;</span>
-              </a>}
+              </a>
             </li>
             {mapIndexed((offset, i) => {
                 return (
                   <li key={offset} className={Class({active: offset == currOffset})}>
-                    {route ? <IndexLink to={route}
-                      query={{page: {offset}}}
-                      className={Class({disabled: offset == currOffset})}
+                    <a href={makeHref ? makeHref(offset) : "#"}
+                      onClick={event => this.onClick(event, offset)}
                       title={`To page ${i + 1}`}>
                       {i + 1}
-                    </IndexLink> : <a href="#"
-                      onClick={() => onClick(offset)}
-                      query={{page: {offset}}}
-                      title={`To page ${i + 1}`}>
-                      {i + 1}
-                    </a>}
+                    </a>
                   </li>
                 );
               }, offsets
             )}
             <li className={Class({disabled: currOffset == lastOffset})}>
-              {route ? <IndexLink to={route}
-                query={{page: {offset: nextOffset}}}
+              <a href={makeHref ? makeHref(nextOffset) : "#"}
+                onClick={event => this.onClick(event, nextOffset)}
                 title={`To page ${nextPage}`}>
                 <span>&raquo;</span>
-              </IndexLink> : <a href="#"
-                onClick={() => onClick(nextOffset)}
-                title={`To page ${nextPage}`}>
-                <span>&raquo;</span>
-              </a>}
+              </a>
             </li>
           </ul>
         </nav>

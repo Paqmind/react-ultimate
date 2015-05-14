@@ -8,8 +8,8 @@ import {ShallowComponent, IndexLink} from "frontend/components/simple";
 export default class FilterBy extends ShallowComponent {
   static propTypes = {
     field: React.PropTypes.string.isRequired,
-    route: React.PropTypes.string,
-    onClick: React.PropTypes.func,
+    makeHref: React.PropTypes.func,
+    onClick: React.PropTypes.func.isRequired,
     options: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     current: React.PropTypes.string,
   }
@@ -42,8 +42,14 @@ export default class FilterBy extends ShallowComponent {
     document.removeEventListener("click", this.hideDropdown);
   }
 
+  onClick(event, field, filter) {
+    event.preventDefault();
+    this.hideDropdown();
+    this.props.onClick({[field]: filter});
+  }
+
   render() {
-    let {route, onClick, options, current, field} = this.props;
+    let {makeHref, options, current, field} = this.props;
 
     return (
       <div className={"dropdown" + (this.state.expanded ? " open" : "")}>
@@ -52,26 +58,16 @@ export default class FilterBy extends ShallowComponent {
           Filter by {field} = {current ? current : "Any"} <span className="caret"></span>
         </button>
         <ul className="dropdown-menu">
-          {mapIndexed((item, i) => {
-            if (route) {
-              // URL-bound
-              return (
-                <li key={i} role="presentation" className={Class({active: item == current})}>
-                  <IndexLink tabIndex="-1" to={route} query={{filter: {[field]: item || "undefined"}}} onClick={this.hideDropdown}>
-                    {item || "Any"}
-                  </IndexLink>
-                </li>
-              );
-            } else {
-              // URL-unbound
-              return (
-                <li key={i} role="presentation" className={Class({active: item == current})}>
-                  <a href="#" tabIndex="-1" onClick={() => { onClick({[field]: item}); this.hideDropdown(); }}>
-                    {item || "Any"}
-                  </a>
-                </li>
-              );
-            }
+          {mapIndexed((filter, i) => {
+            return (
+              <li key={i} role="presentation" className={Class({active: filter == current})}>
+                <a href={makeHref ? makeHref({[field]: filter}) : "#"}
+                  onClick={event => this.onClick(event, field, filter)}
+                  title="" tabIndex="-1">
+                  {filter || "Any"}
+                </a>
+              </li>
+            );
           }, options)}
         </ul>
       </div>

@@ -6,7 +6,7 @@ import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import {toArray} from "shared/helpers/common";
 import state from "frontend/state";
-import {router} from "frontend/router";
+import {indexRouter} from "frontend/router";
 import robotActions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/simple";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
@@ -33,17 +33,22 @@ export default class RobotIndex extends DeepComponent {
     if (loadError) {
       return <Error loadError={loadError}/>;
     } else {
+      let pagination = <Pagination
+        makeHref={offset => this.showOffset(offset)}
+        onClick={offset => this.setOffset(offset)}
+        total={total} offset={offset} limit={limit}
+      />;
       return (
         <DocumentTitle title="Robots">
           <div>
             <RobotIndexActions {...this.props}/>
             <section className="container">
               <h1>Robots</h1>
-              <Pagination route="robot-index" total={total} offset={offset} limit={limit}/>
+              {pagination}
               <div className="row">
                 {map(model => <RobotItem model={model} key={model.id}/>, models)}
               </div>
-              <Pagination route="robot-index" total={total} offset={offset} limit={limit}/>
+              {pagination}
             </section>
             {loading ? <Loading/> : ""}
           </div>
@@ -51,23 +56,48 @@ export default class RobotIndex extends DeepComponent {
       );
     }
   }
+
+  setOffset(offset) {
+    indexRouter.transitionTo("robot-index", {page: {offset}});
+    robotActions.loadIndex();
+  }
+
+  showOffset(offset) {
+    return indexRouter.makePath("robot-index", {page: {offset}});
+  }
 }
 
 class RobotIndexActions extends ShallowComponent {
   render() {
     let {filters, sorts, limit} = this.props.robots;
 
+    let perPage = <PerPage
+      options={[3, 5, 10]} current={limit}
+      makeHref={filters => this.showLimit(limit)}
+      onClick={limit => this.setLimit(limit)}
+    />;
+    let sortBy = <SortBy
+      options={["+name", "-name"]} current={sorts[0]}
+      makeHref={filters => this.showSorts(sorts)}
+      onClick={sorts => this.setSorts(sorts)}
+    />;
+    let filterBy = <FilterBy field="manufacturer"
+      options={[undefined, "China", "Russia", "USA"]} current={filters.manufacturer}
+      makeHref={filters => this.showFilters(filters)}
+      onClick={filters => this.setFilters(filters)}
+    />;
+
     return (
       <div id="actions">
         <div className="container">
           <div className="pull-left">
-            <PerPage route="robot-index" options={[3, 5, 10]} current={limit}/>
+            {perPage}
           </div>
           <div className="pull-left">
-            <SortBy route="robot-index" options={["+name", "-name"]} current={sorts[0]}/>
+            {sortBy}
           </div>
           <div className="pull-left">
-            <FilterBy field="manufacturer" route="robot-index" options={[undefined, "Russia", "USA"]} current={filters.manufacturer}/>
+            {filterBy}
           </div>
           <div className="pull-right">
             <Link to="robot-add" className="btn btn-sm btn-green" title="Add">
@@ -77,5 +107,32 @@ class RobotIndexActions extends ShallowComponent {
         </div>
       </div>
     );
+  }
+
+  setFilters(filters) {
+    indexRouter.transitionTo("robot-index", {filters});
+    robotActions.loadIndex();
+  }
+
+  setSorts(sorts) {
+    indexRouter.transitionTo("robot-index", {sorts});
+    robotActions.loadIndex();
+  }
+
+  setLimit(limit) {
+    indexRouter.transitionTo("robot-index", {page: {limit}});
+    robotActions.loadIndex();
+  }
+
+  showFilters(filters) {
+    return indexRouter.makePath("robot-index", {filters});
+  }
+
+  showSorts(sorts) {
+    return indexRouter.makePath("robot-index", {sorts});
+  }
+
+  showLimit(limit) {
+    return indexRouter.makePath("robot-index", {page: {limit}});
   }
 }

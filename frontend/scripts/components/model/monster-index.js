@@ -32,17 +32,21 @@ export default class MonsterIndex extends DeepComponent {
     if (loadError) {
       return <Error loadError={loadError}/>;
     } else {
+      let pagination = <Pagination
+        onClick={offset => this.setOffset(offset)}
+        total={total} offset={offset} limit={limit}
+      />;
       return (
         <DocumentTitle title="Monsters">
           <div>
             <MonsterIndexActions {...this.props}/>
             <section className="container">
               <h1>Monsters</h1>
-              <Pagination onClick={offset => this.setIndexOffset(offset)} total={total} offset={offset} limit={limit}/>
+              {pagination}
               <div className="row">
                 {map(model => <MonsterItem model={model} key={model.id}/>, models)}
               </div>
-              <Pagination onClick={offset => this.setIndexOffset(offset)} total={total} offset={offset} limit={limit}/>
+              {pagination}
             </section>
             {loading ? <Loading/> : ""}
           </div>
@@ -51,7 +55,7 @@ export default class MonsterIndex extends DeepComponent {
     }
   }
 
-  setIndexOffset(offset) {
+  setOffset(offset) {
     monsterActions.setIndexOffset(offset);
     monsterActions.loadIndex();
   }
@@ -61,20 +65,33 @@ class MonsterIndexActions extends ShallowComponent {
   render() {
     let {filters, sorts, limit} = this.props.monsters;
 
+    let perPage = <PerPage
+      options={[3, 5, 10]} current={limit}
+      onClick={limit => this.setLimit(limit)}
+    />;
+    let sortBy = <SortBy
+      options={["+name", "-name"]} current={sorts[0]}
+      onClick={sorts => this.setSorts(sorts)}
+    />;
+    let filterBy = <FilterBy field="citizenship"
+      options={[undefined, "China", "Russia", "USA"]} current={filters.citizenship}
+      onClick={filters => this.setFilters(filters)}
+    />;
+
     return (
       <div id="actions">
         <div className="container">
           <div className="pull-left">
-            <PerPage onClick={limit => this.setIndexLimit(limit)} options={[3, 5, 10]} current={limit}/>
+            {perPage}
           </div>
           <div className="pull-left">
-            <SortBy onClick={sorts => this.setIndexSorts(sorts)} options={["+name", "-name"]} current={sorts[0]}/>
+            {sortBy}
           </div>
           <div className="pull-left">
-            <FilterBy field="citizenship" onClick={filters => this.setIndexFilters(filters)} options={[undefined, "Russia", "USA"]} current={filters.citizenship}/>
+            {filterBy}
           </div>
           <div className="pull-right">
-            <Link to="robot-add" className="btn btn-sm btn-green" title="Add">
+            <Link to="monster-add" className="btn btn-sm btn-green" title="Add">
               <span className="fa fa-plus"></span>
             </Link>
           </div>
@@ -83,17 +100,17 @@ class MonsterIndexActions extends ShallowComponent {
     );
   }
 
-  setIndexFilters(filters) {
+  setFilters(filters) {
     monsterActions.setIndexFilters(filters);
     monsterActions.loadIndex();
   }
 
-  setIndexSorts(sorts) {
+  setSorts(sorts) {
     monsterActions.setIndexSorts(sorts);
     monsterActions.loadIndex();
   }
 
-  setIndexLimit(limit) {
+  setLimit(limit) {
     monsterActions.setIndexLimit(limit);
     monsterActions.loadIndex();
   }
