@@ -5,6 +5,8 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
+import {parseString, parseInteger, parseFloat, parseDate} from "shared/converters";
+import {formatString, formatInteger, formatFloat, formatDate} from "shared/converters";
 import modelValidators from "shared/validators/monster";
 import modelActions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, ModelLink} from "frontend/components/simple";
@@ -72,9 +74,9 @@ export default class MonsterEdit extends Form {
                     })}>
                       <label htmlFor="name">Name</label>
                       <input type="text"
-                        value={form.name}
+                        value={formatString(form.name)}
                         onBlur={() => this.validate("name")}
-                        onChange={this.makeHandleChange("name")}
+                        onChange={event => this.handleChange("name", event.currentTarget.value, parseString(event.currentTarget.value))}
                         id="name" ref="name"
                         className="form-control"/>
                       <div className={Class("help", {
@@ -86,31 +88,13 @@ export default class MonsterEdit extends Form {
 
                     <div className={Class("form-group", {
                       required: false,
-                      error: this.hasErrors("birthDate"),
-                    })}>
-                      <label htmlFor="birthDate">Birth Date</label>
-                      <input type="date"
-                        value={model.birthDate}
-                        onBlur={() => this.validate("birthDate")}
-                        onChange={this.makeHandleChange("birthDate")}
-                        id="birthDate" ref="birthDate"
-                        className="form-control"/>
-                      <div className={Class("help", {
-                        error: this.hasErrors("birthDate"),
-                      })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("birthDate"))}
-                      </div>
-                    </div>
-
-                    <div className={Class("form-group", {
-                      required: false,
                       error: this.hasErrors("citizenship"),
                     })}>
                       <label htmlFor="citizenship">Citizenship</label>
                       <input type="text"
-                        value={form.citizenship}
+                        value={formatString(form.citizenship)}
                         onBlur={() => this.validate("citizenship")}
-                        onChange={this.makeHandleChange("citizenship")}
+                        onChange={event => this.handleChange("citizenship", event.currentTarget.value, parseString(event.currentTarget.value))}
                         id="citizenship" ref="citizenship"
                         className="form-control"/>
                       <div className={Class("help", {
@@ -163,6 +147,9 @@ class ModelActions extends DeepComponent {
             </Link>
           </div>
           <div className="btn-group btn-group-sm pull-right">
+            <Link to="monster-add" className="btn btn-sm btn-green" title="Add">
+              <span className="fa fa-plus"></span>
+            </Link>
             <ModelLink to="monster-detail" className="btn btn-blue" title="Detail">
               <span className="fa fa-eye"></span>
             </ModelLink>
@@ -187,3 +174,21 @@ class ModelActions extends DeepComponent {
 //(this.validatorTypes().birthDate._flags.presence == "required"),
 
 // TODO min date, max date
+
+//<div className={Class("form-group", {
+//  required: false,
+//  error: this.hasErrors("birthDate"),
+//})}>
+//  <label htmlFor="birthDate">Birth Date</label>
+//  <input type="date"
+//    value={formatDate(form.birthDate)}
+//    onBlur={() => this.validate("birthDate")}
+//    onChange={event => this.handleChange("birthDate", event.currentTarget.value, parseDate(event.currentTarget.value))}
+//    id="birthDate" ref="birthDate"
+//    className="form-control"/>
+//  <div className={Class("help", {
+//    error: this.hasErrors("birthDate"),
+//  })}>
+//    {map(message => <span key="">{message}</span>, this.getErrors("birthDate"))}
+//  </div>
+//</div>

@@ -1,4 +1,4 @@
-// IMPORTS =========================================================================================
+  // IMPORTS =========================================================================================
 import Axios from "axios";
 import {recalculatePaginationWithoutModel} from "frontend/helpers/pagination";
 import state from "frontend/state";
@@ -7,32 +7,46 @@ import {handleInvalidOffset} from "../load-index/monster";
 import fetchIndex from "../fetch-index/monster";
 
 // ACTIONS =========================================================================================
-export default function remove(id) {
+export default function removeModel(id) {
+  let urlCursor = state.select("url");
   let cursor = state.select("monsters");
 
-  let oldTotal = cursor.get("total");
-  let oldPagination = cursor.get("pagination");
-  let oldModel = state.select("monsters", "models", id).get();
-  let newPagination = recalculatePaginationWithoutModel(id, oldPagination);
+  let total = cursor.get("total");
+  let models = cursor.get("models");
+  let filters = cursor.get("filters");
+  let sorts = cursor.get("sorts");
+  let offset = cursor.get("offset");
+  let limit = cursor.get("limit");
+  let pagination = cursor.get("pagination");
   let url = `/api/monsters/${id}`;
 
   // Optimistic action
   cursor.set("loading", true);
-  cursor.set("total", oldTotal - 1);
-  cursor.set("pagination", newPagination);
+  cursor.set("total", total - 1);
+  cursor.set("pagination", recalculatePaginationWithoutModel(models, filters, sorts, pagination, id));
   cursor.select("models").unset(id);
+  let newTotal = cursor.get("total");
+  let newModels = cursor.get("models");
+  let newPagination = cursor.get("pagination");
 
   return Axios.delete(url)
     .then(response => {
       cursor.merge({loading: false, loadError: undefined});
 
-      // Invoke new load on empty data
-      if (!state.facets.currentRobots.get().length) {
-        fetchIndex().then(handleInvalidOffset);
+      // Upload data
+      if (!newPagination[offset + limit - 1]) {
+        fetchIndex(newModels, filters, sorts, offset + limit - 1, 1, newPagination);
+      }
+
+      // Transition to index page
+      let indexPath = router.makePath("robot-index");
+      let currentPath = router.makePath()
+      if (currentPath != indexPath) {
+        router.transitionTo("robot-index");
       }
 
       // Add alert
-      alertActions.addModel({message: "Action succeed", category: "success"});
+      alertActions.addModel({message: "Action `Monster:removeModel` succeed", category: "success"});
 
       return response.status;
     })
@@ -48,12 +62,12 @@ export default function remove(id) {
 
         // Cancel action
         cursor.merge({loading: false, loadError});
-        cursor.set("total", oldTotal);
-        cursor.select("models").set(id, oldModel);
-        cursor.set("pagination", oldPagination);
+        cursor.set("total", total);
+        cursor.set("models", models);
+        cursor.set("pagination", pagination);
 
         // Add alert
-        alertActions.addModel({message: "Action failed: " + loadError.description, category: "error"});
+        alertActions.addModel({message: "Action `Monster:removeModel` failed: " + loadError.description, category: "error"});
 
         return response.status;
       }

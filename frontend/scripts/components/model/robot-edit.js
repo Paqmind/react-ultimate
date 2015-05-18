@@ -5,6 +5,8 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
+import {parseString, parseInteger, parseFloat, parseDate} from "shared/converters";
+import {formatString, formatInteger, formatFloat, formatDate} from "shared/converters";
 import modelValidators from "shared/validators/robot";
 import modelActions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent, ModelLink} from "frontend/components/simple";
@@ -29,7 +31,7 @@ export default class RobotEdit extends Form {
       // Raw state for all fields
       form: clone(props.model),
       // Validated and converter state for action
-      model: clone(props.model),
+      data: clone(props.model),
       // Errors
       errors: {},
     };
@@ -38,7 +40,7 @@ export default class RobotEdit extends Form {
   componentWillReceiveProps(props) {
     this.setState({
       form: clone(props.model),
-      model: clone(props.model),
+      data: clone(props.model),
       errors: {},
     });
   }
@@ -72,9 +74,9 @@ export default class RobotEdit extends Form {
                     })}>
                       <label htmlFor="name">Name</label>
                       <input type="text"
-                        value={form.name}
+                        value={formatString(form.name)}
                         onBlur={() => this.validate("name")}
-                        onChange={this.makeHandleChange("name")}
+                        onChange={event => this.handleChange("name", event.currentTarget.value, parseString)}
                         id="name" ref="name"
                         className="form-control"/>
                       <div className={Class("help", {
@@ -86,31 +88,13 @@ export default class RobotEdit extends Form {
 
                     <div className={Class("form-group", {
                       required: false,
-                      error: this.hasErrors("assemblyDate"),
-                    })}>
-                      <label htmlFor="assemblyDate">Assembly Date</label>
-                      <input type="date"
-                        value={form.assemblyDate}
-                        onBlur={() => this.validate("assemblyDate")}
-                        onChange={this.makeHandleChange("assemblyDate")}
-                        id="assemblyDate" ref="assemblyDate"
-                        className="form-control"/>
-                      <div className={Class("help", {
-                        error: this.hasErrors("assemblyDate"),
-                      })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("assemblyDate"))}
-                      </div>
-                    </div>
-
-                    <div className={Class("form-group", {
-                      required: false,
                       error: this.hasErrors("manufacturer"),
                     })}>
                       <label htmlFor="manufacturer">Manufacturer</label>
                       <input type="text"
-                        value={form.manufacturer}
+                        value={formatString(form.manufacturer)}
                         onBlur={() => this.validate("manufacturer")}
-                        onChange={this.makeHandleChange("manufacturer")}
+                        onChange={event => this.handleChange("manufacturer", event.currentTarget.value, parseString)}
                         id="manufacturer" ref="manufacturer"
                         className="form-control"/>
                       <div className={Class("help", {
@@ -172,6 +156,9 @@ class ModelActions extends DeepComponent {
             </Link>
           </div>
           <div className="btn-group btn-group-sm pull-right">
+            <Link to="robot-add" className="btn btn-sm btn-green" title="Add">
+              <span className="fa fa-plus"></span>
+            </Link>
             <ModelLink to="robot-detail" className="btn btn-blue" title="Detail">
               <span className="fa fa-eye"></span>
             </ModelLink>
@@ -196,3 +183,21 @@ class ModelActions extends DeepComponent {
 //(this.validatorTypes().assemblyDate._flags.presence == "required"),
 
 // TODO min date, max date
+
+//<div className={Class("form-group", {
+//  required: false,
+//  error: this.hasErrors("assemblyDate"),
+//})}>
+//  <label htmlFor="assemblyDate">Assembly Date</label>
+//  <input type="text"
+//    value={formatDate(form.assemblyDate, "YYYY-MM-DD")}
+//    onBlur={() => this.validate("assemblyDate")}
+//    onChange={event => this.handleChange("assemblyDate", event.currentTarget.value, parseDate)}
+//    id="assemblyDate" ref="assemblyDate"
+//    className="form-control"/>
+//  <div className={Class("help", {
+//    error: this.hasErrors("assemblyDate"),
+//  })}>
+//    {map(message => <span key="">{message}</span>, this.getErrors("assemblyDate"))}
+//  </div>
+//</div>

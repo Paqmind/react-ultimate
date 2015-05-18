@@ -4,8 +4,8 @@ import {formatQuery} from "shared/helpers/jsonapi";
 import state from "frontend/state";
 
 // ACTIONS =========================================================================================
-export default function fetchIndex() {
-  console.debug("fetchIndex()");
+export default function fetchIndex(models, filters, sorts, offset, limit, pagination) {
+  console.debug("fetchIndex(...)");
 
   let cursor = state.select("alerts");
 

@@ -8,30 +8,32 @@ import alertActions from "frontend/actions/alert";
 
 // ACTIONS =========================================================================================
 export default function add(model) {
-  let cursor = state.select("robots");
-
-  let oldTotal = cursor.get("total");
-  let filters = cursor.get("filters");
-  let sorts = cursor.get("sorts");
-  let oldModels = cursor.get("models");
-  let oldPagination = cursor.get("pagination");
   let newModel = Robot(model);
   let id = newModel.id;
-  let newPagination = recalculatePaginationWithModel(filters, sorts, id, oldPagination, oldModels);
+
+  let cursor = state.select("robots");
+  let total = cursor.get("total");
+  let models = cursor.get("models");
+  let filters = cursor.get("filters");
+  let sorts = cursor.get("sorts");
+  let pagination = cursor.get("pagination");
   let url = `/api/robots/${id}`;
 
   // Optimistic action
   cursor.set("loading", true);
-  cursor.set("total", oldTotal + 1);
-  cursor.set("pagination", newPagination);
+  cursor.set("total", total + 1);
+  cursor.set("pagination", recalculatePaginationWithModel(models, filters, sorts, pagination, id));
   cursor.select("models").set(id, newModel);
+  let newTotal = cursor.get("total");
+  let newModels = cursor.get("models");
+  let newPagination = cursor.get("pagination");
 
   return Axios.put(url, newModel)
     .then(response => {
       cursor.merge({loading: false, loadError: undefined});
 
-      // Transition to index page
-      router.transitionTo("robot-index");
+      // Transition to detail page
+      router.transitionTo("robot-detail", {id: newModel.id});
 
       // Add alert
       alertActions.addModel({message: "Action succeed", category: "success"});
@@ -50,9 +52,9 @@ export default function add(model) {
 
         // Cancel action
         cursor.merge({loading: false, loadError});
-        cursor.set("total", oldTotal);
-        cursor.select("models").unset(id);
-        cursor.set("pagination", oldPagination);
+        cursor.set("total", total);
+        cursor.set("models", models);
+        cursor.set("pagination", pagination);
 
         // Add alert
         alertActions.addModel({message: "Action failed: " + loadError.description, category: "error"});

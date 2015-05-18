@@ -12,7 +12,7 @@ export default class ModelLink extends Component {
     let urlId = urlCursor.get("id");
 
     let {params, ...props} = this.props;
-    params = mergeDeep({id: urlId}, params);
+    params = mergeDeep({id: urlId}, params || {});
 
     return (
       <ReactRouter.Link params={params} {...props}>

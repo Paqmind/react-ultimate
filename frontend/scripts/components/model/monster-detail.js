@@ -45,8 +45,6 @@ export default class MonsterDetail extends DeepComponent {
                   <dl>
                     <dt>Serial Number</dt>
                     <dd>{model.id}</dd>
-                    <dt>Assembly Date</dt>
-                    <dd>{model.assemblyDate}</dd>
                     <dt>Manufacturer</dt>
                     <dd>{model.manufacturer}</dd>
                   </dl>
@@ -74,6 +72,9 @@ class MonsterDetailActions extends DeepComponent {
             </Link>
           </div>
           <div className="btn-group btn-group-sm pull-right">
+            <Link to="monster-add" className="btn btn-sm btn-green" title="Add">
+              <span className="fa fa-plus"></span>
+            </Link>
             <ModelLink to="monster-edit" className="btn btn-orange" title="Edit">
               <span className="fa fa-edit"></span>
             </ModelLink>
@@ -86,3 +87,6 @@ class MonsterDetailActions extends DeepComponent {
     );
   }
 }
+
+//<dt>Birth Date</dt>
+//<dd>{model.birthDate}</dd>

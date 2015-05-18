@@ -9,17 +9,11 @@ import state from "frontend/state";
 import alertActions from "frontend/actions/alert";
 
 // ACTIONS =========================================================================================
-export default function fetchIndex() {
-  console.debug("fetchIndex()");
+export default function fetchIndex(models, filters, sorts, offset, limit, pagination) {
+  console.debug("fetchIndex(...)");
 
   let cursor = state.select("robots");
   cursor.set("loading", true);
-  let models = cursor.get("models");
-  let pagination = cursor.get("pagination");
-  let filters = cursor.get("filters");
-  let sorts = cursor.get("sorts");
-  let offset = cursor.get("offset");
-  let limit = cursor.get("limit");
 
   let url = `/api/robots/`;
   let query = formatQueryForAxios({filters, sorts, offset, limit});

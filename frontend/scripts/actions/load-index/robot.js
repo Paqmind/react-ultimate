@@ -10,19 +10,23 @@ import fetchIndex from "frontend/actions/fetch-index/robot";
 export default function loadIndex() {
   console.debug("loadIndex()");
 
-  handleInvalidOffset();
-  if (!isCacheAvailable()) {
-    fetchIndex().then(handleInvalidOffset);
-  }
-}
-
-export function isCacheAvailable() {
   let cursor = state.select("robots");
   let total = cursor.get("total");
+  let models = cursor.get("models");
+  let filters = cursor.get("filters");
+  let sorts = cursor.get("sorts");
   let offset = cursor.get("offset");
   let limit = cursor.get("limit");
   let pagination = cursor.get("pagination");
 
+  handleInvalidOffset(total, offset, limit);
+  if (!isCacheAvailable(total, offset, limit, pagination)) {
+    fetchIndex(models, filters, sorts, offset, limit, pagination)
+      .then(() => handleInvalidOffset());
+  }
+}
+
+export function isCacheAvailable(total, offset, limit, pagination) {
   let ids = filter(v => v, pagination.slice(offset, offset + limit));
   if (ids && ids.length) {
     if (offset == recommendOffset(total, total, limit)) { // are we on the last page?
@@ -36,12 +40,7 @@ export function isCacheAvailable() {
   }
 }
 
-export function handleInvalidOffset() {
-  let cursor = state.select("robots");
-  let total = cursor.get("total");
-  let offset = cursor.get("offset");
-  let limit = cursor.get("limit");
-
+export function handleInvalidOffset(total, offset, limit) {
   if (total) {
     let recommendedOffset = recommendOffset(total, offset, limit);
     if (offset != recommendedOffset) {

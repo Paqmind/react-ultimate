@@ -26,13 +26,13 @@ export default class MonsterAdd extends Form {
       // Raw state for all fields
       form: {
         name: undefined,
-        birthDate: undefined,
+        //birthDate: undefined,
         citizenship: undefined,
       },
       // Validated and converter state for action
       model: {
         name: undefined,
-        birthDate: undefined,
+        //birthDate: undefined,
         citizenship: undefined,
       },
       // Errors
@@ -73,24 +73,6 @@ export default class MonsterAdd extends Form {
                         error: this.hasErrors("name"),
                       })}>
                         {map(message => <span key="">{message}</span>, this.getErrors("name"))}
-                      </div>
-                    </div>
-
-                    <div className={Class("form-group", {
-                      required: false,
-                      error: this.hasErrors("birthDate"),
-                    })}>
-                      <label htmlFor="birthDate">Birth Date</label>
-                      <input type="date"
-                        value={form.assemblyDate}
-                        onBlur={() => this.validate("birthDate")}
-                        onChange={this.makeHandleChange("birthDate")}
-                        id="birthDate" ref="birthDate"
-                        className="form-control"/>
-                      <div className={Class("help", {
-                        error: this.hasErrors("birthDate"),
-                      })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("model.birthDate"))}
                       </div>
                     </div>
 
@@ -163,3 +145,21 @@ class ModelActions extends ShallowComponent {
 <TextInput label="Assembly Date" placeholder="Assembly Date" id="model.assemblyDate" form={this}/>
 <TextInput label="Citizenship" placeholder="Citizenship" id="model.citizenship" form={this}/>
 */
+
+//<div className={Class("form-group", {
+//  required: false,
+//  error: this.hasErrors("birthDate"),
+//})}>
+//  <label htmlFor="birthDate">Birth Date</label>
+//  <input type="date"
+//    value={form.assemblyDate}
+//    onBlur={() => this.validate("birthDate")}
+//    onChange={this.makeHandleChange("birthDate")}
+//    id="birthDate" ref="birthDate"
+//    className="form-control"/>
+//  <div className={Class("help", {
+//    error: this.hasErrors("birthDate"),
+//  })}>
+//    {map(message => <span key="">{message}</span>, this.getErrors("model.birthDate"))}
+//  </div>
+//</div>

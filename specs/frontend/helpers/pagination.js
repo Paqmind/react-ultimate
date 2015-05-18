@@ -31,8 +31,6 @@ describe("recommendOffset()", function() {
 
 describe("recalculatePaginationWithFilters()", function() {
   it("should handle undefined values", function() {
-    let filters = {manufacturer: "Russia"};
-    let pagination = ["1", "2", "3", "4", "5", "6", undefined, undefined];
     let models = {
       "6": {id: "6", manufacturer: "Russia"},
       "5": {id: "5", manufacturer: "USA"},
@@ -41,15 +39,16 @@ describe("recalculatePaginationWithFilters()", function() {
       "4": {id: "4", manufacturer: "Russia"},
       "1": {id: "1", manufacturer: "Russia"},
     };
+    let filters = {manufacturer: "Russia"};
+    let sorts = [];
+    let pagination = ["1", "2", "3", "4", "5", "6", undefined, undefined];
     let expectedPagination = ["1", "4", "6"];
-    expect(recalculatePaginationWithFilters(filters, pagination, models)).eql(expectedPagination);
+    expect(recalculatePaginationWithFilters(models, filters, sorts, pagination)).eql(expectedPagination);
   });
 });
 
 describe("recalculatePaginationWithSorts()", function() {
   it("should handle undefined values", function() {
-    let sorts = ["+manufacturer", "+id"];
-    let pagination = ["1", "2", "3", "4", "5", "6", undefined, undefined];
     let models = {
       "6": {id: "6", manufacturer: "Russia"},
       "5": {id: "5", manufacturer: "USA"},
@@ -58,34 +57,44 @@ describe("recalculatePaginationWithSorts()", function() {
       "4": {id: "4", manufacturer: "Russia"},
       "1": {id: "1", manufacturer: "Russia"},
     };
+    let filters = {};
+    let sorts = ["+manufacturer", "+id"];
+    let pagination = ["1", "2", "3", "4", "5", "6", undefined, undefined];
     let expectedPagination = ["3", "1", "4", "6", "2", "5", undefined, undefined];
 
-    expect(recalculatePaginationWithSorts(sorts, pagination, models)).eql(expectedPagination);
+    expect(recalculatePaginationWithSorts(models, filters, sorts, pagination)).eql(expectedPagination);
   });
 });
 
 describe("recalculatePaginationWithoutModel()", function() {
   it("should handle undefined values", function() {
-    let id = "2";
+    let models = {
+      "1": {id: "1"},
+      "3": {id: "3"},
+      "2": {id: "2"}, // gonna remove this one
+    };
+    let filters = {};
+    let sorts = [];
     let pagination = ["1", "2", "3", undefined];
+    let id = "2";
     let expectedPagination = ["1", "3", undefined];
-    expect(recalculatePaginationWithoutModel(id, pagination)).eql(expectedPagination);
+    expect(recalculatePaginationWithoutModel(models, filters, sorts, pagination, id)).eql(expectedPagination);
   });
 });
 
 describe("recalculatePaginationWithModel()", function() {
   it("should handle undefined values", function() {
-    let filters = {};
-    let sorts = ["+id"];
-    let id = "2";
-    let pagination = ["1", "3", "4", undefined];
     let models = {
       "1": {id: "1", manufacturer: "Russia"},
       "3": {id: "3", manufacturer: "USA"},
       "4": {id: "4", manufacturer: "China"},
       "2": {id: "2", manufacturer: "USA"}, // gonna add this one
     };
+    let filters = {};
+    let sorts = ["+id"];
+    let pagination = ["1", "3", "4", undefined];
+    let id = "2";
     let expectedPagination = ["1", "2", "3", "4", undefined];
-    expect(recalculatePaginationWithModel(filters, sorts, id, pagination, models)).eql(expectedPagination);
+    expect(recalculatePaginationWithModel(models, filters, sorts, pagination, id)).eql(expectedPagination);
   });
 });

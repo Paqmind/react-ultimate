@@ -11,24 +11,41 @@ import robotValidators from "shared/validators/robot";
 import {ShallowComponent, DeepComponent} from "frontend/components/simple";
 
 // COMPONENTS ======================================================================================
+/**
+ * this.props.data -- original data (model)
+ * this.state.form -- current state of the form fields (can't be auto-updated to "correct format" to keep UX smooth)
+ * this.state.data -- parsed state of the form fields (can be auto-updated). Is used in submit action.
+ * this.state.errors -- validation errors. Have the same structure as this.state.data
+ */
 export default class Form extends DeepComponent {
   handleReset() {
     this.setState({
-      model: clone(this.props.model),
+      form: clone(this.props.data),
+      data: clone(this.props.data),
     }, this.validate.bind(this));
   }
 
-  makeHandleChange(key) {
+  handleChange(key, formValue, dataParser) {
     if (!key) {
       throw Exception(`key argument must be non-empty string, got ${key}`);
     }
+
+    let dataValue;
+    try {
+      dataValue = dataParser(formValue);
+    } catch (err) {
+      dataValue = formValue;
+    }
+
     let formKey = this.formKey + "." + key;
+    let dataKey = this.dataKey + "." + key;
     let formLens = Lens(formKey);
-    return function handleChange(event) {
-      event.persist();
-      this.setState(formLens.set(this.state, event.currentTarget.value));
-      this.validateDebounced(key);
-    }.bind(this);
+    let dataLens = Lens(dataKey);
+
+    let state = this.state;
+    state = formLens.set(state, formValue);
+    state = dataLens.set(state, dataValue);
+    this.setState(state, this.validateDebounced.bind(this, key));
   }
 
   validateDebounced = debounce((key=undefined) => {
@@ -37,24 +54,23 @@ export default class Form extends DeepComponent {
 
   validate(key=undefined) {
     let formKey  = key ? this.formKey  + "." + key : this.formKey;
-    let modelKey = key ? this.modelKey + "." + key : this.modelKey;
+    let dataKey  = key ? this.dataKey + "." + key : this.dataKey;
     let errorKey = key ? this.errorKey + "." + key : this.errorKey;
 
-    let schemaLens = Lens(key || "");
-    let formLens  = Lens(formKey);
-    let modelLens = Lens(modelKey);
+    let dataLens = Lens(dataKey);
     let errorLens = Lens(errorKey);
+    let schemaLens = Lens(key || "");
 
-    let form = formLens.get(this.state);
+    let data = dataLens.get(this.state);
     let schema = schemaLens.get(this.schema);
 
     // Validate it
-    let [_model, _errors] = joiValidate({[formKey]: form}, {[formKey]: schema}); // TODO use only last segment of `formKey`?
-    let model = _model[formKey];
+    console.log("val data:", {[formKey]: data});
+    console.log("val schema:", {[formKey]: schema});
+    let [_, _errors] = joiValidate({[formKey]: data}, {[formKey]: schema}); // TODO use only last segment of `formKey`?
     let errors = _errors[this.formKey];
 
     let state = this.state;
-    state = modelLens.set(state, model);
     state = errorLens.set(state, errors);
 
     // Apply it
@@ -72,10 +88,10 @@ export default class Form extends DeepComponent {
     let errorLens = Lens(errorKey);
     let errors = errorLens.get(this.state) || [];
     if (errors instanceof Array) {
-      // Full key path like "model.name": just return
+      // Full key path like "address.street": just return
       return errors;
     } else {
-      // Group key path like "model": make flat Array from error tree
+      // Group key path like "address": make flat Array from error tree
       errors = flattenObject(errors);
       return filter(v => v, flatten(values(errors)));
     }
@@ -89,8 +105,8 @@ export default class Form extends DeepComponent {
     return "form";
   }
 
-  get modelKey() {
-    return "model";
+  get dataKey() {
+    return "data";
   }
 
   get errorKey() {

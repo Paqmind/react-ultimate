@@ -24,8 +24,6 @@ export default class RobotDetail extends DeepComponent {
     let {loading, loadError} = this.props.robots;
     let model = this.props.model;
 
-    console.log("!!!", model);
-
     if (loading) {
       return <Loading/>;
     } else if (loadError) {
@@ -47,8 +45,6 @@ export default class RobotDetail extends DeepComponent {
                   <dl>
                     <dt>Serial Number</dt>
                     <dd>{model.id}</dd>
-                    <dt>Assembly Date</dt>
-                    <dd>{model.assemblyDate}</dd>
                     <dt>Manufacturer</dt>
                     <dd>{model.manufacturer}</dd>
                   </dl>
@@ -85,6 +81,9 @@ class RobotDetailActions extends DeepComponent {
             </Link>
           </div>
           <div className="btn-group btn-group-sm pull-right">
+            <Link to="robot-add" className="btn btn-sm btn-green" title="Add">
+              <span className="fa fa-plus"></span>
+            </Link>
             <ModelLink to="robot-edit" className="btn btn-orange" title="Edit">
               <span className="fa fa-edit"></span>
             </ModelLink>
@@ -97,3 +96,6 @@ class RobotDetailActions extends DeepComponent {
     );
   }
 }
+
+//<dt>Assembly Date</dt>
+//<dd>{model.assemblyDate}</dd>

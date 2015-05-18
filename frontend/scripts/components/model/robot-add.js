@@ -5,6 +5,8 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
+import {parseString, parseInteger, parseFloat, parseDate} from "shared/converters";
+import {formatString, formatInteger, formatFloat, formatDate} from "shared/converters";
 import modelValidators from "shared/validators/robot";
 import modelActions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent} from "frontend/components/simple";
@@ -26,13 +28,13 @@ export default class RobotAdd extends Form {
       // Raw state for all fields
       form: {
         name: undefined,
-        assemblyDate: undefined,
+        //assemblyDate: undefined,
         manufacturer: undefined,
       },
       // Validated and converter state for action
-      model: {
+      data: {
         name: undefined,
-        assemblyDate: undefined,
+        //assemblyDate: undefined,
         manufacturer: undefined,
       },
       // Errors
@@ -44,6 +46,8 @@ export default class RobotAdd extends Form {
     let {loading, loadError} = this.props.robots;
     let form = this.state.form;
 
+    console.log("RENDER.state:", this.state);
+
     if (loading) {
       return <Loading/>;
     } else if (loadError) {
@@ -52,7 +56,7 @@ export default class RobotAdd extends Form {
       return (
         <DocumentTitle title={"Add Robot"}>
           <div>
-            <ModelActions {...this.props}/>
+            <ModelActions {...this.props} form={form}/>
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-9">
@@ -64,9 +68,8 @@ export default class RobotAdd extends Form {
                     })}>
                       <label htmlFor="name">Name</label>
                       <input type="text"
-                        value={form.name}
-                        onBlur={() => this.validate("name")}
-                        onChange={this.makeHandleChange("name")}
+                        value={formatString(form.name)}
+                        onChange={event => this.handleChange("name", event.currentTarget.value, parseString)}
                         id="name" ref="name"
                         className="form-control"/>
                       <div className={Class("help", {
@@ -78,31 +81,12 @@ export default class RobotAdd extends Form {
 
                     <div className={Class("form-group", {
                       required: false,
-                      error: this.hasErrors("assemblyDate"),
-                    })}>
-                      <label htmlFor="assemblyDate">Assembly Date</label>
-                      <input type="date"
-                        value={form.assemblyDate}
-                        onBlur={() => this.validate("assemblyDate")}
-                        onChange={this.makeHandleChange("assemblyDate")}
-                        id="assemblyDate" ref="assemblyDate"
-                        className="form-control"/>
-                      <div className={Class("help", {
-                        error: this.hasErrors("assemblyDate"),
-                      })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("assemblyDate"))}
-                      </div>
-                    </div>
-
-                    <div className={Class("form-group", {
-                      required: false,
                       error: this.hasErrors("manufacturer"),
                     })}>
                       <label htmlFor="manufacturer">Manufacturer</label>
                       <input type="text"
-                        value={form.manufacturer}
-                        onBlur={() => this.validate("manufacturer")}
-                        onChange={this.makeHandleChange("manufacturer")}
+                        value={formatString(form.manufacturer)}
+                        onChange={event => this.handleChange("manufacturer", event.currentTarget.value, parseString)}
                         id="manufacturer" ref="manufacturer"
                         className="form-control"/>
                       <div className={Class("help", {
@@ -129,7 +113,7 @@ export default class RobotAdd extends Form {
     this.validate().then(isValid => {
       if (isValid) {
         alert("Submit will be here soon!");
-        // modelActions.addModel(this.state.model);
+        //modelActions.addModel(this.state.model);
       } else {
         alert("Can't submit form with errors");
       }
@@ -177,3 +161,20 @@ class ModelActions extends ShallowComponent {
 //(this.validatorTypes().name._flags.presence == "required")
 //(this.validatorTypes().assemblyDate._flags.presence == "required")
 //(this.validatorTypes().manufacturer._flags.presence == "required")
+
+//<div className={Class("form-group", {
+//  required: false,
+//  error: this.hasErrors("assemblyDate"),
+//})}>
+//  <label htmlFor="assemblyDate">Assembly Date</label>
+//  <input type="text"
+//    value={formatDate(form.assemblyDate, "YYYY-MM-DD")}
+//    onChange={event => this.handleChange("assemblyDate", event.currentTarget.value, parseDate)}
+//    id="assemblyDate" ref="assemblyDate"
+//    className="form-control"/>
+//  <div className={Class("help", {
+//    error: this.hasErrors("assemblyDate"),
+//  })}>
+//    {map(message => <span key="">{message}</span>, this.getErrors("assemblyDate"))}
+//  </div>
+//</div>

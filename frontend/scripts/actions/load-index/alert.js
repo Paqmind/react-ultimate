@@ -7,9 +7,11 @@ import fetchIndex from "frontend/actions/fetch-index/alert";
 
 // ACTIONS =========================================================================================
 export default function loadIndex() {
-  console.debug("loadIndex");
+  console.debug("loadIndex()");
 
   let cursor = state.select("alerts");
+  let total = cursor.get("total");
+  let models = cursor.get("models");
   let filters = cursor.get("filters");
   let sorts = cursor.get("sorts");
   let offset = cursor.get("offset");
@@ -18,6 +20,7 @@ export default function loadIndex() {
 
   let ids = filter(v => v, pagination.slice(offset, offset + limit));
   if (!ids) {
-    fetchIndex(filters, sorts, offset, limit);
+    fetchIndex(models, filters, sorts, offset, limit, pagination)
+      .then(() => handleInvalidOffset());
   }
 }
