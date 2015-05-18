@@ -112,7 +112,7 @@ export default {
     new Webpack.IgnorePlugin(/^vertx$/),
   //  new Webpack.IgnorePlugin(/^dns$/),
   //  new Webpack.IgnorePlugin(/^net$/),
-  //  new Webpack.HotModuleReplacementPlugin(), TODO Bug?! Crashes on getters. Investigate...
+  //  new Webpack.HotModuleReplacementPlugin(), TODO track https://github.com/gaearon/react-hot-loader/issues/125
   //  new Webpack.NoErrorsPlugin()
   ],
 
