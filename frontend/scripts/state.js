@@ -31,7 +31,7 @@ export const ALERT = {
   LIMIT: 5,
 };
 
-export default new Baobab(
+window._state = new Baobab(
   { // DATA
     url: {
       handler: undefined,
@@ -175,3 +175,5 @@ export default new Baobab(
     }
   }
 );
+
+export default window._state;
