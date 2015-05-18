@@ -25,7 +25,7 @@ export function isCacheAvailable() {
 
   let ids = filter(v => v, pagination.slice(offset, offset + limit));
   if (ids && ids.length) {
-    if (offset == recommendOffset(total, offset, limit)) {
+    if (offset == recommendOffset(total, total, limit)) { // are we on the last page?
       let totalPages = getTotalPages(total, limit);
       return ids.length >= limit - ((totalPages * limit) - total);
     } else {
