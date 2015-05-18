@@ -81,6 +81,14 @@ describe("sortByAll()", function() {
     expect(sortByAll(sorts, data)).eql(expectedData);
   });
 
+  it("should handle space instead of + (unencoded)", function() {
+    let sorts = [" id"];
+    let data = [{id: "2"}, {id: "1"}];
+    let expectedData = [{id: "1"}, {id: "2"}];
+
+    expect(sortByAll(sorts, data)).eql(expectedData);
+  });
+
   it("should sort by all arguments", function() {
     let sorts = ["+manufacturer", "+id"];
     let data = [

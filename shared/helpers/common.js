@@ -72,7 +72,7 @@ export function sortByAll(sorts, data) {
       let sorter;
       if (sort.startsWith("-")) {
         sorter = pipe(sortBy(prop(sort.slice(1))), reverse);
-      } else if (sort.startsWith("+")) {
+      } else if (sort.startsWith("+") || sort.startsWith(" ")) {
         sorter = sortBy(prop(sort.slice(1)));
       } else {
         sorter = sortBy(prop(sort));
