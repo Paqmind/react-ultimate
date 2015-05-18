@@ -10,15 +10,16 @@ import router from "backend/routers/monster";
 router.get("/",
   middlewares.createParseQuery(commonValidators.urlQuery),
   function handler(req, res, cb) {
-    let filters = req.query.filter || {};
-    let sorts = (req.query.sort || "").split(",");
-    let {offset=0, limit=20} = req.query.page || {};
+    let filters = req.query.filters;
+    let sorts = req.query.sorts;
+    let offset = req.query.offset || 0;
+    let limit = req.query.limit || 20;
 
     let models = values(DB);
-    if (keys(filters).length) {
+    if (filters) {
       models = filterByAll(filters, models);
     }
-    if (sorts.length) {
+    if (sorts) {
       models = sortByAll(sorts, models);
     }
     let total = models.length;

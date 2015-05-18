@@ -12,9 +12,7 @@ export default {
   urlQuery: {
     filters: Joi.object(),
     sorts: Joi.array(),
-    page: {
-      offset: Joi.number().min(0),
-      limit: Joi.number().min(1),
-    }
+    offset: Joi.number().min(0),
+    limit: Joi.number().min(1),
   },
 };

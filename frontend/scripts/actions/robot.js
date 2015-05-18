@@ -2,7 +2,6 @@
 import establishIndex from "./establish-index/robot";
 import loadIndex from "./load-index/robot";
 import fetchIndex from "./fetch-index/robot";
-import resetIndex from "./reset-index/robot";
 
 // TODO rename to filterIndex, sortIndex, limitIndex, offsetIndex ???
 import setIndexFilters from "./set-index-filters/robot";
@@ -21,7 +20,7 @@ import removeModel from "./remove-model/robot";
 
 export default {
   // INDEX
-  establishIndex, loadIndex, fetchIndex, resetIndex,
+  establishIndex, loadIndex, fetchIndex,
   setIndexFilters, setIndexLimit, setIndexOffset, setIndexSorts,
 
   // CRUD

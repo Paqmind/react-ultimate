@@ -1,17 +1,14 @@
 // IMPORTS =========================================================================================
-import {merge} from "lodash";
+import DeepMerge from "deep-merge";
+import R from "ramda";
 import {keys, filter, pipe, prop, map, mapIndexed, range, reduce, reverse, sortBy} from "ramda";
 import flat from "flat";
 
 // HELPERS =========================================================================================
 // Workaround until https://github.com/ramda/ramda/issues/1073 /////////////////////////////////////
-export function mergeDeep(a, b) {
-  return merge({}, a, b, function(a, b) {
-    if (b instanceof Array) {
-      return b; // Lodash merges `Array` offsets like keys by default. This lines disable it
-    }
-  })
-}
+export const mergeDeep = DeepMerge((a, b, key) => {
+  return b;
+});
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**

@@ -1,3 +1,4 @@
+// IMPORTS =========================================================================================
 import {expect} from "chai";
 import {
   recommendOffset,
@@ -5,6 +6,7 @@ import {
   recalculatePaginationWithoutModel, recalculatePaginationWithModel,
 } from "frontend/helpers/pagination";
 
+// SPECS ===========================================================================================
 describe("recommendOffset()", function() {
   it("should work with offset 3", function() {
     expect(recommendOffset(30, 0, 3)) .equals(0);
@@ -40,7 +42,6 @@ describe("recalculatePaginationWithFilters()", function() {
       "1": {id: "1", manufacturer: "Russia"},
     };
     let expectedPagination = ["1", "4", "6"];
-
     expect(recalculatePaginationWithFilters(filters, pagination, models)).eql(expectedPagination);
   });
 });
@@ -68,7 +69,6 @@ describe("recalculatePaginationWithoutModel()", function() {
     let id = "2";
     let pagination = ["1", "2", "3", undefined];
     let expectedPagination = ["1", "3", undefined];
-
     expect(recalculatePaginationWithoutModel(id, pagination)).eql(expectedPagination);
   });
 });
@@ -86,7 +86,6 @@ describe("recalculatePaginationWithModel()", function() {
       "2": {id: "2", manufacturer: "USA"}, // gonna add this one
     };
     let expectedPagination = ["1", "2", "3", "4", undefined];
-
     expect(recalculatePaginationWithModel(filters, sorts, id, pagination, models)).eql(expectedPagination);
   });
 });

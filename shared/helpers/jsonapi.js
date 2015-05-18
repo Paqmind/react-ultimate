@@ -1,60 +1,84 @@
 // IMPORTS =========================================================================================
-import {join, keys, map, pipe, split, reduce} from "ramda";
+import {keys, map, pipe, reduce} from "ramda";
 
 // JSON API ========================================================================================
 export function parseQuery(query) {
-  return {
-    filters: query.filter,
+  let result = {};
 
-    sorts: query.sort ?
-      pipe(
-        map(v => v.trim()),
-        map(v => v.replace(/^(\w|\d)/, "+$1"))
-      )(split(",", query.sort)) :
-      undefined,
+  if (query.filter) {
+    result.filters = query.filter;
+  }
+  if (query.sort) {
+    result.sorts = map(v => v.replace(/^ /, "+"), query.sort.split(","));
+  }
+  if (query.page) {
+    if (query.page.offset || query.page.offset == 0) {
+      result.offset = query.page.offset;
+    }
+    if (query.page.limit || query.page.limit == 0) {
+      result.limit = query.page.limit;
+    }
+  }
+  if (query.reset) {
+    result.reset = true;
+  }
 
-    page: {
-      offset: query.page && (query.page.offset || query.page.offset == 0) ?
-        query.page.offset :
-        undefined,
-
-      limit: query.page && (query.page.limit || query.page.limit == 0) ?
-        query.page.limit :
-        undefined,
-    },
-
-    reset: query.reset == "true" ?
-      true :
-      undefined,
-  };
+  return result;
 }
 
-export function formatQuery(params) {
-  if (!params instanceof Object) {
-    throw new Error(`params must be a basic Object, got ${params}`);
+export function formatQuery(query) {
+  if (!query instanceof Object) {
+    throw new Error(`query must be a basic Object, got ${query}`);
   }
 
-  let sortObj = {};
-  let filterObj = {};
-  let pageObj = {};
+  let result = {};
 
-  if (params.filters) {
-    filterObj = reduce((filterObj, key) => {
-      filterObj[`filter[${key}]`] = params.filters[key];
-      return filterObj;
-    }, filterObj, keys(params.filters));
+  if (query.filters) {
+    result.filter = query.filters;
   }
-  if (params.sorts) {
-    sortObj["sort"] = join(",", params.sorts);
+  if (query.sorts) {
+    result.sort = query.sorts.join(",");
   }
-  if (params.page) {
-    if (params.page.offset || params.page.offset == 0) {
-      pageObj["page[offset]"] = params.page.offset;
-    }
-    if (params.page.limit || params.page.limit == 0) {
-      pageObj["page[limit]"] = params.page.limit;
-    }
+  if (query.offset || query.offset == 0) {
+    result.page = result.page || {};
+    result.page.offset = query.offset;
+  }
+  if (query.limit || query.limit == 0) {
+    result.page = result.page || {};
+    result.page.limit = query.limit;
+  }
+  if (query.reset) {
+    result.reset = true;
   }
 
-  return Object.assign({}, sortObj, filterObj, pageObj);
+  return result;
+}
+
+export function formatQueryForAxios(query) {
+  if (!query instanceof Object) {
+    throw new Error(`query must be a basic Object, got ${query}`);
+  }
+
+  let result = {};
+
+  if (query.filters) {
+    reduce((result, key) => {
+      let value = query.filters[key];
+      result[`filter[${key}]`] = value;
+    }, result, Object.keys(query.filters));
+  }
+  if (query.sorts) {
+    result.sort = query.sorts.join(",");
+  }
+  if (query.offset || query.offset == 0) {
+    result["page[offset]"] = query.offset;
+  }
+  if (query.limit || query.limit == 0) {
+    result["page[limit]"] = query.limit;
+  }
+  if (query.reset) {
+    result.reset = true;
+  }
+
+  return result;
 }

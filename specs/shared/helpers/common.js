@@ -1,6 +1,8 @@
+// IMPORTS =========================================================================================
 import {expect} from "chai";
 import {chunked, filterByAll, sortByAll} from "shared/helpers/common";
 
+// SPECS ===========================================================================================
 describe("chunked()", function() {
   it("should work", function() {
     expect(chunked(5, [1, 2, 3, 4, 5])).eql([[1, 2, 3, 4, 5]]);
@@ -25,7 +27,6 @@ describe("filterByAll()", function() {
       {id: "4", manufacturer: "Russia"},
       {id: "1", manufacturer: "Russia"},
     ];
-
     expect(filterByAll(filters, data)).eql(expectedData);
   });
 
@@ -77,7 +78,6 @@ describe("sortByAll()", function() {
       {id: "2", manufacturer: "USA"},
       undefined, undefined
     ];
-
     expect(sortByAll(sorts, data)).eql(expectedData);
   });
 
@@ -85,7 +85,6 @@ describe("sortByAll()", function() {
     let sorts = [" id"];
     let data = [{id: "2"}, {id: "1"}];
     let expectedData = [{id: "1"}, {id: "2"}];
-
     expect(sortByAll(sorts, data)).eql(expectedData);
   });
 
@@ -109,7 +108,6 @@ describe("sortByAll()", function() {
       {id: "5", manufacturer: "USA"},
       undefined, undefined
     ];
-
     expect(sortByAll(sorts, data)).eql(expectedData);
   });
 
@@ -117,7 +115,6 @@ describe("sortByAll()", function() {
     let sorts = ["+id"];
     let data = [{id: "2"}, {id: "1"}];
     let expectedData = [{id: "1"}, {id: "2"}];
-
     expect(sortByAll(sorts, data)).eql(expectedData);
   });
 });

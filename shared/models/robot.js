@@ -1,8 +1,8 @@
 // IMPORTS =========================================================================================
 import UUID from "node-uuid";
-import {keys} from "ramda";
+import {filter, flatten, keys, values} from "ramda";
 import Moment from "moment";
-import {flattenArrayObject, mergeDeep} from "shared/helpers/common";
+import {flattenObject, flattenArrayObject, mergeDeep} from "shared/helpers/common";
 import {joiValidate} from "shared/helpers/validation";
 import validators from "shared/validators/robot";
 
@@ -16,7 +16,7 @@ export default function Robot(data) {
     throw Error(`invalid Robot data, errors: ${errorArr.join(", ")}`);
   }
 
-  model.assemblyDate = Moment(model.assemblyDate);
+  //model.assemblyDate = Moment(model.assemblyDate);
 
   // Merge with default values
   return mergeDeep({

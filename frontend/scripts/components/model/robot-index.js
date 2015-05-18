@@ -58,12 +58,12 @@ export default class RobotIndex extends DeepComponent {
   }
 
   setOffset(offset) {
-    indexRouter.transitionTo("robot-index", {page: {offset}});
+    indexRouter.transitionTo("robot-index", {offset});
     modelActions.loadIndex();
   }
 
   showOffset(offset) {
-    return indexRouter.makePath("robot-index", {page: {offset}});
+    return indexRouter.makePath("robot-index", {offset});
   }
 }
 
@@ -120,7 +120,7 @@ class RobotIndexActions extends ShallowComponent {
   }
 
   setLimit(limit) {
-    indexRouter.transitionTo("robot-index", {page: {limit}});
+    indexRouter.transitionTo("robot-index", {limit});
     modelActions.loadIndex();
   }
 
@@ -133,6 +133,6 @@ class RobotIndexActions extends ShallowComponent {
   }
 
   showLimit(limit) {
-    return indexRouter.makePath("robot-index", {page: {limit}});
+    return indexRouter.makePath("robot-index", {limit});
   }
 }

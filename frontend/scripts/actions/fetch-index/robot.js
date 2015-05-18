@@ -3,7 +3,7 @@ import {keys, map, reduce, reduceIndexed} from "ramda";
 import Axios from "axios";
 import {mergeDeep} from "shared/helpers/common";
 import {toObject} from "shared/helpers/common";
-import {formatQuery} from "shared/helpers/jsonapi";
+import {formatQueryForAxios} from "shared/helpers/jsonapi";
 import Robot from "shared/models/robot";
 import state from "frontend/state";
 import alertActions from "frontend/actions/alert";
@@ -22,7 +22,7 @@ export default function fetchIndex() {
   let limit = cursor.get("limit");
 
   let url = `/api/robots/`;
-  let query = formatQuery({filters, sorts, page: {offset, limit}});
+  let query = formatQueryForAxios({filters, sorts, offset, limit});
 
   return Axios.get(url, {params: query})
     .then(response => {

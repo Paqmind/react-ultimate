@@ -5,7 +5,7 @@ import Joi from "joi";
 export default {
   model: {
     name: Joi.string().required(),
-    birthDate: Joi.date().max("now").required(),
+    //birthDate: Joi.date().format("YYYY-MM-DD").max("now").required(),
     citizenship: Joi.string().required(),
   },
 };

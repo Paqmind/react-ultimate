@@ -1,8 +1,8 @@
 // IMPORTS =========================================================================================
 import UUID from "node-uuid";
-import {keys} from "ramda";
+import {filter, flatten, keys, values} from "ramda";
 import Moment from "moment";
-import {flattenArrayObject, mergeDeep} from "shared/helpers/common";
+import {flattenObject, flattenArrayObject, mergeDeep} from "shared/helpers/common";
 import {joiValidate} from "shared/helpers/validation";
 import validators from "shared/validators/monster";
 
@@ -16,7 +16,7 @@ export default function Monster(data) {
     throw Error(`invalid Monster data, errors: ${errorArr.join(", ")}`);
   }
 
-  model.birthDate = Moment(model.birthDate);
+  //model.birthDate = Moment(model.birthDate);
 
   // Merge with default values
   return mergeDeep({

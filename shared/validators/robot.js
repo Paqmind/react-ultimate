@@ -5,7 +5,7 @@ import Joi from "joi";
 export default {
   model: {
     name: Joi.string().required(),
-    assemblyDate: Joi.date().max("now").required(),
+    //assemblyDate: Joi.date().format("YYYY-MM-DD").max("now").required(),
     manufacturer: Joi.string().required(),
   },
 };

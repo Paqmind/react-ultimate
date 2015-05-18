@@ -7,9 +7,9 @@ import loadModel from "frontend/actions/load-model/monster";
 export default function establishModel() {
   console.debug("establishModel");
 
-  let cursor = state.select("url");
+  let urlCursor = state.select("url");
 
-  setModelId(cursor.get("id"));
+  setModelId(urlCursor.get("id"));
 
   loadModel();
 }

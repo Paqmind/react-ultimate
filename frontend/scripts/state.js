@@ -1,6 +1,10 @@
 // IMPORTS =========================================================================================
-import {filter, map} from "ramda";
+import {filter, keys, map, pipe} from "ramda";
 import Baobab from "baobab";
+import {flattenArrayObject} from "shared/helpers/common";
+import {parseQuery} from "shared/helpers/jsonapi";
+import {joiValidate} from "shared/helpers/validation";
+import commonValidators from "shared/validators/common";
 
 // STATE ===========================================================================================
 export const EXAMPLE = {
@@ -42,7 +46,6 @@ window._state = new Baobab(
       sorts: undefined,
       offset: undefined,
       limit: undefined,
-      reset: undefined,
     },
 
     robots: {
@@ -109,6 +112,32 @@ window._state = new Baobab(
     syncwrite: true,
 
     facets: {
+      urlQuery: {
+        cursors: {
+          query: ["url", "query"],
+        },
+
+        get: function (data) {
+          let query = data.query;
+
+          // Parse and validate URL Query
+          let parsedQuery = parseQuery(query);
+          let [cleanedQuery, errors] = joiValidate(parsedQuery, commonValidators.urlQuery);
+          if (keys(errors).length) {
+            let humanReadableErrors = flattenArrayObject(errors).join(", ");
+            alert(`Invalid URL query params. Errors: ${humanReadableErrors}`);
+            throw Error(`Invalid URL query params. Errors: ${humanReadableErrors}`);
+          }
+
+          return {
+            filters: cleanedQuery.filters,
+            sorts: cleanedQuery.sorts,
+            offset: cleanedQuery.offset,
+            limit: cleanedQuery.limit,
+          }
+        }
+      },
+
       // TODO wee need nested (namespaced) facets. Post an issue
       currentRobot: {
         cursors: {

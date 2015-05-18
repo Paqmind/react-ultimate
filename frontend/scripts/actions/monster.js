@@ -1,7 +1,6 @@
 // INDEX
 import loadIndex from "./load-index/monster";
 import fetchIndex from "./fetch-index/monster";
-import resetIndex from "./reset-index/monster";
 
 // TODO rename to filterIndex, sortIndex, limitIndex, offsetIndex ???
 import setIndexFilters from "./set-index-filters/monster";
@@ -20,7 +19,7 @@ import removeModel from "./remove-model/monster";
 
 export default {
   // INDEX
-  loadIndex, fetchIndex, resetIndex,
+  loadIndex, fetchIndex,
   setIndexFilters, setIndexLimit, setIndexOffset, setIndexSorts,
 
   // CRUD
