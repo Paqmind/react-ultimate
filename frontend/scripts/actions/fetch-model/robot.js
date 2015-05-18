@@ -6,12 +6,11 @@ import state from "frontend/state";
 import alertActions from "frontend/actions/alert";
 
 // ACTIONS =========================================================================================
-export default function fetchModel() {
-  console.debug(`fetchModel()`);
+export default function fetchModel(id) {
+  console.debug(`fetchModel(${id})`);
 
   let cursor = state.select("robots");
   cursor.set("loading", true);
-  let id = cursor.get("id");
 
   let url = `/api/robots/${id}`;
 
@@ -21,7 +20,7 @@ export default function fetchModel() {
       let model = Robot(data);
 
       cursor.merge({loading: false, loadError: undefined});
-      cursor.select("models").set(model.id, model);
+      cursor.select("models").set(id, model);
 
       return response.status;
     })
