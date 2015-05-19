@@ -16,18 +16,15 @@ import {Form} from "frontend/components/form";
   cursors: {
     monsters: "monsters",
   },
+  facets: {
+    model: "emptyMonster",
+  },
 })
 export default class MonsterAdd extends Form {
   static loadData = modelActions.loadIndex;
 
   constructor(props) {
     super();
-    // Hack until Form will be implemented as Component
-    this.props.model = {
-      name: undefined,
-      //birthDate: undefined,
-      citizenship: undefined,
-    };
     this.state = {
       // Raw state for all fields
       form: clone(props.model),

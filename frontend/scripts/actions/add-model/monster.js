@@ -33,7 +33,7 @@ export default function add(model) {
       cursor.merge({loading: false, loadError: undefined});
 
       // Transition to detail page
-      router.transitionTo("robot-detail", {id: newModel.id});
+      router.transitionTo("monster-detail", {id: newModel.id});
 
       // Add alert
       alertActions.addModel({message: "Action `Monster:addModel` succeed", category: "success"});

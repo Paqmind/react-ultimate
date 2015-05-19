@@ -8,7 +8,7 @@ import alertActions from "frontend/actions/alert";
 export default function edit(model) {
   let newModel = Monster(model);
   let id = newModel.id;
-  let url = `/api/robots/${id}`;
+  let url = `/api/monsters/${id}`;
 
   let cursor = state.select("monsters");
   let total = cursor.get("total");
