@@ -3,6 +3,7 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
+import {formatQuery} from "shared/helpers/jsonapi";
 import state from "frontend/state";
 import modelActions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent, ModelLink} from "frontend/components/simple";
@@ -32,7 +33,7 @@ export default class RobotDetail extends DeepComponent {
       return (
         <DocumentTitle title={"Detail " + model.name}>
           <div>
-            <RobotDetailActions {...this.props} model={model}/>
+            <ModelActions {...this.props} model={model}/>
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-3">
@@ -58,18 +59,11 @@ export default class RobotDetail extends DeepComponent {
   }
 }
 
-class RobotDetailActions extends DeepComponent {
+class ModelActions extends DeepComponent {
   render() {
     let robots = this.props.robots;
     let model = this.props.model;
-    let query = {
-      filters: robots.filters,
-      sorts: robots.sorts,
-      page: {
-        offset: robots.offset,
-        limit: robots.limit,
-      }
-    };
+    let query = formatQuery(robots);
 
     return (
       <div id="actions">

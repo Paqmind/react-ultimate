@@ -5,6 +5,7 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
+import {formatQuery} from "shared/helpers/jsonapi";
 import {parseString, parseInteger, parseFloat, parseDate} from "shared/converters";
 import {formatString, formatInteger, formatFloat, formatDate} from "shared/converters";
 import modelValidators from "shared/validators/robot";
@@ -137,14 +138,7 @@ class ModelActions extends DeepComponent {
   render() {
     let robots = this.props.robots;
     let form = this.props.form;
-    let query = {
-      filters: robots.filters,
-      sorts: robots.sorts,
-      page: {
-        offset: robots.offset,
-        limit: robots.limit,
-      }
-    };
+    let query = formatQuery(robots);
 
     return (
       <div id="actions">
