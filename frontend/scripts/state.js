@@ -138,7 +138,36 @@ window._state = new Baobab(
         }
       },
 
-      // TODO wee need nested (namespaced) facets. Post an issue
+      // Quick hack until Form will be implemented as Component
+      emptyRobot: {
+        cursors: {
+          url: ["url"],
+        },
+
+        get: function (data) {
+          return {
+            name: undefined,
+            //assemblyDate: undefined,
+            manufacturer: undefined,
+          }
+        }
+      },
+
+      // Quick hack until Form will be implemented as Component
+      emptyMonster: {
+        cursors: {
+          url: ["url"],
+        },
+
+        get: function (data) {
+          return {
+            name: undefined,
+            //birthDate: undefined,
+            citizenship: undefined,
+          }
+        }
+      },
+
       currentRobot: {
         cursors: {
           robots: "robots",

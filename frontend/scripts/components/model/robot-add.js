@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import {map} from "ramda";
+import {clone, map} from "ramda";
 import Class from "classnames";
 import {branch} from "baobab-react/decorators";
 import React from "react";
@@ -19,6 +19,9 @@ import {Form} from "frontend/components/form";
   cursors: {
     robots: "robots",
   },
+  facets: {
+    model: "emptyRobot",
+  },
 })
 export default class RobotAdd extends Form {
   static loadData = modelActions.loadIndex;
@@ -27,17 +30,9 @@ export default class RobotAdd extends Form {
     super();
     this.state = {
       // Raw state for all fields
-      form: {
-        name: undefined,
-        //assemblyDate: undefined,
-        manufacturer: undefined,
-      },
+      form: clone(props.model),
       // Validated and converter state for action
-      model: {
-        name: undefined,
-        //assemblyDate: undefined,
-        manufacturer: undefined,
-      },
+      model: clone(props.model),
       // Errors
       errors: {},
       // Validation schema
@@ -70,6 +65,7 @@ export default class RobotAdd extends Form {
                       <label htmlFor="name">Name</label>
                       <input type="text"
                         value={formatString(form.name)}
+                        onBlur={() => this.validate("name")}
                         onChange={event => this.handleChange("name", event.currentTarget.value)}
                         id="name" ref="name"
                         className="form-control"/>
@@ -87,6 +83,7 @@ export default class RobotAdd extends Form {
                       <label htmlFor="manufacturer">Manufacturer</label>
                       <input type="text"
                         value={formatString(form.manufacturer)}
+                        onBlur={() => this.validate("manufacturer")}
                         onChange={event => this.handleChange("manufacturer", event.currentTarget.value)}
                         id="manufacturer" ref="manufacturer"
                         className="form-control"/>
@@ -98,8 +95,8 @@ export default class RobotAdd extends Form {
                     </div>
                   </fieldset>
                   <div className="btn-group">
-                    <button className="btn btn-default" type="button" onClick={this.handleReset}>Reset</button>
-                    <button className="btn btn-primary" type="button" onClick={this.handleSubmit} disabled={this.hasErrors()}>Submit</button>
+                    <button className="btn btn-default" type="button" onClick={() => this.handleReset()}>Reset</button>
+                    <button className="btn btn-primary" type="button" onClick={() => this.handleSubmit()} disabled={this.hasErrors()}>Submit</button>
                   </div>
                 </div>
               </div>

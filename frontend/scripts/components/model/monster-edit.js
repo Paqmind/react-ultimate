@@ -35,7 +35,7 @@ export default class MonsterEdit extends Form {
       // Errors
       errors: {},
       // Validation schema
-      schema: modelValidators.model
+      schema: modelValidators.model,
     };
   }
 
@@ -107,8 +107,8 @@ export default class MonsterEdit extends Form {
                     </div>
                   </fieldset>
                   <div className="btn-group">
-                    <button className="btn btn-default" type="button" onClick={this.handleReset}>Reset</button>
-                    <button className="btn btn-primary" type="button" onClick={this.handleSubmit} disabled={this.hasErrors()}>Submit</button>
+                    <button className="btn btn-default" type="button" onClick={() => this.handleReset()}>Reset</button>
+                    <button className="btn btn-primary" type="button" onClick={() => this.handleSubmit()} disabled={this.hasErrors()}>Submit</button>
                   </div>
                 </div>
               </div>

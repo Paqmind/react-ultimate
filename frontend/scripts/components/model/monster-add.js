@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import {map} from "ramda";
+import {clone, map} from "ramda";
 import Class from "classnames";
 import {branch} from "baobab-react/decorators";
 import React from "react";
@@ -22,19 +22,17 @@ export default class MonsterAdd extends Form {
 
   constructor(props) {
     super();
+    // Hack until Form will be implemented as Component
+    this.props.model = {
+      name: undefined,
+      //birthDate: undefined,
+      citizenship: undefined,
+    };
     this.state = {
       // Raw state for all fields
-      form: {
-        name: undefined,
-        //birthDate: undefined,
-        citizenship: undefined,
-      },
+      form: clone(props.model),
       // Validated and converter state for action
-      model: {
-        name: undefined,
-        //birthDate: undefined,
-        citizenship: undefined,
-      },
+      model: clone(props.model),
       // Errors
       errors: {},
       // Validation schema
@@ -97,8 +95,8 @@ export default class MonsterAdd extends Form {
                     </div>
                   </fieldset>
                   <div className="btn-group">
-                    <button className="btn btn-default" type="button" onClick={this.handleReset}>Reset</button>
-                    <button className="btn btn-primary" type="button" onClick={this.handleSubmit} disabled={this.hasErrors()}>Submit</button>
+                    <button className="btn btn-default" type="button" onClick={() => this.handleReset()}>Reset</button>
+                    <button className="btn btn-primary" type="button" onClick={() => this.handleSubmit()} disabled={this.hasErrors()}>Submit</button>
                   </div>
                 </div>
               </div>
