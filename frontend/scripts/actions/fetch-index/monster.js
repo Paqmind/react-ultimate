@@ -24,9 +24,9 @@ export default function fetchIndex(filters, sorts, offset, limit, models, pagina
       let newModelsObject = mergeDeep(models, toObject(newModelsArray));
       let newTotal = meta.page && meta.page.total || keys(models).length;
 
-      let newPagination = reduceIndexed((pagination, model, i) => {
-        pagination[offset + i] = model.id;
-        return pagination;
+      let newPagination = reduceIndexed((_pagination, model, i) => {
+        _pagination[offset + i] = model.id;
+        return _pagination;
       }, pagination, newModelsArray);
 
       cursor.merge({

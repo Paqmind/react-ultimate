@@ -56,7 +56,7 @@ export default class Pagination extends ShallowComponent {
     let lastOffset = this.lastOffset();
 
     let offsets = reject(
-      offset => offset % limit,    // reject everything but 0, 5, 10, 15... for limit = 5
+      _offset => _offset % limit,    // reject everything but 0, 5, 10, 15... for limit = 5
       range(0, lastOffset + limit) // from this range
     );
 
@@ -71,11 +71,11 @@ export default class Pagination extends ShallowComponent {
                 <span>&laquo;</span>
               </a>
             </li>
-            {mapIndexed((offset, i) => {
+            {mapIndexed((_offset, i) => {
                 return (
-                  <li key={offset} className={Class({active: offset == currOffset})}>
-                    <a href={makeHref ? makeHref(offset) : "#"}
-                      onClick={event => this.onClick(event, offset)}
+                  <li key={_offset} className={Class({active: _offset == currOffset})}>
+                    <a href={makeHref ? makeHref(_offset) : "#"}
+                      onClick={event => this.onClick(event, _offset)}
                       title={`To page ${i + 1}`}>
                       {i + 1}
                     </a>

@@ -45,10 +45,10 @@ export function filterByAll(filters, data) {
   if (data === undefined) {
     return filterByAll.bind(null, filters);
   } else {
-    return reduce((data, filterKey) => {
+    return reduce((_data, filterKey) => {
       let filterValue = filters[filterKey];
-      let filterer = filter(data => data && (data[filterKey] == filterValue));
-      return filterer(data);
+      let filterer = filter(d => d && (d[filterKey] == filterValue));
+      return filterer(_data);
     }, data, keys(filters));
   }
 }
@@ -65,7 +65,7 @@ export function sortByAll(sorts, data) {
   if (data === undefined) {
     return sortByAll.bind(null, sorts);
   } else {
-    return reduce((data, sort) => {
+    return reduce((_data, sort) => {
       let sorter;
       if (sort.startsWith("-")) {
         sorter = pipe(sortBy(prop(sort.slice(1))), reverse);
@@ -74,7 +74,7 @@ export function sortByAll(sorts, data) {
       } else {
         sorter = sortBy(prop(sort));
       }
-      return sorter(data);
+      return sorter(_data);
     }, data, reverse(sorts));
   }
 }

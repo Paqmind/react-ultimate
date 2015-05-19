@@ -33,7 +33,7 @@ export default class MonsterIndex extends DeepComponent {
       return <Error loadError={loadError}/>;
     } else {
       let pagination = <Pagination
-        onClick={offset => this.setOffset(offset)}
+        onClick={_offset => this.setOffset(_offset)}
         total={total} offset={offset} limit={limit}
       />;
       return (
@@ -67,15 +67,15 @@ class MonsterIndexActions extends ShallowComponent {
 
     let perPage = <PerPage
       options={[3, 5, 10]} current={limit}
-      onClick={limit => this.setLimit(limit)}
+      onClick={_limit => this.setLimit(_limit)}
     />;
     let sortBy = <SortBy
       options={["+name", "-name"]} current={sorts[0]}
-      onClick={sorts => this.setSorts(sorts)}
+      onClick={_sorts => this.setSorts(_sorts)}
     />;
     let filterBy = <FilterBy field="citizenship"
       options={[undefined, "China", "Russia", "USA"]} current={filters.citizenship}
-      onClick={filters => this.setFilters(filters)}
+      onClick={_filters => this.setFilters(_filters)}
     />;
 
     return (

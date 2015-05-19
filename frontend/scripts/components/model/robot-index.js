@@ -34,8 +34,8 @@ export default class RobotIndex extends DeepComponent {
       return <Error loadError={loadError}/>;
     } else {
       let pagination = <Pagination
-        makeHref={offset => this.showOffset(offset)}
-        onClick={offset => this.setOffset(offset)}
+        makeHref={_offset => this.showOffset(_offset)}
+        onClick={_offset => this.setOffset(_offset)}
         total={total} offset={offset} limit={limit}
       />;
       return (
@@ -59,7 +59,6 @@ export default class RobotIndex extends DeepComponent {
 
   setOffset(offset) {
     indexRouter.transitionTo("robot-index", {offset});
-    modelActions.loadIndex();
   }
 
   showOffset(offset) {
@@ -73,18 +72,18 @@ class RobotIndexActions extends ShallowComponent {
 
     let perPage = <PerPage
       options={[3, 5, 10]} current={limit}
-      makeHref={filters => this.showLimit(limit)}
-      onClick={limit => this.setLimit(limit)}
+      makeHref={_limit => this.showLimit(_limit)}
+      onClick={_limit => this.setLimit(_limit)}
     />;
     let sortBy = <SortBy
       options={["+name", "-name"]} current={sorts[0]}
-      makeHref={filters => this.showSorts(sorts)}
-      onClick={sorts => this.setSorts(sorts)}
+      makeHref={_sorts => this.showSorts(_sorts)}
+      onClick={_sorts => this.setSorts(_sorts)}
     />;
     let filterBy = <FilterBy field="manufacturer"
       options={[undefined, "China", "Russia", "USA"]} current={filters.manufacturer}
-      makeHref={filters => this.showFilters(filters)}
-      onClick={filters => this.setFilters(filters)}
+      makeHref={_filters => this.showFilters(_filters)}
+      onClick={_filters => this.setFilters(_filters)}
     />;
 
     return (
@@ -111,17 +110,14 @@ class RobotIndexActions extends ShallowComponent {
 
   setFilters(filters) {
     indexRouter.transitionTo("robot-index", {filters});
-    modelActions.loadIndex();
   }
 
   setSorts(sorts) {
     indexRouter.transitionTo("robot-index", {sorts});
-    modelActions.loadIndex();
   }
 
   setLimit(limit) {
     indexRouter.transitionTo("robot-index", {limit});
-    modelActions.loadIndex();
   }
 
   showFilters(filters) {
