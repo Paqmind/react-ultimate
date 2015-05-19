@@ -7,7 +7,7 @@ rm -f node_modules/frontend && ln -s ../frontend/scripts node_modules/frontend
 rm -f node_modules/backend  && ln -s ../backend/scripts  node_modules/backend
 
 # Seed default config
-mv -i shared/config/development.default.js shared/config/development.js
+cp -i shared/config/development.default.js shared/config/development.js
 
 # Setup local Gulp to be runned through `babel-node`
 bin=node_modules/gulp/bin/gulp.js
