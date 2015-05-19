@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import Faker from "faker";
 import {mergeDeep} from "shared/helpers/common";
-import Alert from "shared/models/Alert";
+import Alert from "shared/models/alert";
 
 // EXPORTS =========================================================================================
 export default function makeAlert(manualData={}) {

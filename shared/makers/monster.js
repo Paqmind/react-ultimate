@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import Faker from "faker";
 import {mergeDeep} from "shared/helpers/common";
-import Monster from "shared/models/Monster";
+import Monster from "shared/models/monster";
 
 // EXPORTS =========================================================================================
 export default function makeMonster(manualData={}) {

@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import Faker from "faker";
 import {mergeDeep} from "shared/helpers/common";
-import Robot from "shared/models/Robot";
+import Robot from "shared/models/robot";
 
 // EXPORTS =========================================================================================
 export default function makeRobot(manualData={}) {
