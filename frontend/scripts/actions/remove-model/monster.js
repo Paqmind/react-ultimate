@@ -1,8 +1,8 @@
-  // IMPORTS =========================================================================================
+// IMPORTS =========================================================================================
 import Axios from "axios";
 import {recalculatePaginationWithoutModel} from "frontend/helpers/pagination";
 import state from "frontend/state";
-import {router} from "frontend/router";
+import {indexRouter} from "frontend/router";
 import alertActions from "frontend/actions/alert";
 import {handleInvalidOffset} from "../load-index/monster";
 import fetchIndex from "../fetch-index/monster";
@@ -40,10 +40,9 @@ export default function removeModel(id) {
       }
 
       // Transition to index page
-      let indexPath = router.makePath("robot-index");
-      let currentPath = router.makePath();
-      if (currentPath != indexPath) {
-        router.transitionTo("robot-index");
+      let currentRoute = urlCursor.get("route");
+      if (currentRoute != "robot-index") {
+        indexRouter.transitionTo("robot-index");
       }
 
       // Add alert

@@ -62,9 +62,10 @@ export function formatQueryForAxios(query) {
   let result = {};
 
   if (query.filters) {
-    reduce((_result, key) => {
+    result = reduce((_result, key) => {
       let value = query.filters[key];
       _result[`filter[${key}]`] = value;
+      return _result;
     }, result, Object.keys(query.filters));
   }
   if (query.sorts) {
