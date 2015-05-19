@@ -22,7 +22,15 @@ $ cd react-starter
 $ npm install; bower install; bin/install
 ```
 
-### Temporary workaround
+### Temporary workaround 1)
+
+The code is not fully WebPack-powered for now. Styles should be built with Gulp for now:
+
+```
+$ gulp dist
+```
+
+### Temporary workaround 2)
 
 See https://github.com/Yomguithereal/baobab-react/issues/26
 We use a temporary https://github.com/ivan-kleshnin/baobab-react fork to workaround this.
