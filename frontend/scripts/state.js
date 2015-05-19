@@ -134,7 +134,7 @@ window._state = new Baobab(
             sorts: cleanedQuery.sorts,
             offset: cleanedQuery.offset,
             limit: cleanedQuery.limit,
-          }
+          };
         }
       },
 

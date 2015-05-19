@@ -8,13 +8,13 @@ import state from "frontend/state";
 import alertActions from "frontend/actions/alert";
 
 // ACTIONS =========================================================================================
-export default function fetchIndex(models, filters, sorts, offset, limit, pagination) {
+export default function fetchIndex(filters, sorts, offset, limit, models, pagination) {
   console.debug("fetchIndex(...)");
+  let url = `/api/monsters/`;
 
   let cursor = state.select("monsters");
   cursor.set("loading", true);
 
-  let url = `/api/monsters/`;
   let query = formatQueryForAxios({filters, sorts, offset, limit});
 
   return Axios.get(url, {params: query})

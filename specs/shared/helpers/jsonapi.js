@@ -18,14 +18,14 @@ describe("parseQuery()", function() {
       sort: "+name,-age",
       page: {offset: 100, limit: 10},
       reset: true
-    }
+    };
     let parsedQuery = {
       filters: {foo: "bar"},
       sorts: ["+name", "-age"],
       offset: 100,
       limit: 10,
       reset: true
-    }
+    };
     expect(parseQuery(unparsedQuery)).eql(parsedQuery);
   });
 });

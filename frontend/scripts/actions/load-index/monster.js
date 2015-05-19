@@ -12,17 +12,17 @@ export default function loadIndex() {
   console.debug("loadIndex()");
 
   let cursor = state.select("monsters");
-  let total = cursor.get("total");
-  let models = cursor.get("models");
   let filters = cursor.get("filters");
   let sorts = cursor.get("sorts");
   let offset = cursor.get("offset");
   let limit = cursor.get("limit");
+  let total = cursor.get("total");
+  let models = cursor.get("models");
   let pagination = cursor.get("pagination");
 
   handleInvalidOffset(total, offset, limit);
   if (!isCacheAvailable(total, offset, limit, pagination)) {
-    fetchIndex(models, filters, sorts, offset, limit, pagination)
+    fetchIndex(filters, sorts, offset, limit, models, pagination)
       .then(() => handleInvalidOffset());
   }
 }

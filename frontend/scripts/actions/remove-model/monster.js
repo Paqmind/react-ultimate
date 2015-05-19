@@ -2,28 +2,29 @@
 import Axios from "axios";
 import {recalculatePaginationWithoutModel} from "frontend/helpers/pagination";
 import state from "frontend/state";
+import {router} from "frontend/router";
 import alertActions from "frontend/actions/alert";
 import {handleInvalidOffset} from "../load-index/monster";
 import fetchIndex from "../fetch-index/monster";
 
 // ACTIONS =========================================================================================
 export default function removeModel(id) {
+  let url = `/api/monsters/${id}`;
   let urlCursor = state.select("url");
   let cursor = state.select("monsters");
 
-  let total = cursor.get("total");
-  let models = cursor.get("models");
   let filters = cursor.get("filters");
   let sorts = cursor.get("sorts");
   let offset = cursor.get("offset");
   let limit = cursor.get("limit");
+  let total = cursor.get("total");
+  let models = cursor.get("models");
   let pagination = cursor.get("pagination");
-  let url = `/api/monsters/${id}`;
 
   // Optimistic action
   cursor.set("loading", true);
   cursor.set("total", total - 1);
-  cursor.set("pagination", recalculatePaginationWithoutModel(models, filters, sorts, pagination, id));
+  cursor.set("pagination", recalculatePaginationWithoutModel(filters, sorts, models, pagination, id));
   cursor.select("models").unset(id);
   let newTotal = cursor.get("total");
   let newModels = cursor.get("models");
@@ -35,12 +36,12 @@ export default function removeModel(id) {
 
       // Upload data
       if (!newPagination[offset + limit - 1]) {
-        fetchIndex(newModels, filters, sorts, offset + limit - 1, 1, newPagination);
+        fetchIndex(filters, sorts, offset + limit - 1, 1, newModels, newPagination);
       }
 
       // Transition to index page
       let indexPath = router.makePath("robot-index");
-      let currentPath = router.makePath()
+      let currentPath = router.makePath();
       if (currentPath != indexPath) {
         router.transitionTo("robot-index");
       }

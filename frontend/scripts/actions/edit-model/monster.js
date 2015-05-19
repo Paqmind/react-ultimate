@@ -6,8 +6,9 @@ import alertActions from "frontend/actions/alert";
 
 // ACTIONS =========================================================================================
 export default function edit(model) {
-  let newModel = Robot(model);
+  let newModel = Monster(model);
   let id = newModel.id;
+  let url = `/api/robots/${id}`;
 
   let cursor = state.select("monsters");
   let total = cursor.get("total");
@@ -15,26 +16,17 @@ export default function edit(model) {
   let filters = cursor.get("filters");
   let sorts = cursor.get("sorts");
   let pagination = cursor.get("pagination");
-  let url = `/api/robots/${id}`;
 
   // Optimistic action
   cursor.set("loading", true);
-  cursor.set("total", total + 1);
-  cursor.set("pagination", recalculatePaginationWithModel(models, filters, sorts, pagination, id));
   cursor.select("models").set(id, newModel);
-  let newTotal = cursor.get("total");
-  let newModels = cursor.get("models");
-  let newPagination = cursor.get("pagination");
 
   return Axios.put(url, newModel)
     .then(response => {
       cursor.merge({loading: false, loadError: undefined});
 
-      // Transition to detail page
-      router.transitionTo("robot-detail", {id: newModel.id});
-
       // Add alert
-      alertActions.addModel({message: "Action succeed", category: "success"});
+      alertActions.addModel({message: "Action `Monster:editModel` succeed", category: "success"});
 
       return response.status;
     })
@@ -50,12 +42,10 @@ export default function edit(model) {
 
         // Cancel action
         cursor.merge({loading: false, loadError});
-        cursor.set("total", total);
         cursor.set("models", models);
-        cursor.set("pagination", pagination);
 
         // Add alert
-        alertActions.addModel({message: "Action failed: " + loadError.description, category: "error"});
+        alertActions.addModel({message: "Action `Monster:editModel` failed: " + loadError.description, category: "error"});
 
         return response.status;
       }

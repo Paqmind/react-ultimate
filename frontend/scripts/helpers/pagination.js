@@ -53,21 +53,18 @@ export function getTotalPages(total, limit) {
  * @param pagination {Array<string>} - current pagination
  * @return {Array<string>} - new pagination
  */
-export function recalculatePaginationWithFilters(models, filters, sorts, pagination) {
-  if (!(models instanceof Object)) {
-    throw new Error(`models must be a basic Object, got ${models}`);
-  }
+export function recalculatePaginationWithFilters(filters, sorts, models, pagination) {
   if (!(filters instanceof Object)) {
     throw new Error(`filters must be a basic Object, got ${filters}`);
   }
   if (!(sorts instanceof Array)) {
     throw new Error(`sorts must be a basic Array, got ${sorts}`);
   }
-  if (!(pagination instanceof Array)) {
-    throw new Error(`pagination must be a basic Array, got ${pagination}`);
-  }
   if (!(models instanceof Object)) {
     throw new Error(`models must be a basic Object, got ${models}`);
+  }
+  if (!(pagination instanceof Array)) {
+    throw new Error(`pagination must be a basic Array, got ${pagination}`);
   }
   if (pagination.length && keys(filters).length) {
     return pipe(
@@ -89,15 +86,15 @@ export function recalculatePaginationWithFilters(models, filters, sorts, paginat
  * @param pagination {Array<string>} - current pagination
  * @return {Array<string>} - new pagination
  */
-export function recalculatePaginationWithSorts(models, filters, sorts, pagination) {
-  if (!(models instanceof Object)) {
-    throw new Error(`models must be a basic Object, got ${models}`);
-  }
+export function recalculatePaginationWithSorts(filters, sorts, models, pagination) {
   if (!(filters instanceof Object)) {
     throw new Error(`filters must be a basic Object, got ${filters}`);
   }
   if (!(sorts instanceof Array)) {
     throw new Error(`sorts must be a basic Array, got ${sorts}`);
+  }
+  if (!(models instanceof Object)) {
+    throw new Error(`models must be a basic Object, got ${models}`);
   }
   if (!(pagination instanceof Array)) {
     throw new Error(`pagination must be a basic Array, got ${pagination}`);
@@ -123,15 +120,15 @@ export function recalculatePaginationWithSorts(models, filters, sorts, paginatio
  * @param id {Array<string>} - id of removed model
  * @return {Array<string>} - new pagination
  */
-export function recalculatePaginationWithoutModel(models, filters, sorts, pagination, id) {
-  if (!(models instanceof Object)) {
-    throw new Error(`models must be a basic Object, got ${models}`);
-  }
+export function recalculatePaginationWithoutModel(filters, sorts, models, pagination, id) {
   if (!(filters instanceof Object)) {
     throw new Error(`filters must be a basic Object, got ${filters}`);
   }
   if (!(sorts instanceof Array)) {
     throw new Error(`sorts must be a basic Array, got ${sorts}`);
+  }
+  if (!(models instanceof Object)) {
+    throw new Error(`models must be a basic Object, got ${models}`);
   }
   if (!(pagination instanceof Array)) {
     throw new Error(`pagination must be a basic Array, got ${pagination}`);
@@ -156,15 +153,15 @@ export function recalculatePaginationWithoutModel(models, filters, sorts, pagina
  * @param id {Array<string>} - id of new model
  * @return {Array<string>} - new pagination
  */
-export function recalculatePaginationWithModel(models, filters, sorts, pagination, id) {
-  if (!(models instanceof Object)) {
-    throw new Error(`models must be a basic models, got ${models}`);
-  }
+export function recalculatePaginationWithModel(filters, sorts, models, pagination, id) {
   if (!(filters instanceof Object)) {
     throw new Error(`filters must be a basic models, got ${models}`);
   }
   if (!(sorts instanceof Array)) {
     throw new Error(`sorts must be a basic models, got ${models}`);
+  }
+  if (!(models instanceof Object)) {
+    throw new Error(`models must be a basic models, got ${models}`);
   }
   if (!(pagination instanceof Array)) {
     throw new Error(`pagination must be a basic Array, got ${pagination}`);

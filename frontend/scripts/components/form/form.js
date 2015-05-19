@@ -27,7 +27,7 @@ export default class Form extends DeepComponent {
 
   handleChange(key, formValue, dataParser) {
     if (!key) {
-      throw Exception(`key argument must be non-empty string, got ${key}`);
+      throw Error(`key argument must be non-empty string, got ${key}`);
     }
 
     let dataValue;

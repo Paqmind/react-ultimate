@@ -38,11 +38,11 @@ router.get("/",
 router.get("/total",
   middlewares.createParseQuery({}),
   function handler(req, res, cb) {
-    let filters = req.query.filter || {};
+    let filters = req.query.filters;
 
     let models = values(DB);
-    if (keys(filters).length) {
-      models = filter(filters, models);
+    if (filters) {
+      models = filterByAll(filters, models);
     }
     let total = models.length;
 

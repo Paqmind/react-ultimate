@@ -40,22 +40,22 @@ export const router = {
 
 export const modelRouter = {
   makePath(route=undefined, id=undefined) {
-    [route, params] = getCurrentRouteAndParams(route);
+    let [route, params] = getCurrentRouteAndParams(route);
     return window._router.makePath(route, params);
   },
 
   makeHref(route=undefined, id=undefined) {
-    [route, params] = getCurrentRouteAndParams(route);
+    let [route, params] = getCurrentRouteAndParams(route);
     return window._router.makeHref(route, params);
   },
 
   transitionTo(route=undefined, id=undefined) {
-    [route, params] = getCurrentRouteAndParams(route);
+    let [route, params] = getCurrentRouteAndParams(route);
     window._router.transitionTo(route, params);
   },
 
   replaceWith(route=undefined, id=undefined) {
-    [route, params] = getCurrentRouteAndParams(route);
+    let [route, params] = getCurrentRouteAndParams(route);
     window._router.replaceWith(route, params);
   },
 
@@ -70,22 +70,22 @@ export const modelRouter = {
 
 export const indexRouter = {
   makePath(route=undefined, query={}) {
-    [route, query] = getCurrentRouteAndQuery(route, query);
+    let [route, query] = getCurrentRouteAndQuery(route, query);
     return window._router.makePath(route, undefined, query);
   },
 
   makeHref(route=undefined, query={}) {
-    [route, query] = getCurrentRouteAndQuery(route, query);
+    let [route, query] = getCurrentRouteAndQuery(route, query);
     return window._router.makeHref(route, undefined, query);
   },
 
   transitionTo(route=undefined, query={}) {
-    [route, query] = getCurrentRouteAndQuery(route, query);
+    let [route, query] = getCurrentRouteAndQuery(route, query);
     return window._router.transitionTo(route, undefined, query);
   },
 
   replaceWith(route=undefined, query={}) {
-    [route, query] = getCurrentRouteAndQuery(route, query);
+    let [route, query] = getCurrentRouteAndQuery(route, query);
     return window._router.replaceWith(route, undefined, query);
   },
 

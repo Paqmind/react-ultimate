@@ -8,11 +8,10 @@ import alertActions from "frontend/actions/alert";
 // ACTIONS =========================================================================================
 export default function fetchModel(id) {
   console.debug(`fetchModel(${id})`);
+  let url = `/api/robots/${id}`;
 
   let cursor = state.select("robots");
   cursor.set("loading", true);
-
-  let url = `/api/robots/${id}`;
 
   return Axios.get(url)
     .then(response => {

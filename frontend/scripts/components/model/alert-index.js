@@ -60,7 +60,7 @@ export default class AlertIndex extends DeepComponent {
 
   updateAlertsQueue() {
     toArray(this.props.alerts.models)
-      .filter((item) => { return item.expire ? item : null })
+      .filter((item) => { return item.expire ? item : null; })
       .forEach((item) => alertsQueue.add(item));
   }
 

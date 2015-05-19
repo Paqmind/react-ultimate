@@ -10,6 +10,7 @@ import alertActions from "frontend/actions/alert";
 export default function add(model) {
   let newModel = Robot(model);
   let id = newModel.id;
+  let url = `/api/robots/${id}`;
 
   let cursor = state.select("robots");
   let total = cursor.get("total");
@@ -17,12 +18,11 @@ export default function add(model) {
   let filters = cursor.get("filters");
   let sorts = cursor.get("sorts");
   let pagination = cursor.get("pagination");
-  let url = `/api/robots/${id}`;
 
   // Optimistic action
   cursor.set("loading", true);
   cursor.set("total", total + 1);
-  cursor.set("pagination", recalculatePaginationWithModel(models, filters, sorts, pagination, id));
+  cursor.set("pagination", recalculatePaginationWithModel(filters, sorts, models, pagination, id));
   cursor.select("models").set(id, newModel);
   let newTotal = cursor.get("total");
   let newModels = cursor.get("models");
@@ -36,7 +36,7 @@ export default function add(model) {
       router.transitionTo("robot-detail", {id: newModel.id});
 
       // Add alert
-      alertActions.addModel({message: "Action succeed", category: "success"});
+      alertActions.addModel({message: "Action `Robot:addModel` succeed", category: "success"});
 
       return response.status;
     })
@@ -57,7 +57,7 @@ export default function add(model) {
         cursor.set("pagination", pagination);
 
         // Add alert
-        alertActions.addModel({message: "Action failed: " + loadError.description, category: "error"});
+        alertActions.addModel({message: "Action `Robot:addModel` failed: " + loadError.description, category: "error"});
 
         return response.status;
       }
