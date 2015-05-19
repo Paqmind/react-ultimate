@@ -34,6 +34,8 @@ export default class MonsterEdit extends Form {
       model: clone(props.model),
       // Errors
       errors: {},
+      // Validation schema
+      schema: modelValidators.model
     };
   }
 
@@ -76,7 +78,7 @@ export default class MonsterEdit extends Form {
                       <input type="text"
                         value={formatString(form.name)}
                         onBlur={() => this.validate("name")}
-                        onChange={event => this.handleChange("name", event.currentTarget.value, parseString(event.currentTarget.value))}
+                        onChange={event => this.handleChange("name", event.currentTarget.value)}
                         id="name" ref="name"
                         className="form-control"/>
                       <div className={Class("help", {
@@ -94,7 +96,7 @@ export default class MonsterEdit extends Form {
                       <input type="text"
                         value={formatString(form.citizenship)}
                         onBlur={() => this.validate("citizenship")}
-                        onChange={event => this.handleChange("citizenship", event.currentTarget.value, parseString(event.currentTarget.value))}
+                        onChange={event => this.handleChange("citizenship", event.currentTarget.value)}
                         id="citizenship" ref="citizenship"
                         className="form-control"/>
                       <div className={Class("help", {
@@ -120,16 +122,11 @@ export default class MonsterEdit extends Form {
   handleSubmit() {
     this.validate().then(isValid => {
       if (isValid) {
-        alert("Submit will be here soon!");
-        //modelActions.editModel(this.state.model);
+        modelActions.editModel(this.state.model);
       } else {
         alert("Can't submit form with errors");
       }
     });
-  }
-
-  get schema() {
-    return modelValidators.model;
   }
 }
 
@@ -183,7 +180,7 @@ class ModelActions extends DeepComponent {
 //  <input type="date"
 //    value={formatDate(form.birthDate)}
 //    onBlur={() => this.validate("birthDate")}
-//    onChange={event => this.handleChange("birthDate", event.currentTarget.value, parseDate(event.currentTarget.value))}
+//    onChange={event => this.handleChange("birthDate", event.currentTarget.value)}
 //    id="birthDate" ref="birthDate"
 //    className="form-control"/>
 //  <div className={Class("help", {

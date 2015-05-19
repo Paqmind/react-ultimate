@@ -37,6 +37,8 @@ export default class MonsterAdd extends Form {
       },
       // Errors
       errors: {},
+      // Validation schema
+      schema: modelValidators.model,
     };
   }
 
@@ -66,7 +68,7 @@ export default class MonsterAdd extends Form {
                       <input type="text"
                         value={form.name}
                         onBlur={() => this.validate("name")}
-                        onChange={this.makeHandleChange("name")}
+                        onChange={event => this.handleChange("name", event.currentTarget.value)}
                         id="name" ref="name"
                         className="form-control"/>
                       <div className={Class("help", {
@@ -84,7 +86,7 @@ export default class MonsterAdd extends Form {
                       <input type="text"
                         value={form.citizenship}
                         onBlur={() => this.validate("citizenship")}
-                        onChange={this.makeHandleChange("citizenship")}
+                        onChange={event => this.handleChange("citizenship", event.currentTarget.value)}
                         id="citizenship" ref="citizenship"
                         className="form-control"/>
                       <div className={Class("help", {
@@ -110,16 +112,11 @@ export default class MonsterAdd extends Form {
   handleSubmit() {
     this.validate().then(isValid => {
       if (isValid) {
-        alert("Submit will be here soon!");
-        // modelActions.addModel(this.state.model);
+        modelActions.addModel(this.state.model);
       } else {
         alert("Can't submit form with errors");
       }
     });
-  }
-
-  get schema() {
-    return modelValidators.model;
   }
 }
 
@@ -154,7 +151,7 @@ class ModelActions extends ShallowComponent {
 //  <input type="date"
 //    value={form.assemblyDate}
 //    onBlur={() => this.validate("birthDate")}
-//    onChange={this.makeHandleChange("birthDate")}
+//    onChange={event =? this.handleChange("birthDate", event.currentTarget.value)}
 //    id="birthDate" ref="birthDate"
 //    className="form-control"/>
 //  <div className={Class("help", {

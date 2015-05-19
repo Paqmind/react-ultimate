@@ -33,21 +33,21 @@ export default class RobotAdd extends Form {
         manufacturer: undefined,
       },
       // Validated and converter state for action
-      data: {
+      model: {
         name: undefined,
         //assemblyDate: undefined,
         manufacturer: undefined,
       },
       // Errors
       errors: {},
+      // Validation schema
+      schema: modelValidators.model,
     };
   }
 
   render() {
     let {loading, loadError} = this.props.robots;
     let form = this.state.form;
-
-    console.log("RENDER.state:", this.state);
 
     if (loading) {
       return <Loading/>;
@@ -70,7 +70,7 @@ export default class RobotAdd extends Form {
                       <label htmlFor="name">Name</label>
                       <input type="text"
                         value={formatString(form.name)}
-                        onChange={event => this.handleChange("name", event.currentTarget.value, parseString)}
+                        onChange={event => this.handleChange("name", event.currentTarget.value)}
                         id="name" ref="name"
                         className="form-control"/>
                       <div className={Class("help", {
@@ -87,7 +87,7 @@ export default class RobotAdd extends Form {
                       <label htmlFor="manufacturer">Manufacturer</label>
                       <input type="text"
                         value={formatString(form.manufacturer)}
-                        onChange={event => this.handleChange("manufacturer", event.currentTarget.value, parseString)}
+                        onChange={event => this.handleChange("manufacturer", event.currentTarget.value)}
                         id="manufacturer" ref="manufacturer"
                         className="form-control"/>
                       <div className={Class("help", {
@@ -113,16 +113,11 @@ export default class RobotAdd extends Form {
   handleSubmit() {
     this.validate().then(isValid => {
       if (isValid) {
-        alert("Submit will be here soon!");
-        //modelActions.addModel(this.state.model);
+        modelActions.addModel(this.state.model);
       } else {
         alert("Can't submit form with errors");
       }
     });
-  }
-
-  get schema() {
-    return modelValidators.model;
   }
 }
 
@@ -163,7 +158,7 @@ class ModelActions extends ShallowComponent {
 //  <label htmlFor="assemblyDate">Assembly Date</label>
 //  <input type="text"
 //    value={formatDate(form.assemblyDate, "YYYY-MM-DD")}
-//    onChange={event => this.handleChange("assemblyDate", event.currentTarget.value, parseDate)}
+//    onChange={event => this.handleChange("assemblyDate", event.currentTarget.value)}
 //    id="assemblyDate" ref="assemblyDate"
 //    className="form-control"/>
 //  <div className={Class("help", {

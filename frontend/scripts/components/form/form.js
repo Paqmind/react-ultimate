@@ -20,31 +20,21 @@ import {ShallowComponent, DeepComponent} from "frontend/components/simple";
 export default class Form extends DeepComponent {
   handleReset() {
     this.setState({
-      form: clone(this.props.data),
-      data: clone(this.props.data),
+      form: clone(this.props.model),
+      model: clone(this.props.model),
     }, this.validate.bind(this));
   }
 
-  handleChange(key, formValue, dataParser) {
+  handleChange(key, formValue) {
     if (!key) {
       throw Error(`key argument must be non-empty string, got ${key}`);
     }
 
-    let dataValue;
-    try {
-      dataValue = dataParser(formValue);
-    } catch (err) {
-      dataValue = formValue;
-    }
-
     let formKey = this.formKey + "." + key;
-    let dataKey = this.dataKey + "." + key;
     let formLens = Lens(formKey);
-    let dataLens = Lens(dataKey);
 
     let state = this.state;
     state = formLens.set(state, formValue);
-    state = dataLens.set(state, dataValue);
     this.setState(state, this.validateDebounced.bind(this, key));
   }
 
@@ -54,23 +44,25 @@ export default class Form extends DeepComponent {
 
   validate(key=undefined) {
     let formKey  = key ? this.formKey  + "." + key : this.formKey;
-    let dataKey  = key ? this.dataKey + "." + key : this.dataKey;
+    let modelKey  = key ? this.modelKey + "." + key : this.modelKey;
     let errorKey = key ? this.errorKey + "." + key : this.errorKey;
+    let schemaKey = key ? this.schemaKey + "." + key : this.schemaKey;
 
-    let dataLens = Lens(dataKey);
+    let formLens = Lens(formKey);
+    let modelLens = Lens(modelKey);
     let errorLens = Lens(errorKey);
-    let schemaLens = Lens(key || "");
+    let schemaLens = Lens(schemaKey);
 
-    let data = dataLens.get(this.state);
-    let schema = schemaLens.get(this.schema);
+    let form = formLens.get(this.state);
+    let schema = schemaLens.get(this.state);
 
     // Validate it
-    console.log("val data:", {[formKey]: data});
-    console.log("val schema:", {[formKey]: schema});
-    let [_, _errors] = joiValidate({[formKey]: data}, {[formKey]: schema}); // TODO use only last segment of `formKey`?
+    let [_model, _errors] = joiValidate({[formKey]: form}, {[formKey]: schema}); // TODO use only last segment of `formKey`?
+    let model = _model[formKey];
     let errors = _errors[this.formKey];
 
     let state = this.state;
+    state = modelLens.set(state, model);
     state = errorLens.set(state, errors);
 
     // Apply it
@@ -97,19 +89,19 @@ export default class Form extends DeepComponent {
     }
   }
 
-  get schema() {
-    return {};
-  }
-
   get formKey() {
     return "form";
   }
 
-  get dataKey() {
-    return "data";
+  get modelKey() {
+    return "model";
   }
 
   get errorKey() {
     return "errors";
+  }
+
+  get schemaKey() {
+    return "schema";
   }
 }

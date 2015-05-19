@@ -32,17 +32,20 @@ export default class RobotEdit extends Form {
       // Raw state for all fields
       form: clone(props.model),
       // Validated and converter state for action
-      data: clone(props.model),
+      model: clone(props.model),
       // Errors
       errors: {},
+      // Validation schema
+      schema: modelValidators.model
     };
   }
 
   componentWillReceiveProps(props) {
     this.setState({
       form: clone(props.model),
-      data: clone(props.model),
+      model: clone(props.model),
       errors: {},
+      schema: modelValidators.model
     });
   }
 
@@ -77,7 +80,7 @@ export default class RobotEdit extends Form {
                       <input type="text"
                         value={formatString(form.name)}
                         onBlur={() => this.validate("name")}
-                        onChange={event => this.handleChange("name", event.currentTarget.value, parseString)}
+                        onChange={event => this.handleChange("name", event.currentTarget.value)}
                         id="name" ref="name"
                         className="form-control"/>
                       <div className={Class("help", {
@@ -95,7 +98,7 @@ export default class RobotEdit extends Form {
                       <input type="text"
                         value={formatString(form.manufacturer)}
                         onBlur={() => this.validate("manufacturer")}
-                        onChange={event => this.handleChange("manufacturer", event.currentTarget.value, parseString)}
+                        onChange={event => this.handleChange("manufacturer", event.currentTarget.value)}
                         id="manufacturer" ref="manufacturer"
                         className="form-control"/>
                       <div className={Class("help", {
@@ -121,16 +124,11 @@ export default class RobotEdit extends Form {
   handleSubmit() {
     this.validate().then(isValid => {
       if (isValid) {
-        alert("Submit will be here soon!");
-        //modelActions.editModel(this.state.model);
+        modelActions.editModel(this.state.model);
       } else {
         alert("Can't submit form with errors");
       }
     });
-  }
-
-  get schema() {
-    return modelValidators.model;
   }
 }
 
@@ -186,7 +184,7 @@ class ModelActions extends DeepComponent {
 //  <input type="text"
 //    value={formatDate(form.assemblyDate, "YYYY-MM-DD")}
 //    onBlur={() => this.validate("assemblyDate")}
-//    onChange={event => this.handleChange("assemblyDate", event.currentTarget.value, parseDate)}
+//    onChange={event => this.handleChange("assemblyDate", event.currentTarget.value)}
 //    id="assemblyDate" ref="assemblyDate"
 //    className="form-control"/>
 //  <div className={Class("help", {
