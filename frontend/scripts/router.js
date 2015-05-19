@@ -40,23 +40,23 @@ export const router = {
 
 export const modelRouter = {
   makePath(route=undefined, id=undefined) {
-    let [route, params] = getCurrentRouteAndParams(route);
-    return window._router.makePath(route, params);
+    let [_route, _params] = getCurrentRouteAndParams(route);
+    return window._router.makePath(_route, _params);
   },
 
   makeHref(route=undefined, id=undefined) {
-    let [route, params] = getCurrentRouteAndParams(route);
-    return window._router.makeHref(route, params);
+    let [_route, _params] = getCurrentRouteAndParams(route);
+    return window._router.makeHref(route, _params);
   },
 
   transitionTo(route=undefined, id=undefined) {
-    let [route, params] = getCurrentRouteAndParams(route);
-    window._router.transitionTo(route, params);
+    let [_route, _params] = getCurrentRouteAndParams(route);
+    window._router.transitionTo(_route, _params);
   },
 
   replaceWith(route=undefined, id=undefined) {
-    let [route, params] = getCurrentRouteAndParams(route);
-    window._router.replaceWith(route, params);
+    let [_route, _params] = getCurrentRouteAndParams(route);
+    window._router.replaceWith(_route, _params);
   },
 
   goBack() {
@@ -70,23 +70,23 @@ export const modelRouter = {
 
 export const indexRouter = {
   makePath(route=undefined, query={}) {
-    let [route, query] = getCurrentRouteAndQuery(route, query);
-    return window._router.makePath(route, undefined, query);
+    let [_route, _query] = getCurrentRouteAndQuery(route, query);
+    return window._router.makePath(_route, undefined, _query);
   },
 
   makeHref(route=undefined, query={}) {
-    let [route, query] = getCurrentRouteAndQuery(route, query);
-    return window._router.makeHref(route, undefined, query);
+    let [_route, _query] = getCurrentRouteAndQuery(route, query);
+    return window._router.makeHref(_route, undefined, _query);
   },
 
   transitionTo(route=undefined, query={}) {
-    let [route, query] = getCurrentRouteAndQuery(route, query);
-    return window._router.transitionTo(route, undefined, query);
+    let [_route, _query] = getCurrentRouteAndQuery(route, query);
+    return window._router.transitionTo(_route, undefined, _query);
   },
 
   replaceWith(route=undefined, query={}) {
-    let [route, query] = getCurrentRouteAndQuery(route, query);
-    return window._router.replaceWith(route, undefined, query);
+    let [_route, _query] = getCurrentRouteAndQuery(route, query);
+    return window._router.replaceWith(_route, undefined, _query);
   },
 
   goBack() {
