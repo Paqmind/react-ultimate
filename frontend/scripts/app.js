@@ -5,6 +5,7 @@ import React from "react";
 import {create as createRouter, HistoryLocation} from "react-router";
 import "shared/shims"; // TODO except for prerender (isomorphic) step, because babel-node auto-injects it's polyfill
 import {normalize, flattenArrayObject} from "shared/helpers/common";
+import {parseQuery} from "shared/helpers/jsonapi";
 import {joiValidate} from "shared/helpers/validation";
 import commonValidators from "shared/validators/common";
 import state from "frontend/state";
@@ -37,6 +38,20 @@ window._router.run((Application, url) => {
 
   let id = url.params.id;
   urlCursor.set("id", id);
+
+  // Parse and validate URL Query
+  let parsedQuery = parseQuery(query);
+  let [cleanedQuery, errors] = joiValidate(parsedQuery, commonValidators.urlQuery);
+  if (keys(errors).length) {
+    let humanReadableErrors = flattenArrayObject(errors).join(", ");
+    alert(`Invalid URL query params. Errors: ${humanReadableErrors}`);
+    throw Error(`Invalid URL query params. Errors: ${humanReadableErrors}`);
+  }
+
+  urlCursor.set("filters", cleanedQuery.filters);
+  urlCursor.set("sorts", cleanedQuery.sorts);
+  urlCursor.set("offset", cleanedQuery.offset);
+  urlCursor.set("limit", cleanedQuery.limit);
   //------------------------------------------------------------------------------------------------
 
   let promises = pipe(

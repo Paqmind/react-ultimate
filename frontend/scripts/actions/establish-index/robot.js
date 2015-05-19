@@ -11,12 +11,11 @@ export default function establishIndex() {
   console.debug("establishIndex");
 
   let urlCursor = state.select("url");
-  let urlQuery = state.facets.urlQuery.get();
 
-  setIndexFilters(urlQuery.filters);
-  setIndexSorts(urlQuery.sorts);
-  setIndexOffset(urlQuery.offset);
-  setIndexLimit(urlQuery.limit);
+  setIndexFilters(urlCursor.get("filters"));
+  setIndexSorts(urlCursor.get("sorts"));
+  setIndexOffset(urlCursor.get("offset"));
+  setIndexLimit(urlCursor.get("limit"));
 
   loadIndex();
 }
