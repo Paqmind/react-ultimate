@@ -19,7 +19,7 @@ export default function Alert(data) {
   return mergeDeep({
     id: UUID.v4(),
     closable: true,
-    expire: data.category == "error" ? 0 : 5000,
+    expire: data.category == "error" ? 0 : 4000,
     createdDate: data.createdDate ? data.createdDate : new Date()
   }, data);
 }
