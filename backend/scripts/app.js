@@ -1,3 +1,8 @@
+/**
+ * Note: imports are statically hoisted at compile time
+ * and splitted on sections only to improve readability
+ * in this complex file.
+ */
 // APP =============================================================================================
 import "shared/env";
 import "shared/shims";
@@ -35,6 +40,9 @@ app.use(Morgan("dev", {
 import commonRouter from "./routers/common";
 import "backend/actions/common";
 
+import alertRouter from "./routers/alert";
+import "backend/actions/alert";
+
 import robotRouter from "./routers/robot";
 import "backend/actions/robot";
 
@@ -45,6 +53,7 @@ let staticRouter = Express.static("public", {etag: Config.get("http-use-etag")})
 
 //app.use(favicon(__dirname + "/favicon.ico"));
 app.use("/public", staticRouter);
+app.use("/api/alerts", alertRouter);
 app.use("/api/robots", robotRouter);
 app.use("/api/monsters", monsterRouter);
 app.use("/", commonRouter);
