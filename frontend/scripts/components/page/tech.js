@@ -23,7 +23,7 @@ export default class Tech extends Component {
             <h3>Frontend</h3>
             <ul>
               <li><a href="http://facebook.github.io/react/">React</a> declarative UI</li>
-              <li><a href="https://github.com/Yomguithereal/baobab">Baobab</a> JS data tree with cursors</li>
+              <li><a href="https://github.com/Yomguithereal/baobab">Baobab</a> data tree with cursors</li>
               <li><a href="https://github.com/rackt/react-router">React-Router</a> declarative routes</li>
               <li><a href="https://github.com/gaearon/react-document-title">React-Document-Title</a> declarative document titles</li>
               <li><a href="http://react-bootstrap.github.io/">React-Bootstrap</a> Bootstrap components in React</li>
@@ -40,6 +40,8 @@ export default class Tech extends Component {
             <h3>Common</h3>
             <ul>
               <li><a href="https://http://ramdajs.com/">Ramda</a> functional library</li>
+              <li><a href="http://mochajs.org/">Mocha</a> test skeleton framework</li>
+              <li><a href="http://chaijs.com/">Chai</a> assertion library framework</li>
               <li><a href="https://github.com/mzabriskie/axios">Axios</a> promise-based HTTP client</li>
               <li><a href="http://momentjs.com/">Moment</a> date and time calculations</li>
               <li><a href="https://github.com/marak/Faker.js/">Faker</a> fake data generation</li>
