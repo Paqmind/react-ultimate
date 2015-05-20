@@ -4,7 +4,7 @@ import React from "react";
 import {Link} from "react-router";
 import {RouteHandler} from "react-router";
 import state from "frontend/state";
-import {Component, Menu, Headroom} from "frontend/components/simple";
+import {Component, Menu, Headroom, Footer} from "frontend/components/simple";
 import alertActions from "frontend/actions/alert";
 import AlertIndex from "frontend/components/model/alert-index";
 
@@ -70,17 +70,7 @@ export default class Body extends Component {
           <RouteHandler/>
         </main>
 
-        <footer id="footer">
-          <p className="text-center">
-            <a href="https://github.com/Paqmind/react-ultimate" target="_blank">
-              <span className="fa fa-github fa-lg margin-right-xs"></span> github.com/Paqmind/react-ultimate
-            </a>
-          </p>
-          <p className="text-center">
-            <span className="fa fa-copyright margin-right-xs"></span>
-            <a href="http://paqmind.com" target="_blank">paqmind.com</a>
-          </p>
-        </footer>
+        <Footer/>
 
         <AlertIndex/>
       </div>
