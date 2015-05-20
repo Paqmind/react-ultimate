@@ -25,18 +25,19 @@ export default class About extends Component {
           <h3>Index</h3>
           <p>
             Any widget in any frontend application may be either bound or unbound to URL.
-            React Ultimate is no exception. We decided to highlight this less-known topic and
-            structure the app to underline this distinction.
+            React Ultimate is no exception. We decided to highlight this lesser-known topic by
+            the very app structure.
           </p>
           <p>
-            <a href="/robots">URL-bound</a> components operate through URL. Their state is mirrored
+            Index for <a href="/robots">Robots</a> is URL-bound. State is mirrored
             in URL so it's possible to bookmark and share link to exact page state (offset, filters, sorts...).
-            Only one set of URL params is supported (e.g. there can't be two URL-bound pagination on the same page).
+            Namespacing of URL params is not supported, e.g. there can't be two URL-bound paginations on the same page.
           </p>
           <p>
-            <a href="/monsters">URL-unbound</a> components operate through inner state. Their state is hidden
-            from user so bookmarking is impossible. Such components are more performant and
-            don't share mentioned number limitation.
+            Index for <a href="/monsters">Monsters</a> is URL-unbound. State is implicit and hidden
+            from user so bookmarking is impossible. On the flip side, such components aren't limited
+            in numbers. Also notice how much more performant is ULR-unbound pagination comparing
+            to the URL-bound one.
           </p>
 
           <h4>Pagination</h4>
@@ -81,6 +82,20 @@ export default class About extends Component {
             It was practically impossible to do this "right" in backend-driven apps. As soon
             as multiple browser tabs were opened, and cookies were overwritten, you were into trouble...
             Fortunately that days are gone.
+          </p>
+
+          <h3>Alerts</h3>
+          <p>
+            Powerful alert system. Beside all that animation goodness,
+            alerts are "sticky to the screen" so you can change the page without alert disappear.
+            This was impossible to implement in a backend-driven solution.
+          </p>
+
+          <h3>Text Holders</h3>
+          <p>
+            Typography goodness. The width of text container is auto regulated to display about 80 character per row.
+            Check this <a href="http://www.pearsonified.com/2012/01/characters-per-line.php">comprehensive article</a>
+            for more information.
           </p>
         </section>
       </DocumentTitle>
