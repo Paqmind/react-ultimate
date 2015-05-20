@@ -1,4 +1,5 @@
 // IMPORTS =========================================================================================
+import {filter} from "ramda";
 import React from "react";
 import {Component} from "frontend/components/simple";
 
@@ -20,15 +21,15 @@ export class TextHolder extends Component {
     let lettersPerRow = this.props.lettersPerRow || 80;
     let relation = this.props.relation || 2.1;
     let ps = sectionNode.querySelectorAll("p");
+    let dropDisabledItems = filter(item => item.classList && !item.classList.contains("disable-holder"));
     for (let p of ps)  {
       let parents = this.getListOfNodeParents(p);
-      if (parents.filter(item => item.classList ? item.classList.contains("notext-holder") : false).length) {
-        continue;
+      let enabledParents = dropDisabledItems(parents);
+      if (enabledParents.length) {
+        let fontSize = parseInt(window.getComputedStyle(p)["font-size"]); // result is always px
+        let maxWidth = parseInt(lettersPerRow * (fontSize / relation));
+        p.style.maxWidth = maxWidth + "px";
       }
-
-      let fontSize = parseInt(window.getComputedStyle(p)["font-size"]); // result will always in pixels
-      let maxWidth = parseInt(lettersPerRow * (fontSize / relation));
-      p.style.maxWidth = maxWidth + "px";
     }
   }
 

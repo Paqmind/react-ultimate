@@ -156,7 +156,7 @@ export function recalculatePaginationWithModel(filters, sorts, models, paginatio
   if (pagination.length) {
     return pipe(
       append(id),
-      map(id => id && models[id]),
+      map(_id => _id && models[_id]),
       filterByAll(filters),
       sortByAll(sorts),
       map(model => model && model.id)

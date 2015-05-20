@@ -139,7 +139,7 @@ window._state = new Baobab(
             name: undefined,
             //assemblyDate: undefined,
             manufacturer: undefined,
-          }
+          };
         }
       },
 
@@ -154,7 +154,7 @@ window._state = new Baobab(
             name: undefined,
             //birthDate: undefined,
             citizenship: undefined,
-          }
+          };
         }
       },
 
