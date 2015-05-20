@@ -1,16 +1,21 @@
 // IMPORTS =========================================================================================
 import UUID from "node-uuid";
-import {mergeDeep} from "shared/helpers/common";
+import {filter, flatten, keys, values} from "ramda";
+import Moment from "moment";
+import {flattenObject, mergeDeep} from "shared/helpers/common";
+import {joiValidate} from "shared/helpers/validation";
+import validators from "shared/validators/alert";
 
 // MODELS ==========================================================================================
-export function Alert(data) {
-  // TODO validate, based on shared/validators/xxx
-  if (!data.message) {
-    throw Error("data.message is required");
+export default function Alert(data) {
+  // Convert and validate
+  let [model, errors] = joiValidate(data, validators.model);
+  if (Object.keys(errors).length) {
+    let errorObj = flattenObject(errors);
+    let errorArr = filter(v => v, flatten(values(errors)));
+    throw Error(`invalid Alert data, errors: ${errorArr.join(", ")}`);
   }
-  if (!data.category) {
-    throw Error("data.category is required");
-  }
+
   return mergeDeep({
     id: UUID.v4(),
     closable: true,

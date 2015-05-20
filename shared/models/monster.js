@@ -2,7 +2,7 @@
 import UUID from "node-uuid";
 import {filter, flatten, keys, values} from "ramda";
 import Moment from "moment";
-import {flattenObject, flattenArrayObject, mergeDeep} from "shared/helpers/common";
+import {flattenObject, mergeDeep} from "shared/helpers/common";
 import {joiValidate} from "shared/helpers/validation";
 import validators from "shared/validators/monster";
 
