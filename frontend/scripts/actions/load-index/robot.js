@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import {filter} from "ramda";
 import Axios from "axios";
-import {getTotalPages, getMaxOffset} from "frontend/helpers/pagination";
+import {getTotalPages, recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
 import {indexRouter} from "frontend/router";
 import fetchIndex from "frontend/actions/fetch-index/robot";
@@ -20,9 +20,9 @@ export default function loadIndex() {
   let pagination = cursor.get("pagination");
 
   if (total) {
-    let maxOffset = getMaxOffset(total, limit);
-    if (offset > maxOffset) {
-      indexRouter.transitionTo(undefined, {offset: maxOffset});
+    let recommendedOffset = recommendOffset(total, offset, limit);
+    if (offset > recommendedOffset) {
+      indexRouter.transitionTo(undefined, {offset: recommendedOffset});
     } else {
       if (!isCacheAvailable(total, offset, limit, pagination)) {
         fetchIndex(filters, sorts, offset, limit, models, pagination);
@@ -33,9 +33,9 @@ export default function loadIndex() {
       .then(() => {
         let newTotal = cursor.get("total");
         if (newTotal) {
-          let maxOffset = getMaxOffset(newTotal, limit);
-          if (offset > maxOffset) {
-            indexRouter.transitionTo(undefined, {offset: maxOffset});
+          let recommendedOffset = recommendOffset(newTotal, offset, limit);
+          if (offset > recommendedOffset) {
+            indexRouter.transitionTo(undefined, {offset: recommendedOffset});
           }
         }
       });
@@ -45,7 +45,7 @@ export default function loadIndex() {
 export function isCacheAvailable(total, offset, limit, pagination) {
   let ids = filter(v => v, pagination.slice(offset, offset + limit));
   if (ids && ids.length) {
-    if (offset == getMaxOffset(total, limit)) { // are we on the last page?
+    if (offset == recommendOffset(total, total, limit)) { // are we on the last page?
       let totalPages = getTotalPages(total, limit);
       return ids.length >= limit - ((totalPages * limit) - total);
     } else {

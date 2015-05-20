@@ -3,18 +3,34 @@ import {append, keys, filter, find, map, pipe, range, reject, reverse, values} f
 import {chunked, filterByAll, sortByAll} from "shared/helpers/common";
 
 // EXPORTS =========================================================================================
-export function getMaxOffset(total, limit) {
+export function recommendOffset(total, offset, limit) {
   if (typeof total != "number" || total < 0) {
     throw Error(`total must be natural number, got ${total}`);
+  }
+  if (typeof offset != "number" || offset < 0) {
+    throw Error(`offset must be natural number, got ${offset}`);
   }
   if (typeof limit != "number" || limit <= 0) {
     throw Error(`limit must be positive number, got ${limit}`);
   }
 
   if (total == 0) {
-    return 0;
+    return offset;
   } else {
-    return (getTotalPages(total, limit) - 1)  * limit;
+    let totalPages = getTotalPages(total, limit);
+    let lastOffset;
+    if (totalPages <= 1) {
+      lastOffset = 0;
+    } else {
+      lastOffset = (totalPages - 1)  * limit;
+    }
+
+    let possibleOffsets = reject(
+      _offset => _offset % limit,   // reject everything but 0, 5, 10, 15... for limit = 5
+      range(0, lastOffset + limit)  // from this range
+    );
+
+    return find(_offset => _offset <= offset, reverse(possibleOffsets)); // can't be undefined with all the code above
   }
 }
 
