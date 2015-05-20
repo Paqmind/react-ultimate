@@ -9,6 +9,7 @@ import {joiValidate} from "shared/helpers/validation";
 import commonValidators from "shared/validators/common";
 import state from "frontend/state";
 import routes from "frontend/routes";
+import alertActions from "frontend/actions/alert";
 
 // APP =============================================================================================
 window._router = createRouter({
@@ -52,3 +53,6 @@ window._router.run((Application, url) => {
     React.render(<Application/>, document.getElementById("app"));
   });
 });
+
+// Request alert index once (TODO this should be made real-time with push notifications)
+alertActions.fetchIndex();

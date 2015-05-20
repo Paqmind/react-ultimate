@@ -6,10 +6,13 @@ import ReactAddons from "react/addons";
 import {toArray} from "shared/helpers/common";
 import state from "frontend/state";
 import {DeepComponent} from "frontend/components/simple";
-import {Loading, NotFound} from "frontend/components/page";
+import Error from "frontend/components/page/error";
+import Loading from "frontend/components/page/loading";
+import NotFound from "frontend/components/page/notfound";
 import alertActions from "frontend/actions/alert";
 import AlertItem from "frontend/components/model/alert-item";
 
+// GLOBALS =========================================================================================
 let CSSTransitionGroup = ReactAddons.addons.CSSTransitionGroup;
 
 // tests  ======>
@@ -37,13 +40,15 @@ let alertsQueueBlocked = false;
 
 // COMPONENTS ======================================================================================
 @branch({
-   cursors: {
+  cursors: {
     alerts: "alerts",
-   },
+  },
+
+  facets: {
+    currentAlerts: "currentAlerts",
+  }
 })
 export default class AlertIndex extends DeepComponent {
-  static loadData = alertActions.establishIndex;
-
   processAlertsQueue() {
     if (!alertsQueue.size || alertsQueueBlocked) {
       return;
@@ -75,8 +80,8 @@ export default class AlertIndex extends DeepComponent {
   }
 
   render() {
-    let {models, loading, loadError} = this.props.alerts;
-    models =  sortBy(m => m.createdDate, toArray(models));
+    let {total, loading, loadError} = this.props.alerts;
+    let models = this.props.currentAlerts;
 
     if (loadError) {
       return <Error loadError={loadError}/>;
@@ -86,7 +91,7 @@ export default class AlertIndex extends DeepComponent {
           <CSSTransitionGroup component="div" transitionName="fadeUp">
             {map(model => <AlertItem model={model} key={model.id} animated={true}/>, models)}
           </CSSTransitionGroup>
-          { /*#loading ? <Loading/> : ""*/}
+          {loading ? <Loading/> : ""}
         </div>
       );
     }

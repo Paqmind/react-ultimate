@@ -90,22 +90,12 @@ window._state = new Baobab(
 
     alerts: {
       // DATA
-      models: {},
       total: 0,
-      pagination: [],
+      models: {},
 
       // LOAD ARTEFACTS
       loading: true,
       loadError: undefined,
-
-      // INDEX
-      filters: ALERT.FILTERS,
-      sorts: ALERT.SORTS,
-      offset: ALERT.OFFSET,
-      limit: ALERT.LIMIT,
-
-      // MODEL
-      id: undefined,
     },
   },
   { // OPTIONS
@@ -195,6 +185,23 @@ window._state = new Baobab(
             return models[id];
           } else {
             return undefined;
+          }
+        }
+      },
+
+      currentAlerts: {
+        cursors: {
+          alerts: "alerts",
+        },
+
+        get: function (data) {
+          let {total, models} = data.alerts;
+          let ids = keys(models);
+          if (ids) {
+            ids = sortBy(m => m.createdDate, ids);
+            return map(id => models[id], ids);
+          } else {
+            return [];
           }
         }
       },
