@@ -7,5 +7,7 @@ export default {
     name: Joi.string().required(),
     //birthDate: Joi.date().format("YYYY-MM-DD").max("now").required(),
     citizenship: Joi.string().required(),
+    // TODO improve
+    //id: UUID.v4(),
   },
 };
