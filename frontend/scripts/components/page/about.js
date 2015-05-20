@@ -2,25 +2,27 @@
 import React from "react";
 import DocumentTitle from "react-document-title";
 import {Component} from "frontend/components/simple";
+import {TextHolder} from "frontend/helpers/typography";
 
 // EXPORTS =========================================================================================
 export default class About extends Component {
   render() {
     return (
       <DocumentTitle title="React Ultimate :: About">
-        <section className="container page home">
-          <h1>About</h1>
+        <TextHolder>
+          <section className="container page home">
+            <h1>About</h1>
 
-          <h3>Code</h3>
-          <p>
-            Ultimate JavaScript.
-            Newest ES2015&mdash;2016 versions everywhere: frontend, backend, tests, tasks.
-          </p>
+            <h3>Code</h3>
+            <p>
+              Ultimate JavaScript.
+              Newest ES2015&mdash;2016 versions everywhere: frontend, backend, tests, tasks.
+            </p>
 
-          <h3>General</h3>
-          <p>
-            App uses AJAX loaders heavily to avoid "white screen" UX issue.
-          </p>
+            <h3>General</h3>
+            <p>
+              App uses AJAX loaders heavily to avoid "white screen" UX issue.
+            </p>
 
           <h3>Index</h3>
           <p>
@@ -40,64 +42,65 @@ export default class About extends Component {
             to the URL-bound one.
           </p>
 
-          <h4>Pagination</h4>
-          <p>
-            Ultimate Backend and Frontend solution.
-            Uses cache whenever possible to avoid unnecessary API request.
-            Autoredirects whenever requested page is begger than available.
-          </p>
+            <h4>Pagination</h4>
+            <p>
+              Ultimate Backend and Frontend solution.
+              Uses cache whenever possible to avoid unnecessary API request.
+              Autoredirects whenever requested page is begger than available.
+            </p>
 
-          <h4>Perpage</h4>
-          <p>
-            Ultimate Backend and Frontend solution.
-            Performant: recalculates new pagination without API request.
-            User friendly: keeps current page whenever new page limit is applied.
-          </p>
+            <h4>Perpage</h4>
+            <p>
+              Ultimate Backend and Frontend solution.
+              Performant: recalculates new pagination without API request.
+              User friendly: keeps current page whenever new page limit is applied.
+            </p>
 
-          <h4>Filters</h4>
-          <p>
-            Ultimate Backend and Frontend solution.
-            Performant: uses cache whenever possible to avoid unnecessary API request.
-            User friendly: resets to first page whenever new filters are applied (old offset
-            loses meaning with new filters).
-          </p>
+            <h4>Filters</h4>
+            <p>
+              Ultimate Backend and Frontend solution.
+              Performant: uses cache whenever possible to avoid unnecessary API request.
+              User friendly: resets to first page whenever new filters are applied (old offset
+              loses meaning with new filters).
+            </p>
 
-          <h4>Sorts</h4>
-          <p>
-            Ultimate Backend and Frontend solution.
-            Performant: uses cache whenever possible to avoid unnecessary API request.
-            User friendly: keeps current page whenever new sorts are applied (old offset
-            keeps meaning with new sorts).
-          </p>
+            <h4>Sorts</h4>
+            <p>
+              Ultimate Backend and Frontend solution.
+              Performant: uses cache whenever possible to avoid unnecessary API request.
+              User friendly: keeps current page whenever new sorts are applied (old offset
+              keeps meaning with new sorts).
+            </p>
 
-          <h3>CRUD</h3>
-          <p>
-            Architecture: validation rules are shared between Backend and Frontend.
-            User friendly: live validation.
-          </p>
+            <h3>CRUD</h3>
+            <p>
+              Architecture: validation rules are shared between Backend and Frontend.
+              User friendly: live validation.
+            </p>
 
-          <h4>Index Backlinks</h4>
-          <p>
-            Backlinks from model pages to index pages point to the corresponding offsets in paginations.
-            It was practically impossible to do this "right" in backend-driven apps. As soon
-            as multiple browser tabs were opened, and cookies were overwritten, you were into trouble...
-            Fortunately that days are gone.
-          </p>
+            <h4>Index Backlinks</h4>
+            <p>
+              Backlinks from model pages to index pages point to the corresponding offsets in paginations.
+              It was practically impossible to do this "right" in backend-driven apps. As soon
+              as multiple browser tabs were opened, and cookies were overwritten, you were into trouble...
+              Fortunately that days are gone.
+            </p>
 
-          <h3>Alerts</h3>
-          <p>
-            Powerful alert system. Beside all that animation goodness,
-            alerts are "sticky to the screen" so you can change the page without alert disappear.
-            This was impossible to implement in a backend-driven solution.
-          </p>
+            <h3>Alerts</h3>
+            <p>
+              Powerful alert system. Beside all that animation goodness,
+              alerts are "sticky to the screen" so you can change the page without alert disappear.
+              This was impossible to implement in a backend-driven solution.
+            </p>
 
-          <h3>Text Holders</h3>
-          <p>
-            Typography goodness. The width of text container is auto regulated to display about 80 character per row.
-            Check this <a href="http://www.pearsonified.com/2012/01/characters-per-line.php">comprehensive article</a>
-            for more information.
-          </p>
-        </section>
+            <h3>Text Holders</h3>
+            <p>
+              Typography goodness. The width of text container is auto regulated to display about 80 character per row.
+              Check this <a href="http://www.pearsonified.com/2012/01/characters-per-line.php">comprehensive article</a>
+              for more information.
+            </p>
+          </section>
+        </TextHolder>
       </DocumentTitle>
     );
   }
