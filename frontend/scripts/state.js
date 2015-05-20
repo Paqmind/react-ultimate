@@ -18,21 +18,14 @@ export const ROBOT = {
   FILTERS: {},
   SORTS: ["+name"],
   OFFSET: 0,
-  LIMIT: 3,
+  LIMIT: 12,
 };
 
 export const MONSTER = {
   FILTERS: {},
   SORTS: ["+name"],
   OFFSET: 0,
-  LIMIT: 3,
-};
-
-export const ALERT = {
-  FILTERS: {},
-  SORTS: ["+createdOn"],
-  OFFSET: 0,
-  LIMIT: 5,
+  LIMIT: 12,
 };
 
 window._state = new Baobab(

@@ -66,7 +66,7 @@ class MonsterIndexActions extends ShallowComponent {
     let {filters, sorts, limit} = this.props.monsters;
 
     let perPage = <PerPage
-      options={[3, 5, 10]} current={limit}
+      options={[5, 10, 12]} current={limit}
       onClick={_limit => this.setLimit(_limit)}
     />;
     let sortBy = <SortBy

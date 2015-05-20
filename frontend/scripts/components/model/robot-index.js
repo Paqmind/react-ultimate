@@ -71,7 +71,7 @@ class RobotIndexActions extends ShallowComponent {
     let {filters, sorts, limit} = this.props.robots;
 
     let perPage = <PerPage
-      options={[3, 5, 10]} current={limit}
+      options={[5, 10, 12]} current={limit}
       makeHref={_limit => this.showLimit(_limit)}
       onClick={_limit => this.setLimit(_limit)}
     />;
