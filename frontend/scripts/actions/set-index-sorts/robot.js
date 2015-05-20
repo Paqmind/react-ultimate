@@ -18,6 +18,7 @@ export default function setIndexSorts(newSorts=ROBOT.SORTS) {
     cursor.set("sorts", newSorts);
     if (total && pagination.length >= total) {
       // Full index loaded – can recalculate pagination
+      // TODO this should be in currentRobots facet ?!
       let newPagination = recalculatePaginationWithSorts(filters, newSorts, models, pagination);
       cursor.set("pagination", newPagination);
     } else {

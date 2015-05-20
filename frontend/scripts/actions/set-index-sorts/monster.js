@@ -18,6 +18,7 @@ export default function setIndexSorts(newSorts=MONSTER.SORTS) {
     cursor.set("sorts", newSorts);
     if (total && pagination.length >= total) {
       // Full index loaded – can recalculate pagination
+      // TODO this should be in currentMonsters facet ?!
       let newPagination = recalculatePaginationWithSorts(filters, newSorts, models, pagination);
       cursor.set("pagination", newPagination);
     } else {

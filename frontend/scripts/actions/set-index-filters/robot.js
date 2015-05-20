@@ -18,6 +18,7 @@ export default function setIndexFilters(newFilters=ROBOT.FILTERS) {
     cursor.set("filters", newFilters);
     if (false && total && pagination.length >= total) { // TODO check that `filters` are subset of `newFilters`, otherwise `total` is meaningless
       // Full index loaded – can recalculate pagination
+      // TODO this should be in currentRobots facet ?!
       let newPagination = recalculatePaginationWithFilters(newFilters, sorts, models, pagination);
       cursor.set("pagination", newPagination);
       cursor.set("total", newPagination.length);

@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import {filter, keys, map, pipe} from "ramda";
+import {filter, keys, map, pipe, sortBy} from "ramda";
 import Baobab from "baobab";
 import {flattenArrayObject} from "shared/helpers/common";
 import {parseQuery} from "shared/helpers/jsonapi";
@@ -50,8 +50,8 @@ window._state = new Baobab(
 
     robots: {
       // DATA
-      models: {},
       total: 0,
+      models: {},
       pagination: [],
 
       // LOAD ARTEFACTS
@@ -70,8 +70,8 @@ window._state = new Baobab(
 
     monsters: {
       // DATA
-      models: {},
       total: 0,
+      models: {},
       pagination: [],
 
       // LOAD ARTEFACTS
@@ -213,7 +213,9 @@ window._state = new Baobab(
 
         get: function (data) {
           let {models, pagination, offset, limit} = data.robots;
-          let ids = filter(v => v, pagination.slice(offset, offset + limit));
+          // TODO replace recalculateWithFilters => filterByAll here
+          // TODO replace recalculateWithSorts => sortByAll here
+          let ids = filter(m => m, pagination.slice(offset, offset + limit));
           if (ids) {
             return map(id => models[id], ids);
           } else {
@@ -229,7 +231,9 @@ window._state = new Baobab(
 
         get: function (data) {
           let {models, pagination, offset, limit} = data.monsters;
-          let ids = filter(v => v, pagination.slice(offset, offset + limit));
+          // TODO replace recalculateWithFilters => filterByAll here
+          // TODO replace recalculateWithSorts => sortByAll here
+          let ids = filter(m => m, pagination.slice(offset, offset + limit));
           if (ids) {
             return map(id => models[id], ids);
           } else {
