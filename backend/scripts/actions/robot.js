@@ -1,6 +1,6 @@
-import "./robot-index";
-import "./robot-create";
-import "./robot-create-or-update";
-import "./robot-delete";
-import "./robot-detail";
-import "./robot-random";
+import "./index/robot";
+import "./create/robot";
+import "./create-or-update/robot";
+import "./remove/robot";
+import "./detail/robot";
+import "./random/robot";
