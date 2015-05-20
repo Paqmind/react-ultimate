@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import {Alert} from "shared/models/Alert";
+import {Alert} from "shared/models/alert";
 import state from "frontend/state";
 
 // ACTIONS =========================================================================================
