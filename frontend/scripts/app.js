@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
 import "babel/polyfill";
-import {keys, map, pipe} from "ramda";
+import {filter, keys, map, pipe} from "ramda";
 import React from "react";
 import {create as createRouter, HistoryLocation} from "react-router";
 import "shared/shims"; // TODO except for prerender (isomorphic) step, because babel-node auto-injects it's polyfill
@@ -56,12 +56,8 @@ window._router.run((Application, url) => {
   //------------------------------------------------------------------------------------------------
 
   let promises = pipe(
-    map(route => route.handler.original || {}),
-    map(original => {
-      if (original.loadData) {
-        return original.loadData();
-      }
-    })
+    filter(route => route.handler.loadData),
+    map(route => route.handler.loadData())
   )(url.routes);
 
   Promise.all(promises).then(() => {

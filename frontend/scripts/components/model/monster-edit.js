@@ -8,12 +8,16 @@ import DocumentTitle from "react-document-title";
 import {parseString, parseInteger, parseFloat, parseDate} from "shared/converters";
 import {formatString, formatInteger, formatFloat, formatDate} from "shared/converters";
 import modelValidators from "shared/validators/monster";
+import {statics} from "frontend/helpers/react";
 import modelActions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, ModelLink} from "frontend/components/simple";
 import {Error, Loading, NotFound} from "frontend/components/page";
 import {Form} from "frontend/components/form";
 
 // COMPONENTS ======================================================================================
+@statics({
+  loadData: modelActions.establishModel,
+})
 @branch({
   cursors: {
     monsters: "monsters",
@@ -23,8 +27,6 @@ import {Form} from "frontend/components/form";
   },
 })
 export default class MonsterEdit extends Form {
-  static loadData = modelActions.establishModel;
-
   constructor(props) {
     super();
     this.state = {

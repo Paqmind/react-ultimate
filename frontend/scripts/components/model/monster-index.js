@@ -5,6 +5,7 @@ import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import {toArray} from "shared/helpers/common";
+import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
 import modelActions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/simple";
@@ -13,18 +14,18 @@ import {Error, Loading, NotFound} from "frontend/components/page";
 import MonsterItem from "./monster-item";
 
 // COMPONENTS ======================================================================================
+@statics({
+  loadData: modelActions.loadIndex,
+})
 @branch({
   cursors: {
     monsters: "monsters",
   },
-
   facets: {
     currentMonsters: "currentMonsters",
   }
 })
 export default class MonsterIndex extends DeepComponent {
-  static loadData = modelActions.loadIndex;
-
   render() {
     let {total, loading, loadError, filters, sorts, offset, limit} = this.props.monsters;
     let models = this.props.currentMonsters;

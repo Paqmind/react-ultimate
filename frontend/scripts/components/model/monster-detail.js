@@ -3,12 +3,16 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
+import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
 import modelActions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, ModelLink} from "frontend/components/simple";
 import {Error, Loading, NotFound} from "frontend/components/page";
 
 // COMPONENTS ======================================================================================
+@statics({
+  loadData: modelActions.establishModel,
+})
 @branch({
   cursors: {
     monsters: "monsters",
@@ -18,8 +22,6 @@ import {Error, Loading, NotFound} from "frontend/components/page";
   },
 })
 export default class MonsterDetail extends DeepComponent {
-  static loadData = modelActions.establishModel;
-
   render() {
     let {loading, loadError} = this.props.monsters;
     let model = this.props.model;

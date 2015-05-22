@@ -3,6 +3,21 @@ import {keys, eqDeep} from "ramda";
 
 // EXPORTS =========================================================================================
 /**
+ * Decorator to attach static methods to HOC
+ * Example:
+ *   @withStatic({
+ *     willTransitionTo(transition) {
+ *       transition.abort();
+ *     }
+ *   })
+ * @param obj - object with methods that should be static in HOC
+ * @returns {Function} - decorator to apply on HOC
+ */
+export function statics(obj) {
+  return component => Object.assign(component, obj);
+}
+
+/**
 * Does a shallow comparison for props and state.
 */
 export function shallowCompare(nextState, nextProps) {

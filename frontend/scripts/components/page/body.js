@@ -18,12 +18,6 @@ export default class Body extends Component {
     };
   }
 
-  //static loadPage(params, query) {
-    // Ignore params and query
-    // establishPage(params, query);
-    //return alertActions.loadPage();
-  //}
-
   hideMenu() {
     this.setState({menuCollapse: false});
   }

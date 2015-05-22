@@ -5,6 +5,7 @@ import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import {toArray} from "shared/helpers/common";
+import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
 import {indexRouter} from "frontend/router";
 import modelActions from "frontend/actions/robot";
@@ -14,18 +15,18 @@ import {Error, Loading, NotFound} from "frontend/components/page";
 import RobotItem from "./robot-item";
 
 // COMPONENTS ======================================================================================
+@statics({
+  loadData: modelActions.establishIndex,
+})
 @branch({
   cursors: {
     robots: "robots",
   },
-
   facets: {
     currentRobots: "currentRobots",
   }
 })
 export default class RobotIndex extends DeepComponent {
-  static loadData = modelActions.establishIndex;
-
   render() {
     let {total, loading, loadError, filters, sorts, offset, limit} = this.props.robots;
     let models = this.props.currentRobots;

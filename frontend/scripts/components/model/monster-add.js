@@ -6,12 +6,16 @@ import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import modelValidators from "shared/validators/monster";
+import {statics} from "frontend/helpers/react";
 import modelActions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent} from "frontend/components/simple";
 import {Error, Loading, NotFound} from "frontend/components/page";
 import {Form} from "frontend/components/form";
 
 // COMPONENTS ======================================================================================
+@statics({
+  loadData: modelActions.loadIndex,
+})
 @branch({
   cursors: {
     monsters: "monsters",
@@ -21,8 +25,6 @@ import {Form} from "frontend/components/form";
   },
 })
 export default class MonsterAdd extends Form {
-  static loadData = modelActions.loadIndex;
-
   constructor(props) {
     super();
     this.state = {
