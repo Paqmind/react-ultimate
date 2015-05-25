@@ -113,8 +113,6 @@ export default class RobotAdd extends Form {
     this.validate().then(isValid => {
       if (isValid) {
         modelActions.addModel(this.state.model);
-      } else {
-        alert("Can't submit form with errors");
       }
     });
   }

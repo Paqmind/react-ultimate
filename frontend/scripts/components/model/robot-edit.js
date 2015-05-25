@@ -127,8 +127,6 @@ export default class RobotEdit extends Form {
     this.validate().then(isValid => {
       if (isValid) {
         modelActions.editModel(this.state.model);
-      } else {
-        alert("Can't submit form with errors");
       }
     });
   }
