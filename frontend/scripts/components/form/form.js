@@ -57,9 +57,10 @@ export default class Form extends DeepComponent {
     let schema = schemaLens.get(this.state);
 
     // Validate it
-    let [_model, _errors] = joiValidate({[formKey]: form}, {[formKey]: schema}); // TODO use only last segment of `formKey`?
-    let model = _model[formKey];
-    let errors = _errors[this.formKey];
+    let tailKey = formKey.split(".").slice(-1);
+    let [_model, _errors] = joiValidate({[tailKey]: form}, {[tailKey]: schema});
+    let model = _model[tailKey];
+    let errors = _errors[tailKey];
 
     let state = this.state;
     state = modelLens.set(state, model);
