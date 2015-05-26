@@ -2,12 +2,15 @@
 import {Alert} from "shared/models/alert";
 import state from "frontend/state";
 
+// CURSORS =========================================================================================
+let modelCursor = state.select("alerts");
+
 // ACTIONS =========================================================================================
-export default function add(model) {
+export default function addModel(model) {
+  console.debug(`addModel(...)`);
+
   let newModel = Alert(model);
   let id = newModel.id;
-  let url = `/api/alerts/${id}`;
 
-  // Nonpersistent add
-  state.select("alerts", "models", id).set(newModel);
+  modelCursor.select("models").set(id, newModel);
 }

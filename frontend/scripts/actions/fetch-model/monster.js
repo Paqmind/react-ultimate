@@ -5,21 +5,25 @@ import Monster from "shared/models/monster";
 import state from "frontend/state";
 import alertActions from "frontend/actions/alert";
 
+// CURSORS =========================================================================================
+let modelCursor = state.select("monsters");
+
 // ACTIONS =========================================================================================
 export default function fetchModel(id) {
   console.debug(`fetchModel(${id})`);
-  let url = `/api/monsters/${id}`;
 
-  let cursor = state.select("monsters");
-  cursor.set("loading", true);
+  modelCursor.set("loading", true);
 
-  return Axios.get(url)
+  return Axios.get(`/api/monsters/${id}`)
     .then(response => {
       let {data, meta} = response.data;
       let model = Monster(data);
 
-      cursor.merge({loading: false, loadError: undefined});
-      cursor.select("models").set(id, model);
+      modelCursor.merge({
+        loading: false,
+        loadError: undefined
+      });
+      modelCursor.select("models").set(id, model);
 
       return response.status;
     })
@@ -27,15 +31,17 @@ export default function fetchModel(id) {
       if (response instanceof Error) {
         throw response;
       } else {
-        let loadError = {
-          status: response.status,
-          description: response.statusText,
-          url: url
-        };
-        cursor.merge({loading: false, loadError});
+        modelCursor.merge({
+          loading: false,
+          loadError: {
+            status: response.status,
+            description: response.statusText,
+            url: url
+          }
+        });
 
+        // Add alert
         alertActions.addModel({message: "Action `Monster:fetchModel` failed: " + loadError.description, category: "error"});
-
         return response.status;
       }
     });

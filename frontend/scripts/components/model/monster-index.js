@@ -60,7 +60,7 @@ export default class MonsterIndex extends DeepComponent {
   }
 
   setOffset(offset) {
-    modelActions.setIndexOffset(offset);
+    modelCursor.set("offset", offset || MONSTER.OFFSET);
     modelActions.loadIndex();
   }
 }
@@ -74,11 +74,11 @@ class MonsterIndexActions extends ShallowComponent {
       onClick={_limit => this.setLimit(_limit)}
     />;
     let sortBy = <SortBy
-      options={["+name", "-name"]} current={sorts[0]}
+      options={["+name", "-name"]} current={sorts && sorts[0]}
       onClick={_sorts => this.setSorts(_sorts)}
     />;
     let filterBy = <FilterBy field="citizenship"
-      options={[undefined, "China", "Russia", "USA"]} current={filters.citizenship}
+      options={[undefined, "China", "Russia", "USA"]} current={filters && filters.citizenship}
       onClick={_filters => this.setFilters(_filters)}
     />;
 
@@ -105,17 +105,32 @@ class MonsterIndexActions extends ShallowComponent {
   }
 
   setFilters(filters) {
-    modelActions.setIndexFilters(filters);
+    if (!eqDeep(filters, modelCursor.get("filters"))) {
+      modelCursor.set("filters", filters);
+      if ((modelCursor.get("pagination").length < modelCursor.get("total")) || true) {
+        /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
+        // not all data loaded or new filters aren't subset of old
+        modelCursor.set("pagination", []);
+        modelCursor.set("total", 0);
+      }
+    }
     modelActions.loadIndex();
   }
 
   setSorts(sorts) {
-    modelActions.setIndexSorts(sorts);
+    if (!eqDeep(sorts, modelCursor.get("sorts"))) {
+      modelCursor.set("sorts", sorts);
+      if (modelCursor.get("pagination").length < modelCursor.get("total")) {
+        // not all data loaded
+        modelCursor.set("pagination", []);
+        modelCursor.set("total", 0);
+      }
+    }
     modelActions.loadIndex();
   }
 
   setLimit(limit) {
-    modelActions.setIndexLimit(limit);
+    modelCursor.set("limit", limit || MONSTER.LIMIT);
     modelActions.loadIndex();
   }
 }

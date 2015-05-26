@@ -1,10 +1,13 @@
 // IMPORTS =========================================================================================
 import state from "frontend/state";
 
+// CURSORS =========================================================================================
+let urlCursor = state.select("url");
+let modelCursor = state.select("alerts");
+
 // ACTIONS =========================================================================================
 export default function removeModel(id) {
-  let url = `/api/alerts/${id}`;
+  console.debug(`removeModel(${id})`);
 
-  // Non-persistent remove
-  state.select("alerts", "models").unset(id);
+  modelCursor.select("models").unset(id);
 }

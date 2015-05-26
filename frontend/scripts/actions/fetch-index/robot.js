@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import {keys, map, reduce, reduceIndexed} from "ramda";
+import {map, reduceIndexed} from "ramda";
 import Axios from "axios";
 import {toObject, mergeDeep} from "shared/helpers/common";
 import {formatQueryForAxios} from "shared/helpers/jsonapi";
@@ -7,32 +7,32 @@ import Robot from "shared/models/robot";
 import state from "frontend/state";
 import alertActions from "frontend/actions/alert";
 
-// ACTIONS =========================================================================================
-export default function fetchIndex(filters, sorts, offset, limit, models, pagination) {
-  console.debug("fetchIndex(...)");
-  let url = `/api/robots/`;
+// CURSORS =========================================================================================
+let modelCursor = state.select("robots");
 
-  let cursor = state.select("robots");
-  cursor.set("loading", true);
+// ACTIONS =========================================================================================
+export default function fetchIndex(filters, sorts, offset, limit) {
+  console.debug("fetchIndex(...)");
+
+  modelCursor.set("loading", true);
 
   let query = formatQueryForAxios({filters, sorts, offset, limit});
 
-  return Axios.get(url, {params: query})
+  return Axios.get(`/api/robots/`, {params: query})
     .then(response => {
       let {data, meta} = response.data;
-      let newModelsArray = map(m => Robot(m), data);
-      let newModelsObject = mergeDeep(models, toObject(newModelsArray));
-      let newTotal = meta.page && meta.page.total || keys(models).length;
+      let newModels = map(m => Robot(m), data);
 
-      let newPagination = reduceIndexed((_pagination, model, i) => {
-        _pagination[offset + i] = model.id;
-        return _pagination;
-      }, pagination, newModelsArray);
-
-      cursor.merge({
-        total: newTotal,
-        models: newModelsObject,
-        pagination: newPagination,
+      modelCursor.select("models").merge(toObject(newModels));
+      modelCursor.select("pagination").apply(pagination => {
+        return reduceIndexed((memo, m, i) => {
+            memo[offset + i] = m.id;
+            return memo;
+          }, pagination, newModels
+        );
+      });
+      modelCursor.merge({
+        total: meta.page.total,
         loading: false,
         loadError: false
       });
@@ -43,15 +43,17 @@ export default function fetchIndex(filters, sorts, offset, limit, models, pagina
       if (response instanceof Error) {
         throw response;
       } else {
-        let loadError = {
-          status: response.status,
-          description: response.statusText,
-          url: url
-        };
-        cursor.merge({loading: false, loadError});
+        modelCursor.merge({
+          loading: false,
+          loadError: {
+            status: response.status,
+            description: response.statusText,
+            url: url
+          }
+        });
 
+        // Add alert
         alertActions.addModel({message: "Action `Robot:fetchPage` failed: " + loadError.description, category: "error"});
-
         return response.status;
       }
     });

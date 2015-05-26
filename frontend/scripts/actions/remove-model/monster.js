@@ -7,36 +7,43 @@ import alertActions from "frontend/actions/alert";
 import {handleInvalidOffset} from "../load-index/monster";
 import fetchIndex from "../fetch-index/monster";
 
+// CURSORS =========================================================================================
+let urlCursor = state.select("url");
+let modelCursor = state.select("monsters");
+
 // ACTIONS =========================================================================================
 export default function removeModel(id) {
-  let url = `/api/monsters/${id}`;
-  let urlCursor = state.select("url");
-  let cursor = state.select("monsters");
+  console.debug(`removeModel(${id})`);
 
-  let filters = cursor.get("filters");
-  let sorts = cursor.get("sorts");
-  let offset = cursor.get("offset");
-  let limit = cursor.get("limit");
-  let total = cursor.get("total");
-  let models = cursor.get("models");
-  let pagination = cursor.get("pagination");
+  let filters = modelCursor.get("filters");
+  let sorts = modelCursor.get("sorts");
+  let offset = modelCursor.get("offset");
+  let limit = modelCursor.get("limit");
+  let total = modelCursor.get("total");
+  let models = modelCursor.get("models");
+  let pagination = modelCursor.get("pagination");
+  let model = modelCursor.select("models").get(id);
 
   // Optimistic action
-  cursor.set("loading", true);
-  cursor.set("total", total - 1);
-  cursor.set("pagination", recalculatePaginationWithoutModel(filters, sorts, models, pagination, id));
-  cursor.select("models").unset(id);
-  let newTotal = cursor.get("total");
-  let newModels = cursor.get("models");
-  let newPagination = cursor.get("pagination");
+  modelCursor.set("loading", true);
+  modelCursor.set("total", total - 1);
+  modelCursor.set("pagination", recalculatePaginationWithoutModel(filters, sorts, models, pagination, id));
+  modelCursor.select("models").unset(id);
 
-  return Axios.delete(url)
+  let newTotal = modelCursor.get("total");
+  let newModels = modelCursor.get("models");
+  let newPagination = modelCursor.get("pagination");
+
+  return Axios.delete(`/api/monsters/${id}`)
     .then(response => {
-      cursor.merge({loading: false, loadError: undefined});
+      modelCursor.merge({
+        loading: false,
+        loadError: undefined
+      });
 
       // Upload data
       if (!newPagination[offset + limit - 1]) {
-        fetchIndex(filters, sorts, offset + limit - 1, 1, newModels, newPagination);
+        fetchIndex(filters, sorts, offset + limit - 1, 1);
       }
 
       // Transition to index page
@@ -47,28 +54,27 @@ export default function removeModel(id) {
 
       // Add alert
       alertActions.addModel({message: "Action `Monster:removeModel` succeed", category: "success"});
-
       return response.status;
     })
     .catch(response => {
       if (response instanceof Error) {
         throw response;
       } else {
-        let loadError = {
-          status: response.status,
-          description: response.statusText,
-          url: url
-        };
-
         // Cancel action
-        cursor.merge({loading: false, loadError});
-        cursor.set("total", total);
-        cursor.set("models", models);
-        cursor.set("pagination", pagination);
+        modelCursor.merge({
+          loading: false,
+          loadError: {
+            status: response.status,
+            description: response.statusText,
+            url: url
+          }
+        });
+        modelCursor.set("total", total);
+        modelCursor.select("models").set(id, model);
+        modelCursor.set("pagination", pagination);
 
         // Add alert
         alertActions.addModel({message: "Action `Monster:removeModel` failed: " + loadError.description, category: "error"});
-
         return response.status;
       }
     });

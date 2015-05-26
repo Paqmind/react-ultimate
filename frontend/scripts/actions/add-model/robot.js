@@ -6,59 +6,65 @@ import state from "frontend/state";
 import {router} from "frontend/router";
 import alertActions from "frontend/actions/alert";
 
+// CURSORS =========================================================================================
+let modelCursor = state.select("robots");
+
 // ACTIONS =========================================================================================
-export default function add(model) {
+export default function addModel(model) {
+  console.debug(`addModel(...)`);
+
   let newModel = Robot(model);
   let id = newModel.id;
-  let url = `/api/robots/${id}`;
 
-  let cursor = state.select("robots");
-  let total = cursor.get("total");
-  let models = cursor.get("models");
-  let filters = cursor.get("filters");
-  let sorts = cursor.get("sorts");
-  let pagination = cursor.get("pagination");
+  let filters = modelCursor.get("filters");
+  let sorts = modelCursor.get("sorts");
+  let total = modelCursor.get("total");
+  let models = modelCursor.get("models");
+  let pagination = modelCursor.get("pagination");
 
   // Optimistic action
-  cursor.set("loading", true);
-  cursor.set("total", total + 1);
-  cursor.set("pagination", recalculatePaginationWithModel(filters, sorts, models, pagination, id));
-  cursor.select("models").set(id, newModel);
-  let newTotal = cursor.get("total");
-  let newModels = cursor.get("models");
-  let newPagination = cursor.get("pagination");
+  modelCursor.set("loading", true);
+  modelCursor.set("total", total + 1);
+  modelCursor.set("pagination", recalculatePaginationWithModel(filters, sorts, models, pagination, id));
+  modelCursor.select("models").set(id, newModel);
 
-  return Axios.put(url, newModel)
+  let newTotal = modelCursor.get("total");
+  let newModels = modelCursor.get("models");
+  let newPagination = modelCursor.get("pagination");
+
+  return Axios.put(`/api/robots/${id}`, newModel)
     .then(response => {
-      cursor.merge({loading: false, loadError: undefined});
+      modelCursor.merge({
+        loading: false,
+        loadError: undefined
+      });
 
       // Transition to detail page
       router.transitionTo("robot-detail", {id: newModel.id});
 
       // Add alert
       alertActions.addModel({message: "Action `Robot:addModel` succeed", category: "success"});
-
       return response.status;
     })
     .catch(response => {
       if (response instanceof Error) {
         throw response;
       } else {
-        let loadError = {
-          status: response.status,
-          description: response.statusText,
-          url: url
-        };
-
         // Cancel action
-        cursor.merge({loading: false, loadError});
-        cursor.set("total", total);
-        cursor.set("models", models);
-        cursor.set("pagination", pagination);
+        modelCursor.merge({
+          loading: false,
+          loadError: {
+            status: response.status,
+            description: response.statusText,
+            url: url
+          }
+        });
+        modelCursor.set("total", total);
+        modelCursor.select("models").unset(id);
+        modelCursor.set("pagination", pagination);
 
         // Add alert
         alertActions.addModel({message: "Action `Robot:addModel` failed: " + loadError.description, category: "error"});
-
         return response.status;
       }
     });
