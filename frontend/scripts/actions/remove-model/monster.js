@@ -15,6 +15,8 @@ let modelCursor = state.select("monsters");
 export default function removeModel(id) {
   console.debug(`removeModel(${id})`);
 
+  let url = `/api/monsters/${id}`;
+
   let filters = modelCursor.get("filters");
   let sorts = modelCursor.get("sorts");
   let offset = modelCursor.get("offset");
@@ -34,7 +36,7 @@ export default function removeModel(id) {
   let newModels = modelCursor.get("models");
   let newPagination = modelCursor.get("pagination");
 
-  return Axios.delete(`/api/monsters/${id}`)
+  return Axios.delete(url)
     .then(response => {
       modelCursor.merge({
         loading: false,
@@ -66,7 +68,7 @@ export default function removeModel(id) {
           loadError: {
             status: response.status,
             description: response.statusText,
-            url: url
+            url
           }
         });
         modelCursor.set("total", total);
@@ -74,7 +76,7 @@ export default function removeModel(id) {
         modelCursor.set("pagination", pagination);
 
         // Add alert
-        alertActions.addModel({message: "Action `Monster:removeModel` failed: " + loadError.description, category: "error"});
+        alertActions.addModel({message: "Action `Monster:removeModel` failed: " + response.statusText, category: "error"});
         return response.status;
       }
     });

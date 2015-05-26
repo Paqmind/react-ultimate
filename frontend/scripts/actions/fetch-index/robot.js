@@ -14,11 +14,13 @@ let modelCursor = state.select("robots");
 export default function fetchIndex(filters, sorts, offset, limit) {
   console.debug("fetchIndex(...)");
 
+  let url = `/api/robots/`;
+
   modelCursor.set("loading", true);
 
   let query = formatQueryForAxios({filters, sorts, offset, limit});
 
-  return Axios.get(`/api/robots/`, {params: query})
+  return Axios.get(url, {params: query})
     .then(response => {
       let {data, meta} = response.data;
       let newModels = map(m => Robot(m), data);

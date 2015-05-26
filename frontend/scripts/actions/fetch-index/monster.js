@@ -14,11 +14,13 @@ let modelCursor = state.select("monsters");
 export default function fetchIndex(filters, sorts, offset, limit) {
   console.debug("fetchIndex(...)");
 
+  let url = `/api/monsters/`;
+
   modelCursor.set("loading", true);
 
   let query = formatQueryForAxios({filters, sorts, offset, limit});
 
-  return Axios.get(`/api/monsters/`, {params: query})
+  return Axios.get(url, {params: query})
     .then(response => {
       let {data, meta} = response.data;
       let newModels = map(m => Monster(m), data);
@@ -48,12 +50,12 @@ export default function fetchIndex(filters, sorts, offset, limit) {
           loadError: {
             status: response.status,
             description: response.statusText,
-            url: url
+            url
           }
         });
 
         // Add alert
-        alertActions.addModel({message: "Action `Monster:fetchPage` failed: " + loadError.description, category: "error"});
+        alertActions.addModel({message: "Action `Monster:fetchPage` failed: " + response.statusText, category: "error"});
         return response.status;
       }
     });

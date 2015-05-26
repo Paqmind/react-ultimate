@@ -11,6 +11,7 @@ let modelCursor = state.select("robots");
 export default function edit(model) {
   let newModel = Robot(model);
   let id = newModel.id;
+  let url = `/api/robots/${id}`;
 
   let models = modelCursor.get("models");
   let filters = modelCursor.get("filters");
@@ -21,7 +22,7 @@ export default function edit(model) {
   modelCursor.set("loading", true);
   modelCursor.select("models").set(id, newModel);
 
-  return Axios.put(`/api/robots/${id}`, newModel)
+  return Axios.put(url, newModel)
     .then(response => {
       modelCursor.merge({loading: false, loadError: undefined});
 

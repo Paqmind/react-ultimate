@@ -15,6 +15,7 @@ export default function addModel(model) {
 
   let newModel = Monster(model);
   let id = newModel.id;
+  let url = `/api/monsters/${id}`;
 
   let filters = modelCursor.get("filters");
   let sorts = modelCursor.get("sorts");
@@ -32,7 +33,7 @@ export default function addModel(model) {
   let newModels = modelCursor.get("models");
   let newPagination = modelCursor.get("pagination");
 
-  return Axios.put(`/api/monsters/${id}`, newModel)
+  return Axios.put(url, newModel)
     .then(response => {
       modelCursor.merge({
         loading: false,
@@ -56,7 +57,7 @@ export default function addModel(model) {
           loadError: {
             status: response.status,
             description: response.statusText,
-            url: url
+            url
           }
         });
         modelCursor.set("total", total);
@@ -64,7 +65,7 @@ export default function addModel(model) {
         modelCursor.set("pagination", pagination);
 
         // Add alert
-        alertActions.addModel({message: "Action `Monster:addModel` failed: " + loadError.description, category: "error"});
+        alertActions.addModel({message: "Action `Monster:addModel` failed: " + response.statusText, category: "error"});
         return response.status;
       }
     });

@@ -13,11 +13,13 @@ let modelCursor = state.select("alerts");
 export default function fetchIndex(filters, sorts, offset, limit) {
   console.debug("fetchIndex(...)");
 
+  let url = `/api/alerts/`;
+
   modelCursor.set("loading", true);
 
   let query = formatQueryForAxios({filters, sorts, offset, limit});
 
-  return Axios.get(`/api/alerts/`, {params: query})
+  return Axios.get(url, {params: query})
     .then(response => {
       let {data, meta} = response.data;
       let newModels = map(m => Alert(m), data);
@@ -40,7 +42,7 @@ export default function fetchIndex(filters, sorts, offset, limit) {
           loadError: {
             status: response.status,
             description: response.statusText,
-            url: url
+            url
           }
         });
 

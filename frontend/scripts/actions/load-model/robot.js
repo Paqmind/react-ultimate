@@ -11,7 +11,7 @@ export default function loadModel() {
   console.debug("loadModel()");
 
   let id = modelCursor.get("id");
-  let models = modelCursor.get("models", id);
+  let model = modelCursor.get("models", id);
   if (!model) {
     fetchModel(id);
   }

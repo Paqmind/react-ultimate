@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
 import DeepMerge from "deep-merge";
-import {assoc, filter, flatten, pipe, prop, keys, map, mapIndexed, range, reduce, reduceIndexed, reverse, slice, sort, sortBy} from "ramda";
+import {assoc, filter, flatten, pipe, prop, keys, map, mapIndexed, range, reduce, reduceIndexed, reverse, slice, sortBy} from "ramda";
 import flat from "flat";
 
 // HELPERS =========================================================================================

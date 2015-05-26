@@ -12,9 +12,11 @@ let modelCursor = state.select("robots");
 export default function fetchModel(id) {
   console.debug(`fetchModel(${id})`);
 
+  let url = `/api/robots/${id}`;
+
   modelCursor.set("loading", true);
 
-  return Axios.get(`/api/robots/${id}`)
+  return Axios.get(url)
     .then(response => {
       let {data, meta} = response.data;
       let model = Robot(data);
@@ -36,12 +38,12 @@ export default function fetchModel(id) {
           loadError: {
             status: response.status,
             description: response.statusText,
-            url: url
+            url
           }
         });
 
         // Add alert
-        alertActions.addModel({message: "Action `Robot:fetchModel` failed: " + loadError.description, category: "error"});
+        alertActions.addModel({message: "Action `Robot:fetchModel` failed: " + response.statusText, category: "error"});
         return response.status;
       }
     });
