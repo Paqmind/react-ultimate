@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
-import {filter, keys, map, pipe, sortBy} from "ramda";
+import {filter, find, keys, map, pipe, propEq, slice, sortBy, tap, values} from "ramda";
 import Baobab from "baobab";
-import {flattenArrayObject} from "shared/helpers/common";
+import {flattenArrayObject, filterByAll, sortByAll} from "shared/helpers/common";
 import {parseQuery} from "shared/helpers/jsonapi";
 import {joiValidate} from "shared/helpers/validation";
 import commonValidators from "shared/validators/common";
@@ -15,14 +15,14 @@ export const EXAMPLE = {
 };
 
 export const ROBOT = {
-  FILTERS: {},
+  FILTERS: undefined,
   SORTS: ["+name"],
   OFFSET: 0,
   LIMIT: 12,
 };
 
 export const MONSTER = {
-  FILTERS: {},
+  FILTERS: undefined,
   SORTS: ["+name"],
   OFFSET: 0,
   LIMIT: 12,
@@ -158,7 +158,6 @@ window._state = new Baobab(
 
         get: function (data) {
           let {models, id} = data.robots;
-
           if (id) {
             return models[id];
           } else {
@@ -188,11 +187,10 @@ window._state = new Baobab(
         },
 
         get: function (data) {
-          let {total, models} = data.alerts;
-          let ids = keys(models);
-          if (ids) {
-            ids = sortBy(m => m.createdDate, ids);
-            return map(id => models[id], ids);
+          let {models} = data.alerts;
+          let modelsArray = values(models);
+          if (modelsArray.length) {
+            return sortBy(m => m.createdDate, modelsArray);
           } else {
             return [];
           }
@@ -205,15 +203,14 @@ window._state = new Baobab(
         },
 
         get: function (data) {
-          let {models, pagination, offset, limit} = data.robots;
-          // TODO replace recalculateWithFilters => filterByAll here
-          // TODO replace recalculateWithSorts => sortByAll here
-          let ids = filter(m => m, pagination.slice(offset, offset + limit));
-          if (ids) {
-            return map(id => models[id], ids);
-          } else {
-            return [];
-          }
+          let {filters, sorts, offset, limit, models, pagination} = data.robots;
+          let modelsArray = map(id => id && models[id], pagination);
+          return pipe(
+            filterByAll(filters),
+            sortByAll(sorts),
+            slice(offset, offset + limit),
+            filter(m => m)
+          )(modelsArray);
         }
       },
 
@@ -223,15 +220,14 @@ window._state = new Baobab(
         },
 
         get: function (data) {
-          let {models, pagination, offset, limit} = data.monsters;
-          // TODO replace recalculateWithFilters => filterByAll here
-          // TODO replace recalculateWithSorts => sortByAll here
-          let ids = filter(m => m, pagination.slice(offset, offset + limit));
-          if (ids) {
-            return map(id => models[id], ids);
-          } else {
-            return [];
-          }
+          let {filters, sorts, offset, limit, models, pagination} = data.monsters;
+          let modelsArray = map(id => id && models[id], pagination);
+          return pipe(
+            filterByAll(filters),
+            sortByAll(sorts),
+            slice(offset, offset + limit),
+            filter(m => m)
+          )(modelsArray);
         }
       },
     }
