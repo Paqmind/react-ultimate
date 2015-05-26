@@ -1,15 +1,59 @@
 // IMPORTS =========================================================================================
 import DeepMerge from "deep-merge";
-import R from "ramda";
-import {keys, filter, pipe, prop, map, mapIndexed, range, reduce, reverse, sortBy} from "ramda";
+import {assoc, filter, flatten, pipe, prop, keys, map, mapIndexed, range, reduce, reduceIndexed, reverse, slice, sort, sortBy} from "ramda";
 import flat from "flat";
 
 // HELPERS =========================================================================================
-// Workaround until https://github.com/ramda/ramda/issues/1073 /////////////////////////////////////
+// Workaround until https://github.com/ramda/ramda/issues/1073 (wait for release) //////////////////
 export const mergeDeep = DeepMerge((a, b, key) => {
   return b;
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+export function filter2(fn, array) {
+  if (array === undefined) {
+    return filter2.bind(null, fn);
+  } else {
+    let filterer = (v => v === undefined || fn(v));
+    return filter(filterer, array);
+  }
+}
+
+export function sortBy2(fn, asc=undefined, array=undefined) {
+  if (asc === undefined && array === undefined) {
+    return sortBy2.bind(null, fn);
+  }
+  else if (array === undefined) {
+    return sortBy2.bind(null, fn, asc);
+  } else {
+    // 1. Group array by threshold value (undefined)
+    let groupedArray = reduceIndexed((memo, v, i) => {
+      if (v === undefined) {
+        memo.push(v);
+      } else {
+        if (memo[memo.length - 1] && memo[memo.length - 1].length) {
+          memo[memo.length - 1].push(v);
+        } else {
+          memo.push([v]);
+        }
+      }
+      return memo;
+    }, [], array);
+
+    // 2. Sort each group
+    let sortedGroupedArray = reduceIndexed((memo, v, i) => {
+      if (v === undefined) {
+        memo.push(v);
+      } else {
+        let vs = sortBy(fn, v);
+        memo.push(asc ? vs : reverse(vs));
+      }
+      return memo;
+    }, [], groupedArray);
+
+    // 3. Flatten
+    return flatten(sortedGroupedArray);
+  }
+}
 
 /**
  * Split array into chunks with predefined chunk length. Useful for pagination.
@@ -45,10 +89,10 @@ export function filterByAll(filters, data) {
   if (data === undefined) {
     return filterByAll.bind(null, filters);
   } else {
-    return reduce((_data, filterKey) => {
+    return reduce((memo, filterKey) => {
       let filterValue = filters[filterKey];
-      let filterer = filter(d => d && (d[filterKey] == filterValue));
-      return filterer(_data);
+      let filterer = filter2(d => d && (d[filterKey] == filterValue));
+      return filterer(memo);
     }, data, keys(filters));
   }
 }
@@ -65,16 +109,16 @@ export function sortByAll(sorts, data) {
   if (data === undefined) {
     return sortByAll.bind(null, sorts);
   } else {
-    return reduce((_data, sort) => {
+    return reduce((memo, sort) => {
       let sorter;
       if (sort.startsWith("-")) {
-        sorter = pipe(sortBy(prop(sort.slice(1))), reverse);
+        sorter = sortBy2(prop(sort.slice(1)), false);
       } else if (sort.startsWith("+") || sort.startsWith(" ")) {
-        sorter = sortBy(prop(sort.slice(1)));
+        sorter = sortBy2(prop(sort.slice(1)), true);
       } else {
-        sorter = sortBy(prop(sort));
+        sorter = sortBy2(prop(sort), true);
       }
-      return sorter(_data);
+      return sorter(memo);
     }, data, reverse(sorts));
   }
 }
