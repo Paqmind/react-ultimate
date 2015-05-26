@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import {append, keys, filter, find, map, pipe, range, reject, reverse, values} from "ramda";
+import {append, keys, filter, find, map, pipe, slice, range, reject, reverse, values} from "ramda";
 import {chunked, filterByAll, sortByAll} from "shared/helpers/common";
 
 // EXPORTS =========================================================================================

@@ -80,7 +80,7 @@ export default class AlertIndex extends DeepComponent {
   }
 
   render() {
-    let {total, loading, loadError} = this.props.alerts;
+    let {loading, loadError} = this.props.alerts;
     let models = this.props.currentAlerts;
 
     if (loadError) {

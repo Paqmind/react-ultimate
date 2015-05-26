@@ -28,7 +28,7 @@ import RobotItem from "./robot-item";
 })
 export default class RobotIndex extends DeepComponent {
   render() {
-    let {total, loading, loadError, filters, sorts, offset, limit} = this.props.robots;
+    let {loading, loadError, filters, sorts, offset, limit, total} = this.props.robots;
     let models = this.props.currentRobots;
 
     if (loadError) {
@@ -77,12 +77,12 @@ class RobotIndexActions extends ShallowComponent {
       onClick={_limit => this.setLimit(_limit)}
     />;
     let sortBy = <SortBy
-      options={["+name", "-name"]} current={sorts[0]}
+      options={["+name", "-name"]} current={sorts && sorts[0]}
       makeHref={_sorts => this.showSorts(_sorts)}
       onClick={_sorts => this.setSorts(_sorts)}
     />;
     let filterBy = <FilterBy field="manufacturer"
-      options={[undefined, "China", "Russia", "USA"]} current={filters.manufacturer}
+      options={[undefined, "China", "Russia", "USA"]} current={filters && filters.manufacturer}
       makeHref={_filters => this.showFilters(_filters)}
       onClick={_filters => this.setFilters(_filters)}
     />;

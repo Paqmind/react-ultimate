@@ -1,17 +1,20 @@
 // IMPORTS =========================================================================================
-import {map} from "ramda";
+import {eqDeep, keys, map} from "ramda";
 import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import {toArray} from "shared/helpers/common";
 import {statics} from "frontend/helpers/react";
-import state from "frontend/state";
+import state, {MONSTER} from "frontend/state";
 import modelActions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/simple";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import {Error, Loading, NotFound} from "frontend/components/page";
 import MonsterItem from "./monster-item";
+
+// CURSORS =========================================================================================
+let modelCursor = state.select("monsters");
 
 // COMPONENTS ======================================================================================
 @statics({
@@ -27,7 +30,7 @@ import MonsterItem from "./monster-item";
 })
 export default class MonsterIndex extends DeepComponent {
   render() {
-    let {total, loading, loadError, filters, sorts, offset, limit} = this.props.monsters;
+    let {loading, loadError, filters, sorts, offset, limit, total} = this.props.monsters;
     let models = this.props.currentMonsters;
 
     if (loadError) {

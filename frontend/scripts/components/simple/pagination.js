@@ -16,13 +16,6 @@ export default class Pagination extends ShallowComponent {
     limit: React.PropTypes.number.isRequired,
   }
 
-  constructor(props) {
-    if (!props.route && !props.onClick) {
-      throw new Error("either route or onClick must be set");
-    }
-    super();
-  }
-
   totalPages() {
     return getTotalPages(this.props.total, this.props.limit);
   }
