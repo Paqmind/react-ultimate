@@ -140,9 +140,8 @@ export function unflattenObject(obj) {
 
 export function toObject(array) {
   if (array instanceof Array) {
-    return reduce((object, item) => {
-      object[item.id] = item;
-      return object;
+    return reduce((memo, item) => {
+      return assoc(item.id, item, memo);
     }, {}, array);
   } else {
     throw Error(`array must be plain Array, got ${array}`);

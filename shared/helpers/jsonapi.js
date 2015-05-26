@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import {keys, map, pipe, reduce} from "ramda";
+import {assoc, keys, map, pipe, reduce} from "ramda";
 
 // JSON API ========================================================================================
 export function parseQuery(query) {
@@ -62,10 +62,9 @@ export function formatQueryForAxios(query) {
   let result = {};
 
   if (query.filters) {
-    result = reduce((_result, key) => {
+    result = reduce((memo, key) => {
       let value = query.filters[key];
-      _result[`filter[${key}]`] = value;
-      return _result;
+      return assoc(`filter[${key}]`, value, memo);
     }, result, Object.keys(query.filters));
   }
   if (query.sorts) {
