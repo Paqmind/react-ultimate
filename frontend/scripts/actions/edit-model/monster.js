@@ -46,7 +46,7 @@ export default function edit(model) {
         modelCursor.set("models", models);
 
         // Add alert
-        alertActions.addModel({message: "Action `Monster:editModel` failed: " + loadError.description, category: "error"});
+        alertActions.addModel({message: "Action `Monster:editModel` failed: " + response.statusText, category: "error"});
         return response.status;
       }
     });
