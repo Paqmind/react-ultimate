@@ -11,8 +11,6 @@ let modelCursor = state.select("alerts");
 
 // ACTIONS =========================================================================================
 export default function fetchIndex(filters, sorts, offset, limit) {
-  console.debug("fetchIndex(...)");
-
   let url = `/api/alerts/`;
 
   modelCursor.set("loading", true);

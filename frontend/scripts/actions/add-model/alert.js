@@ -7,8 +7,6 @@ let modelCursor = state.select("alerts");
 
 // ACTIONS =========================================================================================
 export default function addModel(model) {
-  console.debug(`addModel(...)`);
-
   let newModel = Alert(model);
   let id = newModel.id;
 
