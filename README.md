@@ -39,8 +39,8 @@ $ npm start
 
 Development
 ```
-$ npm run nodemon [terminal-1]
-$ npm run dev     [terminal-2]
+$ npm run dev     [terminal #1]
+$ npm run nodemon [terminal #2]
 ```
 
 ## Architecture FAQ

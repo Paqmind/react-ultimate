@@ -19,10 +19,6 @@ window._router = createRouter({
 });
 
 window._router.run((Application, url) => {
-  // you might want to push the state of the router to a
-  // store for whatever reason
-  // RouterActions.routeChange({routerState: state});
-
   console.debug("router.run()");
 
   // SET BAOBAB URL DATA ---------------------------------------------------------------------------
