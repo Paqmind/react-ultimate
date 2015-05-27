@@ -14,10 +14,10 @@ let app = Express();
 app.set("etag", Config.get("http-use-etag"));
 
 // LOGGER ==========================================================================================
-import logger from "backend/logger";
+import logger from "backend/scripts/logger";
 
 // TEMPLATES =======================================================================================
-import templater from "backend/templater";
+import templater from "backend/scripts/templater";
 templater(app);
 
 // MIDDLEWARES =====================================================================================
@@ -38,16 +38,16 @@ app.use(Morgan("dev", {
 }));
 
 import commonRouter from "./routers/common";
-import "backend/actions/common";
+import "backend/scripts/actions/common";
 
 import alertRouter from "./routers/alert";
-import "backend/actions/alert";
+import "backend/scripts/actions/alert";
 
 import robotRouter from "./routers/robot";
-import "backend/actions/robot";
+import "backend/scripts/actions/robot";
 
 import monsterRouter from "./routers/monster";
-import "backend/actions/monster";
+import "backend/scripts/actions/monster";
 
 let staticRouter = Express.static("public", {etag: Config.get("http-use-etag")});
 

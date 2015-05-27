@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import Joi from "joi";
 import {joiOptions} from "shared/helpers/validation";
-import {toSingleMessage} from "backend/helpers";
+import {toSingleMessage} from "backend/scripts/helpers";
 
 // MIDDLEWARES =====================================================================================
 export default function createParseBody(scheme, options=joiOptions) {

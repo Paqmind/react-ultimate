@@ -3,9 +3,9 @@ import {mergeDeep} from "shared/helpers/common";
 import commonValidators from "shared/validators/common";
 import modelValidators from "shared/validators/monster";
 import makeModel from "shared/makers/monster";
-import middlewares from "backend/middlewares";
-import DB from "backend/dbs/monster";
-import router from "backend/routers/monster";
+import middlewares from "backend/scripts/middlewares";
+import DB from "backend/scripts/dbs/monster";
+import router from "backend/scripts/routers/monster";
 
 // ROUTES ==========================================================================================
 router.post("/",

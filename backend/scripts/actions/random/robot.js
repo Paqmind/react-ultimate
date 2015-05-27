@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import makeModel from "shared/makers/robot";
-import middlewares from "backend/middlewares";
-import router from "backend/routers/robot";
+import middlewares from "backend/scripts/middlewares";
+import router from "backend/scripts/routers/robot";
 
 // ROUTES ==========================================================================================
 router.get("/random",

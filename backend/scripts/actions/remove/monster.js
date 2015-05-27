@@ -1,8 +1,8 @@
 // IMPORTS =========================================================================================
 import commonValidators from "shared/validators/common";
-import middlewares from "backend/middlewares";
-import DB from "backend/dbs/monster";
-import router from "backend/routers/monster";
+import middlewares from "backend/scripts/middlewares";
+import DB from "backend/scripts/dbs/monster";
+import router from "backend/scripts/routers/monster";
 
 // ROUTES ==========================================================================================
 router.delete("/:id",

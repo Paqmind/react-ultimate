@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import makeModel from "shared/makers/monster";
-import middlewares from "backend/middlewares";
-import router from "backend/routers/monster";
+import middlewares from "backend/scripts/middlewares";
+import router from "backend/scripts/routers/monster";
 
 // ROUTES ==========================================================================================
 router.get("/random",

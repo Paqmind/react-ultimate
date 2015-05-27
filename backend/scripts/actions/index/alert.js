@@ -2,9 +2,9 @@
 import {keys, values} from "ramda";
 import {filterByAll, sortByAll} from "shared/helpers/common";
 import commonValidators from "shared/validators/common";
-import middlewares from "backend/middlewares";
-import DB from "backend/dbs/alert";
-import router from "backend/routers/alert";
+import middlewares from "backend/scripts/middlewares";
+import DB from "backend/scripts/dbs/alert";
+import router from "backend/scripts/routers/alert";
 
 // ROUTES ==========================================================================================
 router.get("/",
