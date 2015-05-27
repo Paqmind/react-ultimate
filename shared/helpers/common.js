@@ -9,52 +9,6 @@ export const mergeDeep = DeepMerge((a, b, key) => {
   return b;
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-export function filter2(fn, array) {
-  if (array === undefined) {
-    return filter2.bind(null, fn);
-  } else {
-    let filterer = (v => v === undefined || fn(v));
-    return filter(filterer, array);
-  }
-}
-
-export function sortBy2(fn, asc=undefined, array=undefined) {
-  if (asc === undefined && array === undefined) {
-    return sortBy2.bind(null, fn);
-  }
-  else if (array === undefined) {
-    return sortBy2.bind(null, fn, asc);
-  } else {
-    // 1. Group array by threshold value (undefined)
-    let groupedArray = reduceIndexed((memo, v, i) => {
-      if (v === undefined) {
-        memo.push(v);
-      } else {
-        if (memo[memo.length - 1] && memo[memo.length - 1].length) {
-          memo[memo.length - 1].push(v);
-        } else {
-          memo.push([v]);
-        }
-      }
-      return memo;
-    }, [], array);
-
-    // 2. Sort each group
-    let sortedGroupedArray = reduceIndexed((memo, v, i) => {
-      if (v === undefined) {
-        memo.push(v);
-      } else {
-        let vs = sortBy(fn, v);
-        memo.push(asc ? vs : reverse(vs));
-      }
-      return memo;
-    }, [], groupedArray);
-
-    // 3. Flatten
-    return flatten(sortedGroupedArray);
-  }
-}
-
 /**
  * Split array into chunks with predefined chunk length. Useful for pagination.
  * Example:
@@ -91,7 +45,7 @@ export function filterByAll(filters, data) {
   } else {
     return reduce((memo, filterKey) => {
       let filterValue = filters[filterKey];
-      let filterer = filter2(d => d && (d[filterKey] == filterValue));
+      let filterer = filter(d => d && (d[filterKey] == filterValue));
       return filterer(memo);
     }, data, keys(filters));
   }
@@ -112,11 +66,11 @@ export function sortByAll(sorts, data) {
     return reduce((memo, sort) => {
       let sorter;
       if (sort.startsWith("-")) {
-        sorter = sortBy2(prop(sort.slice(1)), false);
+        sorter = pipe(sortBy(prop(sort.slice(1))), reverse);
       } else if (sort.startsWith("+") || sort.startsWith(" ")) {
-        sorter = sortBy2(prop(sort.slice(1)), true);
+        sorter = sortBy(prop(sort.slice(1)));
       } else {
-        sorter = sortBy2(prop(sort), true);
+        sorter = sortBy(prop(sort), true);
       }
       return sorter(memo);
     }, data, reverse(sorts));
