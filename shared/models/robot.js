@@ -7,7 +7,12 @@ import {joiValidate} from "shared/helpers/validation";
 import validators from "shared/validators/robot";
 
 // MODELS ==========================================================================================
-export default function Robot(data) {
+export default function Robot(data={}) {
+  // Default values
+  data = mergeDeep({
+    id: UUID.v4(),
+  }, data);
+
   // Convert and validate
   let [model, errors] = joiValidate(data, validators.model);
   if (Object.keys(errors).length) {
@@ -16,10 +21,5 @@ export default function Robot(data) {
     throw Error(`invalid Robot data, errors: ${errorArr.join(", ")}`);
   }
 
-  //model.assemblyDate = Moment(model.assemblyDate);
-
-  // Merge with default values
-  return mergeDeep({
-    id: UUID.v4(),
-  }, model);
+  return model;
 }

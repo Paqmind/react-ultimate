@@ -7,7 +7,15 @@ import {joiValidate} from "shared/helpers/validation";
 import validators from "shared/validators/alert";
 
 // MODELS ==========================================================================================
-export default function Alert(data) {
+export default function Alert(data={}) {
+  // Default values
+  data = mergeDeep({
+    id: UUID.v4(),
+    closable: true,
+    expire: data.category == "error" ? 0 : 4000,
+    createdDate: data.createdDate ? data.createdDate : new Date()
+  }, data);
+
   // Convert and validate
   let [model, errors] = joiValidate(data, validators.model);
   if (Object.keys(errors).length) {
@@ -16,10 +24,5 @@ export default function Alert(data) {
     throw Error(`invalid Alert data, errors: ${errorArr.join(", ")}`);
   }
 
-  return mergeDeep({
-    id: UUID.v4(),
-    closable: true,
-    expire: data.category == "error" ? 0 : 4000,
-    createdDate: data.createdDate ? data.createdDate : new Date()
-  }, data);
+  return model;
 }

@@ -7,7 +7,12 @@ import {joiValidate} from "shared/helpers/validation";
 import validators from "shared/validators/monster";
 
 // MODELS ==========================================================================================
-export default function Monster(data) {
+export default function Monster(data={}) {
+  // Default values
+  data = mergeDeep({
+    id: UUID.v4(),
+  }, data);
+
   // Convert and validate
   let [model, errors] = joiValidate(data, validators.model);
   if (Object.keys(errors).length) {
@@ -16,10 +21,5 @@ export default function Monster(data) {
     throw Error(`invalid Monster data, errors: ${errorArr.join(", ")}`);
   }
 
-  //model.birthDate = Moment(model.birthDate);
-
-  // Merge with default values
-  return mergeDeep({
-    id: UUID.v4(),
-  }, model);
+  return model;
 }
