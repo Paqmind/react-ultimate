@@ -8,7 +8,7 @@ import React from "react";
 import {flattenObject, unflattenObject} from "shared/helpers/common";
 import {joiValidate} from "shared/helpers/validation";
 import robotValidators from "shared/validators/robot";
-import {ShallowComponent, DeepComponent} from "frontend/components/simple";
+import {ShallowComponent, DeepComponent} from "frontend/scripts/components/simple";
 
 // COMPONENTS ======================================================================================
 /**

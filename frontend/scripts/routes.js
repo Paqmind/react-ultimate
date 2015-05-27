@@ -3,14 +3,14 @@ import React from "react";
 
 // Eager Components
 import {Route, DefaultRoute, NotFoundRoute} from "react-router";
-import {Body, About, Tech, Credits, NotFound} from "frontend/components/page";
+import {Body, About, Tech, Credits, NotFound} from "frontend/scripts/components/page";
 
 // Lazy Components
-//import {RobotIndex, RobotAdd, RobotDetail, RobotEdit} from "react-proxy!frontend/components/model/robot";
-//import {MonsterIndex, MonsterAdd, MonsterDetail, MonsterEdit} from "react-proxy!frontend/components/model/monster";
+//import {RobotIndex, RobotAdd, RobotDetail, RobotEdit} from "react-proxy!frontend/scripts/components/model/robot";
+//import {MonsterIndex, MonsterAdd, MonsterDetail, MonsterEdit} from "react-proxy!frontend/scripts/components/model/monster";
 // Not compatible. Check for React-Router to allow metadata passing!
-import {RobotIndex, RobotAdd, RobotDetail, RobotEdit} from "frontend/components/model/robot";
-import {MonsterIndex, MonsterAdd, MonsterDetail, MonsterEdit} from "frontend/components/model/monster";
+import {RobotIndex, RobotAdd, RobotDetail, RobotEdit} from "frontend/scripts/components/model/robot";
+import {MonsterIndex, MonsterAdd, MonsterDetail, MonsterEdit} from "frontend/scripts/components/model/monster";
 
 // ROUTES ==========================================================================================
 export default (

@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import {eqDeep, filter} from "ramda";
-import state, {ROBOT} from "frontend/state";
-import loadIndex from "frontend/actions/load-index/robot";
+import state, {ROBOT} from "frontend/scripts/state";
+import loadIndex from "frontend/scripts/actions/load-index/robot";
 
 // ACTIONS =========================================================================================
 export default function establishIndex() {

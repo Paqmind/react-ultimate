@@ -2,7 +2,7 @@
 import {mapIndexed} from "ramda";
 import Class from "classnames";
 import React from "react";
-import {ShallowComponent, IndexLink} from "frontend/components/simple";
+import {ShallowComponent, IndexLink} from "frontend/scripts/components/simple";
 
 // COMPONENTS ======================================================================================
 export default class FilterBy extends ShallowComponent {

@@ -1,9 +1,9 @@
 // IMPORTS =========================================================================================
+import {filter} from "ramda";
 import Axios from "axios";
-import {recalculatePaginationWithoutModel} from "frontend/helpers/pagination";
-import state from "frontend/state";
-import {indexRouter} from "frontend/router";
-import alertActions from "frontend/actions/alert";
+import state from "frontend/scripts/state";
+import {indexRouter} from "frontend/scripts/router";
+import alertActions from "frontend/scripts/actions/alert";
 import {handleInvalidOffset} from "../load-index/robot";
 import fetchIndex from "../fetch-index/robot";
 

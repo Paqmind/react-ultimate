@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import router from "backend/routers/common";
+import router from "backend/scripts/routers/common";
 
 // ROUTES ==========================================================================================
 router.get("*", function (req, res, cb) {

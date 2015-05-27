@@ -8,11 +8,11 @@ import DocumentTitle from "react-document-title";
 import {parseString, parseInteger, parseFloat, parseDate} from "shared/converters";
 import {formatString, formatInteger, formatFloat, formatDate} from "shared/converters";
 import modelValidators from "shared/validators/monster";
-import {statics} from "frontend/helpers/react";
-import modelActions from "frontend/actions/monster";
-import {ShallowComponent, DeepComponent, ModelLink} from "frontend/components/simple";
-import {Error, Loading, NotFound} from "frontend/components/page";
-import {Form} from "frontend/components/form";
+import {statics} from "frontend/scripts/helpers/react";
+import modelActions from "frontend/scripts/actions/monster";
+import {ShallowComponent, DeepComponent, ModelLink} from "frontend/scripts/components/simple";
+import {Error, Loading, NotFound} from "frontend/scripts/components/page";
+import {Form} from "frontend/scripts/components/form";
 
 // COMPONENTS ======================================================================================
 @statics({

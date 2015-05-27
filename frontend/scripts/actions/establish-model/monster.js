@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
-import state from "frontend/state";
-import loadModel from "frontend/actions/load-model/monster";
+import state from "frontend/scripts/state";
+import loadModel from "frontend/scripts/actions/load-model/monster";
 
 // ACTIONS =========================================================================================
 export default function establishModel() {

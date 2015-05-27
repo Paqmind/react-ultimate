@@ -1,4 +1,5 @@
 // IMPORTS =========================================================================================
+// Scripts
 import "babel/polyfill";
 import {filter, keys, map, pipe} from "ramda";
 import React from "react";
@@ -8,9 +9,12 @@ import {normalize, flattenArrayObject} from "shared/helpers/common";
 import {parseQuery} from "shared/helpers/jsonapi";
 import {joiValidate} from "shared/helpers/validation";
 import commonValidators from "shared/validators/common";
-import state from "frontend/state";
-import routes from "frontend/routes";
-import alertActions from "frontend/actions/alert";
+import state from "frontend/scripts/state";
+import routes from "frontend/scripts/routes";
+import alertActions from "frontend/scripts/actions/alert";
+
+// Styles
+import "frontend/styles/theme.less";
 
 // APP =============================================================================================
 window._router = createRouter({

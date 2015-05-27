@@ -5,12 +5,12 @@ import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import {toArray} from "shared/helpers/common";
-import {statics} from "frontend/helpers/react";
-import state, {MONSTER} from "frontend/state";
-import modelActions from "frontend/actions/monster";
-import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/simple";
-import {FilterBy, SortBy, PerPage} from "frontend/components/form";
-import {Error, Loading, NotFound} from "frontend/components/page";
+import {statics} from "frontend/scripts/helpers/react";
+import state, {MONSTER} from "frontend/scripts/state";
+import modelActions from "frontend/scripts/actions/monster";
+import {ShallowComponent, DeepComponent, Pagination} from "frontend/scripts/components/simple";
+import {FilterBy, SortBy, PerPage} from "frontend/scripts/components/form";
+import {Error, Loading, NotFound} from "frontend/scripts/components/page";
 import MonsterItem from "./monster-item";
 
 // CURSORS =========================================================================================

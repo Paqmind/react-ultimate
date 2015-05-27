@@ -3,10 +3,10 @@ import {root} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import {RouteHandler} from "react-router";
-import state from "frontend/state";
-import {Component, Menu, Headroom, Footer} from "frontend/components/simple";
-import alertActions from "frontend/actions/alert";
-import AlertIndex from "frontend/components/model/alert-index";
+import state from "frontend/scripts/state";
+import {Component, Menu, Headroom, Footer} from "frontend/scripts/components/simple";
+import alertActions from "frontend/scripts/actions/alert";
+import AlertIndex from "frontend/scripts/components/model/alert-index";
 
 // BODY ============================================================================================
 @root(state)

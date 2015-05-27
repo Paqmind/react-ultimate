@@ -1,10 +1,10 @@
 // IMPORTS =========================================================================================
+import {append} from "ramda";
 import Axios from "axios";
 import Monster from "shared/models/monster";
-import {recalculatePaginationWithModel} from "frontend/helpers/pagination";
-import state from "frontend/state";
-import {router} from "frontend/router";
-import alertActions from "frontend/actions/alert";
+import state from "frontend/scripts/state";
+import {router} from "frontend/scripts/router";
+import alertActions from "frontend/scripts/actions/alert";
 
 // CURSORS =========================================================================================
 let modelCursor = state.select("monsters");

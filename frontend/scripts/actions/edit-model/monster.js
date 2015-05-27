@@ -1,8 +1,8 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
 import Monster from "shared/models/monster";
-import state from "frontend/state";
-import alertActions from "frontend/actions/alert";
+import state from "frontend/scripts/state";
+import alertActions from "frontend/scripts/actions/alert";
 
 // CURSORS =========================================================================================
 let modelCursor = state.select("monsters");

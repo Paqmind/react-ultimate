@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import state from "frontend/state";
+import state from "frontend/scripts/state";
 
 // CURSORS =========================================================================================
 let urlCursor = state.select("url");

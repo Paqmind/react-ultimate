@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import React from "react";
 import ReactRouter from "react-router";
-import state from "frontend/state";
+import state from "frontend/scripts/state";
 import {mergeDeep} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
 import {Component} from "./component";

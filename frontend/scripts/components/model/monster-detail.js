@@ -3,11 +3,11 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
-import {statics} from "frontend/helpers/react";
-import state from "frontend/state";
-import modelActions from "frontend/actions/monster";
-import {ShallowComponent, DeepComponent, ModelLink} from "frontend/components/simple";
-import {Error, Loading, NotFound} from "frontend/components/page";
+import {statics} from "frontend/scripts/helpers/react";
+import state from "frontend/scripts/state";
+import modelActions from "frontend/scripts/actions/monster";
+import {ShallowComponent, DeepComponent, ModelLink} from "frontend/scripts/components/simple";
+import {Error, Loading, NotFound} from "frontend/scripts/components/page";
 
 // COMPONENTS ======================================================================================
 @statics({

@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
-import {Alert} from "shared/models/alert";
-import state from "frontend/state";
+import Alert from "shared/models/alert";
+import state from "frontend/scripts/state";
 
 // CURSORS =========================================================================================
 let modelCursor = state.select("alerts");

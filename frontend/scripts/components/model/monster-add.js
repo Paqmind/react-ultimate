@@ -6,11 +6,11 @@ import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import modelValidators from "shared/validators/monster";
-import {statics} from "frontend/helpers/react";
-import modelActions from "frontend/actions/monster";
-import {ShallowComponent, DeepComponent} from "frontend/components/simple";
-import {Error, Loading, NotFound} from "frontend/components/page";
-import {Form} from "frontend/components/form";
+import {statics} from "frontend/scripts/helpers/react";
+import modelActions from "frontend/scripts/actions/monster";
+import {ShallowComponent, DeepComponent} from "frontend/scripts/components/simple";
+import {Error, Loading, NotFound} from "frontend/scripts/components/page";
+import {Form} from "frontend/scripts/components/form";
 
 // COMPONENTS ======================================================================================
 @statics({

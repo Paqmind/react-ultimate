@@ -1,8 +1,8 @@
 // IMPORTS =========================================================================================
 import React from "react";
 import DocumentTitle from "react-document-title";
-import {Component} from "frontend/components/simple";
-import {TextHolder} from "frontend/helpers/typography";
+import {Component} from "frontend/scripts/components/simple";
+import {TextHolder} from "frontend/scripts/helpers/typography";
 
 // EXPORTS =========================================================================================
 export default class Tech extends Component {

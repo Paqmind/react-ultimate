@@ -1,9 +1,9 @@
 // IMPORTS =========================================================================================
 import {filter, slice} from "ramda";
 import Axios from "axios";
-import {inCache, getTotalPages, recommendOffset} from "frontend/helpers/pagination";
-import state from "frontend/state";
-import fetchIndex from "frontend/actions/fetch-index/monster";
+import {inCache, getTotalPages, recommendOffset} from "frontend/scripts/helpers/pagination";
+import state from "frontend/scripts/state";
+import fetchIndex from "frontend/scripts/actions/fetch-index/monster";
 
 // CURSORS =========================================================================================
 let modelCursor = state.select("monsters");

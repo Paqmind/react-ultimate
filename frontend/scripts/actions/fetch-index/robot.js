@@ -4,8 +4,8 @@ import Axios from "axios";
 import {toObject, mergeDeep} from "shared/helpers/common";
 import {formatQueryForAxios} from "shared/helpers/jsonapi";
 import Robot from "shared/models/robot";
-import state from "frontend/state";
-import alertActions from "frontend/actions/alert";
+import state from "frontend/scripts/state";
+import alertActions from "frontend/scripts/actions/alert";
 
 // CURSORS =========================================================================================
 let modelCursor = state.select("robots");

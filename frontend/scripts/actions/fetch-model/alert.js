@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
-import state from "frontend/state";
+import state from "frontend/scripts/state";
 
 // CURSORS =========================================================================================
 let modelCursor = state.select("alerts");

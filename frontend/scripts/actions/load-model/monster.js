@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import Axios from "axios";
-import state from "frontend/state";
-import fetchModel from "frontend/actions/fetch-model/monster";
+import state from "frontend/scripts/state";
+import fetchModel from "frontend/scripts/actions/fetch-model/monster";
 
 // CURSORS
 let modelCursor = state.select("monsters");

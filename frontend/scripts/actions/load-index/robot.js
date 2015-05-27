@@ -1,10 +1,10 @@
 // IMPORTS =========================================================================================
 import {filter, slice} from "ramda";
 import Axios from "axios";
-import {inCache, getTotalPages, recommendOffset} from "frontend/helpers/pagination";
-import state from "frontend/state";
-import {indexRouter} from "frontend/router";
-import fetchIndex from "frontend/actions/fetch-index/robot";
+import {inCache, getTotalPages, recommendOffset} from "frontend/scripts/helpers/pagination";
+import state from "frontend/scripts/state";
+import {indexRouter} from "frontend/scripts/router";
+import fetchIndex from "frontend/scripts/actions/fetch-index/robot";
 
 // CURSORS =========================================================================================
 let modelCursor = state.select("robots");
