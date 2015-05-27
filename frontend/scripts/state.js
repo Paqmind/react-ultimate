@@ -1,5 +1,5 @@
 // IMPORTS =========================================================================================
-import {filter, find, keys, map, pipe, propEq, slice, sortBy, tap, values} from "ramda";
+import {filter, find, identity, keys, map, pipe, propEq, slice, sortBy, tap, values} from "ramda";
 import Baobab from "baobab";
 import {flattenArrayObject, filterByAll, sortByAll} from "shared/helpers/common";
 import {parseQuery} from "shared/helpers/jsonapi";
@@ -100,7 +100,7 @@ window._state = new Baobab(
       //    query: ["url", "query"],
       //  },
       //
-      //  get: function (data) {
+      //  get(data) {
       //    let query = data.query;
       //
       //    // Parse and validate URL Query
@@ -127,7 +127,7 @@ window._state = new Baobab(
           url: ["url"],
         },
 
-        get: function (data) {
+        get(data) {
           return {
             name: undefined,
             //assemblyDate: undefined,
@@ -142,7 +142,7 @@ window._state = new Baobab(
           url: ["url"],
         },
 
-        get: function (data) {
+        get(data) {
           return {
             name: undefined,
             //birthDate: undefined,
@@ -151,12 +151,50 @@ window._state = new Baobab(
         }
       },
 
+      allRobotsAreLoaded: {
+        cursors: {
+          total: ["robots", "total"],
+          pagination: ["robots", "pagination"],
+        },
+
+        get(data) {
+          let {total, pagination} = data;
+          let loaded = filter(id => id, pagination).length;
+          if (loaded < total) {
+            return false;
+          } else if (loaded == total) {
+            return true;
+          } else {
+            throw Error(`invalid total ${total}`);
+          }
+        }
+      },
+
+      allMonstersAreLoaded: {
+        cursors: {
+          total: ["monsters", "total"],
+          pagination: ["monsters", "pagination"],
+        },
+
+        get(data) {
+          let {total, pagination} = data;
+          let loaded = filter(id => id, pagination).length;
+          if (loaded < total) {
+            return false;
+          } else if (loaded == total) {
+            return true;
+          } else {
+            throw Error(`invalid total ${total}`);
+          }
+        }
+      },
+
       currentRobot: {
         cursors: {
           robots: "robots",
         },
 
-        get: function (data) {
+        get(data) {
           let {models, id} = data.robots;
           if (id) {
             return models[id];
@@ -171,7 +209,7 @@ window._state = new Baobab(
           monsters: "monsters",
         },
 
-        get: function (data) {
+        get(data) {
           let {models, id} = data.monsters;
           if (id) {
             return models[id];
@@ -186,7 +224,7 @@ window._state = new Baobab(
           alerts: "alerts",
         },
 
-        get: function (data) {
+        get(data) {
           let {models} = data.alerts;
           let modelsArray = values(models);
           if (modelsArray.length) {
@@ -202,12 +240,17 @@ window._state = new Baobab(
           robots: "robots",
         },
 
-        get: function (data) {
-          let {filters, sorts, offset, limit, models, pagination} = data.robots;
+        facets: {
+          allModelsAreLoaded: "allRobotsAreLoaded",
+        },
+
+        get(data) {
+          let {robots, allModelsAreLoaded} = data;
+          let {filters, sorts, offset, limit, models, pagination} = robots;
           let modelsArray = map(id => id && models[id], pagination);
           return pipe(
-            filterByAll(filters),
-            sortByAll(sorts),
+            allModelsAreLoaded ? filterByAll(filters) : identity,
+            allModelsAreLoaded ? sortByAll(sorts) : identity,
             slice(offset, offset + limit),
             filter(m => m)
           )(modelsArray);
@@ -219,12 +262,17 @@ window._state = new Baobab(
           monsters: "monsters",
         },
 
-        get: function (data) {
-          let {filters, sorts, offset, limit, models, pagination} = data.monsters;
+        facets: {
+          allModelsAreLoaded: "allMonstersAreLoaded",
+        },
+
+        get(data) {
+          let {monsters, allModelsAreLoaded} = data;
+          let {filters, sorts, offset, limit, models, pagination} = monsters;
           let modelsArray = map(id => id && models[id], pagination);
           return pipe(
-            filterByAll(filters),
-            sortByAll(sorts),
+            allModelsAreLoaded ? filterByAll(filters) : identity,
+            allModelsAreLoaded ? sortByAll(sorts) : identity,
             slice(offset, offset + limit),
             filter(m => m)
           )(modelsArray);
