@@ -18,11 +18,11 @@ export default function establishIndex() {
   let models = modelCursor.get("models");
   let total = modelCursor.get("total");
   let pagination = modelCursor.get("pagination");
-  let allRobotsAreLoaded = state.facets.allRobotsAreLoaded;
+  let allModelsAreLoaded = state.facets.allRobotsAreLoaded.get();
 
   if (!eqDeep(urlFilters || ROBOT.FILTERS, filters)) {
     modelCursor.set("filters", urlFilters || ROBOT.FILTERS);
-    if (true || !allRobotsAreLoaded.get()) {
+    if (true || !allModelsAreLoaded) {
       /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
       // Pagination is messed up, do reset
       modelCursor.set("pagination", []);
@@ -31,7 +31,7 @@ export default function establishIndex() {
   }
   if (!eqDeep(urlSorts || ROBOT.SORTS, sorts)) {
     modelCursor.set("sorts", urlSorts || ROBOT.SORTS);
-    if (!allRobotsAreLoaded.get()) {
+    if (!allModelsAreLoaded) {
       // Pagination is messed up, do reset
       modelCursor.set("pagination", []);
       modelCursor.set("total", 0);

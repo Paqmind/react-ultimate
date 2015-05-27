@@ -7,7 +7,7 @@ export default function establishModel() {
   console.debug("establishModel");
 
   let urlCursor = state.select("url");
-  let modelCursor = state.select("monsters");
+  let modelCursor = state.select("robots");
   if (urlCursor.get("id") != modelCursor.get("id")) {
     modelCursor.set("id", urlCursor.get("id"));
   }

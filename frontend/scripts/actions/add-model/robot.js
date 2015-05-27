@@ -22,12 +22,22 @@ export default function addModel(model) {
   let total = modelCursor.get("total");
   let models = modelCursor.get("models");
   let pagination = modelCursor.get("pagination");
+  let allModelsAreLoaded = state.facets.allRobotsAreLoaded.get();
 
   // Optimistic action
   modelCursor.set("loading", true);
   modelCursor.set("total", total + 1);
-  modelCursor.set("pagination", recalculatePaginationWithModel(filters, sorts, models, pagination, id));
   modelCursor.select("models").set(id, newModel);
+  if (allModelsAreLoaded) {
+    // Inject new id at whatever place
+    modelCursor.apply("pagination", pagination => {
+      return append(id, pagination);
+    });
+  } else {
+    // Pagination is messed up, do reset
+    modelCursor.set("pagination", []);
+    modelCursor.set("total", 0);
+  }
 
   let newTotal = modelCursor.get("total");
   let newModels = modelCursor.get("models");
