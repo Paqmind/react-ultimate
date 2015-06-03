@@ -9,7 +9,7 @@ export default {
 
   // Entry files http://webpack.github.io/docs/configuration.html#entry
   entry: {
-    main: "./frontend/scripts/app",
+    main: "./frontend/app",
   },
 
   // Output files http://webpack.github.io/docs/configuration.html#output
@@ -59,6 +59,7 @@ export default {
       {test: /\.(txt(\?.*)?)$/, loaders: ["raw"]},
 
       // URL
+      // https://github.com/webpack/url-loader
       {test: /\.(jpg(\?.*)?)$/,   loaders: ["url?limit=10000"]},
       {test: /\.(jpeg(\?.*)?)$/,  loaders: ["url?limit=10000"]},
       {test: /\.(png(\?.*)?)$/,   loaders: ["url?limit=10000"]},
@@ -68,6 +69,7 @@ export default {
       {test: /\.(woff2(\?.*)?)$/, loaders: ["url?limit=100000"]},
 
       // FILE
+      // https://github.com/webpack/file-loader
       {test: /\.(ttf(\?.*)?)$/, loaders: ["file"]},
       {test: /\.(eot(\?.*)?)$/, loaders: ["file"]},
       {test: /\.(wav(\?.*)?)$/, loaders: ["file"]},
@@ -80,6 +82,7 @@ export default {
       {test: /\.(md(\?.*)?)$/, loaders: ["html", "markdown"]},
 
       // CSS
+      // https://github.com/webpack/css-loader
       {test: /\.(css(\?.*)?)$/, loaders: ["style", "css"]},
 
       // LESS

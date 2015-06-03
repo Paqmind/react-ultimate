@@ -1,0 +1,17 @@
+html {
+  position: relative;
+  min-height: 100%;
+  overflow-y: scroll;
+  @media (max-width: @screen-sm-min) {
+    overflow-y: auto;
+  }
+}
+
+body {
+  padding-top: @header-height;
+  padding-bottom: @footer-height;
+}
+
+#main {
+  padding-bottom: @line-height-computed;
+}

@@ -10,7 +10,7 @@ export default {
 
   // Entry files http://webpack.github.io/docs/configuration.html#entry
   entry: {
-    main: "./frontend/scripts/app",
+    main: "./frontend/app",
   },
 
   // Output files http://webpack.github.io/docs/configuration.html#output
