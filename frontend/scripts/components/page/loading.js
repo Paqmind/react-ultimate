@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import React from "react";
 import DocumentTitle from "react-document-title";
-import {Component} from "frontend/scripts/components/simple";
+import {Component} from "frontend/scripts/components/component";
 
 // EXPORTS =========================================================================================
 export default class Loading extends Component {

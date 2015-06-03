@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import {filter} from "ramda";
 import React from "react";
-import {Component} from "frontend/scripts/components/simple";
+import {Component} from "frontend/scripts/components/component";
 
 // EXPORTS =========================================================================================
 export class TextHolder extends Component {

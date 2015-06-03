@@ -8,7 +8,7 @@ import DocumentTitle from "react-document-title";
 import modelValidators from "shared/validators/monster";
 import {statics} from "frontend/scripts/helpers/react";
 import modelActions from "frontend/scripts/actions/monster";
-import {ShallowComponent, DeepComponent} from "frontend/scripts/components/simple";
+import {ShallowComponent} from "frontend/scripts/components/component";
 import {Error, Loading, NotFound} from "frontend/scripts/components/page";
 import {Form} from "frontend/scripts/components/form";
 

@@ -4,8 +4,11 @@ import React from "react";
 import {Link} from "react-router";
 import {RouteHandler} from "react-router";
 import state from "frontend/scripts/state";
-import {Component, Menu, Headroom, Footer} from "frontend/scripts/components/simple";
 import alertActions from "frontend/scripts/actions/alert";
+import {Component} from "frontend/scripts/components/component";
+import Menu from "frontend/scripts/components/menu";
+import Headroom from "frontend/scripts/components/headroom";
+import Footer from "frontend/scripts/components/footer";
 import AlertIndex from "frontend/scripts/components/model/alert-index";
 
 // BODY ============================================================================================

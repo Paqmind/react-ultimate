@@ -3,7 +3,7 @@ import classNames from "classnames";
 import React from "react";
 import {Link} from "react-router";
 import alertActions from "frontend/scripts/actions/alert";
-import {ShallowComponent} from "frontend/scripts/components/simple";
+import {ShallowComponent} from "frontend/scripts/components/component";
 
 // EXPORTS =========================================================================================
 class CloseLink extends ShallowComponent {

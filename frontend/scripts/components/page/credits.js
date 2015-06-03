@@ -1,8 +1,8 @@
 // IMPORTS =========================================================================================
 import React from "react";
 import DocumentTitle from "react-document-title";
-import {Component} from "frontend/scripts/components/simple";
-import {TextHolder} from "frontend/scripts/helpers/typography";
+import {Component} from "frontend/scripts/components/component";
+import {TextHolder} from "frontend/scripts/components/typography";
 
 // EXPORTS =========================================================================================
 export default class Credits extends Component {

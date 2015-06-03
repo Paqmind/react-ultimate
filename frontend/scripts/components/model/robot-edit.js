@@ -11,7 +11,8 @@ import {formatString, formatInteger, formatFloat, formatDate} from "shared/conve
 import modelValidators from "shared/validators/robot";
 import {statics} from "frontend/scripts/helpers/react";
 import modelActions from "frontend/scripts/actions/robot";
-import {ShallowComponent, DeepComponent, ModelLink} from "frontend/scripts/components/simple";
+import {DeepComponent} from "frontend/scripts/components/component";
+import {ModelLink} from "frontend/scripts/components/link";
 import {Error, Loading, NotFound} from "frontend/scripts/components/page";
 import {Form} from "frontend/scripts/components/form";
 
