@@ -50,7 +50,7 @@ export default class Body extends Component {
     let headroomClassNames = {visible: "navbar-down", hidden: "navbar-up"};
     return (
       <div>
-         <Headroom component="header" id="header" className="navbar navbar-default" headroomClassNames={headroomClassNames}>
+        <Headroom component="header" id="header" className="navbar navbar-default" headroomClassNames={headroomClassNames}>
           <div className="container">
             <div className="navbar-header">
               <button className="navbar-toggle collapsed" type="button" data-target=".navbar-page-header" onClick={this.onClickOnNavbarToggle}>
