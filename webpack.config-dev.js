@@ -3,6 +3,8 @@ import Path from "path";
 import Webpack from "webpack";
 
 // CONFIG ==========================================================================================
+const autoprefixer = "autoprefixer?{browsers: ['> 5%']}";
+
 export default {
   // Compilation target http://webpack.github.io/docs/configuration.html#target
   target: "web",
@@ -80,10 +82,10 @@ export default {
       {test: /\.(md(\?.*)?)$/, loaders: ["html", "markdown"]},
 
       // CSS
-      {test: /\.(css(\?.*)?)$/, loaders: ["style", "css"]},
+      {test: /\.(css(\?.*)?)$/, loaders: ["style", "css", autoprefixer]},
 
       // LESS
-      {test: /\.(less(\?.*)?)$/, loaders: ["style", "css", "less"]},
+      {test: /\.(less(\?.*)?)$/, loaders: ["style", "css", autoprefixer, "less"]},
     ],
   },
 
@@ -150,5 +152,9 @@ export default {
     // Required to include Joi
     net: "empty",
     dns: "empty",
-  }
+  },
+
+  //postcss: [
+  //  autoprefixer({ browsers: ["> 5%"] })
+  //],
 };
