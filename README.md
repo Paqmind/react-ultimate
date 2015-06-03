@@ -51,19 +51,26 @@ TodoApps have similar issues: very specific, single page only, unrealistic model
 no backend, no validation, no users, etc. We want to approach this differently – provide application
 which is closer to production (not saying enterprise) level.
 
+### Absolute imports
+
+One of the most annoying NodeJS limitation is the absence of absolute imports. By "absolute" we
+mean imports relative to the project root or some top-level folder.
+
+Your imports look like `import "foo"` for libraries but turn into `import "../../../../foo";` mess for app code.
+It's a well known problem because such statements are very hard to read and support.
+They tend to break every time you move files between folder.
+
+Fortunately absolute imports can be emulated with some amount of twist. The requirement here is to keep IDE navigation and autocompletion features working.
+Script **bin/install** add symlinks for every project entry point like `frontend` or `backend` in **node_modules**.
+Browserify require to keep `package.json` for every such entrypoint but Webpack is free of this limitation.
+
+This project is 100% relative-imports free. 
+
 ### Flux vs Baobab
 
 We don't use Flux. Check [this](https://github.com/acdlite/flummox/issues/63) and
 [this](http://christianalfoni.github.io/javascript/2015/02/06/plant-a-baobab-tree-in-your-flux-application.html)
 for a shallow answer to *why*.
-
-### Relative imports
-
-One of the NodeJS biggest fails – the absence of relative imports. Fortunately they can be emulated with
-some amount of twist. The requirement here is to keep IDE navigation and autocompletion features working.
-Script **bin/linkfolders** symlinks application entry points in **node_modules**. Every such point must contain distinct
-**package.json** to be compatible with Browserify expectations. But now you may replace all those
-ugly, unreadable, unsupportable relative imports with brand shiny absolute.
 
 ### Immutable
 

@@ -1,10 +1,10 @@
 // INDEX
-import fetchIndex from "./fetch-index/alert";
+import fetchIndex from "frontend/scripts/actions/fetch-index/alert";
 
 // CRUD
-import fetchModel from "./fetch-model/alert";
-import addModel from "./add-model/alert";
-import removeModel from "./remove-model/alert";
+import fetchModel from "frontend/scripts/actions/fetch-model/alert";
+import addModel from "frontend/scripts/actions/add-model/alert";
+import removeModel from "frontend/scripts/actions/remove-model/alert";
 
 export default {
   // INDEX

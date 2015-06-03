@@ -1,15 +1,15 @@
 // INDEX
-import establishIndex from "./establish-index/robot";
-import loadIndex from "./load-index/robot";
-import fetchIndex from "./fetch-index/robot";
+import establishIndex from "frontend/scripts/actions/establish-index/robot";
+import loadIndex from "frontend/scripts/actions/load-index/robot";
+import fetchIndex from "frontend/scripts/actions/fetch-index/robot";
 
 // CRUD
-import establishModel from "./establish-model/robot";
-import loadModel from "./load-model/robot";
-import fetchModel from "./fetch-model/robot";
-import addModel from "./add-model/robot";
-import editModel from "./edit-model/robot";
-import removeModel from "./remove-model/robot";
+import establishModel from "frontend/scripts/actions/establish-model/robot";
+import loadModel from "frontend/scripts/actions/load-model/robot";
+import fetchModel from "frontend/scripts/actions/fetch-model/robot";
+import addModel from "frontend/scripts/actions/add-model/robot";
+import editModel from "frontend/scripts/actions/edit-model/robot";
+import removeModel from "frontend/scripts/actions/remove-model/robot";
 
 export default {
   // INDEX

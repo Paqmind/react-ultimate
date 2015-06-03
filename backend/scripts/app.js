@@ -37,16 +37,16 @@ app.use(Morgan("dev", {
   }
 }));
 
-import commonRouter from "./routers/common";
+import commonRouter from "backend/scripts/routers/common";
 import "backend/scripts/actions/common";
 
-import alertRouter from "./routers/alert";
+import alertRouter from "backend/scripts/routers/alert";
 import "backend/scripts/actions/alert";
 
-import robotRouter from "./routers/robot";
+import robotRouter from "backend/scripts/routers/robot";
 import "backend/scripts/actions/robot";
 
-import monsterRouter from "./routers/monster";
+import monsterRouter from "backend/scripts/routers/monster";
 import "backend/scripts/actions/monster";
 
 let staticRouter = Express.static("public", {etag: Config.get("http-use-etag")});

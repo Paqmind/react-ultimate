@@ -13,7 +13,7 @@ import {ShallowComponent, DeepComponent} from "frontend/scripts/components/compo
 import Pagination from "frontend/scripts/components/pagination";
 import {FilterBy, SortBy, PerPage} from "frontend/scripts/components/form";
 import {Error, Loading, NotFound} from "frontend/scripts/components/page";
-import RobotItem from "./robot-item";
+import RobotItem from "frontend/scripts/components/item/robot";
 
 // COMPONENTS ======================================================================================
 @statics({

@@ -3,18 +3,7 @@ import {filter} from "ramda";
 import {shallowCompare, deepCompare} from "frontend/scripts/helpers/react";
 import React from "react";
 
-// HELPERS =========================================================================================
-function getAllMethods(obj) {
-  return filter(key => typeof obj[key] == "function", Object.getOwnPropertyNames(obj));
-}
-
-function autoBind(obj) {
-  getAllMethods(obj.constructor.prototype)
-    .forEach(mtd => {
-      obj[mtd] = obj[mtd].bind(obj);
-    });
-}
-
+// COMPONENTS ======================================================================================
 export class Component extends React.Component {
   constructor(props) {
     super(props);
@@ -30,5 +19,15 @@ export class DeepComponent extends Component {
   shouldComponentUpdate = deepCompare;
 }
 
+// HELPERS =========================================================================================
+function getAllMethods(obj) {
+  return filter(key => typeof obj[key] == "function", Object.getOwnPropertyNames(obj));
+}
 
+function autoBind(obj) {
+  getAllMethods(obj.constructor.prototype)
+    .forEach(mtd => {
+      obj[mtd] = obj[mtd].bind(obj);
+    });
+}
 

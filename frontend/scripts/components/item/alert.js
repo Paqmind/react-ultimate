@@ -3,10 +3,10 @@ import classNames from "classnames";
 import React from "react";
 import {Link} from "react-router";
 import alertActions from "frontend/scripts/actions/alert";
-import {ShallowComponent} from "frontend/scripts/components/component";
+import {Component, ShallowComponent} from "frontend/scripts/components/component";
 
-// EXPORTS =========================================================================================
-class CloseLink extends ShallowComponent {
+// COMPONENTS ======================================================================================
+class CloseLink extends Component {
   handleClick(event) {
     event.preventDefault();
     this.props.onClick();

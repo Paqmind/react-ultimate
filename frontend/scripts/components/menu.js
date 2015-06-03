@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import React from "react";
 import {Link} from "react-router";
-import {Component} from "./component";
+import {Component} from "frontend/scripts/components/component";
 
 // MENU ============================================================================================
 export default class Menu extends Component {

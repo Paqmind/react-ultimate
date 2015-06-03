@@ -9,7 +9,7 @@ import {Component} from "frontend/scripts/components/component";
 import Menu from "frontend/scripts/components/menu";
 import Headroom from "frontend/scripts/components/headroom";
 import Footer from "frontend/scripts/components/footer";
-import AlertIndex from "frontend/scripts/components/model/alert-index";
+import AlertIndex from "frontend/scripts/components/index/alert";
 
 // BODY ============================================================================================
 @root(state)

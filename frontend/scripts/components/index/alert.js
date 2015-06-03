@@ -5,12 +5,12 @@ import React from "react";
 import ReactAddons from "react/addons";
 import {toArray} from "shared/helpers/common";
 import state from "frontend/scripts/state";
+import alertActions from "frontend/scripts/actions/alert";
 import {DeepComponent} from "frontend/scripts/components/component";
 import Error from "frontend/scripts/components/page/error";
 import Loading from "frontend/scripts/components/page/loading";
 import NotFound from "frontend/scripts/components/page/notfound";
-import alertActions from "frontend/scripts/actions/alert";
-import AlertItem from "frontend/scripts/components/model/alert-item";
+import AlertItem from "frontend/scripts/components/item/alert";
 
 // GLOBALS =========================================================================================
 let CSSTransitionGroup = ReactAddons.addons.CSSTransitionGroup;

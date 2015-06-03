@@ -12,7 +12,7 @@ import {ShallowComponent, DeepComponent} from "frontend/scripts/components/compo
 import Pagination from "frontend/scripts/components/pagination";
 import {FilterBy, SortBy, PerPage} from "frontend/scripts/components/form";
 import {Error, Loading, NotFound} from "frontend/scripts/components/page";
-import MonsterItem from "./monster-item";
+import MonsterItem from "frontend/scripts/components/item/monster";
 
 // CURSORS =========================================================================================
 let modelCursor = state.select("monsters");

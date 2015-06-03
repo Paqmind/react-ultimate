@@ -4,7 +4,7 @@ import ReactRouter from "react-router";
 import state from "frontend/scripts/state";
 import {mergeDeep} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
-import {Component} from "./component";
+import {Component} from "frontend/scripts/components/component";
 
 // COMPONENTS ======================================================================================
 export class IndexLink extends Component {
