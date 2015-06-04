@@ -83,10 +83,10 @@ export default {
       {test: /\.(md(\?.*)?)$/, loaders: ["html", "markdown"]},
 
       // CSS
-      {test: /\.(css(\?.*)?)$/, loader: ExtractTextPlugin.extract("style", "css", autoprefixer)},
+      {test: /\.(css(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css!${autoprefixer}`)},
 
       // LESS
-      {test: /\.(less(\?.*)?)$/, loader: ExtractTextPlugin.extract("style", "css", autoprefixer, "less")},
+      {test: /\.(less(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css!${autoprefixer}!less`)},
     ],
   },
 
@@ -114,7 +114,7 @@ export default {
   plugins: [
     new Webpack.NoErrorsPlugin(),
     new Webpack.IgnorePlugin(/^vertx$/),
-    new Webpack.optimize.UglifyJsPlugin(),
+    //new Webpack.optimize.UglifyJsPlugin(),
     new ExtractTextPlugin("bundle.css"), // ?[contenthash]
   ],
 

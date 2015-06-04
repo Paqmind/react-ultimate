@@ -81,10 +81,10 @@ export default {
       {test: /\.(md(\?.*)?)$/, loaders: ["html", "markdown"]},
 
       // CSS
-      {test: /\.(css(\?.*)?)$/, loader: ExtractTextPlugin.extract("style", "css")},
+      {test: /\.(css(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css?sourceMap`)},
 
       // LESS
-      {test: /\.(less(\?.*)?)$/, loader: ExtractTextPlugin.extract("style", "css", "less")},
+      {test: /\.(less(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css?sourceMap!less?sourceMap`)},
     ],
   },
 
