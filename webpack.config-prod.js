@@ -1,11 +1,22 @@
 // IMPORTS =========================================================================================
 import Path from "path";
+import {assoc, map, reduce} from "ramda";
 import Webpack from "webpack";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
 
-// CONFIG ==========================================================================================
+// INITIAL DATA ====================================================================================
+let node_modules = Path.resolve(__dirname, "node_modules");
+
+// Paths to minified library distributions relative to project's node_modules folder
+let minifiedDeps = [
+  //"react/dist/react.min.js",
+  //"react-router/dist/react-router.min.js",
+  "moment/min/moment.min.js",
+];
+
 const autoprefixer = "autoprefixer?{browsers: ['> 5%']}";
 
+// CONFIG ==========================================================================================
 export default {
   // Compilation target http://webpack.github.io/docs/configuration.html#target
   target: "web",
@@ -50,9 +61,13 @@ export default {
 
   // Module http://webpack.github.io/docs/configuration.html#module
   module: {
+    noParse: map(dep => {
+      return Path.resolve(node_modules, dep);
+    }, minifiedDeps),
+
     loaders: [ // http://webpack.github.io/docs/loaders.html
       // JS
-      {test: /\.(js(\?.*)?)$/, loaders: ["babel?stage=0"], exclude: /node_modules/ },
+      {test: /\.(js(\?.*)?)$/, loaders: ["babel?stage=0"], exclude: /node_modules/},
 
       // JSON
       {test: /\.(json(\?.*)?)$/,  loaders: ["json"]},
@@ -97,14 +112,18 @@ export default {
 
     // node_modules and like that
     modulesDirectories: ["web_modules", "node_modules"],
+
+    // ???
+    alias: reduce((memo, dep) => {
+      let depPath = Path.resolve(node_modules, dep);
+      return assoc(dep.split(Path.sep)[0], depPath, memo);
+    }, {}, minifiedDeps),
   },
 
   // Loader resolving http://webpack.github.io/docs/configuration.html#resolveloader
   resolveLoader: {
     // Abs. path with loaders
     root: Path.join(__dirname, "/node_modules"),
-
-    alias: {},
   },
 
   // Keep bundle dependencies http://webpack.github.io/docs/configuration.html#externals
