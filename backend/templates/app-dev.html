@@ -3,6 +3,7 @@
 {% block head %}
   {{ super() }}
   <link rel="dns-prefetch" href="//robohash.org"/>
+  <link href="http://localhost:2992/public/bundle.css" rel="stylesheet"/>
 {% endblock %}
 
 {% block body %}
@@ -13,5 +14,5 @@
 {% block scripts %}
   {{ super() }}
 
-  <script src="http://localhost:2992/public/main.js"></script>
+  <script src="http://localhost:2992/public/bundle.js"></script>
 {% endblock %}

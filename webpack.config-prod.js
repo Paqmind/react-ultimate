@@ -1,9 +1,11 @@
 // IMPORTS =========================================================================================
 import Path from "path";
 import Webpack from "webpack";
-//let ExtractTextPlugin = require("extract-text-webpack-plugin");
+import ExtractTextPlugin from "extract-text-webpack-plugin";
 
 // CONFIG ==========================================================================================
+const autoprefixer = "autoprefixer?{browsers: ['> 5%']}";
+
 export default {
   // Compilation target http://webpack.github.io/docs/configuration.html#target
   target: "web",
@@ -19,7 +21,7 @@ export default {
     path: Path.join(__dirname, "/public"),
 
     // Filename of an entry chunk http://webpack.github.io/docs/configuration.html#output-filename
-    filename: "[name].js?[chunkhash]",
+    filename: "bundle.js?[chunkhash]",
 
     // Web path (used to prefix URLs) http://webpack.github.io/docs/configuration.html#output-publicpath
     publicPath: "/public/",
@@ -81,10 +83,10 @@ export default {
       {test: /\.(md(\?.*)?)$/, loaders: ["html", "markdown"]},
 
       // CSS
-      {test: /\.(css(\?.*)?)$/, loaders: ["style", "css", "autoprefixer"]},
+      {test: /\.(css(\?.*)?)$/, loader: ExtractTextPlugin.extract("style", "css", autoprefixer)},
 
       // LESS
-      {test: /\.(less(\?.*)?)$/, loaders: ["style", "css", "less", "autoprefixer"]}, // loader: ExtractTextPlugin.extract("style-loader", ["css-loader", "less-loader"])},
+      {test: /\.(less(\?.*)?)$/, loader: ExtractTextPlugin.extract("style", "css", autoprefixer, "less")},
     ],
   },
 
@@ -110,9 +112,10 @@ export default {
 
   // Plugins http://webpack.github.io/docs/list-of-plugins.html
   plugins: [
+    new Webpack.NoErrorsPlugin(),
     new Webpack.IgnorePlugin(/^vertx$/),
-  //  new Webpack.IgnorePlugin(/^dns$/),
-  //  new Webpack.IgnorePlugin(/^net$/),
+    new Webpack.optimize.UglifyJsPlugin(),
+    new ExtractTextPlugin("bundle.css"), // ?[contenthash]
   ],
 
   /*plugins: [
@@ -131,16 +134,11 @@ export default {
     },
     //new Webpack.PrefetchPlugin("react"),
     //new Webpack.PrefetchPlugin("react/lib/ReactComponentBrowserEnvironment"),
-    //new Webpack.optimize.CommonsChunkPlugin("commons", "commons.js?[chunkhash]"),
-    //new ExtractTextPlugin("[name].css?[contenthash]"),
-    //new Webpack.optimize.UglifyJsPlugin(),
-    //new Webpack.optimize.DedupePlugin(),
     //new Webpack.DefinePlugin({
     //  "process.env": {
     //    NODE_ENV: JSON.stringify("production")
     //  }
     //}),
-    //new Webpack.NoErrorsPlugin(),
   ],*/
 
   // CLI mirror http://webpack.github.io/docs/configuration.html#devserver
@@ -159,5 +157,9 @@ export default {
     // Required to include Joi
     net: "empty",
     dns: "empty",
-  }
+  },
+
+  //postcss: [
+  //  autoprefixer({ browsers: ["> 5%"] })
+  //],
 };

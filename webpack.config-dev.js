@@ -1,10 +1,9 @@
 // IMPORTS =========================================================================================
 import Path from "path";
 import Webpack from "webpack";
+import ExtractTextPlugin from "extract-text-webpack-plugin";
 
 // CONFIG ==========================================================================================
-const autoprefixer = "autoprefixer?{browsers: ['> 5%']}";
-
 export default {
   // Compilation target http://webpack.github.io/docs/configuration.html#target
   target: "web",
@@ -20,7 +19,7 @@ export default {
     path: Path.join(__dirname, "/public"),
 
     // Filename of an entry chunk http://webpack.github.io/docs/configuration.html#output-filename
-    filename: "[name].js",
+    filename: "bundle.js",
 
     // Web path (used to prefix URLs) http://webpack.github.io/docs/configuration.html#output-publicpath
     publicPath: "http://localhost:2992/public/",
@@ -82,10 +81,10 @@ export default {
       {test: /\.(md(\?.*)?)$/, loaders: ["html", "markdown"]},
 
       // CSS
-      {test: /\.(css(\?.*)?)$/, loaders: ["style", "css", autoprefixer]},
+      {test: /\.(css(\?.*)?)$/, loader: ExtractTextPlugin.extract("style", "css")},
 
       // LESS
-      {test: /\.(less(\?.*)?)$/, loaders: ["style", "css", autoprefixer, "less"]},
+      {test: /\.(less(\?.*)?)$/, loader: ExtractTextPlugin.extract("style", "css", "less")},
     ],
   },
 
@@ -111,11 +110,10 @@ export default {
 
   // Plugins http://webpack.github.io/docs/list-of-plugins.html
   plugins: [
+    new Webpack.NoErrorsPlugin(),
     new Webpack.IgnorePlugin(/^vertx$/),
-  //  new Webpack.IgnorePlugin(/^dns$/),
-  //  new Webpack.IgnorePlugin(/^net$/),
   //  new Webpack.HotModuleReplacementPlugin(), TODO track https://github.com/gaearon/react-hot-loader/issues/125
-  //  new Webpack.NoErrorsPlugin()
+    new ExtractTextPlugin("bundle.css"), // ?[contenthash]
   ],
 
   /*plugins: [
