@@ -62,9 +62,9 @@ They tend to break every time you move files between folder.
 
 Fortunately absolute imports can be emulated with some amount of twist. The requirement here is to keep IDE navigation and autocompletion features working.
 Script **bin/install** add symlinks for every project entry point like `frontend` or `backend` in **node_modules**.
-Browserify require to keep `package.json` for every such entrypoint but Webpack is free of this limitation.
+Browserify requires to keep `package.json` for every such entrypoint but Webpack is free of this limitation.
 
-This project is 100% relative-imports free. 
+This project is 100% relative-imports free.
 
 ### Flux vs Baobab
 
