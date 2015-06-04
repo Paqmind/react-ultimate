@@ -114,7 +114,7 @@ export default {
   plugins: [
     new Webpack.NoErrorsPlugin(),
     new Webpack.IgnorePlugin(/^vertx$/),
-    //new Webpack.optimize.UglifyJsPlugin(),
+    new Webpack.optimize.UglifyJsPlugin({mangle: {except: ["$", "window", "document", "console"]}}),
     new ExtractTextPlugin("bundle.css"), // ?[contenthash]
   ],
 
