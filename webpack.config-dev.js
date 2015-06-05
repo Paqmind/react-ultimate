@@ -5,12 +5,14 @@ import Webpack from "webpack";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
 
 // INITIAL DATA ====================================================================================
-let node_modules = Path.resolve(__dirname, "node_modules");
+let nodeModulesDir = Path.join(__dirname, "node_modules");
+let sharedDir = Path.join(__dirname, "shared");
+let frontendDir = Path.join(__dirname, "frontend");
+let backendDir = Path.join(__dirname, "backend");
+let publicDir = Path.join(__dirname, "public");
 
-// Paths to minified library distributions relative to project's node_modules folder
+// Paths to minified library distributions relative to the root node_modules
 let minifiedDeps = [
-  //"react/dist/react.min.js",
-  //"react-router/dist/react-router.min.js",
   "moment/min/moment.min.js",
 ];
 
@@ -21,7 +23,7 @@ export default {
 
   // Entry files http://webpack.github.io/docs/configuration.html#entry
   entry: {
-    main: "./frontend/scripts/app",
+    bundle: "./frontend/scripts/app",
 
     vendors: ["react", "react-router"],
   },
@@ -29,22 +31,16 @@ export default {
   // Output files http://webpack.github.io/docs/configuration.html#output
   output: {
     // Abs. path to output directory http://webpack.github.io/docs/configuration.html#output-path
-    path: Path.join(__dirname, "/public"),
+    path: publicDir,
 
     // Filename of an entry chunk http://webpack.github.io/docs/configuration.html#output-filename
-    filename: "bundle.js",
+    filename: "[name].js",
 
     // Web path (used to prefix URLs) http://webpack.github.io/docs/configuration.html#output-publicpath
     publicPath: "http://localhost:2992/public/",
 
-    // ??? http://webpack.github.io/docs/configuration.html#output-chunkfilename
-    //chunkFilename: "[id].js", // TODO need?
-
     // ??? http://webpack.github.io/docs/configuration.html#output-sourcemapfilename
     sourceMapFilename: "debugging/[file].map",
-
-    // ??? http://webpack.github.io/docs/configuration.html#output-librarytarget
-    //libraryTarget: undefined,
 
     // Include pathinfo in output (like `require(/*./test*/23)`) http://webpack.github.io/docs/configuration.html#output-pathinfo
     pathinfo: true,
@@ -62,7 +58,7 @@ export default {
   // Module http://webpack.github.io/docs/configuration.html#module
   module: {
     noParse: map(dep => {
-      return Path.resolve(node_modules, dep);
+      return Path.resolve(nodeModulesDir, dep);
     }, minifiedDeps),
 
     loaders: [ // http://webpack.github.io/docs/loaders.html
@@ -108,14 +104,14 @@ export default {
   // Module resolving http://webpack.github.io/docs/configuration.html#resolve
   resolve: {
     // Abs. path with modules
-    root: Path.join(__dirname, "/frontend"),
+    root: frontendDir,
 
     // node_modules and like that
     modulesDirectories: ["web_modules", "node_modules"],
 
     // ???
     alias: reduce((memo, dep) => {
-      let depPath = Path.resolve(node_modules, dep);
+      let depPath = Path.resolve(nodeModulesDir, dep);
       return assoc(dep.split(Path.sep)[0], depPath, memo);
     }, {}, minifiedDeps),
   },
@@ -123,7 +119,7 @@ export default {
   // Loader resolving http://webpack.github.io/docs/configuration.html#resolveloader
   resolveLoader: {
     // Abs. path with loaders
-    root: Path.join(__dirname, "/node_modules"),
+    root: nodeModulesDir,
   },
 
   // Keep bundle dependencies http://webpack.github.io/docs/configuration.html#externals
@@ -135,26 +131,8 @@ export default {
     new Webpack.IgnorePlugin(/^vertx$/),
     new Webpack.optimize.CommonsChunkPlugin("vendors", "vendors.js"),
   //  new Webpack.HotModuleReplacementPlugin(), TODO track https://github.com/gaearon/react-hot-loader/issues/125
-    new ExtractTextPlugin("bundle.css"), // ?[contenthash]
+    new ExtractTextPlugin("[name].css"), // ?[contenthash]
   ],
-
-  /*plugins: [
-    function () {
-      this.plugin("done", function (stats) {
-        let jsonStats = stats.toJson({
-          chunkModules: true,
-          exclude: [
-            /node_modules[\\\/]react(-router)?[\\\/]/,
-            /node_modules[\\\/]items-store[\\\/]/
-          ]
-        });
-        jsonStats.publicPath = "http://localhost:2992/public/";
-        require("fs").writeFileSync(__dirname + "/public/stats.json", JSON.stringify(jsonStats));
-      });
-    },
-    //new Webpack.PrefetchPlugin("react"),
-    //new Webpack.PrefetchPlugin("react/lib/ReactComponentBrowserEnvironment"),
-  ],*/
 
   // CLI mirror http://webpack.github.io/docs/configuration.html#devserver
   /*devServer: {

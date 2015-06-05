@@ -2,8 +2,8 @@
 
 {% block head %}
   {{ super() }}
-  <link rel="dns-prefetch" href="//robohash.org"/>
-  <link href="/public/bundle.css" rel="stylesheet"/>
+  <link href="//robohash.org" rel="dns-prefetch"/>
+  <link href="/public/bundle.css?{{ hashes.bundleCss }}" rel="stylesheet"/>
 {% endblock %}
 
 {% block body %}
@@ -17,6 +17,6 @@
 {% block scripts %}
   {{ super() }}
 
-  <script src="/public/vendors.js"></script>
-  <script src="/public/bundle.js"></script>
+  <script src="/public/vendors.js?{{ hashes.vendorsJs }}"></script>
+  <script src="/public/bundle.js?{{ hashes.bundleJs }}"></script>
 {% endblock %}

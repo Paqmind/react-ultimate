@@ -4,7 +4,7 @@
   "main": "backend/scripts/app.js",
   "scripts": {
     "lint": "eslint .",
-    "build": "webpack --config webpack.config-prod.js --progress --profile --colors",
+    "build": "webpack --config webpack.config-prod.js --progress --colors --profile",
     "dev": "webpack-dev-server --config webpack.config-dev.js --progress --colors --port 2992 --inline",
     "node": "NODE_ENV=production babel-node backend/scripts/app.js",
     "nodemon": "nodemon backend/scripts/app.js",
@@ -16,6 +16,7 @@
     "test-watch": "mocha --opts specs/mocha.opts -w specs"
   },
   "dependencies": {
+    "assets-webpack-plugin": "^0.3.1",
     "autoprefixer-loader": "^2.0.0",
     "axios": "^0.5.4",
     "babel": "^5.4.7",
