@@ -22,6 +22,8 @@ export default {
   // Entry files http://webpack.github.io/docs/configuration.html#entry
   entry: {
     main: "./frontend/scripts/app",
+
+    vendors: ["react", "react-router"],
   },
 
   // Output files http://webpack.github.io/docs/configuration.html#output
@@ -131,6 +133,7 @@ export default {
   plugins: [
     new Webpack.NoErrorsPlugin(),
     new Webpack.IgnorePlugin(/^vertx$/),
+    new Webpack.optimize.CommonsChunkPlugin("vendors", "vendors.js"),
   //  new Webpack.HotModuleReplacementPlugin(), TODO track https://github.com/gaearon/react-hot-loader/issues/125
     new ExtractTextPlugin("bundle.css"), // ?[contenthash]
   ],
