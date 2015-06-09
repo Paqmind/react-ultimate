@@ -1,0 +1,24 @@
+.index-alert {
+  position: fixed;
+  z-index: @zindex-modal;
+  &.top-right {
+    top: @line-height-computed / 2;
+    right: @line-height-computed;
+  }
+  &.top-left {
+    top: @line-height-computed / 2;
+    left: @line-height-computed;
+  }
+  &.bottom-left {
+    bottom: @line-height-computed / 2;
+    left: @line-height-computed;
+  }
+  &.bottom-right {
+    bottom: @line-height-computed / 2;
+    right: @line-height-computed;
+  }
+  .item {
+    position: relative;
+    margin: @line-height-computed / 2;
+  }
+}

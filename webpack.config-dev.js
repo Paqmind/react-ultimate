@@ -23,7 +23,7 @@ export default {
 
   // Entry files http://webpack.github.io/docs/configuration.html#entry
   entry: {
-    bundle: "./frontend/scripts/app",
+    bundle: "./frontend/app",
 
     vendors: ["react", "react-router"],
   },
@@ -73,6 +73,7 @@ export default {
       {test: /\.(txt(\?.*)?)$/, loaders: ["raw"]},
 
       // URL
+      // https://github.com/webpack/url-loader
       {test: /\.(jpg(\?.*)?)$/,   loaders: ["url?limit=10000"]},
       {test: /\.(jpeg(\?.*)?)$/,  loaders: ["url?limit=10000"]},
       {test: /\.(png(\?.*)?)$/,   loaders: ["url?limit=10000"]},
@@ -82,6 +83,7 @@ export default {
       {test: /\.(woff2(\?.*)?)$/, loaders: ["url?limit=100000"]},
 
       // FILE
+      // https://github.com/webpack/file-loader
       {test: /\.(ttf(\?.*)?)$/, loaders: ["file"]},
       {test: /\.(eot(\?.*)?)$/, loaders: ["file"]},
       {test: /\.(wav(\?.*)?)$/, loaders: ["file"]},
@@ -94,9 +96,11 @@ export default {
       {test: /\.(md(\?.*)?)$/, loaders: ["html", "markdown"]},
 
       // CSS
+      // https://github.com/webpack/css-loader
       {test: /\.(css(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css?sourceMap`)},
 
       // LESS
+      // https://github.com/webpack/less-loader
       {test: /\.(less(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css?sourceMap!less?sourceMap`)},
     ],
   },
@@ -122,28 +126,14 @@ export default {
     root: nodeModulesDir,
   },
 
-  // Keep bundle dependencies http://webpack.github.io/docs/configuration.html#externals
-  //externals: [],
-
   // Plugins http://webpack.github.io/docs/list-of-plugins.html
   plugins: [
     new Webpack.NoErrorsPlugin(),
     new Webpack.IgnorePlugin(/^vertx$/),
     new Webpack.optimize.CommonsChunkPlugin("vendors", "vendors.js"),
-  //  new Webpack.HotModuleReplacementPlugin(), TODO track https://github.com/gaearon/react-hot-loader/issues/125
-    new ExtractTextPlugin("[name].css"), // ?[contenthash]
+    new ExtractTextPlugin("[name].css"),
+    //  new Webpack.HotModuleReplacementPlugin(), TODO track https://github.com/gaearon/react-hot-loader/issues/125
   ],
-
-  // CLI mirror http://webpack.github.io/docs/configuration.html#devserver
-  /*devServer: {
-    stats: {
-      cached: false,
-      exclude: [
-        /node_modules[\\\/]react(-router)?[\\\/]/,
-        /node_modules[\\\/]items-store[\\\/]/
-      ]
-    }
-  }*/
 
   // Include polyfills or mocks for various node stuff http://webpack.github.io/docs/configuration.html#node
   node: {
@@ -151,8 +141,4 @@ export default {
     net: "empty",
     dns: "empty",
   },
-
-  //postcss: [
-  //  autoprefixer({ browsers: ["> 5%"] })
-  //],
 };

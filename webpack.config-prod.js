@@ -27,7 +27,7 @@ export default {
 
   // Entry files http://webpack.github.io/docs/configuration.html#entry
   entry: {
-    bundle: "./frontend/scripts/app",
+    bundle: "./frontend/app",
 
     vendors: ["react", "react-router"],
   },
@@ -77,6 +77,7 @@ export default {
       {test: /\.(txt(\?.*)?)$/, loaders: ["raw"]},
 
       // URL
+      // https://github.com/webpack/url-loader
       {test: /\.(jpg(\?.*)?)$/,   loaders: ["url?limit=10000"]},
       {test: /\.(jpeg(\?.*)?)$/,  loaders: ["url?limit=10000"]},
       {test: /\.(png(\?.*)?)$/,   loaders: ["url?limit=10000"]},
@@ -86,6 +87,7 @@ export default {
       {test: /\.(woff2(\?.*)?)$/, loaders: ["url?limit=100000"]},
 
       // FILE
+      // https://github.com/webpack/file-loader
       {test: /\.(ttf(\?.*)?)$/, loaders: ["file"]},
       {test: /\.(eot(\?.*)?)$/, loaders: ["file"]},
       {test: /\.(wav(\?.*)?)$/, loaders: ["file"]},
@@ -98,9 +100,11 @@ export default {
       {test: /\.(md(\?.*)?)$/, loaders: ["html", "markdown"]},
 
       // CSS
+      // https://github.com/webpack/css-loader
       {test: /\.(css(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css!${autoprefixer}`)},
 
       // LESS
+      // https://github.com/webpack/less-loader
       {test: /\.(less(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css!${autoprefixer}!less`)},
     ],
   },
@@ -126,9 +130,6 @@ export default {
     root: nodeModulesDir,
   },
 
-  // Keep bundle dependencies http://webpack.github.io/docs/configuration.html#externals
-  //externals: [],
-
   // Plugins http://webpack.github.io/docs/list-of-plugins.html
   plugins: [
     new Webpack.NoErrorsPlugin(),
@@ -149,24 +150,6 @@ export default {
       });
     },
   ],
-  //new Webpack.PrefetchPlugin("react"),
-  //new Webpack.PrefetchPlugin("react/lib/ReactComponentBrowserEnvironment"),
-  //new Webpack.DefinePlugin({
-  //  "process.env": {
-  //    NODE_ENV: JSON.stringify("production")
-  //  }
-  //}),
-
-  // CLI mirror http://webpack.github.io/docs/configuration.html#devserver
-  /*devServer: {
-    stats: {
-      cached: false,
-      exclude: [
-        /node_modules[\\\/]react(-router)?[\\\/]/,
-        /node_modules[\\\/]items-store[\\\/]/
-      ]
-    }
-  }*/
 
   // Include polyfills or mocks for various node stuff http://webpack.github.io/docs/configuration.html#node
   node: {
@@ -174,8 +157,4 @@ export default {
     net: "empty",
     dns: "empty",
   },
-
-  //postcss: [
-  //  autoprefixer({ browsers: ["> 5%"] })
-  //],
 };
