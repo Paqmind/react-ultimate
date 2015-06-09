@@ -36,7 +36,7 @@ let CSSTransitionGroup = ReactAddons.addons.CSSTransitionGroup;
 // <=======
 
 let alertsQueue = new Set();
-let alertsQueueBlocked = false;
+let alertToHide = undefined;
 
 // COMPONENTS ======================================================================================
 @branch({
@@ -50,21 +50,23 @@ let alertsQueueBlocked = false;
 })
 export default class AlertIndex extends DeepComponent {
   processAlertsQueue() {
-    if (!alertsQueue.size || alertsQueueBlocked) {
+    if (!alertsQueue.size || alertToHide) {
       return;
     }
-    alertsQueueBlocked = true;
-    let oldestAlert = minBy(m => m.createdDate, Array.from(alertsQueue));
+    alertToHide = minBy(m => m.createdDate, Array.from(alertsQueue));
     setTimeout(() => {
-      alertActions.removeModel(oldestAlert.id);
-      alertsQueue.delete(oldestAlert);
-      alertsQueueBlocked = false;
+      if (alertToHide.id in this.props.alerts.models) {
+        alertActions.removeModel(alertToHide.id);
+        alertsQueue.delete(alertToHide);
+      }
+      alertToHide = undefined;
       this.processAlertsQueue();
-    }, oldestAlert.expire);
+    }, alertToHide.expire);
   }
 
   updateAlertsQueue() {
-    toArray(this.props.alerts.models)
+    alertsQueue = new Set();
+    toArray(this.props.currentAlerts)
       .filter((item) => { return item.expire ? item : null; })
       .forEach((item) => alertsQueue.add(item));
   }
