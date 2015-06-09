@@ -1,6 +1,6 @@
-import createParseBody from "backend/scripts/middlewares/parse-body";
-import createParseParams from "backend/scripts/middlewares/parse-params";
-import createParseQuery from "backend/scripts/middlewares/parse-query";
+import createParseBody from "backend/middlewares/parse-body";
+import createParseParams from "backend/middlewares/parse-params";
+import createParseQuery from "backend/middlewares/parse-query";
 
 export default {
   createParseBody,
