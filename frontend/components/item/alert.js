@@ -14,7 +14,7 @@ class CloseLink extends ShallowComponent {
 
   render() {
     return (
-      <a className="close pull-right" href="#" onClick={this.handleClick}>&times;</a>
+      <button className="close" onClick={this.handleClick}>&times;</button>
     );
   }
 }
@@ -30,7 +30,8 @@ export default class Item extends ShallowComponent {
     let classes = classNames({
       "alert": true,
       ["alert-" + model.category]: true,
-      "animated": this.props.animated ? true : false
+      "animated": this.props.animated,
+      "alert-dismissible": model.closable
     });
 
     return (
