@@ -10,6 +10,8 @@ import {DeepComponent} from "frontend/components/component";
 import {Error, Loading, NotFound} from "frontend/components/special";
 import AlertItem from "frontend/components/item/alert";
 
+import "frontend/components/index/alert.less";
+
 // GLOBALS =========================================================================================
 let CSSTransitionGroup = ReactAddons.addons.CSSTransitionGroup;
 
