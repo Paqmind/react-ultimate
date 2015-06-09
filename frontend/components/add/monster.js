@@ -118,7 +118,7 @@ export default class MonsterAdd extends Form {
 class ModelActions extends ShallowComponent {
   render() {
     return (
-      <div class="actions">
+      <div className="actions">
         <div className="container">
           <div className="btn-group btn-group-sm pull-left">
             <Link to="monster-index" className="btn btn-gray-light" title="Back to list">

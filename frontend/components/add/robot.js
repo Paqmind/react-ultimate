@@ -124,7 +124,7 @@ class ModelActions extends ShallowComponent {
     let query = formatQuery(robots);
 
     return (
-      <div class="actions">
+      <div className="actions">
         <div className="container">
           <div className="btn-group btn-group-sm pull-left">
             <Link to="robot-index" query={query} className="btn btn-gray-light" title="Back to list">
