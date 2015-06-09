@@ -4,7 +4,7 @@ import React from "react";
 import DocumentTitle from "react-document-title";
 import {Component} from "frontend/components/component";
 
-import "frontend/components/special/special.less";
+import "frontend/components/special/gear.less";
 
 // EXPORTS =========================================================================================
 export default class Error extends Component {
