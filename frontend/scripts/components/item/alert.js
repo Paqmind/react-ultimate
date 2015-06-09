@@ -2,8 +2,8 @@
 import classNames from "classnames";
 import React from "react";
 import {Link} from "react-router";
-import alertActions from "frontend/scripts/actions/alert";
-import {Component, ShallowComponent} from "frontend/scripts/components/component";
+import alertActions from "frontend/actions/alert";
+import {Component, ShallowComponent} from "frontend/components/component";
 
 // COMPONENTS ======================================================================================
 class CloseLink extends Component {

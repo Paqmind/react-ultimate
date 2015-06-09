@@ -1,6 +1,6 @@
 // IMPORTS =========================================================================================
 import {filter} from "ramda";
-import {shallowCompare, deepCompare} from "frontend/scripts/helpers/react";
+import {shallowCompare, deepCompare} from "frontend/helpers/react";
 import React from "react";
 
 // COMPONENTS ======================================================================================

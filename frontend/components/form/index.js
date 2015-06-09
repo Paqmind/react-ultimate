@@ -1,7 +1,7 @@
-import Form from "frontend/scripts/components/form/form";
-import FilterBy from "frontend/scripts/components/form/filterby";
-import SortBy from "frontend/scripts/components/form/sortby";
-import PerPage from "frontend/scripts/components/form/perpage";
+import Form from "frontend/components/form/form";
+import FilterBy from "frontend/components/form/filterby";
+import SortBy from "frontend/components/form/sortby";
+import PerPage from "frontend/components/form/perpage";
 
 export default {
   Form, FilterBy, SortBy, PerPage

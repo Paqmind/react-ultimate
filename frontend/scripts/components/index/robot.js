@@ -5,15 +5,15 @@ import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import {toArray} from "shared/helpers/common";
-import {statics} from "frontend/scripts/helpers/react";
-import state from "frontend/scripts/state";
-import {indexRouter} from "frontend/scripts/router";
-import modelActions from "frontend/scripts/actions/robot";
-import {ShallowComponent, DeepComponent} from "frontend/scripts/components/component";
-import Pagination from "frontend/scripts/components/pagination";
-import {FilterBy, SortBy, PerPage} from "frontend/scripts/components/form";
-import {Error, Loading, NotFound} from "frontend/scripts/components/page";
-import RobotItem from "frontend/scripts/components/item/robot";
+import {statics} from "frontend/helpers/react";
+import state from "frontend/state";
+import {indexRouter} from "frontend/router";
+import modelActions from "frontend/actions/robot";
+import {ShallowComponent, DeepComponent} from "frontend/components/component";
+import Pagination from "frontend/components/pagination";
+import {FilterBy, SortBy, PerPage} from "frontend/components/form";
+import {Error, Loading, NotFound} from "frontend/components/page";
+import RobotItem from "frontend/components/item/robot";
 
 // COMPONENTS ======================================================================================
 @statics({

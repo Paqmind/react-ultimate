@@ -1,7 +1,7 @@
 // IMPORTS =========================================================================================
 import React from "react";
 import throttle from "lodash.throttle";
-import {Component} from "frontend/scripts/components/component";
+import {Component} from "frontend/components/component";
 
 // EXPORTS =========================================================================================
 export default class Headroom extends Component {

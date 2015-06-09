@@ -5,14 +5,14 @@ import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import {toArray} from "shared/helpers/common";
-import {statics} from "frontend/scripts/helpers/react";
-import state, {MONSTER} from "frontend/scripts/state";
-import modelActions from "frontend/scripts/actions/monster";
-import {ShallowComponent, DeepComponent} from "frontend/scripts/components/component";
-import Pagination from "frontend/scripts/components/pagination";
-import {FilterBy, SortBy, PerPage} from "frontend/scripts/components/form";
-import {Error, Loading, NotFound} from "frontend/scripts/components/page";
-import MonsterItem from "frontend/scripts/components/item/monster";
+import {statics} from "frontend/helpers/react";
+import state, {MONSTER} from "frontend/state";
+import modelActions from "frontend/actions/monster";
+import {ShallowComponent, DeepComponent} from "frontend/components/component";
+import Pagination from "frontend/components/pagination";
+import {FilterBy, SortBy, PerPage} from "frontend/components/form";
+import {Error, Loading, NotFound} from "frontend/components/page";
+import MonsterItem from "frontend/components/item/monster";
 
 // CURSORS =========================================================================================
 let modelCursor = state.select("monsters");

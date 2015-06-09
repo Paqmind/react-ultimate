@@ -1,10 +1,10 @@
 // IMPORTS =========================================================================================
 import React from "react";
 import ReactRouter from "react-router";
-import state from "frontend/scripts/state";
+import state from "frontend/state";
 import {mergeDeep} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
-import {Component} from "frontend/scripts/components/component";
+import {Component} from "frontend/components/component";
 
 // COMPONENTS ======================================================================================
 export class IndexLink extends Component {

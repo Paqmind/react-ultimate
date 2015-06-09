@@ -4,13 +4,13 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import ReactAddons from "react/addons";
 import {toArray} from "shared/helpers/common";
-import state from "frontend/scripts/state";
-import alertActions from "frontend/scripts/actions/alert";
-import {DeepComponent} from "frontend/scripts/components/component";
-import Error from "frontend/scripts/components/page/error";
-import Loading from "frontend/scripts/components/page/loading";
-import NotFound from "frontend/scripts/components/page/notfound";
-import AlertItem from "frontend/scripts/components/item/alert";
+import state from "frontend/state";
+import alertActions from "frontend/actions/alert";
+import {DeepComponent} from "frontend/components/component";
+import Error from "frontend/components/page/error";
+import Loading from "frontend/components/page/loading";
+import NotFound from "frontend/components/page/notfound";
+import AlertItem from "frontend/components/item/alert";
 
 // GLOBALS =========================================================================================
 let CSSTransitionGroup = ReactAddons.addons.CSSTransitionGroup;
