@@ -8,6 +8,7 @@
     "quotes": false,
     "strict": false,
     "no-unused-vars": false,
+    "no-undef-init": false,
     "eqeqeq": false,
     "new-cap": false,
     "no-underscore-dangle": false,
