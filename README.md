@@ -35,6 +35,21 @@ $ npm run dev     [terminal #1]
 $ npm run nodemon [terminal #2]
 ```
 
+## Test
+
+All tests
+```
+npm test
+```
+
+Specific tests (`--` is an NPM syntax to pass arguments)
+```
+npm test -- --grep "api/robots POST"
+```
+
+Refer to [Mocha](https://github.com/mochajs/mocha) and [Chai](https://github.com/chaijs/chai)
+for more details.
+
 ## Architecture FAQ
 
 All React starters / tutorials suffer from being oversimplified.
