@@ -3,7 +3,7 @@ import {range, reduce} from "ramda";
 import Alert from "shared/models/alert";
 
 // FAKE DB =========================================================================================
-function makeDB() {
+export function makeDB() {
   if (process.env.NODE_ENV == "production") {
     return [
       Alert({

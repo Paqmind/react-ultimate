@@ -3,7 +3,7 @@ import {range, reduce} from "ramda";
 import makeModel from "shared/makers/monster";
 
 // FAKE DB =========================================================================================
-function makeDB() {
+export function makeDB() {
   return reduce(db => {
     let model = makeModel();
     db[model.id] = model;
