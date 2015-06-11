@@ -1,19 +1,19 @@
 {
   "name": "react-starter",
   "version": "0.1.0",
-  "main": "backend/app.js",
+  "main": "backend/server.js",
   "scripts": {
     "lint": "eslint .",
     "build": "webpack --config webpack.config-prod.js --progress --profile --colors",
     "dev": "webpack-dev-server --config webpack.config-dev.js --progress --colors --port 2992 --inline",
-    "node": "NODE_ENV=production babel-node backend/app.js",
-    "nodemon": "nodemon backend/app.js",
+    "node": "NODE_ENV=production NODE_CONFIG_DIR=shared/config babel-node backend/server.js",
+    "nodemon": "NODE_ENV=development NODE_CONFIG_DIR=shared/config nodemon backend/server.js",
     "release-patch": "git checkout master && npm version patch && git push origin master --tags",
     "release-minor": "git checkout master && npm version minor && git push origin master --tags",
     "release-major": "git checkout master && npm version major && git push origin master --tags",
     "release-as-lib": "git checkout master && npm run prod && git commit -am 'Distribute' && npm version major && git push origin master --tags",
-    "test": "mocha --opts specs/mocha.opts specs",
-    "test-watch": "mocha --opts specs/mocha.opts -w specs"
+    "test": "NODE_ENV=testing NODE_CONFIG_DIR=shared/config mocha --opts specs/mocha.opts specs",
+    "test-watch": "NODE_ENV=testing NODE_CONFIG_DIR=shared/config mocha --opts specs/mocha.opts -w specs"
   },
   "dependencies": {
     "axios": "^0.5.4",

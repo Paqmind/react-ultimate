@@ -4,7 +4,6 @@
  * in this complex file.
  */
 // APP =============================================================================================
-import "shared/env";
 import "shared/shims";
 import Fs from "fs";
 import Express from "express";
@@ -12,6 +11,7 @@ import Config from "config";
 
 let app = Express();
 app.set("etag", Config.get("http-use-etag"));
+export default app;
 
 // LOGGER ==========================================================================================
 import logger from "backend/logger";
@@ -31,11 +31,13 @@ app.use(CookieParser());
 app.use(BodyParser.json());                        // parse application/json
 app.use(BodyParser.urlencoded({extended: false})); // parse application/x-www-form-urlencoded
 
-app.use(Morgan("dev", {
-  skip: function (req, res) {
-    return req.originalUrl.includes("/public") || req.originalUrl.includes("/favicon");
-  }
-}));
+if (process.env.NODE_ENV != "testing") {
+  app.use(Morgan("dev", {
+    skip: function (req, res) {
+      return req.originalUrl.includes("/public") || req.originalUrl.includes("/favicon");
+    }
+  }));
+}
 
 import commonRouter from "./routers/common";
 import "backend/actions/common";
@@ -70,34 +72,3 @@ app.use(function (err, req, res, cb) {
     error: (app.get("env") == "development") ? err : {}
   });
 });
-
-// LISTENERS =======================================================================================
-import Http from "http";
-
-let server = Http.createServer(app);
-server.on("error", onError);
-server.on("listening", onListening);
-server.listen(Config.get("http-port"));
-
-// HELPERS =========================================================================================
-function onError(error) {
-  if (error.syscall !== "listen") {
-    throw error;
-  }
-  switch (error.code) {
-    case "EACCES":
-      logger.error(Config.get("http-port") + " requires elevated privileges");
-      process.exit(1);
-      break;
-    case "EADDRINUSE":
-      logger.error(Config.get("http-port") + " is already in use");
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-}
-
-function onListening() {
-  logger.info("Listening on port " + Config.get("http-port"));
-}

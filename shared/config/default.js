@@ -1,19 +1,11 @@
 // IMPORTS =========================================================================================
 import Path from "path";
 
-// EVALS ===========================================================================================
-let projectDir = Path.dirname(__dirname);
-let publicDir = projectDir + "/public";
-
 // CONFIG ==========================================================================================
 export default {
   // HTTP
   "http-port": 80,
   "http-use-etag": true,
-
-  // DIRS
-  "project-dir": projectDir,
-  "public-dir": publicDir,
 
   // SMTP
   "smtp-host": "localhost",
