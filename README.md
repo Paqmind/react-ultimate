@@ -22,14 +22,6 @@ $ cd react-starter
 $ npm install; bower install; bin/install
 ```
 
-### Temporary workaround
-
-The code is not fully WebPack-powered for now. Styles should be built with Gulp for now:
-
-```
-$ gulp dist
-```
-
 ## Run
 
 Production
