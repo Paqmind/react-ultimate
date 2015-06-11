@@ -30,8 +30,8 @@ export default function addModel(model) {
   modelCursor.select("models").set(id, newModel);
   if (allModelsAreLoaded) {
     // Inject new id at whatever place
-    modelCursor.apply("pagination", pagination => {
-      return append(id, pagination);
+    modelCursor.apply("pagination", _pagination => {
+      return append(id, _pagination);
     });
   } else {
     // Pagination is messed up, do reset

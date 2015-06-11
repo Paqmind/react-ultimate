@@ -30,8 +30,8 @@ export default function removeModel(id) {
   modelCursor.set("loading", true);
   modelCursor.set("total", total - 1);
   modelCursor.select("models").unset(id);
-  modelCursor.apply("pagination", pagination => {
-    return filter(_id => _id != id, pagination);
+  modelCursor.apply("pagination", _pagination => {
+    return filter(_id => _id != id, _pagination);
   });
 
   let newTotal = modelCursor.get("total");
