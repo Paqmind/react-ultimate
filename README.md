@@ -26,7 +26,8 @@ $ npm install; bower install; bin/install
 
 Production
 ```
-$ npm start
+$ npm run build
+$ npm run node
 ```
 
 Development
