@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {range, reduce} from "ramda";
 import Alert from "shared/models/alert";
 

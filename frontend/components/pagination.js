@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {map, mapIndexed, range, reject} from "ramda";
 import Class from "classnames";
 import React from "react";

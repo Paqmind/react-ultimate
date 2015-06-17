@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import Axios from "axios";
 import Monster from "shared/models/monster";
 import state from "frontend/state";

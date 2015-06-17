@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {mapIndexed} from "ramda";
 import Class from "classnames";
 import React from "react";

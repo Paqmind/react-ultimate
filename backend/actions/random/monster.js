@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import makeModel from "shared/makers/monster";
 import middlewares from "backend/middlewares";
 import router from "backend/routers/monster";

@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import state from "frontend/state";
 import loadIndex from "frontend/actions/load-index/robot";
 

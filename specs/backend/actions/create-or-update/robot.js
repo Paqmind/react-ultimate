@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {keys} from "ramda";
 import {expect} from "chai";
 import Axios from "axios";

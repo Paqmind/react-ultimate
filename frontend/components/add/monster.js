@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {clone, map} from "ramda";
 import Class from "classnames";
 import {branch} from "baobab-react/decorators";

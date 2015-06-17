@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {mergeDeep} from "shared/helpers/common";
 import commonValidators from "shared/validators/common";
 import modelValidators from "shared/validators/monster";

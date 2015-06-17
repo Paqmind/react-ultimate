@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import commonValidators from "shared/validators/common";
 import middlewares from "backend/middlewares";
 import DB from "backend/dbs/robot";

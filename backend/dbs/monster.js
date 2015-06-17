@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {range, reduce} from "ramda";
 import makeModel from "shared/makers/monster";
 

@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import Faker from "faker";
 import {mergeDeep} from "shared/helpers/common";
 import Monster from "shared/models/monster";

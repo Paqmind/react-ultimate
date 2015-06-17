@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {map} from "ramda";
 import Axios from "axios";
 import {toObject, mergeDeep} from "shared/helpers/common";

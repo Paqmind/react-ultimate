@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import Class from "classnames";
 import {root} from "baobab-react/decorators";
 import React from "react";

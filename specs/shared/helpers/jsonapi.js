@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {expect} from "chai";
 import {parseQuery, formatQuery, formatQueryForAxios} from "shared/helpers/jsonapi";
 

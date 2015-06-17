@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import Joi from "joi";
 import {joiOptions} from "shared/helpers/validation";
 import {toSingleMessage} from "backend/helpers";

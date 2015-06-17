@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {expect} from "chai";
 import Axios from "axios";
 import Config from "config";

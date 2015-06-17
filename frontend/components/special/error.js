@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import Class from "classnames";
 import React from "react";
 import DocumentTitle from "react-document-title";

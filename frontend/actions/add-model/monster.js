@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {append} from "ramda";
 import Axios from "axios";
 import Monster from "shared/models/monster";

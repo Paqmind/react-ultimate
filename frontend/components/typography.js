@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {filter} from "ramda";
 import React from "react";
 import {Component} from "frontend/components/component";

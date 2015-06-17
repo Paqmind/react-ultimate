@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import Path from "path";
 import Nunjucks from "nunjucks";
 

@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {mergeDeep} from "shared/helpers/common";
 import Model from "shared/models/monster";
 import makeModel from "shared/makers/monster";

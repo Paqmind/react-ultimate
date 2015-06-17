@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import UUID from "node-uuid";
 import {filter, flatten, keys, values} from "ramda";
 import Moment from "moment";

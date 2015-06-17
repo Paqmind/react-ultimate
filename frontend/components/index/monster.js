@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {eqDeep, keys, map} from "ramda";
 import {branch} from "baobab-react/decorators";
 import React from "react";

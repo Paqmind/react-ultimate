@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import Axios from "axios";
 import {toObject} from "shared/helpers/common";
 import Robot from "shared/models/robot";

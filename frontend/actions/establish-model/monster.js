@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import state from "frontend/state";
 import loadModel from "frontend/actions/load-model/monster";
 

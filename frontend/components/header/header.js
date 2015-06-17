@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import React from "react";
 import throttle from "lodash.throttle";
 import {Component} from "frontend/components/component";

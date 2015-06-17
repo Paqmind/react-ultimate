@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import Axios from "axios";
 import Robot from "shared/models/robot";
 import state from "frontend/state";

@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import Fs from "fs";
 import Path from "path";
 import {assoc, map, reduce} from "ramda";

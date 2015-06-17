@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {expect} from "chai";
 import {recommendOffset} from "frontend/helpers/pagination";
 

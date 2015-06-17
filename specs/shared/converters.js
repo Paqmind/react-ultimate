@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import Moment from "moment";
 import {expect} from "chai";
 import {parseString, parseInteger, parseFloat, parseDate} from "shared/converters";

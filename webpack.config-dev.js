@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import Path from "path";
 import {assoc, map, reduce} from "ramda";
 import Webpack from "webpack";

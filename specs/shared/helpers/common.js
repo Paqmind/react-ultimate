@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {prop} from "ramda";
 import {expect} from "chai";
 import {chunked, filterByAll, sortByAll} from "shared/helpers/common";

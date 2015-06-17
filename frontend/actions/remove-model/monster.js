@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {filter} from "ramda";
 import Axios from "axios";
 import state from "frontend/state";

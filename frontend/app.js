@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 // Scripts
 import "babel/polyfill";
 import {filter, keys, map, pipe} from "ramda";

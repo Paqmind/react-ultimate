@@ -1,4 +1,3 @@
-// IMPORTS =========================================================================================
 import {filter, slice} from "ramda";
 import Axios from "axios";
 import {inCache, getTotalPages, recommendOffset} from "frontend/helpers/pagination";
