@@ -3,12 +3,12 @@
  * and splitted on sections only to improve readability
  * in this complex file.
  */
-// APP =============================================================================================
 import "shared/shims";
 import Fs from "fs";
 import Express from "express";
 import Config from "config";
 
+// APP =============================================================================================
 let app = Express();
 app.set("etag", Config.get("http-use-etag"));
 export default app;
