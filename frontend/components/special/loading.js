@@ -16,7 +16,6 @@ export default class Loading extends Component {
   }
 
   render() {
-    let sizeClass = this.props.size ? ' loading-' + this.props.size : '';
     return (
       <DocumentTitle title="Loading...">
         <div className={Class("gear", this.props.size)}>
