@@ -19,7 +19,7 @@ Fork it, tweak it, break it... if you wish.
 ```
 $ wget https://github.com/Paqmind/react-ultimate/archive/master.zip; unzip master.zip -d react-ultimate; rm master.zip
 $ cd react-starter
-$ npm install; bower install; bin/install
+$ npm install; bin/install
 ```
 
 ## Run
