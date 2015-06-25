@@ -1,4 +1,3 @@
-import {filter, slice} from "ramda";
 import Axios from "axios";
 import {inCache, getTotalPages, recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
@@ -17,7 +16,6 @@ export default function loadIndex() {
   let offset = modelCursor.get("offset");
   let limit = modelCursor.get("limit");
   let total = modelCursor.get("total");
-  let models = modelCursor.get("models");
   let pagination = modelCursor.get("pagination");
 
   if (total) {

@@ -14,8 +14,10 @@ export default function establishIndex() {
   let urlSorts = urlCursor.get("sorts");
   let urlOffset = urlCursor.get("offset");
   let urlLimit = urlCursor.get("limit");
+
   let filters = modelCursor.get("filters");
   let sorts = modelCursor.get("sorts");
+
   let allModelsAreLoaded = state.facets.allRobotsAreLoaded.get();
 
   if (!eqDeep(urlFilters || ROBOT.FILTERS, filters)) {
@@ -23,16 +25,16 @@ export default function establishIndex() {
     if (true || !allModelsAreLoaded) {
       /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
       // Pagination is messed up, do reset
-      modelCursor.set("pagination", []);
       modelCursor.set("total", 0);
+      modelCursor.set("pagination", []);
     }
   }
   if (!eqDeep(urlSorts || ROBOT.SORTS, sorts)) {
     modelCursor.set("sorts", urlSorts || ROBOT.SORTS);
     if (!allModelsAreLoaded) {
       // Pagination is messed up, do reset
-      modelCursor.set("pagination", []);
       modelCursor.set("total", 0);
+      modelCursor.set("pagination", []);
     }
   }
   modelCursor.set("offset", urlOffset || ROBOT.OFFSET);
