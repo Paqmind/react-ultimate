@@ -54,7 +54,7 @@ export default function fetchIndex(filters, sorts, offset, limit) {
         });
 
         // Add alert
-        alertActions.addModel({message: "Action `Monster:fetchPage` failed: " + response.statusText, category: "error"});
+        alertActions.addModel({message: "Action `Monster:fetchIndex` failed: " + response.statusText, category: "error"});
         return response.status;
       }
     });
