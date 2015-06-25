@@ -35,7 +35,7 @@ export default function fetchIndex(filters, sorts, offset, limit) {
       modelCursor.merge({
         total: meta.page.total,
         loading: false,
-        loadError: false
+        loadError: undefined
       });
 
       return response.status;
