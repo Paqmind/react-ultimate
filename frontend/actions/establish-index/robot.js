@@ -2,21 +2,20 @@ import {eqDeep, filter} from "ramda";
 import state, {ROBOT} from "frontend/state";
 import loadIndex from "frontend/actions/load-index/robot";
 
+// CURSORS =========================================================================================
+let urlCursor = state.select("url");
+let modelCursor = state.select("robots");
+
 // ACTIONS =========================================================================================
 export default function establishIndex() {
   console.debug("establishIndex");
 
-  let urlCursor = state.select("url");
-  let modelCursor = state.select("robots");
   let urlFilters = urlCursor.get("filters");
   let urlSorts = urlCursor.get("sorts");
   let urlOffset = urlCursor.get("offset");
   let urlLimit = urlCursor.get("limit");
   let filters = modelCursor.get("filters");
   let sorts = modelCursor.get("sorts");
-  let models = modelCursor.get("models");
-  let total = modelCursor.get("total");
-  let pagination = modelCursor.get("pagination");
   let allModelsAreLoaded = state.facets.allRobotsAreLoaded.get();
 
   if (!eqDeep(urlFilters || ROBOT.FILTERS, filters)) {
