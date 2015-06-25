@@ -2,7 +2,8 @@ import React from "react";
 
 // Eager Components
 import {Route, DefaultRoute, NotFoundRoute} from "react-router";
-import {Body, About, Tech, Credits, NotFound} from "frontend/components/page";
+import {Body, About, Tech, Credits} from "frontend/components/page";
+import {NotFound} from "frontend/components/special";
 
 // Lazy Components
 //import {RobotIndex, RobotAdd, RobotDetail, RobotEdit} from "react-proxy!frontend/components/robot";

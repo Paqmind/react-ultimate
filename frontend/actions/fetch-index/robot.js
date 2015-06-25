@@ -1,6 +1,6 @@
 import {map, reduceIndexed} from "ramda";
 import Axios from "axios";
-import {toObject, mergeDeep} from "shared/helpers/common";
+import {toObject} from "shared/helpers/common";
 import {formatQueryForAxios} from "shared/helpers/jsonapi";
 import Robot from "shared/models/robot";
 import state from "frontend/state";

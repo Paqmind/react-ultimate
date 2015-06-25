@@ -1,8 +1,8 @@
 import {eqDeep, keys, map} from "ramda";
-import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
+import {branch} from "baobab-react/decorators";
 import {toArray} from "shared/helpers/common";
 import {statics} from "frontend/helpers/react";
 import state, {MONSTER} from "frontend/state";
@@ -45,7 +45,7 @@ export default class MonsterIndex extends DeepComponent {
       return (
         <DocumentTitle title="Monsters">
           <div>
-            <MonsterIndexActions {...this.props}/>
+            <Actions {...this.props}/>
             <section className="container">
               <h1>Monsters</h1>
               {pagination}
@@ -67,7 +67,7 @@ export default class MonsterIndex extends DeepComponent {
   }
 }
 
-class MonsterIndexActions extends ShallowComponent {
+class Actions extends ShallowComponent {
   render() {
     let {filters, sorts, limit} = this.props.monsters;
 

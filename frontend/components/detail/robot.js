@@ -6,7 +6,7 @@ import {formatQuery} from "shared/helpers/jsonapi";
 import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
 import modelActions from "frontend/actions/robot";
-import {DeepComponent} from "frontend/components/component";
+import {ShallowComponent, DeepComponent} from "frontend/components/component";
 import {ModelLink} from "frontend/components/link";
 import {Error, Loading, NotFound} from "frontend/components/special";
 
@@ -23,8 +23,6 @@ import {Error, Loading, NotFound} from "frontend/components/special";
   },
 })
 export default class RobotDetail extends DeepComponent {
-  static loadData = modelActions.establishModel;
-
   render() {
     let {loading, loadError} = this.props.robots;
     let model = this.props.model;
@@ -37,7 +35,7 @@ export default class RobotDetail extends DeepComponent {
       return (
         <DocumentTitle title={"Detail " + model.name}>
           <div>
-            <ModelActions {...this.props} model={model}/>
+            <Actions {...this.props} model={model}/>
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-3">
@@ -63,10 +61,9 @@ export default class RobotDetail extends DeepComponent {
   }
 }
 
-class ModelActions extends DeepComponent {
+class Actions extends ShallowComponent {
   render() {
-    let robots = this.props.robots;
-    let model = this.props.model;
+    let {robots, model} = this.props;
     let query = formatQuery(robots);
 
     return (

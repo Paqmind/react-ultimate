@@ -1,11 +1,10 @@
 import {map} from "ramda";
-import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
+import {branch} from "baobab-react/decorators";
 import {toArray} from "shared/helpers/common";
 import {statics} from "frontend/helpers/react";
-import state from "frontend/state";
 import {indexRouter} from "frontend/router";
 import modelActions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent} from "frontend/components/component";
@@ -44,7 +43,7 @@ export default class RobotIndex extends DeepComponent {
       return (
         <DocumentTitle title="Robots">
           <div>
-            <RobotIndexActions {...this.props}/>
+            <Actions {...this.props}/>
             <section className="container">
               <h1>Robots</h1>
               {pagination}
@@ -69,7 +68,7 @@ export default class RobotIndex extends DeepComponent {
   }
 }
 
-class RobotIndexActions extends ShallowComponent {
+class Actions extends ShallowComponent {
   render() {
     let {filters, sorts, limit} = this.props.robots;
 

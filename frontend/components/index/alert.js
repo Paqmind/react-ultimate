@@ -1,7 +1,7 @@
 import {map, minBy, sortBy} from "ramda";
-import {branch} from "baobab-react/decorators";
 import React from "react";
 import ReactAddons from "react/addons";
+import {branch} from "baobab-react/decorators";
 import {toArray} from "shared/helpers/common";
 import state from "frontend/state";
 import alertActions from "frontend/actions/alert";

@@ -1,6 +1,6 @@
 import {map} from "ramda";
 import Axios from "axios";
-import {toObject, mergeDeep} from "shared/helpers/common";
+import {toObject} from "shared/helpers/common";
 import {formatQueryForAxios} from "shared/helpers/jsonapi";
 import Alert from "shared/models/alert";
 import state from "frontend/state";

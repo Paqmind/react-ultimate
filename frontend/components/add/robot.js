@@ -53,7 +53,7 @@ export default class RobotAdd extends Form {
       return (
         <DocumentTitle title={"Add Robot"}>
           <div>
-            <ModelActions {...this.props} form={form}/>
+            <Actions {...this.props} form={form}/>
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-9">
@@ -117,7 +117,7 @@ export default class RobotAdd extends Form {
   }
 }
 
-class ModelActions extends ShallowComponent {
+class Actions extends ShallowComponent {
   render() {
     let robots = this.props.robots;
     let query = formatQuery(robots);

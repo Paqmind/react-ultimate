@@ -50,7 +50,7 @@ export default class MonsterAdd extends Form {
       return (
         <DocumentTitle title={"Add Monster"}>
           <div>
-            <ModelActions {...this.props}/>
+            <Actions {...this.props}/>
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-9">
@@ -114,7 +114,7 @@ export default class MonsterAdd extends Form {
   }
 }
 
-class ModelActions extends ShallowComponent {
+class Actions extends ShallowComponent {
   render() {
     return (
       <div className="actions">

@@ -5,7 +5,7 @@ import DocumentTitle from "react-document-title";
 import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
 import modelActions from "frontend/actions/monster";
-import {DeepComponent} from "frontend/components/component";
+import {ShallowComponent, DeepComponent} from "frontend/components/component";
 import {ModelLink} from "frontend/components/link";
 import {Error, Loading, NotFound} from "frontend/components/special";
 
@@ -34,7 +34,7 @@ export default class MonsterDetail extends DeepComponent {
       return (
         <DocumentTitle title={"Detail " + model.name}>
           <div>
-            <ModelActions {...this.props}/>
+            <Actions {...this.props}/>
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-3">
@@ -60,7 +60,7 @@ export default class MonsterDetail extends DeepComponent {
   }
 }
 
-class ModelActions extends DeepComponent {
+class Actions extends ShallowComponent {
   render() {
     let model = this.props.model;
 

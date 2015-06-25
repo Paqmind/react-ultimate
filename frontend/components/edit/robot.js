@@ -10,7 +10,7 @@ import {formatString, formatInteger, formatFloat, formatDate} from "shared/conve
 import modelValidators from "shared/validators/robot";
 import {statics} from "frontend/helpers/react";
 import modelActions from "frontend/actions/robot";
-import {DeepComponent} from "frontend/components/component";
+import {ShallowComponent, DeepComponent} from "frontend/components/component";
 import {ModelLink} from "frontend/components/link";
 import {Error, Loading, NotFound} from "frontend/components/special";
 import {Form} from "frontend/components/form";
@@ -63,7 +63,7 @@ export default class RobotEdit extends Form {
       return (
         <DocumentTitle title={"Edit " + form.name}>
           <div>
-            <ModelActions {...this.props} form={form}/>
+            <Actions {...this.props} form={form}/>
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-3">
@@ -132,7 +132,7 @@ export default class RobotEdit extends Form {
   }
 }
 
-class ModelActions extends DeepComponent {
+class Actions extends ShallowComponent {
   render() {
     let robots = this.props.robots;
     let form = this.props.form;
