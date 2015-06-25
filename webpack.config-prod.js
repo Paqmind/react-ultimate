@@ -5,19 +5,19 @@ import Webpack from "webpack";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
 import SaveAssetsJsonPlugin from "assets-webpack-plugin";
 
-// INITIAL DATA ====================================================================================
-let nodeModulesDir = Path.join(__dirname, "node_modules");
-let sharedDir = Path.join(__dirname, "shared");
-let frontendDir = Path.join(__dirname, "frontend");
-let backendDir = Path.join(__dirname, "backend");
-let publicDir = Path.join(__dirname, "public");
+// CONSTANTS =======================================================================================
+const NODE_MODULES_DIR = Path.join(__dirname, "node_modules");
+const SHARED_DIR = Path.join(__dirname, "shared");
+const FRONTEND_DIR = Path.join(__dirname, "frontend");
+const BACKEND_DIR = Path.join(__dirname, "backend");
+const PUBLIC_DIR = Path.join(__dirname, "public");
 
 // Paths to minified library distributions relative to the root node_modules
-let minifiedDeps = [
+const MINIFIED_DEPS = [
   "moment/min/moment.min.js",
 ];
 
-let autoprefixer = "autoprefixer?{browsers: ['> 5%']}";
+const AUTOPREFIXER = "autoprefixer?{browsers: ['> 5%']}";
 
 // CONFIG ==========================================================================================
 export default {
@@ -34,7 +34,7 @@ export default {
   // Output files http://webpack.github.io/docs/configuration.html#output
   output: {
     // Abs. path to output directory http://webpack.github.io/docs/configuration.html#output-path
-    path: publicDir,
+    path: PUBLIC_DIR,
 
     // Filename of an entry chunk http://webpack.github.io/docs/configuration.html#output-filename
     filename: "[name].js?[chunkhash]",
@@ -61,8 +61,8 @@ export default {
   // Module http://webpack.github.io/docs/configuration.html#module
   module: {
     noParse: map(dep => {
-      return Path.resolve(nodeModulesDir, dep);
-    }, minifiedDeps),
+      return Path.resolve(NODE_MODULES_DIR, dep);
+    }, MINIFIED_DEPS),
 
     loaders: [ // http://webpack.github.io/docs/loaders.html
       // JS
@@ -100,33 +100,33 @@ export default {
 
       // CSS
       // https://github.com/webpack/css-loader
-      {test: /\.(css(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css!${autoprefixer}`)},
+      {test: /\.(css(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css!${AUTOPREFIXER}`)},
 
       // LESS
       // https://github.com/webpack/less-loader
-      {test: /\.(less(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css!${autoprefixer}!less`)},
+      {test: /\.(less(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css!${AUTOPREFIXER}!less`)},
     ],
   },
 
   // Module resolving http://webpack.github.io/docs/configuration.html#resolve
   resolve: {
     // Abs. path with modules
-    root: frontendDir,
+    root: FRONTEND_DIR,
 
     // node_modules and like that
     modulesDirectories: ["web_modules", "node_modules"],
 
     // ???
     alias: reduce((memo, dep) => {
-      let depPath = Path.resolve(nodeModulesDir, dep);
+      let depPath = Path.resolve(NODE_MODULES_DIR, dep);
       return assoc(dep.split(Path.sep)[0], depPath, memo);
-    }, {}, minifiedDeps),
+    }, {}, MINIFIED_DEPS),
   },
 
   // Loader resolving http://webpack.github.io/docs/configuration.html#resolveloader
   resolveLoader: {
     // Abs. path with loaders
-    root: nodeModulesDir,
+    root: NODE_MODULES_DIR,
   },
 
   // Plugins http://webpack.github.io/docs/list-of-plugins.html
@@ -143,7 +143,7 @@ export default {
         });
         jsonStats.publicPath = "/public/";
         Fs.writeFileSync(
-          Path.join(publicDir, "assets.json"),
+          Path.join(PUBLIC_DIR, "assets.json"),
           JSON.stringify(jsonStats.assetsByChunkName)
         );
       });
