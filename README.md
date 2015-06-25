@@ -17,7 +17,7 @@ Fork it, tweak it, break it... if you wish.
 ## Install
 
 ```
-$ wget https://github.com/Paqmind/react-starter/archive/master.zip; unzip master.zip -d react-starter; rm master.zip
+$ wget https://github.com/Paqmind/react-ultimate/archive/master.zip; unzip master.zip -d react-ultimate; rm master.zip
 $ cd react-starter
 $ npm install; bower install; bin/install
 ```
