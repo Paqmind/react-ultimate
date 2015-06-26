@@ -4,7 +4,7 @@ import flat from "flat";
 
 // HELPERS =========================================================================================
 // Workaround until https://github.com/ramda/ramda/issues/1073 (wait for release) //////////////////
-export const mergeDeep = DeepMerge((a, b, key) => {
+let mergeDeep = DeepMerge((a, b, key) => {
   return b;
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@ export const mergeDeep = DeepMerge((a, b, key) => {
  * @param n {number} - length of chunk
  * @return {Array} - chunked array
  */
-export function chunked(n, array) {
+function chunked(n, array) {
   if (array === undefined) {
     return chunked.bind(null, n);
   } else {
@@ -38,7 +38,7 @@ export function chunked(n, array) {
  * @param data {Array<*>} - unsorted data
  * @return {Array<*>} - sorted data
  */
-export function filterByAll(filters, data) {
+function filterByAll(filters, data) {
   if (data === undefined) {
     return filterByAll.bind(null, filters);
   } else {
@@ -58,7 +58,7 @@ export function filterByAll(filters, data) {
  * @param data {Array<*>} - unsorted data
  * @returns {Array<*>} - sorted data
  */
-export function sortByAll(sorts, data) {
+function sortByAll(sorts, data) {
   if (data === undefined) {
     return sortByAll.bind(null, sorts);
   } else {
@@ -76,22 +76,22 @@ export function sortByAll(sorts, data) {
   }
 }
 
-export function flattenArrayObject(object, sorter=(v => v)) {
+function flattenArrayObject(object, sorter=(v => v)) {
   let sortedKeys = sortBy(sorter, keys(object));
   return reduce((combinedArray, key) => {
     return combinedArray.concat(object[key]);
   }, [], sortedKeys);
 }
 
-export function flattenObject(obj) {
+function flattenObject(obj) {
   return flat(obj, {safe: true});
 }
 
-export function unflattenObject(obj) {
+function unflattenObject(obj) {
   return flat.unflatten(obj, {object: false});
 }
 
-export function toObject(array) {
+function toObject(array) {
   if (array instanceof Array) {
     return reduce((memo, item) => {
       return assoc(item.id, item, memo);
@@ -101,7 +101,7 @@ export function toObject(array) {
   }
 }
 
-export function toArray(object) {
+function toArray(object) {
   if (object instanceof Object) {
     return sortBy(
       item => item.id,
@@ -112,7 +112,7 @@ export function toArray(object) {
   }
 }
 
-export function normalize(data) {
+function normalize(data) {
   if (data instanceof Array) {
     return map(v => normalize(v), data);
   } else if (data instanceof Object) {
@@ -144,4 +144,10 @@ export function normalize(data) {
   } else {
     return data;
   }
+}
+
+export default {
+  mergeDeep, chunked, filterByAll, sortByAll,
+  flattenArrayObject, flattenObject, unflattenObject,
+  toObject, toArray, normalize
 }

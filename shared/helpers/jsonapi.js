@@ -1,7 +1,7 @@
 import {assoc, keys, map, pipe, reduce} from "ramda";
 
 // JSON API ========================================================================================
-export function parseQuery(query) {
+function parseQuery(query) {
   let result = {};
 
   if (query.filter) {
@@ -25,7 +25,7 @@ export function parseQuery(query) {
   return result;
 }
 
-export function formatQuery(query) {
+function formatQuery(query) {
   if (!query instanceof Object) {
     throw new Error(`query must be a basic Object, got ${query}`);
   }
@@ -53,7 +53,7 @@ export function formatQuery(query) {
   return result;
 }
 
-export function formatQueryForAxios(query) {
+function formatQueryForAxios(query) {
   if (!query instanceof Object) {
     throw new Error(`query must be a basic Object, got ${query}`);
   }
@@ -80,4 +80,8 @@ export function formatQueryForAxios(query) {
   }
 
   return result;
+}
+
+export default {
+  parseQuery, formatQuery, formatQueryForAxios
 }

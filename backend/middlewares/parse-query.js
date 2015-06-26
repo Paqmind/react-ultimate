@@ -1,5 +1,5 @@
 import Joi from "joi";
-import * as jsonApi from "shared/helpers/jsonapi";
+import jsonApi from "shared/helpers/jsonapi";
 import {joiOptions} from "shared/helpers/validation";
 import {toSingleMessage} from "backend/helpers";
 
