@@ -6,13 +6,16 @@ Dreamed of something closer to the industry?
 
 Welcome to **React Ultimate** then.
 
-This project aims to provide examples of fundamental Index & CRUD operations, being relatively framework agnostic.
-We're trying to build an architecture that may be ported to different frameworks and even languages.
-That should be at least possible, if not easy.
+![alt tag](/screenshot.png)
 
-A lot of experiments going on here, so it's definitely not a stable package.
-But as this is an app, and not a library, a "backward compatibility" issues are inapplicable.
-Fork it, tweak it, break it... if you wish.
+This project aims to provide basic solutions for typical web app tasks. Bundling, indexing, pagination,
+filtering, sorting, CRUD, forms, authorization, tests, lints, isomorphic app, code sharing between server and browser...
+We're going to solve all such common tasks in a simplified, yet valueable form to provide a starting point
+for your next project.
+
+Not everything of that is already here or has desired quality, but we're approaching.
+We're interested in the architecture that may be ported to different frameworks and even languages.
+React is not a final answer. Reactivity probably is.
 
 ## Install
 
