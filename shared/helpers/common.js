@@ -4,8 +4,12 @@ import flat from "flat";
 
 // HELPERS =========================================================================================
 // Workaround until https://github.com/ramda/ramda/issues/1073 (wait for release) //////////////////
-let merge = DeepMerge((a, b, key) => {
+let doMerge = DeepMerge((a, b, key) => {
   return b;
+});
+
+let merge = curry(function (a, b) {
+  return doMerge(b, a);
 });
 
 let assign = curry(function (a, b) {

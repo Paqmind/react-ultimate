@@ -11,7 +11,7 @@ router.post("/",
   middlewares.createParseQuery({}),
   middlewares.createParseBody(modelValidators.model),
   function handler(req, res, cb) {
-    let model = merge(makeModel(), req.body);
+    let model = merge(req.body, makeModel());
     DB[model.id] = model;
     let response = {
       data: model,

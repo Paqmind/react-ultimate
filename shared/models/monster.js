@@ -8,9 +8,9 @@ import validators from "shared/validators/monster";
 // MODELS ==========================================================================================
 export default function Monster(data={}) {
   // Default values
-  data = merge({
+  data = merge(data, {
     id: UUID.v4(),
-  }, data);
+  });
 
   // Convert and validate
   let [model, errors] = joiValidate(data, validators.model);

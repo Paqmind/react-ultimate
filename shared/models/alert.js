@@ -8,12 +8,12 @@ import validators from "shared/validators/alert";
 // MODELS ==========================================================================================
 export default function Alert(data={}) {
   // Default values
-  data = merge({
+  data = merge(data, {
     id: UUID.v4(),
     closable: true,
     expire: data.category == "error" ? 0 : 4000,
     createdDate: data.createdDate ? data.createdDate : new Date()
-  }, data);
+  });
 
   // Convert and validate
   let [model, errors] = joiValidate(data, validators.model);

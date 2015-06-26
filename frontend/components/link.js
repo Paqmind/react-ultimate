@@ -12,7 +12,7 @@ export class IndexLink extends Component {
     let urlQuery = urlCursor.get("query");
 
     let {query, ...props} = this.props;
-    query = merge(urlQuery, formatQuery(query));
+    query = merge(formatQuery(query), urlQuery);
 
     return (
       <ReactRouter.Link query={query} {...props}>
@@ -28,7 +28,7 @@ export class ModelLink extends Component {
     let urlId = urlCursor.get("id");
 
     let {params, ...props} = this.props;
-    params = merge({id: urlId}, params || {});
+    params = merge(params || {}, {id: urlId});
 
     return (
       <ReactRouter.Link params={params} {...props}>

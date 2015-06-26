@@ -115,5 +115,5 @@ function getCurrentRouteAndQuery(route, query) {
   let urlCursor = state.select("url");
   let urlRoute = urlCursor.get("route");
   let urlQuery = urlCursor.get("query");
-  return [route || urlRoute, merge(urlQuery, formatQuery(query))];
+  return [route || urlRoute, merge(formatQuery(query), urlQuery)];
 }

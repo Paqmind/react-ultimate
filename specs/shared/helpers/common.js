@@ -1,8 +1,36 @@
 import {prop} from "ramda";
 import {expect} from "chai";
-import {chunked, filterByAll, sortByAll} from "shared/helpers/common";
+import {merge, assign, chunked, filterByAll, sortByAll} from "shared/helpers/common";
 
 // SPECS ===========================================================================================
+describe("merge()", function () {
+  it("should work", function () {
+    let a1 = {model: {"1" : {id: 1, name: "jacinto"}}};
+    let b1 = {model: {"1" : {id: 1, name: "jac"}}};
+
+    expect(merge(a1, b1)).eql(a1);
+
+    let a2 = {model: {}};
+    let b2 = {model: {"1" : {id: 1, name: "jac"}}};
+
+    expect(merge(a2, b2)).eql(b2);
+  });
+});
+
+describe("assign()", function () {
+  it("should work", function () {
+    let a1 = {model: {"1" : {id: 1, name: "jacinto"}}};
+    let b1 = {model: {"1" : {id: 1, name: "jac"}}};
+
+    expect(assign(a1, b1)).eql(a1);
+
+    let a2 = {model: {}};
+    let b2 = {model: {"1" : {id: 1, name: "jac"}}};
+
+    expect(assign(a2, b2)).eql(a2);
+  });
+});
+
 describe("chunked()", function () {
   it("should work", function () {
     expect(chunked(5, [1, 2, 3, 4, 5])).eql([[1, 2, 3, 4, 5]]);
