@@ -6,7 +6,9 @@
 @import "~bootstrap-ext/less/variables";
 @import "~bootstrap-ext/less/mixins";
 @import "~bootstrap-ext/less/buttons";
+@import "~bootstrap-ext/less/forms";
 @import "~frontend/common/variables";
+
 
 #http-error-heading {
     margin-bottom: @line-height-computed * 2;
@@ -16,7 +18,7 @@
     }
 }
 #http-error-descr {
-    padding-top: 100px;
+    padding-top: 50px;
     font-size: @font-size-base * 1.5;
     .heading {
         font-size: @font-size-base * 5;
@@ -28,7 +30,6 @@
 }
 
 #mascotte {
-    padding: @line-height-computed * 2 0;
     // http://nicolasgallagher.com/pure-css-speech-bubbles/demo/
     .oval-thought {
         @color: @blue-light;
@@ -110,6 +111,7 @@
         .form-control;
         .form-group-lg;
         float: left;
+        max-width: 300px;
         margin-right: @line-height-computed / 3;
     }
     #goog-wm-sb {
