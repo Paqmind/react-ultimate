@@ -7,6 +7,10 @@ import flat from "flat";
 let merge = DeepMerge((a, b, key) => {
   return b;
 });
+
+let assign = curry(function (a, b) {
+  return Object.assign({}, b, a);
+});
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * Split array into chunks with predefined chunk length. Useful for pagination.
@@ -135,7 +139,7 @@ function normalize(data) {
 }
 
 export default {
-  merge, chunked, filterByAll, sortByAll,
+  merge, assign, chunked, filterByAll, sortByAll,
   flattenArrayObject, flattenObject, unflattenObject,
   toObject, toArray, normalize
 };
