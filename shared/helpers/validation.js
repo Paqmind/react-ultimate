@@ -15,7 +15,7 @@ function joiValidate(data, joiSchema) {
 
 export default {
   joiOptions, joiValidate
-}
+};
 
 // HELPERS =========================================================================================
 function joiFormatErrors(joiError) {

@@ -1,5 +1,5 @@
 import DeepMerge from "deep-merge";
-import {assoc, filter, flatten, pipe, prop, keys, map, mapIndexed, range, reduce, reduceIndexed, reverse, slice, sortBy} from "ramda";
+import {assoc, curry, filter, flatten, pipe, prop, keys, map, mapIndexed, range, reduce, reduceIndexed, reverse, slice, sortBy} from "ramda";
 import flat from "flat";
 
 // HELPERS =========================================================================================
@@ -18,17 +18,13 @@ let mergeDeep = DeepMerge((a, b, key) => {
  * @param n {number} - length of chunk
  * @return {Array} - chunked array
  */
-function chunked(n, array) {
-  if (array === undefined) {
-    return chunked.bind(null, n);
-  } else {
-    let l = Math.ceil(array.length / n);
-    return mapIndexed(
-      (x, i) => array.slice(i * n, i * n + n),
-      range(0, l)
-    );
-  }
-}
+let chunked = curry(function (n, array) {
+  let l = Math.ceil(array.length / n);
+  return mapIndexed(
+    (x, i) => array.slice(i * n, i * n + n),
+    range(0, l)
+  );
+});
 
 /**
  * Filter array by `filters` argument
@@ -38,17 +34,13 @@ function chunked(n, array) {
  * @param data {Array<*>} - unsorted data
  * @return {Array<*>} - sorted data
  */
-function filterByAll(filters, data) {
-  if (data === undefined) {
-    return filterByAll.bind(null, filters);
-  } else {
-    return reduce((memo, filterKey) => {
-      let filterValue = filters[filterKey];
-      let filterer = filter(d => d && (d[filterKey] == filterValue));
-      return filterer(memo);
-    }, data, keys(filters));
-  }
-}
+let filterByAll = curry(function (filters, data) {
+  return reduce((memo, filterKey) => {
+    let filterValue = filters[filterKey];
+    let filterer = filter(d => d && (d[filterKey] == filterValue));
+    return filterer(memo);
+  }, data, keys(filters));
+});
 
 /**
  * Sort array by `sorts` argument
@@ -58,23 +50,19 @@ function filterByAll(filters, data) {
  * @param data {Array<*>} - unsorted data
  * @returns {Array<*>} - sorted data
  */
-function sortByAll(sorts, data) {
-  if (data === undefined) {
-    return sortByAll.bind(null, sorts);
-  } else {
-    return reduce((memo, sort) => {
-      let sorter;
-      if (sort.startsWith("-")) {
-        sorter = pipe(sortBy(prop(sort.slice(1))), reverse);
-      } else if (sort.startsWith("+") || sort.startsWith(" ")) {
-        sorter = sortBy(prop(sort.slice(1)));
-      } else {
-        sorter = sortBy(prop(sort), true);
-      }
-      return sorter(memo);
-    }, data, reverse(sorts));
-  }
-}
+let sortByAll = curry(function (sorts, data) {
+  return reduce((memo, sort) => {
+    let sorter;
+    if (sort.startsWith("-")) {
+      sorter = pipe(sortBy(prop(sort.slice(1))), reverse);
+    } else if (sort.startsWith("+") || sort.startsWith(" ")) {
+      sorter = sortBy(prop(sort.slice(1)));
+    } else {
+      sorter = sortBy(prop(sort), true);
+    }
+    return sorter(memo);
+  }, data, reverse(sorts));
+});
 
 function flattenArrayObject(object, sorter=(v => v)) {
   let sortedKeys = sortBy(sorter, keys(object));
@@ -150,4 +138,4 @@ export default {
   mergeDeep, chunked, filterByAll, sortByAll,
   flattenArrayObject, flattenObject, unflattenObject,
   toObject, toArray, normalize
-}
+};
