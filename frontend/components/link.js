@@ -1,7 +1,7 @@
 import React from "react";
 import ReactRouter from "react-router";
 import state from "frontend/state";
-import {mergeDeep} from "shared/helpers/common";
+import {merge} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
 import {Component} from "frontend/components/component";
 
@@ -12,7 +12,7 @@ export class IndexLink extends Component {
     let urlQuery = urlCursor.get("query");
 
     let {query, ...props} = this.props;
-    query = mergeDeep(urlQuery, formatQuery(query));
+    query = merge(urlQuery, formatQuery(query));
 
     return (
       <ReactRouter.Link query={query} {...props}>
@@ -28,7 +28,7 @@ export class ModelLink extends Component {
     let urlId = urlCursor.get("id");
 
     let {params, ...props} = this.props;
-    params = mergeDeep({id: urlId}, params || {});
+    params = merge({id: urlId}, params || {});
 
     return (
       <ReactRouter.Link params={params} {...props}>

@@ -1,14 +1,14 @@
 import UUID from "node-uuid";
 import {filter, flatten, keys, values} from "ramda";
 import Moment from "moment";
-import {flattenObject, mergeDeep} from "shared/helpers/common";
+import {flattenObject, merge} from "shared/helpers/common";
 import {joiValidate} from "shared/helpers/validation";
 import validators from "shared/validators/alert";
 
 // MODELS ==========================================================================================
 export default function Alert(data={}) {
   // Default values
-  data = mergeDeep({
+  data = merge({
     id: UUID.v4(),
     closable: true,
     expire: data.category == "error" ? 0 : 4000,

@@ -1,4 +1,4 @@
-import {mergeDeep} from "shared/helpers/common";
+import {merge} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
 import state from "frontend/state";
 
@@ -115,5 +115,5 @@ function getCurrentRouteAndQuery(route, query) {
   let urlCursor = state.select("url");
   let urlRoute = urlCursor.get("route");
   let urlQuery = urlCursor.get("query");
-  return [route || urlRoute, mergeDeep(urlQuery, formatQuery(query))];
+  return [route || urlRoute, merge(urlQuery, formatQuery(query))];
 }

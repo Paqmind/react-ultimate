@@ -1,4 +1,4 @@
-import {mergeDeep} from "shared/helpers/common";
+import {merge} from "shared/helpers/common";
 import commonValidators from "shared/validators/common";
 import modelValidators from "shared/validators/monster";
 import makeModel from "shared/makers/monster";
@@ -11,7 +11,7 @@ router.post("/",
   middlewares.createParseQuery({}),
   middlewares.createParseBody(modelValidators.model),
   function handler(req, res, cb) {
-    let model = mergeDeep(makeModel(), req.body);
+    let model = merge(makeModel(), req.body);
     DB[model.id] = model;
     let response = {
       data: model,

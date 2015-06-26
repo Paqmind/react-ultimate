@@ -4,7 +4,7 @@ import flat from "flat";
 
 // HELPERS =========================================================================================
 // Workaround until https://github.com/ramda/ramda/issues/1073 (wait for release) //////////////////
-let mergeDeep = DeepMerge((a, b, key) => {
+let merge = DeepMerge((a, b, key) => {
   return b;
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,7 +135,7 @@ function normalize(data) {
 }
 
 export default {
-  mergeDeep, chunked, filterByAll, sortByAll,
+  merge, chunked, filterByAll, sortByAll,
   flattenArrayObject, flattenObject, unflattenObject,
   toObject, toArray, normalize
 };

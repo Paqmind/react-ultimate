@@ -1,4 +1,4 @@
-import {mergeDeep} from "shared/helpers/common";
+import {merge} from "shared/helpers/common";
 import Model from "shared/models/monster";
 import commonValidators from "shared/validators/common";
 import modelValidators from "shared/validators/monster";

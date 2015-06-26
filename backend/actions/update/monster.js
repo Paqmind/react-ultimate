@@ -1,4 +1,4 @@
-import {mergeDeep} from "shared/helpers/common";
+import {merge} from "shared/helpers/common";
 import Model from "shared/models/monster";
 import makeModel from "shared/makers/monster";
 import commonValidators from "shared/validators/common";
@@ -16,7 +16,7 @@ router.patch("/:id",
     let oldModel = DB[req.params.id];
     let newModel = Model(req.body);
     if (oldModel) {
-      DB[newModel.id] = mergeDeep(oldModel, newModel);
+      DB[newModel.id] = merge(oldModel, newModel);
       return res.status(204).send(); // Status: no-content
     } else {
       DB[newModel.id] = newModel;
