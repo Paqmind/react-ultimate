@@ -2,6 +2,8 @@ import Path from "path";
 import {assoc, map, reduce} from "ramda";
 import Webpack from "webpack";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
+import {Base64} from "js-base64";
+import Config from "config";
 
 // CONSTANTS =======================================================================================
 const NODE_MODULES_DIR = Path.join(__dirname, "node_modules");
@@ -11,9 +13,18 @@ const BACKEND_DIR = Path.join(__dirname, "backend");
 const PUBLIC_DIR = Path.join(__dirname, "public");
 
 // Paths to minified library distributions relative to the root node_modules
-const MINIFIED_DEPS = [
+const MINIFIED_DEPS = Object.freeze([
   "moment/min/moment.min.js",
-];
+]);
+
+const DEFINE = Object.freeze({
+  "process.env": {
+    "NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+  },
+  "config": {
+    "api-auth": JSON.stringify((Config.has("api-user-name") && Config.has("api-user-pass")) ? "Basic " + Base64.encode(Config.get("api-user-name") + ":" + Config.get("api-user-pass")) : undefined),
+  },
+});
 
 // CONFIG ==========================================================================================
 export default {
@@ -131,6 +142,7 @@ export default {
     new Webpack.IgnorePlugin(/^vertx$/),
     new Webpack.optimize.CommonsChunkPlugin("vendors", "vendors.js"),
     new ExtractTextPlugin("[name].css"),
+    new Webpack.DefinePlugin(DEFINE),
     //  new Webpack.HotModuleReplacementPlugin(), TODO track https://github.com/gaearon/react-hot-loader/issues/125
   ],
 
