@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "main": "backend/server.js",
   "scripts": {
+    "clean": "rm -r public/*",
     "lint": "eslint .",
     "build": "webpack --config webpack.config-prod.js --progress --profile --colors",
     "dev": "webpack-dev-server --config webpack.config-dev.js --progress --colors --port 2992 --inline",
@@ -16,7 +17,6 @@
     "test-watch": "NODE_ENV=testing NODE_CONFIG_DIR=shared/config mocha --opts specs/mocha.opts -w specs"
   },
   "dependencies": {
-    "assets-webpack-plugin": "^2.0.0",
     "autoprefixer-loader": "^2.0.0",
     "axios": "^0.5.4",
     "babel": "^5.4.7",

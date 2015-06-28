@@ -9,7 +9,7 @@ Welcome to **React Ultimate** then.
 ![alt tag](/screenshot.png)
 
 This project aims to provide basic solutions for typical web app tasks. Bundling, indexing, pagination,
-filtering, sorting, CRUD, forms, authorization, tests, lints, isomorphic app, code sharing between server and browser...
+filtering, sorting, CRUD, forms, authorization, tests, lints, live reloads,np isomorphic app, code sharing between server and browser...
 We're going to solve all such common tasks in a simplified, yet valueable form to provide a starting point
 for your next project.
 
@@ -43,7 +43,7 @@ $ npm run nodemon [terminal #2]
 
 All tests
 ```
-npm test
+npm test -s
 ```
 
 Specific tests (`--` is an NPM syntax to pass arguments)

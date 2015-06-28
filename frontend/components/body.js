@@ -4,7 +4,6 @@ import {Link} from "react-router";
 import {RouteHandler} from "react-router";
 import {root} from "baobab-react/decorators";
 import state from "frontend/state";
-import alertActions from "frontend/actions/alert";
 import {Component} from "frontend/components/component";
 import Menu from "frontend/components/menu";
 import Header from "frontend/components/header/header";
