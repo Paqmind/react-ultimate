@@ -5,13 +5,13 @@ import {merge, assign, chunked, filterByAll, sortByAll} from "shared/helpers/com
 // SPECS ===========================================================================================
 describe("merge()", function () {
   it("should work", function () {
-    let a1 = {model: {"1" : {id: 1, name: "jacinto"}}};
-    let b1 = {model: {"1" : {id: 1, name: "jac"}}};
+    let a1 = {model: {"1": {id: 1, name: "jacinto"}}};
+    let b1 = {model: {"1": {id: 1, name: "jac"}}};
 
     expect(merge(a1, b1)).eql(a1);
 
     let a2 = {model: {}};
-    let b2 = {model: {"1" : {id: 1, name: "jac"}}};
+    let b2 = {model: {"1": {id: 1, name: "jac"}}};
 
     expect(merge(a2, b2)).eql(b2);
   });
@@ -19,13 +19,13 @@ describe("merge()", function () {
 
 describe("assign()", function () {
   it("should work", function () {
-    let a1 = {model: {"1" : {id: 1, name: "jacinto"}}};
-    let b1 = {model: {"1" : {id: 1, name: "jac"}}};
+    let a1 = {model: {"1": {id: 1, name: "jacinto"}}};
+    let b1 = {model: {"1": {id: 1, name: "jac"}}};
 
     expect(assign(a1, b1)).eql(a1);
 
     let a2 = {model: {}};
-    let b2 = {model: {"1" : {id: 1, name: "jac"}}};
+    let b2 = {model: {"1": {id: 1, name: "jac"}}};
 
     expect(assign(a2, b2)).eql(a2);
   });

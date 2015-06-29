@@ -39,6 +39,12 @@ $ npm run dev     [terminal #1]
 $ npm run nodemon [terminal #2]
 ```
 
+## Lint
+
+```
+npm run lint -s (mute node output)
+```
+
 ## Test
 
 All tests
@@ -48,7 +54,7 @@ npm test -s
 
 Specific tests (`--` is an NPM syntax to pass arguments)
 ```
-npm test -- --grep "api/robots POST"
+npm test -- --grep "api/robots POST" -s
 ```
 
 Refer to [Mocha](https://github.com/mochajs/mocha) and [Chai](https://github.com/chaijs/chai)

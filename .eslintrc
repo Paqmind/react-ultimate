@@ -4,20 +4,21 @@
     "node": true
   },
   "rules": {
-    "comma-dangle": false,
-    "quotes": false,
-    "strict": false,
-    "no-unused-vars": false,
-    "no-undef-init": false,
-    "eqeqeq": false,
-    "new-cap": false,
-    "no-underscore-dangle": false,
-    "no-multi-spaces": false,
-    "no-process-exit": false,
-    "no-wrap-func": false,
+    "comma-dangle": [0],
+    "quotes": [0],
+    "strict": [0],
+    "no-unused-vars": [0],
+    "no-undef-init": [0],
+    "eqeqeq": [0],
+    "new-oap": [0],
+    "no-underscore-dangle": [0],
+    "no-multi-spaces": [0],
+    "no-process-exit": [0],
+    "no-wrap-func": [0],
     "eol-last": [0],
     "no-alert": [0],
     "dot-notation": [0],
-    "no-use-before-define": [2, "nofunc"]
+    "no-use-before-define": [2, "nofunc"],
+    "new-cap": [0],
   }
 }
