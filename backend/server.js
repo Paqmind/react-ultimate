@@ -1,5 +1,4 @@
 import Http from "http";
-import Config from "config";
 import logger from "backend/logger";
 import app from "backend/app";
 
@@ -7,7 +6,7 @@ import app from "backend/app";
 let server = Http.createServer(app);
 server.on("error", onError);
 server.on("listening", onListening);
-server.listen(Config.get("http-port"));
+server.listen(process.env.HTTP_PORT);
 
 // HELPERS =========================================================================================
 function onError(error) {
@@ -16,11 +15,11 @@ function onError(error) {
   }
   switch (error.code) {
     case "EACCES":
-      logger.error(Config.get("http-port") + " requires elevated privileges");
+      logger.error(process.env.HTTP_PORT + " requires elevated privileges");
       process.exit(1);
       break;
     case "EADDRINUSE":
-      logger.error(Config.get("http-port") + " is already in use");
+      logger.error(process.env.HTTP_PORT + " is already in use");
       process.exit(1);
       break;
     default:
@@ -29,5 +28,5 @@ function onError(error) {
 }
 
 function onListening() {
-  logger.info("Listening on port " + Config.get("http-port"));
+  logger.info("Listening on port " + process.env.HTTP_PORT);
 }

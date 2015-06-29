@@ -3,7 +3,6 @@ import Inspect from "util-inspect";
 import Winston from "winston";
 import WinstonMail from "winston-mail";
 import Moment from "moment";
-import Config from "config";
 
 // LOGGING =========================================================================================
 let customColors = {
@@ -57,10 +56,10 @@ if (process.env.NODE_ENV == "production") {
   // https://www.npmjs.com/package/winston-mail
   logger.add(Winston.transports.Mail, {
     level: "error",
-    host: Config.get("smtp-host"),
-    port: Config.get("smtp-port"),
-    from: Config.get("mail-robot"),
-    to: Config.get("mail-support"),
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    from: process.env.MAIL_ROBOT,
+    to: process.env.MAIL_SUPPORT,
     subject: "Application Failed",
   });
 }

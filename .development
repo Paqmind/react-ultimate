@@ -1,0 +1,9 @@
+export NODE_ENV=development
+export HTTP_PORT=3000
+export HTTP_USE_ETAG=
+
+export SMTP_HOST=localhost
+export SMTP_PORT=25
+
+export MAIL_ROBOT=robot@localhost
+export MAIL_SUPPORT=support@localhost

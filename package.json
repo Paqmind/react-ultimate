@@ -5,16 +5,16 @@
   "scripts": {
     "clean": "rm -r public/*",
     "lint": "eslint .",
-    "build": "NODE_ENV=production NODE_CONFIG_DIR=shared/config webpack --config webpack.config-prod.js --progress --profile --colors",
-    "dev": "NODE_ENV=development NODE_CONFIG_DIR=shared/config webpack-dev-server --config webpack.config-dev.js --progress --colors --port 2992 --inline",
-    "node": "NODE_ENV=production NODE_CONFIG_DIR=shared/config babel-node backend/server.js",
-    "nodemon": "NODE_ENV=development NODE_CONFIG_DIR=shared/config nodemon backend/server.js",
+    "build": "source .production; webpack --config webpack.config-prod.js --progress --profile --colors",
+    "dev": "source .development; webpack-dev-server --config webpack.config-dev.js --progress --colors --port 2992 --inline",
+    "node": "source .production; babel-node backend/server.js",
+    "nodemon": "source .development; nodemon backend/server.js",
     "release-patch": "git checkout master && npm version patch && git push origin master --tags",
     "release-minor": "git checkout master && npm version minor && git push origin master --tags",
     "release-major": "git checkout master && npm version major && git push origin master --tags",
     "release-as-lib": "git checkout master && npm run prod && git commit -am 'Distribute' && npm version major && git push origin master --tags",
-    "test": "NODE_ENV=testing NODE_CONFIG_DIR=shared/config mocha --opts specs/mocha.opts specs",
-    "test-watch": "NODE_ENV=testing NODE_CONFIG_DIR=shared/config mocha --opts specs/mocha.opts -w specs"
+    "test": "source .testing; mocha --opts specs/mocha.opts specs",
+    "test-watch": "source .testing; mocha --opts specs/mocha.opts -w specs"
   },
   "dependencies": {
     "autoprefixer-loader": "^2.0.0",
@@ -30,7 +30,6 @@
     "chai": "^2.3.0",
     "classnames": "^2.1.1",
     "compression": "^1.4.4",
-    "config": "^1.13.0",
     "cookie-parser": "^1.3.4",
     "css-loader": "^0.15.1",
     "deep-merge": "^1.0.0",

@@ -1,6 +1,5 @@
 import {expect} from "chai";
 import Axios from "axios";
-import Config from "config";
 import app from "backend/app";
 import "backend/server";
 
@@ -12,8 +11,8 @@ describe("app", function () {
     expect(app).to.have.property("response");
   });
 
-  it("should listen localhost:" + Config.get("http-port"), function (cb) {
-    Axios.get("http://localhost:" + Config.get("http-port") + "/api/somewhere-in-the-galaxy")
+  it("should listen localhost:" + process.env.HTTP_PORT, function (cb) {
+    Axios.get("http://localhost:" + process.env.HTTP_PORT + "/api/somewhere-in-the-galaxy")
       .then(response => response.status)
       .catch(response => response.status)
       .then(status => {

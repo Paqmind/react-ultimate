@@ -1,14 +1,13 @@
 import {keys} from "ramda";
 import {expect} from "chai";
 import Axios from "axios";
-import Config from "config";
 import makeModel from "shared/makers/monster";
 import DB, {makeDB} from "backend/dbs/monster";
 import app from "backend/app";
 import "backend/server";
 
 // VARS =================================================`===========================================
-let apiRootURL = "http://localhost:" + Config.get("http-port") + "/api";
+let apiRootURL = "http://localhost:" + process.env.HTTP_PORT + "/api";
 
 function resetDB() {
   let newDB = makeDB();

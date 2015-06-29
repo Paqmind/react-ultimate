@@ -6,11 +6,10 @@
 import "shared/shims";
 import Fs from "fs";
 import Express from "express";
-import Config from "config";
 
 // APP =============================================================================================
 let app = Express();
-app.set("etag", Config.get("http-use-etag"));
+app.set("etag", Boolean(process.env.HTTP_USE_ETAG));
 export default app;
 
 // LOGGER ==========================================================================================
@@ -51,7 +50,7 @@ import "backend/actions/robot";
 import monsterRouter from "./routers/monster";
 import "backend/actions/monster";
 
-let staticRouter = Express.static("public", {etag: Config.get("http-use-etag")});
+let staticRouter = Express.static("public", {etag: false});
 
 //app.use(favicon(__dirname + "/favicon.ico"));
 app.use("/public", staticRouter);

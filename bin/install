@@ -10,9 +10,9 @@ rm -f node_modules/backend  && ln -s ../backend  node_modules/backend
 rm -f node_modules/public   && ln -s ../public   node_modules/public
 
 # Seed default configs
-cp -i shared/config/.default.js shared/config/development.js
-cp -i shared/config/.default.js shared/config/production.js
-cp -i shared/config/.default.js shared/config/testing.js
+cp -i .default .development
+cp -i .default .production
+cp -i .default .testing
 
 # Setup local Mocha to be runned through Babel Node
 bin=node_modules/mocha/bin/mocha

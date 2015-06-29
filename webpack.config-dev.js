@@ -3,7 +3,6 @@ import {assoc, map, reduce} from "ramda";
 import Webpack from "webpack";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
 import {Base64} from "js-base64";
-import Config from "config";
 
 // CONSTANTS =======================================================================================
 const NODE_MODULES_DIR = Path.join(__dirname, "node_modules");
@@ -17,12 +16,16 @@ const MINIFIED_DEPS = Object.freeze([
   "moment/min/moment.min.js",
 ]);
 
+const API_AUTH = process.env.hasOwnProperty("API_USER_NAME") && process.env.hasOwnProperty("API_USER_PASS")
+  ? "Basic " + Base64.encode(process.env.API_USER_NAME + ":" + process.env.API_USER_PASS)
+  : undefined;
+
 const DEFINE = Object.freeze({
   "process.env": {
     "NODE_ENV": JSON.stringify(process.env.NODE_ENV),
   },
   "config": {
-    "api-auth": JSON.stringify((Config.has("api-user-name") && Config.has("api-user-pass")) ? "Basic " + Base64.encode(Config.get("api-user-name") + ":" + Config.get("api-user-pass")) : undefined),
+    "api-auth": JSON.stringify(API_AUTH),
   },
 });
 
