@@ -1,9 +1,0 @@
-export NODE_ENV=production
-export HTTP_PORT=8080
-export HTTP_USE_ETAG=yes
-
-export SMTP_HOST=localhost
-export SMTP_PORT=25
-
-export MAIL_ROBOT=robot@paqmind.com
-export MAIL_SUPPORT=support@paqmind.com
