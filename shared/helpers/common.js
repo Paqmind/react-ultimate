@@ -8,11 +8,11 @@ let doMerge = DeepMerge((a, b, key) => {
   return b;
 });
 
-let merge = curry(function (a, b) {
+let merge = curry((a, b) => {
   return doMerge(b, a);
 });
 
-let assign = curry(function (a, b) {
+let assign = curry((a, b) => {
   return Object.assign({}, b, a);
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ let assign = curry(function (a, b) {
  * @param n {number} - length of chunk
  * @return {Array} - chunked array
  */
-let chunked = curry(function (n, array) {
+let chunked = curry((n, array) => {
   let l = Math.ceil(array.length / n);
   return mapIndexed(
     (x, i) => array.slice(i * n, i * n + n),
@@ -42,7 +42,7 @@ let chunked = curry(function (n, array) {
  * @param data {Array<*>} - unsorted data
  * @return {Array<*>} - sorted data
  */
-let filterByAll = curry(function (filters, data) {
+let filterByAll = curry((filters, data) => {
   return reduce((memo, filterKey) => {
     let filterValue = filters[filterKey];
     let filterer = filter(d => d && (d[filterKey] == filterValue));
@@ -58,7 +58,7 @@ let filterByAll = curry(function (filters, data) {
  * @param data {Array<*>} - unsorted data
  * @returns {Array<*>} - sorted data
  */
-let sortByAll = curry(function (sorts, data) {
+let sortByAll = curry((sorts, data) => {
   return reduce((memo, sort) => {
     let sorter;
     if (sort.startsWith("-")) {
