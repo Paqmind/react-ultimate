@@ -19,6 +19,7 @@
     "no-alert": [0],
     "dot-notation": [0],
     "no-use-before-define": [2, "nofunc"],
-    "new-cap": [0]
+    "new-cap": [0],
+    "no-shadow": [0]
   }
 }
