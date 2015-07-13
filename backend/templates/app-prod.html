@@ -2,8 +2,8 @@
 
 {% block head %}
   {{ super() }}
+
   <link href="//robohash.org" rel="dns-prefetch"/>
-  <link href="/public/bundle.css?{{ hashes.bundleCss }}" rel="stylesheet"/>
 {% endblock %}
 
 {% block body %}
@@ -12,6 +12,10 @@
       <i class="fa fa-cog fa-spin"></i>
     </div>
   </main>
+{% endblock %}
+
+{% block styles %}
+	<link href="/public/bundle.css?{{ hashes.bundleCss }}" rel="stylesheet"/>
 {% endblock %}
 
 {% block scripts %}

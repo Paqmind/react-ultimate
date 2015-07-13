@@ -2,8 +2,8 @@
 
 {% block head %}
   {{ super() }}
+
   <link href="//robohash.org" rel="dns-prefetch"/>
-  <link href="http://localhost:2992/public/bundle.css" rel="stylesheet"/>
 {% endblock %}
 
 {% block body %}
@@ -12,6 +12,10 @@
       <i class="fa fa-cog fa-spin"></i>
     </div>
   </main>
+{% endblock %}
+
+{% block styles %}
+	<link href="http://localhost:2992/public/bundle.css" rel="stylesheet"/>
 {% endblock %}
 
 {% block scripts %}

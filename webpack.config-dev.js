@@ -31,50 +31,51 @@ const DEFINE = Object.freeze({
 
 // CONFIG ==========================================================================================
 export default {
-  // Compilation target http://webpack.github.io/docs/configuration.html#target
+  // Compilation target: http://webpack.github.io/docs/configuration.html#target
   target: "web",
 
-  // Entry files http://webpack.github.io/docs/configuration.html#entry
+  // Entry files: http://webpack.github.io/docs/configuration.html#entry
   entry: {
     bundle: "./frontend/app",
 
     vendors: ["react", "react-router"],
   },
 
-  // Output files http://webpack.github.io/docs/configuration.html#output
+  // Output files: http://webpack.github.io/docs/configuration.html#output
   output: {
-    // Abs. path to output directory http://webpack.github.io/docs/configuration.html#output-path
+    // Abs. path to output directory: http://webpack.github.io/docs/configuration.html#output-path
     path: PUBLIC_DIR,
 
-    // Filename of an entry chunk http://webpack.github.io/docs/configuration.html#output-filename
+    // Filename of an entry chunk: http://webpack.github.io/docs/configuration.html#output-filename
     filename: "[name].js",
 
-    // Web path (used to prefix URLs) http://webpack.github.io/docs/configuration.html#output-publicpath
+    // Web path (used to prefix URLs): http://webpack.github.io/docs/configuration.html#output-publicpath
     publicPath: "http://localhost:2992/public/",
 
     // ??? http://webpack.github.io/docs/configuration.html#output-sourcemapfilename
     sourceMapFilename: "debugging/[file].map",
 
-    // Include pathinfo in output (like `require(/*./test*/23)`) http://webpack.github.io/docs/configuration.html#output-pathinfo
+    // Include pathinfo in output (like `require(/*./test*/23)`): http://webpack.github.io/docs/configuration.html#output-pathinfo
     pathinfo: true,
   },
 
-  // Debug mode http://webpack.github.io/docs/configuration.html#debug
+  // Debug mode: http://webpack.github.io/docs/configuration.html#debug
   debug: true,
 
-  // Enhance debugging http://webpack.github.io/docs/configuration.html#devtool
+  // Enhance debugging: http://webpack.github.io/docs/configuration.html#devtool
   devtool: "source-map",
 
-  // Capture timing information http://webpack.github.io/docs/configuration.html#profile
+  // Capture timing information: http://webpack.github.io/docs/configuration.html#profile
   profile: true,
 
-  // Module http://webpack.github.io/docs/configuration.html#module
+  // http://webpack.github.io/docs/configuration.html#module
   module: {
     noParse: map(dep => {
       return Path.resolve(NODE_MODULES_DIR, dep);
     }, MINIFIED_DEPS),
 
-    loaders: [ // http://webpack.github.io/docs/loaders.html
+    // http://webpack.github.io/docs/loaders.html
+    loaders: [
       // JS
       {test: /\.(js(\?.*)?)$/, loaders: ["react-hot", "babel?stage=0"], exclude: /node_modules/},
 
@@ -85,8 +86,7 @@ export default {
       // RAW
       {test: /\.(txt(\?.*)?)$/, loaders: ["raw"]},
 
-      // URL
-      // https://github.com/webpack/url-loader
+      // URL: https://github.com/webpack/url-loader
       {test: /\.(jpg(\?.*)?)$/,   loaders: ["url?limit=10000"]},
       {test: /\.(jpeg(\?.*)?)$/,  loaders: ["url?limit=10000"]},
       {test: /\.(png(\?.*)?)$/,   loaders: ["url?limit=10000"]},
@@ -95,8 +95,7 @@ export default {
       {test: /\.(woff(\?.*)?)$/,  loaders: ["url?limit=100000"]},
       {test: /\.(woff2(\?.*)?)$/, loaders: ["url?limit=100000"]},
 
-      // FILE
-      // https://github.com/webpack/file-loader
+      // FILE: https://github.com/webpack/file-loader
       {test: /\.(ttf(\?.*)?)$/, loaders: ["file"]},
       {test: /\.(eot(\?.*)?)$/, loaders: ["file"]},
       {test: /\.(wav(\?.*)?)$/, loaders: ["file"]},
@@ -108,22 +107,20 @@ export default {
       // MARKDOWN
       {test: /\.(md(\?.*)?)$/, loaders: ["html", "markdown"]},
 
-      // CSS
-      // https://github.com/webpack/css-loader
+      // CSS: https://github.com/webpack/css-loader
       {test: /\.(css(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css?sourceMap`)},
 
-      // LESS
-      // https://github.com/webpack/less-loader
+      // LESS: https://github.com/webpack/less-loader
       {test: /\.(less(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css?sourceMap!less?sourceMap`)},
     ],
   },
 
-  // Module resolving http://webpack.github.io/docs/configuration.html#resolve
+  // Module resolving: http://webpack.github.io/docs/configuration.html#resolve
   resolve: {
     // Abs. path with modules
     root: FRONTEND_DIR,
 
-    // node_modules and like that
+    // Additional folders
     modulesDirectories: ["web_modules", "node_modules"],
 
     // ???
@@ -133,13 +130,13 @@ export default {
     }, {}, MINIFIED_DEPS),
   },
 
-  // Loader resolving http://webpack.github.io/docs/configuration.html#resolveloader
+  // Loader resolving: http://webpack.github.io/docs/configuration.html#resolveloader
   resolveLoader: {
     // Abs. path with loaders
     root: NODE_MODULES_DIR,
   },
 
-  // Plugins http://webpack.github.io/docs/list-of-plugins.html
+  // http://webpack.github.io/docs/list-of-plugins.html
   plugins: [
     new Webpack.NoErrorsPlugin(),
     new Webpack.IgnorePlugin(/^vertx$/),
@@ -149,7 +146,7 @@ export default {
     //  new Webpack.HotModuleReplacementPlugin(), TODO track https://github.com/gaearon/react-hot-loader/issues/125
   ],
 
-  // Include polyfills or mocks for various node stuff http://webpack.github.io/docs/configuration.html#node
+  // Include polyfills or mocks for various node stuff: http://webpack.github.io/docs/configuration.html#node
   node: {
     // Required to include Joi
     net: "empty",
