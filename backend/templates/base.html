@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-	{% block head %}
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0">
-		<meta name="apple-mobile-web-app-capable" content="yes"/>
-		<title>{% block title %}{{ seotitle | default("...") }}{% endblock %}</title>
-	{% endblock %}
+  {% block head %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <title>{% block title %}{{ seotitle | default("...") }}{% endblock %}</title>
+  {% endblock %}
 
-	{% block styles %}
-		<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300|Roboto+Slab:400' rel='stylesheet' type='text/css'>
-	{% endblock %}
+  {% block styles %}
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300|Roboto+Slab:400' rel='stylesheet' type='text/css'>
+  {% endblock %}
 </head>
 <body>
-	{% block body %}
-	{% endblock %}
+  {% block body %}
+  {% endblock %}
 
-	{% block scripts %}
-	{% endblock %}
+  {% block scripts %}
+  {% endblock %}
 </body>
 </html>
