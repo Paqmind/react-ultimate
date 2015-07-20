@@ -18,10 +18,10 @@ router.put("/:id",
     if (oldModel) {
       return res.status(204).send(); // Status: no-content
     } else {
-      let response = {
+      let payload = {
         data: newModel,
       };
-      return res.status(201).send(response); // Status: created
+      return res.status(201).send(payload); // Status: created
     }
   }
 );

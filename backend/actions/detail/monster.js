@@ -10,10 +10,10 @@ router.get("/:id",
   function handler(req, res, cb) {
     let model = DB[req.params.id];
     if (model) {
-      let response = {
+      let payload = {
         data: model,
       };
-      return res.status(200).send(response); // Status: ok
+      return res.status(200).send(payload); // Status: ok
     } else {
       return cb();
     }

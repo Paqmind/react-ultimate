@@ -7,9 +7,9 @@ router.get("/random",
   middlewares.createParseQuery({}),
   function handler(req, res, cb) {
     let model = makeModel();
-    let response = {
+    let payload = {
       data: model,
     };
-    return res.status(200).send(response); // Status: ok
+    return res.status(200).send(payload); // Status: ok
   }
 );

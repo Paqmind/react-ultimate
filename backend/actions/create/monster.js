@@ -13,9 +13,9 @@ router.post("/",
   function handler(req, res, cb) {
     let model = merge(req.body, makeModel());
     DB[model.id] = model;
-    let response = {
+    let payload = {
       data: model,
     };
-    return res.status(201).send(response); // Status: created
+    return res.status(201).send(payload); // Status: created
   }
 );

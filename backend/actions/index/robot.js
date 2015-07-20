@@ -24,13 +24,13 @@ router.get("/",
     let total = models.length;
     models = models.slice(offset, offset + limit);
 
-    let response = {
+    let payload = {
       data: models,
       meta: {
         page: {offset, limit, total}
       }
     };
-    return res.status(200).send(response); // Status: ok
+    return res.status(200).send(payload); // Status: ok
   }
 );
 
@@ -45,9 +45,9 @@ router.get("/total",
     }
     let total = models.length;
 
-    let response = {
+    let payload = {
       data: total,
     };
-    return res.status(200).send(response); // Status: ok
+    return res.status(200).send(payload); // Status: ok
   }
 );
