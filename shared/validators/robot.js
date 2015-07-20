@@ -3,10 +3,10 @@ import Joi from "joi";
 // RULES ===========================================================================================
 export default {
   model: {
+    //id: Joi.string().guid().required(),
     name: Joi.string().required(),
-    //assemblyDate: Joi.date().format("YYYY-MM-DD").max("now").required(),
     manufacturer: Joi.string().required(),
     // TODO improve
-    //id: UUID.v4(),
+    //assemblyDate: Joi.date().format("YYYY-MM-DD").max("now").required(),
   },
 };

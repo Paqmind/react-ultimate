@@ -4,7 +4,8 @@ import Joi from "joi";
 export default {
   // ID
   id: {
-    id: Joi.string().guid().required()
+    id: Joi.string().required(),
+    //id: Joi.string().guid().required()
   },
 
   // URL QUERY

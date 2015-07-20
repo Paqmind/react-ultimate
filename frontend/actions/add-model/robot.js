@@ -78,17 +78,4 @@ export default function addModel(model) {
         return response.status;
       }
     });
-
-  /* Async-Await style. Wait for proper IDE support
-  // Optimistic action
-  ...
-
-  let response = {data: []};
-  try {
-    response = await Axios.put(url, newModel);
-  } catch (response) {
-    ...
-  } // else
-    ...
-  */
 }

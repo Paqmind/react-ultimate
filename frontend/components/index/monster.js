@@ -13,8 +13,6 @@ import {Error, Loading, NotFound} from "frontend/components/special";
 import Pagination from "frontend/components/pagination";
 import MonsterItem from "frontend/components/item/monster";
 
-import "frontend/components/index/index.less";
-
 // CURSORS =========================================================================================
 let modelCursor = state.select("monsters");
 

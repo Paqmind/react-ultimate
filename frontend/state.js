@@ -28,7 +28,7 @@ export const MONSTER = {
 };
 
 window._state = new Baobab(
-  { // DATA
+  {
     url: {
       handler: undefined,
       params: undefined,

@@ -13,8 +13,6 @@ import {Error, Loading, NotFound} from "frontend/components/special";
 import Pagination from "frontend/components/pagination";
 import RobotItem from "frontend/components/item/robot";
 
-import "frontend/components/index/index.less";
-
 // COMPONENTS ======================================================================================
 @statics({
   loadData: modelActions.establishIndex,
