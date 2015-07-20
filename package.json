@@ -4,7 +4,7 @@
   "main": "backend/server.js",
   "scripts": {
     "clean": "rm -r public/*",
-    "lint": "eslint .",
+    "eslint": "eslint .",
     "build": "source .production; webpack --config webpack.config-prod.js --progress --profile --colors",
     "dev": "source .development; webpack-dev-server --config webpack.config-dev.js --progress --colors --port 2992 --inline",
     "node": "source .production; babel-node backend/server.js",
@@ -13,8 +13,8 @@
     "release-minor": "git checkout master && npm version minor && git push origin master --tags",
     "release-major": "git checkout master && npm version major && git push origin master --tags",
     "release-as-lib": "git checkout master && npm run prod && git commit -am 'Distribute' && npm version major && git push origin master --tags",
-    "test": "source .testing; mocha --opts specs/mocha.opts specs",
-    "test-watch": "source .testing; mocha --opts specs/mocha.opts -w specs"
+    "mocha": "source .testing; mocha --opts specs/mocha.opts specs",
+    "test": "npm run eslint -s && npm run mocha -s"
   },
   "dependencies": {
     "autoprefixer-loader": "^2.0.0",
