@@ -1,3 +1,4 @@
+import Fs from "fs";
 import Path from "path";
 import {assoc, map, reduce} from "ramda";
 import Webpack from "webpack";
@@ -152,4 +153,8 @@ export default {
     net: "empty",
     dns: "empty",
   },
+
+  devServer: {
+    headers: {"Access-Control-Allow-Origin": "*"},
+  }
 };
