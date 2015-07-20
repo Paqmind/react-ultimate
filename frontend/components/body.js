@@ -6,8 +6,8 @@ import {root} from "baobab-react/decorators";
 import state from "frontend/state";
 import {Component} from "frontend/components/component";
 import Menu from "frontend/components/menu";
-import Header from "frontend/components/header/header";
-import Footer from "frontend/components/footer/footer";
+import Header from "frontend/components/header";
+import Footer from "frontend/components/footer";
 import AlertIndex from "frontend/components/index/alert";
 
 // BODY ============================================================================================

@@ -1,0 +1,377 @@
+// VARIABLES =======================================================================================
+@import "~bootstrap/less/variables";
+@import "~bootstrap-ext/less/variables";
+@import "~frontend/less/variables";
+
+// MIXINS ==========================================================================================
+@import "~bootstrap/less/mixins";
+@import "~bootstrap-ext/less/mixins";
+
+@import "~bootstrap/less/mixins/alerts";
+@import "~bootstrap/less/mixins/border-radius";
+@import "~bootstrap/less/mixins/center-block";
+@import "~bootstrap/less/mixins/clearfix";
+@import "~bootstrap/less/mixins/forms";
+@import "~bootstrap/less/mixins/grid";
+@import "~bootstrap/less/mixins/grid-framework";
+@import "~bootstrap/less/mixins/hide-text";
+@import "~bootstrap/less/mixins/opacity";
+@import "~bootstrap/less/mixins/nav-divider";
+@import "~bootstrap/less/mixins/nav-vertical-align";
+@import "~bootstrap/less/mixins/reset-filter";
+@import "~bootstrap/less/mixins/tab-focus";
+@import "~bootstrap/less/mixins/vendor-prefixes";
+
+// MODULES =========================================================================================
+@import "~bootstrap/less/scaffolding";
+@import "~bootstrap-ext/less/scaffolding";
+
+// Normalize (3-rd part lib)
+@import "~bootstrap/less/normalize";
+
+// Utility classes
+@import "~bootstrap/less/utilities";
+@import "~bootstrap-ext/less/utilities";
+@import "~bootstrap/less/responsive-utilities";
+
+// Type
+@import "~bootstrap/less/type";
+@import "~bootstrap-ext/less/type";
+
+// Grid
+@import "~bootstrap/less/grid";
+
+// Forms
+@import "~bootstrap/less/forms";
+@import "~bootstrap-ext/less/forms";
+@import "~frontend/less/form";
+
+// Badges
+@import "~bootstrap/less/badges";
+@import "~bootstrap-ext/less/badges";
+
+// Labels
+@import "~bootstrap/less/labels";
+@import "~bootstrap-ext/less/labels";
+
+// Buttons
+@import "~bootstrap/less/buttons";
+@import "~bootstrap/less/button-groups";
+@import "~bootstrap-ext/less/buttons";
+
+// Panels
+@import "~bootstrap/less/panels";
+@import "~bootstrap-ext/less/panels";
+
+// Navs
+@import "~bootstrap/less/navs";
+
+// Thumbnails
+@import "~bootstrap/less/thumbnails";
+
+// Layout
+@import "~frontend/less/layout";
+
+// Font Awesome
+@import "~font-awesome/less/font-awesome";
+
+@import "~bootstrap/less/dropdowns";
+@import "~bootstrap-ext/less/dropdowns";
+
+@import "~bootstrap/less/navbar";
+
+@import "~bootstrap/less/utilities";
+
+@import "~bootstrap/less/alerts";
+@import "~bootstrap-ext/less/alerts";
+
+@import "~bootstrap/less/close";
+
+@import "~bootstrap/less/pagination";
+
+// EFFECTS =========================================================================================
+@import "~frontend/less/effects/animation";
+@import "~frontend/less/effects/brackets";
+@import "~frontend/less/effects/index";
+
+// THEME ===========================================================================================
+.thumbnail {
+  width: 100%;
+  height: 200px;
+  padding: 0;
+}
+
+.actions {
+  padding-top: @line-height-computed / 2;
+  padding-bottom: @line-height-computed / 2;
+  background: @gray-lighter;
+  border-bottom: 1px solid darken(@gray-lighter, 10%);
+}
+
+.headroom {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  min-height: @header-height;
+  padding-top: @line-height-computed;
+  padding-bottom: @line-height-computed;
+  background-image: url(~frontend/images/header.png);
+  background-color: @metalic;
+  color: @white;
+  font-family: @font-family-serif;
+  transition: @transition-base;
+  box-shadow: 0 0 1px rgba(0,0,0,0.15);
+  z-index: @zindex-navbar-fixed;
+  &.navbar-up {
+    top: -@header-height;
+  }
+}
+
+.navbar-default {
+  border-radius: 0;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  font-size: @font-size-base * 1.2;
+  .navbar-text,
+  .navbar-nav > li > a, .navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
+    color: @white;
+  }
+  .navbar-toggle {
+    padding-right: 0;
+    padding-left: 0;
+    padding-bottom: 0;
+    border: 0;
+    background-color: transparent!important;
+  }
+  .navbar-collapse.collapse.in {
+    overflow-y: auto;
+  }
+  .navbar-brand {
+    @color: @white;
+    margin-right: @line-height-computed * 2;
+    color: @color;
+    font-family: @logo-font-family;
+    font-size: @font-size-base * 2.5;
+    .light {
+      font-weight: 300;
+    }
+    &:focus, &:hover {
+      color: @color;
+    }
+  }
+  .navbar-collapse,
+  .navbar-form {
+    border-color: @metalic;
+  }
+  @media (max-width: @screen-sm-min) {
+    .navbar-brand {
+      font-size: @font-size-base * 2;
+    }
+    .navbar-toggle {
+      margin-top: 0;
+    }
+  }
+}
+
+.navbar-right {
+  @media (min-width: @screen-sm-min) {
+    margin-right: -30px!important; // to compensate padding from brackets-effect
+  }
+}
+
+.navbar-page-header {
+  .nav {
+    li {
+      a {
+        padding-top: 14px;
+        padding-bottom: 14px;
+      }
+    }
+  }
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: @footer-height;
+  padding: @line-height-computed 0;
+  background-color: @footer-bg;
+  font-size: @font-size-base * 0.9;
+  color: @white;
+  a {
+    color: @white;
+  }
+}
+
+.index-alert {
+  position: fixed;
+  z-index: @zindex-modal;
+  &.top-right {
+    top: @line-height-computed / 2;
+    right: @line-height-computed;
+  }
+  &.top-left {
+    top: @line-height-computed / 2;
+    left: @line-height-computed;
+  }
+  &.bottom-left {
+    bottom: @line-height-computed / 2;
+    left: @line-height-computed;
+  }
+  &.bottom-right {
+    bottom: @line-height-computed / 2;
+    right: @line-height-computed;
+  }
+  .item {
+    position: relative;
+    margin: @line-height-computed / 2;
+  }
+}
+
+.gear {
+  @size: 12em;
+  margin: 0 auto;
+  color: @gray-light;
+  font-size: @size;
+  text-align: center;
+  @media (max-width: @screen-sm-min) {
+    font-size: @size * 0.75;
+  }
+  @media (max-width: @screen-xs-min) {
+    font-size: @size * 0.5;
+  }
+  &.lg {
+    @size: 15em;
+    font-size: @size;
+  }
+  &.sm {
+    @size: 8em;
+    font-size: @size;
+  }
+  &.xs {
+    @size: 5em;
+    font-size: @size;
+  }
+  &.fa-stack {
+    display: block;
+  }
+}
+#http-error-heading {
+    margin-bottom: @line-height-computed * 2;
+    font-size: @font-size-base * 4;
+    &.small {
+        font-size: @font-size-base * 3;
+    }
+}
+#http-error-descr {
+    padding-top: 100px;
+    font-size: @font-size-base * 1.5;
+    .heading {
+        font-size: @font-size-base * 5;
+    }
+    @media (max-width: @screen-sm-min) {
+        padding-top: 20px;
+        font-size: @font-size-base * 1.2;
+    }
+}
+
+#mascotte {
+    padding: @line-height-computed * 2 0;
+    // http://nicolasgallagher.com/pure-css-speech-bubbles/demo/
+    .oval-thought {
+        @color: @blue-light;
+        position: relative;
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: @line-height-computed * 2;
+        padding: @line-height-computed * 2;
+        background: @color;
+        /* css3 */
+        background: -webkit-gradient(linear, 0 0, 0 100%, from(@color), to(darken(@color, 15%)));
+        background: -moz-linear-gradient(@color, darken(@color, 15%));
+        background: -o-linear-gradient(@color, darken(@color, 15%));
+        background: linear-gradient(@color, darken(@color, 15%));
+        border-radius: 50%;
+        color: @white;
+        font-family: @font-family-serif;
+        font-size: @font-size-base * 1.2;
+        text-align: center;
+        &::before {
+            content: "";
+            position: absolute;
+            bottom: -20px;
+            left: 50px;
+            width: 30px;
+            height: 30px;
+            background: darken(@color, 15%);
+            border-radius: 50%;
+        }
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: -30px;
+            left: 30px;
+            width: 15px;
+            height: 15px;
+            background: darken(@color, 15%);
+            border-radius: 50%;
+        }
+    }
+
+    .bender {
+        max-width: 400px;
+        height: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        &.angry {
+            background: url(~frontend/images/angry.png) center no-repeat;
+            background-size: cover 100%;
+        }
+        &.shiny {
+            background: url(~frontend/images/shiny.png) center no-repeat;
+            background-size: cover 100%;
+        }
+        &.going {
+            background: url(~frontend/images/going.png) center no-repeat;
+            background-size: cover 100%;
+        }
+    }
+}
+
+#goog-fixurl {
+    .clearfix;
+    margin-bottom: @line-height-computed * 1.5;
+    .other-things {
+        .h2;
+        b {
+            font-weight: normal;
+        }
+    }
+    #goog-wm {
+        ul {
+            padding-left: 0;
+            list-style: none;
+        }
+    }
+    #goog-wm-qt {
+        .form-control;
+        .form-group-lg;
+        float: left;
+        margin-right: @line-height-computed / 3;
+    }
+    #goog-wm-sb {
+        .btn;
+        .btn-green;
+        float: left;
+    }
+    .search-goog {
+        form {
+            .form-inline;
+        }
+    }
+}
+
+

@@ -2,8 +2,6 @@ import React from "react";
 import throttle from "lodash.throttle";
 import {Component} from "frontend/components/component";
 
-import "frontend/components/footer/footer.less";
-
 // EXPORTS =========================================================================================
 export default class Footer extends Component {
   render() {
