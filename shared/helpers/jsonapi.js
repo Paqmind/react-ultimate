@@ -26,7 +26,7 @@ function parseQuery(query) {
 }
 
 function formatQuery(query) {
-  if (!query instanceof Object) {
+  if (!(query instanceof Object)) {
     throw new Error(`query must be a basic Object, got ${query}`);
   }
 
@@ -54,7 +54,7 @@ function formatQuery(query) {
 }
 
 function formatQueryForAxios(query) {
-  if (!query instanceof Object) {
+  if (!(query instanceof Object)) {
     throw new Error(`query must be a basic Object, got ${query}`);
   }
 
