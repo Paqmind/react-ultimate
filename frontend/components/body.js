@@ -62,9 +62,9 @@ export default class Body extends Component {
           </div>
         </Header>
 
-        <main id="main">
+        <div className="content">
           <RouteHandler/>
-        </main>
+        </div>
 
         <Footer/>
 
