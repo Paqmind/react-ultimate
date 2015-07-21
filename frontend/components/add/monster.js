@@ -8,7 +8,6 @@ import modelValidators from "shared/validators/monster";
 import {statics} from "frontend/helpers/react";
 import modelActions from "frontend/actions/monster";
 import {ShallowComponent} from "frontend/components/component";
-import {Error, Loading, NotFound} from "frontend/components/special";
 import {Form} from "frontend/components/form";
 
 // COMPONENTS ======================================================================================

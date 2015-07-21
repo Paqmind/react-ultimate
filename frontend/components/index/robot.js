@@ -9,7 +9,8 @@ import {indexRouter} from "frontend/router";
 import modelActions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent} from "frontend/components/component";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
-import {Error, Loading, NotFound} from "frontend/components/special";
+import Loading from "frontend/components/loading";
+import NotFound from "frontend/components/notfound";
 import Pagination from "frontend/components/pagination";
 import RobotItem from "frontend/components/item/robot";
 

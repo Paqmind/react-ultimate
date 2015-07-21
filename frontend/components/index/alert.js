@@ -6,7 +6,8 @@ import {toArray} from "shared/helpers/common";
 import state from "frontend/state";
 import alertActions from "frontend/actions/alert";
 import {DeepComponent} from "frontend/components/component";
-import {Error, Loading, NotFound} from "frontend/components/special";
+import Loading from "frontend/components/loading";
+import NotFound from "frontend/components/notfound";
 import AlertItem from "frontend/components/item/alert";
 
 // GLOBALS =========================================================================================

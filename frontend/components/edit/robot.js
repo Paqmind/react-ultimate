@@ -10,9 +10,9 @@ import {formatString, formatInteger, formatFloat, formatDate} from "shared/conve
 import modelValidators from "shared/validators/robot";
 import {statics} from "frontend/helpers/react";
 import modelActions from "frontend/actions/robot";
-import {ShallowComponent, DeepComponent} from "frontend/components/component";
+import alertActions from "frontend/actions/alert";
+import {ShallowComponent} from "frontend/components/component";
 import {ModelLink} from "frontend/components/link";
-import {Error, Loading, NotFound} from "frontend/components/special";
 import {Form} from "frontend/components/form";
 
 // COMPONENTS ======================================================================================

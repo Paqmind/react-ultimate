@@ -4,7 +4,7 @@ import React from "react";
 import {Route, DefaultRoute, NotFoundRoute} from "react-router";
 import Body from "frontend/components/body";
 import {About, Tech, Credits} from "frontend/components/page";
-import {NotFound} from "frontend/components/special";
+import NotFound from "frontend/components/notfound";
 
 // Lazy Components
 //import {RobotIndex, RobotAdd, RobotDetail, RobotEdit} from "react-proxy!frontend/components/robot";

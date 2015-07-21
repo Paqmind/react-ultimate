@@ -9,7 +9,8 @@ import state, {MONSTER} from "frontend/state";
 import modelActions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent} from "frontend/components/component";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
-import {Error, Loading, NotFound} from "frontend/components/special";
+import Loading from "frontend/components/loading";
+import NotFound from "frontend/components/notfound";
 import Pagination from "frontend/components/pagination";
 import MonsterItem from "frontend/components/item/monster";
 

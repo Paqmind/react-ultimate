@@ -40,6 +40,8 @@ window._state = new Baobab(
       limit: undefined,
     },
 
+    ajaxQueue: [],
+
     robots: {
       // DATA
       total: 0,
