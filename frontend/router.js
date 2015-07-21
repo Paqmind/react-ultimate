@@ -2,12 +2,15 @@ import {merge} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
 import state from "frontend/state";
 
+// CURSORS =========================================================================================
+let $url = state.select("url");
+
 // PROXY ROUTERS TO REMOVE CIRCULAR DEPENDENCY =====================================================
 // Turns:
 //   app (router) <- routes <- components <- actions <- app (router)
 // to:
 //   app (router) <- routes <- components <- actions <- proxy (router)
-export const router = {
+let router = {
   makePath(route=undefined, params=undefined, query=undefined) {
     route = getCurrentRoute(route);
     return window._router.makePath(route, params, query);
@@ -37,7 +40,7 @@ export const router = {
   }
 };
 
-export const modelRouter = {
+let modelRouter = {
   makePath(route=undefined, id=undefined) {
     let [_route, _params] = getCurrentRouteAndParams(route);
     return window._router.makePath(_route, _params);
@@ -67,7 +70,7 @@ export const modelRouter = {
   }
 };
 
-export const indexRouter = {
+let indexRouter = {
   makePath(route=undefined, query={}) {
     let [_route, _query] = getCurrentRouteAndQuery(route, query);
     return window._router.makePath(_route, undefined, _query);
@@ -99,21 +102,22 @@ export const indexRouter = {
 
 // HELPERS =========================================================================================
 function getCurrentRoute(route) {
-  let urlCursor = state.select("url");
-  let urlRoute = urlCursor.get("route");
+  let urlRoute = $url.get("route");
   return route || urlRoute;
 }
 
 function getCurrentRouteAndParams(route, id) {
-  let urlCursor = state.select("url");
-  let urlRoute = urlCursor.get("route");
-  let urlParams = urlCursor.get("params");
+  let urlRoute = $url.get("route");
+  let urlParams = $url.get("params");
   return [route || urlRoute,  id ? {id} : urlParams];
 }
 
 function getCurrentRouteAndQuery(route, query) {
-  let urlCursor = state.select("url");
-  let urlRoute = urlCursor.get("route");
-  let urlQuery = urlCursor.get("query");
+  let urlRoute = $url.get("route");
+  let urlQuery = $url.get("query");
   return [route || urlRoute, merge(formatQuery(query), urlQuery)];
 }
+
+export default {
+  router, modelRouter, indexRouter,
+};
