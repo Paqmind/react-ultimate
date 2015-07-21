@@ -1,6 +1,6 @@
 // Scripts
 import "babel/polyfill";
-import {filter, keys, map, pipe} from "ramda";
+import {filter, forEach, keys, map, pipe} from "ramda";
 import React from "react";
 import {create as createRouter, HistoryLocation} from "react-router";
 import "shared/shims"; // TODO except for prerender (isomorphic) step, because babel-node auto-injects it's polyfill
@@ -54,14 +54,12 @@ window._router.run((Application, url) => {
   urlCursor.set("limit", cleanedQuery.limit);
   //------------------------------------------------------------------------------------------------
 
-  let promises = pipe(
+  pipe(
     filter(route => route.handler.loadData),
-    map(route => route.handler.loadData())
+    forEach(route => route.handler.loadData())
   )(url.routes);
 
-  Promise.all(promises).then(() => {
-    React.render(<Application/>, document.getElementById("app"));
-  });
+  React.render(<Application/>, document.getElementById("app"));
 });
 
 // Request alert index once (TODO this should be made real-time with push notifications)
