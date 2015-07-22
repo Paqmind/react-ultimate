@@ -1,5 +1,5 @@
 import DeepMerge from "deep-merge";
-import {assoc, curry, filter, flatten, pipe, prop, keys, map, mapIndexed, range, reduce, reduceIndexed, reverse, slice, sortBy} from "ramda";
+import {assoc, curry, forEach, filter, pipe, prop, keys, map, mapIndexed, range, reduce, reduceIndexed, reverse, slice, sortBy} from "ramda";
 import flat from "flat";
 
 // HELPERS =========================================================================================
@@ -130,9 +130,9 @@ function normalize(data) {
       return undefined;
     } else if (data === "null") {
       return null;
-    } else if (data.match(/^-?\d+\.\d+/)) {
+    } else if (data.match(/^-?\d+\.\d+$/)) {
       return parseFloat(data);
-    } else if (data.match(/^-?\d+/)) {
+    } else if (data.match(/^-?\d+$/)) {
       return parseInt(data);
     } else {
       return data;
