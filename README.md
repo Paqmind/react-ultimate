@@ -126,6 +126,10 @@ which means redraw of the Root component which hurts rendering performance ().
 To sum up: make primary (content) components either URL-bound or URL-unbound depending
 on your business priorities. Secondary components will always be URL-unbound.
 
+## Related projects
+[React-Sandbox](https://github.com/Paqmind/react-sandbox) - sandbox for React experiments.
+Contains much lesser boilerplate than this project.
+
 ## Wiki
 
 See [wiki](https://github.com/Paqmind/react-starter/wiki/Workflow) for more information.
