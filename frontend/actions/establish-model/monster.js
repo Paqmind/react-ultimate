@@ -1,15 +1,16 @@
+import api from "shared/api/monster";
 import state from "frontend/state";
 import loadModel from "frontend/actions/load-model/monster";
 
 // CURSORS =========================================================================================
-let urlCursor = state.select("url");
-let modelCursor = state.select("monsters");
+let $url = state.select("url");
+let $data = state.select(api.plural);
 
 // ACTIONS =========================================================================================
 export default function establishModel() {
-  console.debug("establishModel");
+  console.debug(api.plural + `establishModel()`);
 
-  modelCursor.set("id", urlCursor.get("id"));
+  $data.set("id", $url.get("params").id);
 
-  loadModel();
+  return loadModel();
 }

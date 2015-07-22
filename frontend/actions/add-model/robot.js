@@ -1,81 +1,57 @@
-import {append} from "ramda";
-import Axios from "axios";
-import Robot from "shared/models/robot";
+import {append, filter} from "ramda";
+import api from "shared/api/robot";
+import Model from "shared/models/robot";
 import state from "frontend/state";
 import {router} from "frontend/router";
+import ajax from "frontend/ajax";
 import alertActions from "frontend/actions/alert";
 
 // CURSORS =========================================================================================
-let modelCursor = state.select("robots");
+let $url = state.select("url");
+let $data = state.select(api.plural);
+let $models = $data.select("models");
 
 // ACTIONS =========================================================================================
+// Model -> Maybe Model
 export default function addModel(model) {
-  console.debug(`addModel(...)`);
+  console.debug(api.plural + `.addModel(...)`);
 
-  let newModel = Robot(model);
-  let id = newModel.id;
-  let url = `/api/robots/${id}`;
+  model = Model(model);
+  let id = model.id;
 
-  let filters = modelCursor.get("filters");
-  let sorts = modelCursor.get("sorts");
-  let total = modelCursor.get("total");
-  let models = modelCursor.get("models");
-  let pagination = modelCursor.get("pagination");
-  let allModelsAreLoaded = state.facets.allRobotsAreLoaded.get();
+  // Optimistic update
+  $data.apply("total", t => t + 1);
+  $models.set(id, model);
 
-  // Optimistic action
-  modelCursor.set("loading", true);
-  modelCursor.set("total", total + 1);
-  modelCursor.select("models").set(id, newModel);
-  if (allModelsAreLoaded) {
+  if (state.get("$allRobotsAreLoaded")) {
     // Inject new id at whatever place
-    modelCursor.apply("pagination", _pagination => {
-      return append(id, _pagination);
-    });
+    $data.apply("pagination", pp => append(id, pp));
   } else {
     // Pagination is messed up, do reset
-    modelCursor.set("pagination", []);
-    modelCursor.set("total", 0);
+    $data.set("total", 0);
+    $data.set("pagination", []);
   }
 
-  let newTotal = modelCursor.get("total");
-  let newModels = modelCursor.get("models");
-  let newPagination = modelCursor.get("pagination");
+  if ($url.get("route") == api.singular + "-add") {
+    setImmediate(() => {
+      router.transitionTo(api.singular + "-detail", {id: model.id});
+    });
+  }
 
-  return Axios.put(url, newModel)
+  return ajax.put(api.modelUrl.replace(":id", id), model)
     .then(response => {
-      modelCursor.merge({
-        loading: false,
-        loadError: undefined
-      });
-
-      // Transition to detail page
-      router.transitionTo("robot-detail", {id: newModel.id});
-
-      // Add alert
-      alertActions.addModel({message: "Action `Robot:addModel` succeed", category: "success"});
-      return response.status;
-    })
-    .catch(response => {
-      if (response instanceof Error) {
-        throw response;
+      let {total, models, pagination} = $data.get();
+      if (response.status.startsWith("2")) {
+        if (response.status == "200" && response.data.data) {
+          model = $models.set(id, Model(response.data.data));
+        }
+        return model;
       } else {
-        // Cancel action
-        modelCursor.merge({
-          loading: false,
-          loadError: {
-            status: response.status,
-            description: response.statusText,
-            url
-          }
-        });
-        modelCursor.set("total", total);
-        modelCursor.select("models").unset(id);
-        modelCursor.set("pagination", pagination);
-
-        // Add alert
-        alertActions.addModel({message: "Action `Robot:addModel` failed: " + response.statusText, category: "error"});
-        return response.status;
+        $models.unset(id);
+        $data.apply("total", t => t ? t - 1 : t);
+        $data.apply("pagination", pp => filter(id => id != model.id, pp));
+        alertActions.addModel({message: "Add Robot failed with message " + response.statusText, category: "error"});
+        return;
       }
     });
 }

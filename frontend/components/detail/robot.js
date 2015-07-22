@@ -5,37 +5,34 @@ import DocumentTitle from "react-document-title";
 import {formatQuery} from "shared/helpers/jsonapi";
 import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
+import ajax from "frontend/ajax";
 import modelActions from "frontend/actions/robot";
-import {ShallowComponent, DeepComponent} from "frontend/components/component";
-import {ModelLink} from "frontend/components/link";
-import {Error, Loading, NotFound} from "frontend/components/special";
+import {ShallowComponent, DeepComponent, ModelLink, Loading, NotFound} from "frontend/components/common";
 
 // COMPONENTS ======================================================================================
 @statics({
   loadData: modelActions.establishModel,
 })
 @branch({
-  cursors: {
-    robots: "robots",
-  },
-  facets: {
-    model: "currentRobot",
-  },
+  hasPendingRequests: ["$hasPendingRequestsRobot"],
+  filters: ["robots", "filters"],
+  sorts: ["robots", "sorts"],
+  offset: ["robots", "offset"],
+  limit: ["robots", "limit"],
+  model: ["$currentRobot"],
 })
 export default class RobotDetail extends DeepComponent {
   render() {
-    let {loading, loadError} = this.props.robots;
-    let model = this.props.model;
+    let {hasPendingRequests, model} = this.props;
 
-    if (loading) {
-      return <Loading/>;
-    } else if (loadError) {
-      return <Error loadError={loadError}/>;
-    } else {
+    console.log("model:", model);
+    console.log("hasPendingRequests:", hasPendingRequests);
+
+    if (model) {
       return (
         <DocumentTitle title={"Detail " + model.name}>
           <div>
-            <Actions {...this.props} model={model}/>
+            <Actions {...this.props}/>
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-3">
@@ -57,14 +54,18 @@ export default class RobotDetail extends DeepComponent {
           </div>
         </DocumentTitle>
       );
+    } else if (hasPendingRequests) {
+      return null;
+    } else {
+      return <NotFound/>;
     }
   }
 }
 
 class Actions extends ShallowComponent {
   render() {
-    let {robots, model} = this.props;
-    let query = formatQuery(robots);
+    let {filters, sorts, offset, limit, model} = this.props;
+    let query = formatQuery({filters, sorts, offset, limit});
 
     return (
       <div className="actions">
@@ -79,7 +80,7 @@ class Actions extends ShallowComponent {
             <Link to="robot-add" className="btn btn-sm btn-green" title="Add">
               <span className="fa fa-plus"></span>
             </Link>
-            <ModelLink to="robot-edit" className="btn btn-orange" title="Edit">
+            <ModelLink to="robot-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
               <span className="fa fa-edit"></span>
             </ModelLink>
             <a className="btn btn-red" title="Remove" onClick={() => modelActions.removeModel(model.id)}>

@@ -5,32 +5,21 @@ import DocumentTitle from "react-document-title";
 import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
 import modelActions from "frontend/actions/monster";
-import {ShallowComponent, DeepComponent} from "frontend/components/component";
-import {ModelLink} from "frontend/components/link";
-import {Error, Loading, NotFound} from "frontend/components/special";
+import {ShallowComponent, DeepComponent, ModelLink, Loading, NotFound} from "frontend/components/common";
 
 // COMPONENTS ======================================================================================
 @statics({
   loadData: modelActions.establishModel,
 })
 @branch({
-  cursors: {
-    monsters: "monsters",
-  },
-  facets: {
-    model: "currentMonster",
-  },
+  hasPendingRequests: ["$hasPendingRequestsMonster"],
+  model: ["$currentMonster"],
 })
 export default class MonsterDetail extends DeepComponent {
   render() {
-    let {loading, loadError} = this.props.monsters;
-    let model = this.props.model;
+    let {hasPendingRequests, model} = this.props;
 
-    if (loading) {
-      return <Loading/>;
-    } else if (loadError) {
-      return <Error loadError={loadError}/>;
-    } else {
+    if (model) {
       return (
         <DocumentTitle title={"Detail " + model.name}>
           <div>
@@ -56,13 +45,17 @@ export default class MonsterDetail extends DeepComponent {
           </div>
         </DocumentTitle>
       );
+    } else if (hasPendingRequests) {
+      return null;
+    } else {
+      return <NotFound/>;
     }
   }
 }
 
 class Actions extends ShallowComponent {
   render() {
-    let model = this.props.model;
+    let {model} = this.props;
 
     return (
       <div className="actions">
@@ -77,7 +70,7 @@ class Actions extends ShallowComponent {
             <Link to="monster-add" className="btn btn-sm btn-green" title="Add">
               <span className="fa fa-plus"></span>
             </Link>
-            <ModelLink to="monster-edit" className="btn btn-orange" title="Edit">
+            <ModelLink to="monster-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
               <span className="fa fa-edit"></span>
             </ModelLink>
             <a className="btn btn-red" title="Remove" onClick={() => modelActions.removeModel(model.id)}>

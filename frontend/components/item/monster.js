@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router";
 import modelActions from "frontend/actions/monster";
-import {ShallowComponent} from "frontend/components/component";
+import {ShallowComponent} from "frontend/components/common";
 
 // COMPONENTS ======================================================================================
 export default class MonsterItem extends ShallowComponent {

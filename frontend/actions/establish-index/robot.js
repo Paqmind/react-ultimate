@@ -1,44 +1,44 @@
 import {eqDeep, filter} from "ramda";
+import api from "shared/api/robot";
 import state, {ROBOT} from "frontend/state";
 import loadIndex from "frontend/actions/load-index/robot";
 
 // CURSORS =========================================================================================
-let urlCursor = state.select("url");
-let modelCursor = state.select("robots");
+let $url = state.select("url");
+let $urlQuery = state.select("$urlQuery");
+let $data = state.select(api.plural);
 
 // ACTIONS =========================================================================================
 export default function establishIndex() {
-  console.debug("establishIndex");
+  console.debug(api.plural + `.establishIndex()`);
 
-  let urlFilters = urlCursor.get("filters");
-  let urlSorts = urlCursor.get("sorts");
-  let urlOffset = urlCursor.get("offset");
-  let urlLimit = urlCursor.get("limit");
+  let urlQuery = $urlQuery.get();
+  let urlFilters = urlQuery.filters;
+  let urlSorts = urlQuery.sorts;
+  let urlOffset = urlQuery.offset;
+  let urlLimit = urlQuery.limit;
 
-  let filters = modelCursor.get("filters");
-  let sorts = modelCursor.get("sorts");
-
-  let allModelsAreLoaded = state.facets.allRobotsAreLoaded.get();
+  let {filters, sorts} = $data.get();
 
   if (!eqDeep(urlFilters || ROBOT.FILTERS, filters)) {
-    modelCursor.set("filters", urlFilters || ROBOT.FILTERS);
-    if (true || !allModelsAreLoaded) {
+    $data.set("filters", urlFilters || ROBOT.FILTERS);
+    if (true || !state.get("$allRobotsAreLoaded")) {
       /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
       // Pagination is messed up, do reset
-      modelCursor.set("total", 0);
-      modelCursor.set("pagination", []);
+      $data.set("total", 0);
+      $data.set("pagination", []);
     }
   }
   if (!eqDeep(urlSorts || ROBOT.SORTS, sorts)) {
-    modelCursor.set("sorts", urlSorts || ROBOT.SORTS);
-    if (!allModelsAreLoaded) {
+    $data.set("sorts", urlSorts || ROBOT.SORTS);
+    if (!state.get("$allRobotsAreLoaded")) {
       // Pagination is messed up, do reset
-      modelCursor.set("total", 0);
-      modelCursor.set("pagination", []);
+      $data.set("total", 0);
+      $data.set("pagination", []);
     }
   }
-  modelCursor.set("offset", urlOffset || ROBOT.OFFSET);
-  modelCursor.set("limit", urlLimit || ROBOT.LIMIT);
+  $data.set("offset", urlOffset || ROBOT.OFFSET);
+  $data.set("limit", urlLimit || ROBOT.LIMIT);
 
-  loadIndex();
+  return loadIndex();
 }

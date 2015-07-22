@@ -1,97 +1,60 @@
-import {filter} from "ramda";
-import Axios from "axios";
+import {filter, indexOf} from "ramda";
+import api from "shared/api/monster";
+import {recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
 import {indexRouter} from "frontend/router";
-import alertActions from "frontend/actions/alert";
-import {handleInvalidOffset} from "frontend/actions/load-index/monster";
+import ajax from "frontend/ajax";
 import fetchIndex from "frontend/actions/fetch-index/monster";
 
 // CURSORS =========================================================================================
-let urlCursor = state.select("url");
-let modelCursor = state.select("monsters");
+let $url = state.select("url");
+let $data = state.select(api.plural);
+let $models = $data.select("models");
 
 // ACTIONS =========================================================================================
+// Id -> Maybe Model
 export default function removeModel(id) {
-  console.debug(`removeModel(${id})`);
+  console.debug(api.plural + `.removeModel(${id})`);
 
-  let url = `/api/monsters/${id}`;
+  let {models, pagination} = $data.get();
 
-  let filters = modelCursor.get("filters");
-  let sorts = modelCursor.get("sorts");
-  let offset = modelCursor.get("offset");
-  let limit = modelCursor.get("limit");
-  let total = modelCursor.get("total");
-  let models = modelCursor.get("models");
-  let pagination = modelCursor.get("pagination");
-  let model = modelCursor.select("models").get(id);
+  // Optimistic update
+  let oldModel = models[id];
+  let oldIndex = indexOf(id, pagination);
 
-  // Optimistic action
-  modelCursor.set("loading", true);
-  modelCursor.set("total", total - 1);
-  modelCursor.select("models").unset(id);
-  modelCursor.apply("pagination", _pagination => {
-    return filter(_id => _id != id, _pagination);
-  });
+  $models.unset(id);
+  $data.apply("total", t => t ? t - 1 : t);
+  $data.apply("pagination", pp => filter(_id => _id != id, pp));
 
-  let newTotal = modelCursor.get("total");
-  let newModels = modelCursor.get("models");
-  let newPagination = modelCursor.get("pagination");
+  if ($url.get("route") == api.singular + "-index") {
+    setImmediate(() => {
+      let {total, offset, limit} = $data.get();
 
-  return Axios.delete(url)
-    .then(response => {
-      modelCursor.merge({
-        loading: false,
-        loadError: undefined
-      });
-
-      // Upload data
-      if (!newPagination[offset + limit - 1]) {
-        fetchIndex(filters, sorts, offset + limit - 1, 1);
-      }
-
-      // Transition to index page
-      let currentRoute = urlCursor.get("route");
-      if (currentRoute != "robot-index") {
-        indexRouter.transitionTo("robot-index");
-      }
-
-      // Add alert
-      alertActions.addModel({message: "Action `Monster:removeModel` succeed", category: "success"});
-      return response.status;
-    })
-    .catch(response => {
-      if (response instanceof Error) {
-        throw response;
-      } else {
-        // Cancel action
-        modelCursor.merge({
-          loading: false,
-          loadError: {
-            status: response.status,
-            description: response.statusText,
-            url
-          }
-        });
-        modelCursor.set("total", total);
-        modelCursor.select("models").set(id, model);
-        modelCursor.set("pagination", pagination);
-
-        // Add alert
-        alertActions.addModel({message: "Action `Monster:removeModel` failed: " + response.statusText, category: "error"});
-        return response.status;
+      let recommendedOffset = recommendOffset(total, offset, limit);
+      if (offset > recommendedOffset) {
+        indexRouter.transitionTo(undefined, {offset: recommendedOffset});
       }
     });
+  }
 
-  /* Async-Await style. Wait for proper IDE support
-  // Optimistic action
-  ...
+  return ajax.delete(api.modelUrl.replace(":id", id))
+    .then(response => {
+      let {filters, sorts, offset, limit, pagination} = $data.get();
 
-  let response = {data: []};
-  try {
-    response = await Axios.put(url, newModel);
-  } catch (response) {
-    ...
-  } // else
-    ...
-  */
+      if (response.status.startsWith("2")) {
+        if ($url.get("route") == api.singular + "-index") {
+          if (!pagination[offset + limit - 1]) {
+            fetchIndex(filters, sorts, offset + limit - 1, 1);
+          }
+        }
+        return oldModel;
+      } else {
+        $models.set(id, oldModel);
+        $data.apply("total", t => t + 1);
+        if (oldIndex != -1) {
+          $data.apply("pagination", pp => insert(oldIndex, id, pp));
+        }
+        return;
+      }
+    });
 }

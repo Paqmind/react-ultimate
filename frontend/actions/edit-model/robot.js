@@ -1,52 +1,35 @@
-import Axios from "axios";
-import Robot from "shared/models/robot";
+import api from "shared/api/robot";
+import Model from "shared/models/robot";
 import state from "frontend/state";
-import alertActions from "frontend/actions/alert";
+import ajax from "frontend/ajax";
 
 // CURSORS =========================================================================================
-let modelCursor = state.select("robots");
+let $data = state.select(api.plural);
+let $models = $data.select("models");
 
 // ACTIONS =========================================================================================
-export default function edit(model) {
-  let newModel = Robot(model);
-  let id = newModel.id;
-  let url = `/api/robots/${id}`;
+// Model -> Maybe Model
+export default function editModel(model) {
+  console.debug(api.plural + `.editModel(${model.id})`);
 
-  let models = modelCursor.get("models");
-  let filters = modelCursor.get("filters");
-  let sorts = modelCursor.get("sorts");
-  let pagination = modelCursor.get("pagination");
+  model = Model(model);
+  let id = model.id;
 
-  // Optimistic action
-  modelCursor.set("loading", true);
-  modelCursor.select("models").set(id, newModel);
+  // Optimistic update
+  let oldModel = $models.get(id);
+  $models.set(id, model);
 
-  return Axios.put(url, newModel)
+  return ajax.put(api.modelUrl.replace(":id", id), model)
     .then(response => {
-      modelCursor.merge({loading: false, loadError: undefined});
-
-      // Add alert
-      alertActions.addModel({message: "Action `Robot:editModel` succeed", category: "success"});
-      return response.status;
-    })
-    .catch(response => {
-      if (response instanceof Error) {
-        throw response;
+      if (response.status.startsWith("2")) {
+        if (response.status == "200" && response.data.data) {
+          model = $models.set(id, Model(response.data.data));
+        }
+        return model;
       } else {
-        // Cancel action
-        modelCursor.merge({
-          loading: false,
-          loadError: {
-            status: response.status,
-            description: response.statusText,
-            url: url
-          }
-        });
-        modelCursor.set("models", models);
-
-        // Add alert
-        alertActions.addModel({message: "Action `Robot:editModel` failed: " + response.statusText, category: "error"});
-        return response.status;
+        $models.set(id, oldModel);
+        alertActions.addModel({message: "Edit Robot failed with message " + response.statusText, category: "error"});
+        return;
       }
     });
 }

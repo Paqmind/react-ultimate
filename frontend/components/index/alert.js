@@ -5,9 +5,7 @@ import {branch} from "baobab-react/decorators";
 import {toArray} from "shared/helpers/common";
 import state from "frontend/state";
 import alertActions from "frontend/actions/alert";
-import {DeepComponent} from "frontend/components/component";
-import Loading from "frontend/components/loading";
-import NotFound from "frontend/components/notfound";
+import {DeepComponent} from "frontend/components/common";
 import AlertItem from "frontend/components/item/alert";
 
 // GLOBALS =========================================================================================
@@ -42,13 +40,7 @@ let alertToHide = undefined;
 
 // COMPONENTS ======================================================================================
 @branch({
-  cursors: {
-    alerts: "alerts",
-  },
-
-  facets: {
-    currentAlerts: "currentAlerts",
-  }
+  models: ["$currentAlerts"],
 })
 export default class AlertIndex extends DeepComponent {
   processAlertsQueue() {
@@ -57,7 +49,7 @@ export default class AlertIndex extends DeepComponent {
     }
     alertToHide = minBy(m => m.createdDate, Array.from(alertsQueue));
     setTimeout(() => {
-      if (alertToHide.id in this.props.alerts.models) {
+      if (alertToHide.id in this.props.models) {
         alertActions.removeModel(alertToHide.id);
         alertsQueue.delete(alertToHide);
       }
@@ -68,7 +60,7 @@ export default class AlertIndex extends DeepComponent {
 
   updateAlertsQueue() {
     alertsQueue = new Set();
-    toArray(this.props.currentAlerts)
+    toArray(this.props.models)
       .filter((item) => { return item.expire ? item : null; })
       .forEach((item) => alertsQueue.add(item));
   }
@@ -84,20 +76,14 @@ export default class AlertIndex extends DeepComponent {
   }
 
   render() {
-    let {loading, loadError} = this.props.alerts;
-    let models = this.props.currentAlerts;
+    let {models} = this.props;
 
-    if (loadError) {
-      return <Error loadError={loadError}/>;
-    } else {
-      return (
-        <div className="index-alert top-right">
-          <CSSTransitionGroup component="div" transitionName="fadeUp">
-            {map(model => <AlertItem model={model} key={model.id} animated={true}/>, models)}
-          </CSSTransitionGroup>
-          {loading ? <Loading size="xs"/> : ""}
-        </div>
-      );
-    }
+    return (
+      <div className="special-layer top-right">
+        <CSSTransitionGroup component="div" transitionName="fadeUp">
+          {map(model => <AlertItem model={model} key={model.id} animated={true}/>, models)}
+        </CSSTransitionGroup>
+      </div>
+    );
   }
 }

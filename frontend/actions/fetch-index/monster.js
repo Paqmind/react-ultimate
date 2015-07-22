@@ -1,61 +1,39 @@
 import {map, reduceIndexed} from "ramda";
-import Axios from "axios";
 import {toObject} from "shared/helpers/common";
 import {formatQueryForAxios} from "shared/helpers/jsonapi";
-import Monster from "shared/models/monster";
+import api from "shared/api/monster";
+import Model from "shared/models/monster";
 import state from "frontend/state";
-import alertActions from "frontend/actions/alert";
+import ajax from "frontend/ajax";
 
 // CURSORS =========================================================================================
-let modelCursor = state.select("monsters");
+let $data = state.select(api.plural);
+let $models = $data.select("models");
 
 // ACTIONS =========================================================================================
+// Filters, Sorts, Offset, Limit -> Maybe [Model]
 export default function fetchIndex(filters, sorts, offset, limit) {
-  console.debug("fetchIndex(...)");
-
-  let url = `/api/monsters/`;
-
-  modelCursor.set("loading", true);
+  console.debug(api.plural + `.fetchIndex(...)`);
 
   let query = formatQueryForAxios({filters, sorts, offset, limit});
 
-  return Axios.get(url, {params: query})
+  return ajax.get(api.indexUrl, {params: query})
     .then(response => {
-      let {data, meta} = response.data;
-      let newModels = map(m => Monster(m), data);
-
-      modelCursor.select("models").merge(toObject(newModels));
-      modelCursor.select("pagination").apply(pagination => {
-        return reduceIndexed((memo, m, i) => {
-            memo[offset + i] = m.id;
-            return memo;
-          }, pagination, newModels
-        );
-      });
-      modelCursor.merge({
-        total: meta.page.total,
-        loading: false,
-        loadError: undefined
-      });
-
-      return response.status;
-    })
-    .catch(response => {
-      if (response instanceof Error) {
-        throw response;
-      } else {
-        modelCursor.merge({
-          loading: false,
-          loadError: {
-            status: response.status,
-            description: response.statusText,
-            url
-          }
+      if (response.status.startsWith("2")) {
+        let newModelsArray = map(m => Model(m), response.data.data);
+        let newModels = toObject(newModelsArray);
+        $models.merge(newModels);
+        $data.set("total", response.data.meta.page.total);
+        $data.apply("pagination", pp => {
+          return reduceIndexed((memo, m, i) => {
+              memo[offset + i] = m.id;
+              return memo;
+            }, pp, newModelsArray
+          );
         });
-
-        // Add alert
-        alertActions.addModel({message: "Action `Monster:fetchIndex` failed: " + response.statusText, category: "error"});
-        return response.status;
+        return newModels;
+      } else {
+        return [];
       }
     });
 }

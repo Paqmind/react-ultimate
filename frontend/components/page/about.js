@@ -1,7 +1,6 @@
 import React from "react";
 import DocumentTitle from "react-document-title";
-import {Component} from "frontend/components/component";
-import {TextHolder} from "frontend/components/typography";
+import {Component, TextHolder} from "frontend/components/common";
 
 // EXPORTS =========================================================================================
 export default class About extends Component {

@@ -7,68 +7,59 @@ import {toArray} from "shared/helpers/common";
 import {statics} from "frontend/helpers/react";
 import state, {MONSTER} from "frontend/state";
 import modelActions from "frontend/actions/monster";
-import {ShallowComponent, DeepComponent} from "frontend/components/component";
+import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/common";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
-import Loading from "frontend/components/loading";
-import NotFound from "frontend/components/notfound";
-import Pagination from "frontend/components/pagination";
 import MonsterItem from "frontend/components/item/monster";
 
 // CURSORS =========================================================================================
-let modelCursor = state.select("monsters");
+let $data = state.select("monsters");
 
 // COMPONENTS ======================================================================================
 @statics({
   loadData: modelActions.loadIndex,
 })
 @branch({
-  cursors: {
-    monsters: "monsters",
-  },
-  facets: {
-    currentMonsters: "currentMonsters",
-  }
+  filters: ["monsters", "filters"],
+  sorts: ["monsters", "sorts"],
+  offset: ["monsters", "offset"],
+  limit: ["monsters", "limit"],
+  total: ["monsters", "total"],
+  models: ["$currentMonsters"],
 })
 export default class MonsterIndex extends DeepComponent {
   render() {
-    let {loading, loadError, filters, sorts, offset, limit, total} = this.props.monsters;
-    let models = this.props.currentMonsters;
+    let {filters, sorts, offset, limit, total, models} = this.props;
 
-    if (loadError) {
-      return <Error loadError={loadError}/>;
-    } else {
-      let pagination = <Pagination
-        onClick={_offset => this.setOffset(_offset)}
-        total={total} offset={offset} limit={limit}
-      />;
-      return (
-        <DocumentTitle title="Monsters">
-          <div>
-            <Actions {...this.props}/>
-            <section className="container">
-              <h1>Monsters</h1>
-              {pagination}
-              <div className="row">
-                {map(model => <MonsterItem model={model} key={model.id}/>, models)}
-              </div>
-              {pagination}
-            </section>
-            {loading ? <Loading/> : ""}
-          </div>
-        </DocumentTitle>
-      );
-    }
+    let pagination = <Pagination
+      onClick={_offset => this.setOffset(_offset)}
+      total={total} offset={offset} limit={limit}
+    />;
+    return (
+      <DocumentTitle title="Monsters">
+        <div>
+          <Actions {...this.props}/>
+          <section className="container">
+            <h1>Monsters</h1>
+            {pagination}
+            <div className="row">
+              {map(model => <MonsterItem model={model} key={model.id}/>, models)}
+            </div>
+            {pagination}
+          </section>
+        </div>
+      </DocumentTitle>
+    );
   }
 
   setOffset(offset) {
-    modelCursor.set("offset", offset || MONSTER.OFFSET);
+    $data.set("offset", offset || MONSTER.OFFSET);
     modelActions.loadIndex();
   }
 }
 
 class Actions extends ShallowComponent {
   render() {
-    let {filters, sorts, limit} = this.props.monsters;
+    let {filters, sorts, limit} = this.props;
 
     let perPage = <PerPage
       options={[5, 10, 12]} current={limit}
@@ -106,32 +97,32 @@ class Actions extends ShallowComponent {
   }
 
   setFilters(filters) {
-    if (!eqDeep(filters, modelCursor.get("filters"))) {
-      modelCursor.set("filters", filters);
-      if ((modelCursor.get("pagination").length < modelCursor.get("total")) || true) {
+    if (!eqDeep(filters, $data.get("filters"))) {
+      $data.set("filters", filters);
+      if (($data.get("pagination").length < $data.get("total")) || true) {
         /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
         // not all data loaded or new filters aren't subset of old
-        modelCursor.set("pagination", []);
-        modelCursor.set("total", 0);
+        $data.set("pagination", []);
+        $data.set("total", 0);
       }
     }
     modelActions.loadIndex();
   }
 
   setSorts(sorts) {
-    if (!eqDeep(sorts, modelCursor.get("sorts"))) {
-      modelCursor.set("sorts", sorts);
-      if (modelCursor.get("pagination").length < modelCursor.get("total")) {
+    if (!eqDeep(sorts, $data.get("sorts"))) {
+      $data.set("sorts", sorts);
+      if ($data.get("pagination").length < $data.get("total")) {
         // not all data loaded
-        modelCursor.set("pagination", []);
-        modelCursor.set("total", 0);
+        $data.set("pagination", []);
+        $data.set("total", 0);
       }
     }
     modelActions.loadIndex();
   }
 
   setLimit(limit) {
-    modelCursor.set("limit", limit || MONSTER.LIMIT);
+    $data.set("limit", limit || MONSTER.LIMIT);
     modelActions.loadIndex();
   }
 }

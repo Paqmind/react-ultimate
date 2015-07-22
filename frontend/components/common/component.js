@@ -3,20 +3,24 @@ import {shallowCompare, deepCompare} from "frontend/helpers/react";
 import React from "react";
 
 // COMPONENTS ======================================================================================
-export class Component extends React.Component {
+class Component extends React.Component {
   constructor(props) {
     super(props);
     autoBind(this);
   }
 }
 
-export class ShallowComponent extends Component {
+class ShallowComponent extends Component {
   shouldComponentUpdate = shallowCompare;
 }
 
-export class DeepComponent extends Component {
+class DeepComponent extends Component {
   shouldComponentUpdate = deepCompare;
 }
+
+export default {
+  Component, ShallowComponent, DeepComponent,
+};
 
 // HELPERS =========================================================================================
 function getAllMethods(obj) {

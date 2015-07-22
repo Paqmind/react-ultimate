@@ -1,17 +1,21 @@
-import Axios from "axios";
+import api from "shared/api/robot";
 import state from "frontend/state";
 import fetchModel from "frontend/actions/fetch-model/robot";
 
-// CURSORS
-let modelCursor = state.select("robots");
+// CURSORS =========================================================================================
+let $data = state.select(api.plural);
+let $models = $data.select("models");
 
 // ACTIONS =========================================================================================
 export default function loadModel() {
-  console.debug("loadModel()");
+  console.debug(api.plural + `.loadModel()`);
 
-  let id = modelCursor.get("id");
-  let model = modelCursor.get("models", id);
-  if (!model) {
-    fetchModel(id);
+  let id = $data.get("id");
+  let model = $models.get(id);
+
+  if (model) {
+    return Promise.resolve(model);
+  } else {
+    return fetchModel(id);
   }
 }

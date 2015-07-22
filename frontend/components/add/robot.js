@@ -10,7 +10,7 @@ import {formatString, formatInteger, formatFloat, formatDate} from "shared/conve
 import modelValidators from "shared/validators/robot";
 import {statics} from "frontend/helpers/react";
 import modelActions from "frontend/actions/robot";
-import {ShallowComponent} from "frontend/components/component";
+import {ShallowComponent} from "frontend/components/common";
 import {Form} from "frontend/components/form";
 
 // COMPONENTS ======================================================================================
@@ -18,12 +18,11 @@ import {Form} from "frontend/components/form";
   loadData: modelActions.loadIndex,
 })
 @branch({
-  cursors: {
-    robots: "robots",
-  },
-  facets: {
-    model: "emptyRobot",
-  },
+  filters: ["robots", "filters"],
+  sorts: ["robots", "sorts"],
+  offset: ["robots", "offset"],
+  limit: ["robots", "limit"],
+  model: ["$emptyRobot"],
 })
 export default class RobotAdd extends Form {
   constructor(props) {
@@ -41,70 +40,63 @@ export default class RobotAdd extends Form {
   }
 
   render() {
-    let {loading, loadError} = this.props.robots;
     let form = this.state.form;
 
-    if (loading) {
-      return <Loading/>;
-    } else if (loadError) {
-      return <Error loadError={loadError}/>;
-    } else {
-      return (
-        <DocumentTitle title={"Add Robot"}>
-          <div>
-            <Actions {...this.props} form={form}/>
-            <section className="container margin-top-lg">
-              <div className="row">
-                <div className="col-xs-12 col-sm-9">
-                  <h1 className="nomargin-top">Add Robot</h1>
-                  <fieldset>
-                    <div className={Class("form-group", {
-                      required: false,
+    return (
+      <DocumentTitle title={"Add Robot"}>
+        <div>
+          <Actions {...this.props} form={form}/>
+          <section className="container margin-top-lg">
+            <div className="row">
+              <div className="col-xs-12 col-sm-9">
+                <h1 className="nomargin-top">Add Robot</h1>
+                <fieldset>
+                  <div className={Class("form-group", {
+                    required: false,
+                    error: this.hasErrors("name"),
+                  })}>
+                    <label htmlFor="name">Name</label>
+                    <input type="text"
+                      value={formatString(form.name)}
+                      onBlur={() => this.validate("name")}
+                      onChange={event => this.handleChange("name", event.currentTarget.value)}
+                      id="name" ref="name"
+                      className="form-control"/>
+                    <div className={Class("help", {
                       error: this.hasErrors("name"),
                     })}>
-                      <label htmlFor="name">Name</label>
-                      <input type="text"
-                        value={formatString(form.name)}
-                        onBlur={() => this.validate("name")}
-                        onChange={event => this.handleChange("name", event.currentTarget.value)}
-                        id="name" ref="name"
-                        className="form-control"/>
-                      <div className={Class("help", {
-                        error: this.hasErrors("name"),
-                      })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("name"))}
-                      </div>
+                      {map(message => <span key="">{message}</span>, this.getErrors("name"))}
                     </div>
+                  </div>
 
-                    <div className={Class("form-group", {
-                      required: false,
+                  <div className={Class("form-group", {
+                    required: false,
+                    error: this.hasErrors("manufacturer"),
+                  })}>
+                    <label htmlFor="manufacturer">Manufacturer</label>
+                    <input type="text"
+                      value={formatString(form.manufacturer)}
+                      onBlur={() => this.validate("manufacturer")}
+                      onChange={event => this.handleChange("manufacturer", event.currentTarget.value)}
+                      id="manufacturer" ref="manufacturer"
+                      className="form-control"/>
+                    <div className={Class("help", {
                       error: this.hasErrors("manufacturer"),
                     })}>
-                      <label htmlFor="manufacturer">Manufacturer</label>
-                      <input type="text"
-                        value={formatString(form.manufacturer)}
-                        onBlur={() => this.validate("manufacturer")}
-                        onChange={event => this.handleChange("manufacturer", event.currentTarget.value)}
-                        id="manufacturer" ref="manufacturer"
-                        className="form-control"/>
-                      <div className={Class("help", {
-                        error: this.hasErrors("manufacturer"),
-                      })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("manufacturer"))}
-                      </div>
+                      {map(message => <span key="">{message}</span>, this.getErrors("manufacturer"))}
                     </div>
-                  </fieldset>
-                  <div className="btn-group">
-                    <button className="btn btn-default" type="button" onClick={() => this.handleReset()}>Reset</button>
-                    <button className="btn btn-primary" type="button" onClick={() => this.handleSubmit()} disabled={this.hasErrors()}>Submit</button>
                   </div>
+                </fieldset>
+                <div className="btn-group">
+                  <button className="btn btn-default" type="button" onClick={() => this.handleReset()}>Reset</button>
+                  <button className="btn btn-primary" type="button" onClick={() => this.handleSubmit()} disabled={this.hasErrors()}>Submit</button>
                 </div>
               </div>
-            </section>
-          </div>
-        </DocumentTitle>
-      );
-    }
+            </div>
+          </section>
+        </div>
+      </DocumentTitle>
+    );
   }
 
   handleSubmit() {
@@ -118,8 +110,8 @@ export default class RobotAdd extends Form {
 
 class Actions extends ShallowComponent {
   render() {
-    let robots = this.props.robots;
-    let query = formatQuery(robots);
+    let {filters, sorts, offset, limit} = this.props;
+    let query = formatQuery({filters, sorts, offset, limit});
 
     return (
       <div className="actions">

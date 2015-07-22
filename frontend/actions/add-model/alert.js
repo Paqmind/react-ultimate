@@ -1,13 +1,17 @@
+import api from "shared/api/alert";
 import Alert from "shared/models/alert";
 import state from "frontend/state";
 
 // CURSORS =========================================================================================
-let modelCursor = state.select("alerts");
+let $url = state.select("url");
+let $data = state.select(api.plural);
 
 // ACTIONS =========================================================================================
+// Model -> Maybe Model
 export default function addModel(model) {
-  let newModel = Alert(model);
-  let id = newModel.id;
+  model = Alert(model);
+  let id = model.id;
 
-  modelCursor.select("models").set(id, newModel);
+  $data.select("models").set(id, model);
+  return model;
 }

@@ -10,8 +10,7 @@ import modelValidators from "shared/validators/monster";
 import {statics} from "frontend/helpers/react";
 import modelActions from "frontend/actions/monster";
 import alertActions from "frontend/actions/alert";
-import {ShallowComponent} from "frontend/components/component";
-import {ModelLink} from "frontend/components/link";
+import {ShallowComponent, ModelLink} from "frontend/components/common";
 import {Form} from "frontend/components/form";
 
 // COMPONENTS ======================================================================================
@@ -19,12 +18,7 @@ import {Form} from "frontend/components/form";
   loadData: modelActions.establishModel,
 })
 @branch({
-  cursors: {
-    monsters: "monsters",
-  },
-  facets: {
-    model: "currentMonster",
-  },
+  model: ["$currentMonster"],
 })
 export default class MonsterEdit extends Form {
   constructor(props) {
@@ -50,14 +44,9 @@ export default class MonsterEdit extends Form {
   }
 
   render() {
-    let {loading, loadError} = this.props.monsters;
     let form = this.state.form;
 
-    if (loading) {
-      return <Loading/>;
-    } else if (loadError) {
-      return <Error loadError={loadError}/>;
-    } else {
+    if (form) {
       return (
         <DocumentTitle title={"Edit " + form.name}>
           <div>
@@ -118,13 +107,21 @@ export default class MonsterEdit extends Form {
           </div>
         </DocumentTitle>
       );
+    } else {
+      return null;
     }
   }
 
   handleSubmit() {
     this.validate().then(isValid => {
       if (isValid) {
-        modelActions.editModel(this.state.model);
+        modelActions
+          .editModel(this.state.model)
+          .then(([model, response]) => {
+            if (!response.status.startsWith("2")) {
+              alertActions.addModel({message: "Edit Monster failed with message " + response.statusText, category: "error"});
+            }
+          });
       }
     });
   }
@@ -132,7 +129,7 @@ export default class MonsterEdit extends Form {
 
 class Actions extends ShallowComponent {
   render() {
-    let form = this.props.form;
+    let {form} = this.props;
 
     return (
       <div className="actions">
@@ -147,7 +144,7 @@ class Actions extends ShallowComponent {
             <Link to="monster-add" className="btn btn-sm btn-green" title="Add">
               <span className="fa fa-plus"></span>
             </Link>
-            <ModelLink to="monster-detail" className="btn btn-blue" title="Detail">
+            <ModelLink to="monster-detail" params={{id: form.id}} className="btn btn-blue" title="Detail">
               <span className="fa fa-eye"></span>
             </ModelLink>
             <a className="btn btn-red" title="Remove" onClick={() => modelActions.removeModel(form.id)}>

@@ -1,9 +1,9 @@
 import {filter} from "ramda";
 import React from "react";
-import {Component} from "frontend/components/component";
+import {Component, ShallowComponent} from "./component";
 
 // EXPORTS =========================================================================================
-export class TextHolder extends Component {
+export default class TextHolder extends ShallowComponent {
   getListOfNodeParents(el) {
     let parents = [];
     while (el) {
@@ -41,10 +41,10 @@ export class TextHolder extends Component {
   }
 
   render() {
-      if (this.props.children) {
-        return React.Children.only(this.props.children);
-      } else {
-        return null;
-      }
+    if (this.props.children) {
+      return React.Children.only(this.props.children);
+    } else {
+      return null;
     }
+  }
 }

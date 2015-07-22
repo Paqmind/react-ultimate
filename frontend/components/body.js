@@ -4,11 +4,7 @@ import {Link} from "react-router";
 import {RouteHandler} from "react-router";
 import {root} from "baobab-react/decorators";
 import state from "frontend/state";
-import {Component} from "frontend/components/component";
-import Loading from "frontend/components/loading";
-import Menu from "frontend/components/menu";
-import Header from "frontend/components/header";
-import Footer from "frontend/components/footer";
+import {Component, Loading, Menu, Header, Footer} from "frontend/components/common";
 import AlertIndex from "frontend/components/index/alert";
 
 // BODY ============================================================================================

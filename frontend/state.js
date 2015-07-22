@@ -4,6 +4,8 @@ import {flattenArrayObject, filterByAll, sortByAll} from "shared/helpers/common"
 import {parseQuery} from "shared/helpers/jsonapi";
 import {joiValidate} from "shared/helpers/validation";
 import commonValidators from "shared/validators/common";
+import robotApi from "shared/api/robot";
+import monsterApi from "shared/api/robot";
 
 // STATE ===========================================================================================
 export const EXAMPLE = {
@@ -30,14 +32,9 @@ export const MONSTER = {
 window._state = new Baobab(
   {
     url: {
-      handler: undefined,
+      route: undefined,
       params: undefined,
       query: undefined,
-      id: undefined,
-      filters: undefined,
-      sorts: undefined,
-      offset: undefined,
-      limit: undefined,
     },
 
     ajaxQueue: [],
@@ -47,10 +44,6 @@ window._state = new Baobab(
       total: 0,
       models: {},
       pagination: [],
-
-      // LOAD ARTEFACTS
-      loading: true,
-      loadError: undefined,
 
       // INDEX
       filters: ROBOT.FILTERS,
@@ -68,10 +61,6 @@ window._state = new Baobab(
       models: {},
       pagination: [],
 
-      // LOAD ARTEFACTS
-      loading: true,
-      loadError: undefined,
-
       // INDEX
       filters: ROBOT.FILTERS,
       sorts: ROBOT.SORTS,
@@ -86,201 +75,174 @@ window._state = new Baobab(
       // DATA
       total: 0,
       models: {},
-
-      // LOAD ARTEFACTS
-      loading: true,
-      loadError: undefined,
     },
+
+    $urlQuery: [
+      ["url", "query"],
+      function (query) {
+        // Parse and validate URL Query
+        let parsedQuery = parseQuery(query);
+        let [cleanedQuery, errors] = joiValidate(parsedQuery, commonValidators.urlQuery);
+        if (keys(errors).length) {
+          let humanReadableErrors = flattenArrayObject(errors).join(", ");
+          alert(`Invalid URL query params. Errors: ${humanReadableErrors}`);
+          throw Error(`Invalid URL query params. Errors: ${humanReadableErrors}`);
+        }
+
+        return {
+          filters: cleanedQuery.filters,
+          sorts: cleanedQuery.sorts,
+          offset: cleanedQuery.offset,
+          limit: cleanedQuery.limit,
+        };
+      }
+    ],
+
+    // Quick hack until Form will be implemented as Component
+    $emptyRobot: [
+      ["url"],
+      function (url) {
+        return {
+          name: undefined,
+          //assemblyDate: undefined,
+          manufacturer: undefined,
+        };
+      }
+    ],
+
+    $hasPendingRequestsRobot: [
+      ["ajaxQueue"],
+      function (queue) {
+        return ajaxQueueContains(queue, robotApi.indexUrl) ||
+               ajaxQueueContains(queue, robotApi.modelUrl);
+      }
+    ],
+
+    $hasPendingRequestsMonster: [
+      ["ajaxQueue"],
+      function (queue) {
+        return ajax.queueContains(queue, monsterApi.indexUrl) ||
+               ajax.queueContains(queue, monsterApi.modelUrl);
+      }
+    ],
+
+    // Quick hack until Form will be implemented as Component
+    $emptyMonster: [
+      ["url"],
+      function (url) {
+        return {
+          name: undefined,
+          //birthDate: undefined,
+          citizenship: undefined,
+        };
+      }
+    ],
+
+    $allRobotsAreLoaded: [
+      ["robots", "total"],
+      ["robots", "pagination"],
+      function (total, pagination) {
+        let loaded = filter(id => id, pagination).length;
+        if (loaded < total) {
+          return false;
+        } else if (loaded == total) {
+          return true;
+        } else {
+          throw Error(`invalid total ${total}`);
+        }
+      }
+    ],
+
+    $allMonstersAreLoaded: [
+      ["monsters", "total"],
+      ["monsters", "pagination"],
+      function (total, pagination) {
+        let loaded = filter(id => id, pagination).length;
+        if (loaded < total) {
+          return false;
+        } else if (loaded == total) {
+          return true;
+        } else {
+          throw Error(`invalid total ${total}`);
+        }
+      }
+    ],
+
+    $currentRobot: [
+      ["robots", "models"],
+      ["robots", "id"],
+      function (models, id) {
+        if (id) {
+          return models[id];
+        } else {
+          return;
+        }
+      }
+    ],
+
+    $currentMonster: [
+      ["monsters", "models"],
+      ["monsters", "id"],
+      function (models, id) {
+        if (id) {
+          return models[id];
+        } else {
+          return;
+        }
+      }
+    ],
+
+    $currentAlerts: [
+      ["alerts"],
+      function (data) {
+        let modelsArray = values(data.models);
+        if (modelsArray.length) {
+          return sortBy(m => m.createdDate, modelsArray);
+        } else {
+          return [];
+        }
+      }
+    ],
+
+    $currentRobots: [
+      ["robots"],
+      ["$allRobotsAreLoaded"],
+      function (data, fullLoad) {
+        let {filters, sorts, offset, limit, models, pagination} = data;
+        let modelsArray = map(id => id && models[id], pagination);
+        return pipe(
+          fullLoad ? filterByAll(filters) : identity,
+          fullLoad ? sortByAll(sorts) : identity,
+          slice(offset, offset + limit),
+          filter(m => m)
+        )(modelsArray);
+      }
+    ],
+
+    $currentMonsters: [
+      ["monsters"],
+      ["$allMonstersAreLoaded"],
+      function (data, fullLoad) {
+        let {filters, sorts, offset, limit, models, pagination} = data;
+        let modelsArray = map(id => id && models[id], pagination);
+        return pipe(
+          fullLoad ? filterByAll(filters) : identity,
+          fullLoad ? sortByAll(sorts) : identity,
+          slice(offset, offset + limit),
+          filter(m => m)
+        )(modelsArray);
+      }
+    ],
   },
   { // OPTIONS
-    syncwrite: true,
-
-    facets: {
-      //urlQuery: {
-      //  cursors: {
-      //    query: ["url", "query"],
-      //  },
-      //
-      //  get(data) {
-      //    let query = data.query;
-      //
-      //    // Parse and validate URL Query
-      //    let parsedQuery = parseQuery(query);
-      //    let [cleanedQuery, errors] = joiValidate(parsedQuery, commonValidators.urlQuery);
-      //    if (keys(errors).length) {
-      //      let humanReadableErrors = flattenArrayObject(errors).join(", ");
-      //      alert(`Invalid URL query params. Errors: ${humanReadableErrors}`);
-      //      throw Error(`Invalid URL query params. Errors: ${humanReadableErrors}`);
-      //    }
-      //
-      //    return {
-      //      filters: cleanedQuery.filters,
-      //      sorts: cleanedQuery.sorts,
-      //      offset: cleanedQuery.offset,
-      //      limit: cleanedQuery.limit,
-      //    };
-      //  }
-      //},
-
-      // Quick hack until Form will be implemented as Component
-      emptyRobot: {
-        cursors: {
-          url: ["url"],
-        },
-
-        get(data) {
-          return {
-            name: undefined,
-            //assemblyDate: undefined,
-            manufacturer: undefined,
-          };
-        }
-      },
-
-      // Quick hack until Form will be implemented as Component
-      emptyMonster: {
-        cursors: {
-          url: ["url"],
-        },
-
-        get(data) {
-          return {
-            name: undefined,
-            //birthDate: undefined,
-            citizenship: undefined,
-          };
-        }
-      },
-
-      allRobotsAreLoaded: {
-        cursors: {
-          total: ["robots", "total"],
-          pagination: ["robots", "pagination"],
-        },
-
-        get(data) {
-          let {total, pagination} = data;
-          let loaded = filter(id => id, pagination).length;
-          if (loaded < total) {
-            return false;
-          } else if (loaded == total) {
-            return true;
-          } else {
-            throw Error(`invalid total ${total}`);
-          }
-        }
-      },
-
-      allMonstersAreLoaded: {
-        cursors: {
-          total: ["monsters", "total"],
-          pagination: ["monsters", "pagination"],
-        },
-
-        get(data) {
-          let {total, pagination} = data;
-          let loaded = filter(id => id, pagination).length;
-          if (loaded < total) {
-            return false;
-          } else if (loaded == total) {
-            return true;
-          } else {
-            throw Error(`invalid total ${total}`);
-          }
-        }
-      },
-
-      currentRobot: {
-        cursors: {
-          robots: "robots",
-        },
-
-        get(data) {
-          let {models, id} = data.robots;
-          if (id) {
-            return models[id];
-          } else {
-            return undefined;
-          }
-        }
-      },
-
-      currentMonster: {
-        cursors: {
-          monsters: "monsters",
-        },
-
-        get(data) {
-          let {models, id} = data.monsters;
-          if (id) {
-            return models[id];
-          } else {
-            return undefined;
-          }
-        }
-      },
-
-      currentAlerts: {
-        cursors: {
-          alerts: "alerts",
-        },
-
-        get(data) {
-          let {models} = data.alerts;
-          let modelsArray = values(models);
-          if (modelsArray.length) {
-            return sortBy(m => m.createdDate, modelsArray);
-          } else {
-            return [];
-          }
-        }
-      },
-
-      currentRobots: {
-        cursors: {
-          robots: "robots",
-        },
-
-        facets: {
-          allModelsAreLoaded: "allRobotsAreLoaded",
-        },
-
-        get(data) {
-          let {robots, allModelsAreLoaded} = data;
-          let {filters, sorts, offset, limit, models, pagination} = robots;
-          let modelsArray = map(id => id && models[id], pagination);
-          return pipe(
-            allModelsAreLoaded ? filterByAll(filters) : identity,
-            allModelsAreLoaded ? sortByAll(sorts) : identity,
-            slice(offset, offset + limit),
-            filter(m => m)
-          )(modelsArray);
-        }
-      },
-
-      currentMonsters: {
-        cursors: {
-          monsters: "monsters",
-        },
-
-        facets: {
-          allModelsAreLoaded: "allMonstersAreLoaded",
-        },
-
-        get(data) {
-          let {monsters, allModelsAreLoaded} = data;
-          let {filters, sorts, offset, limit, models, pagination} = monsters;
-          let modelsArray = map(id => id && models[id], pagination);
-          return pipe(
-            allModelsAreLoaded ? filterByAll(filters) : identity,
-            allModelsAreLoaded ? sortByAll(sorts) : identity,
-            slice(offset, offset + limit),
-            filter(m => m)
-          )(modelsArray);
-        }
-      },
-    }
+    immutable: false
   }
 );
 
 export default window._state;
+
+// HELPERS =========================================================================================
+function ajaxQueueContains(queue, url) {
+  console.log(queue);
+  return Boolean(filter(pendindRequest => pendindRequest.url == url, queue).length);
+}

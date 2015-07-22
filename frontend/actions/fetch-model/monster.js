@@ -1,49 +1,25 @@
-import Axios from "axios";
-import {toObject} from "shared/helpers/common";
-import Monster from "shared/models/monster";
+import api from "shared/api/monster";
+import Model from "shared/models/monster";
 import state from "frontend/state";
-import alertActions from "frontend/actions/alert";
+import ajax from "frontend/ajax";
 
 // CURSORS =========================================================================================
-let modelCursor = state.select("monsters");
+let $data = state.select(api.plural);
+let $models = $data.select("models");
 
 // ACTIONS =========================================================================================
+// Id -> Maybe Model
 export default function fetchModel(id) {
-  console.debug(`fetchModel(${id})`);
+  console.debug(api.plural + `.fetchModel(${id})`);
 
-  let url = `/api/monsters/${id}`;
-
-  modelCursor.set("loading", true);
-
-  return Axios.get(url)
+  return ajax.get(api.modelUrl.replace(":id", id))
     .then(response => {
-      let {data, meta} = response.data;
-      let model = Monster(data);
-
-      modelCursor.merge({
-        loading: false,
-        loadError: undefined
-      });
-      modelCursor.select("models").set(id, model);
-
-      return response.status;
-    })
-    .catch(response => {
-      if (response instanceof Error) {
-        throw response;
+      if (response.status.startsWith("2")) {
+        let model = Model(response.data.data);
+        $models.set(id, model);
+        return model;
       } else {
-        modelCursor.merge({
-          loading: false,
-          loadError: {
-            status: response.status,
-            description: response.statusText,
-            url
-          }
-        });
-
-        // Add alert
-        alertActions.addModel({message: "Action `Monster:fetchModel` failed: " + response.statusText, category: "error"});
-        return response.status;
+        return;
       }
     });
 }

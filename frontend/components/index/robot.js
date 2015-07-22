@@ -7,11 +7,8 @@ import {toArray} from "shared/helpers/common";
 import {statics} from "frontend/helpers/react";
 import {indexRouter} from "frontend/router";
 import modelActions from "frontend/actions/robot";
-import {ShallowComponent, DeepComponent} from "frontend/components/component";
+import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/common";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
-import Loading from "frontend/components/loading";
-import NotFound from "frontend/components/notfound";
-import Pagination from "frontend/components/pagination";
 import RobotItem from "frontend/components/item/robot";
 
 // COMPONENTS ======================================================================================
@@ -19,43 +16,37 @@ import RobotItem from "frontend/components/item/robot";
   loadData: modelActions.establishIndex,
 })
 @branch({
-  cursors: {
-    robots: "robots",
-  },
-  facets: {
-    currentRobots: "currentRobots",
-  }
+  filters: ["robots", "filters"],
+  sorts: ["robots", "sorts"],
+  offset: ["robots", "offset"],
+  limit: ["robots", "limit"],
+  total: ["robots", "total"],
+  models: ["$currentRobots"],
 })
 export default class RobotIndex extends DeepComponent {
   render() {
-    let {loading, loadError, filters, sorts, offset, limit, total} = this.props.robots;
-    let models = this.props.currentRobots;
+    let {filters, sorts, offset, limit, total, models} = this.props;
 
-    if (loadError) {
-      return <Error loadError={loadError}/>;
-    } else {
-      let pagination = <Pagination
-        makeHref={_offset => this.showOffset(_offset)}
-        onClick={_offset => this.setOffset(_offset)}
-        total={total} offset={offset} limit={limit}
-      />;
-      return (
-        <DocumentTitle title="Robots">
-          <div>
-            <Actions {...this.props}/>
-            <section className="container">
-              <h1>Robots</h1>
-              {pagination}
-              <div className="row">
-                {map(model => <RobotItem model={model} key={model.id}/>, models)}
-              </div>
-              {pagination}
-            </section>
-            {loading ? <Loading/> : ""}
-          </div>
-        </DocumentTitle>
-      );
-    }
+    let pagination = <Pagination
+      makeHref={_offset => this.showOffset(_offset)}
+      onClick={_offset => this.setOffset(_offset)}
+      total={total} offset={offset} limit={limit}
+    />;
+    return (
+      <DocumentTitle title="Robots">
+        <div>
+          <Actions {...this.props}/>
+          <section className="container">
+            <h1>Robots</h1>
+            {pagination}
+            <div className="row">
+              {map(model => <RobotItem model={model} key={model.id}/>, models)}
+            </div>
+            {pagination}
+          </section>
+        </div>
+      </DocumentTitle>
+    );
   }
 
   setOffset(offset) {
@@ -69,7 +60,7 @@ export default class RobotIndex extends DeepComponent {
 
 class Actions extends ShallowComponent {
   render() {
-    let {filters, sorts, limit} = this.props.robots;
+    let {filters, sorts, limit} = this.props;
 
     let perPage = <PerPage
       options={[5, 10, 12]} current={limit}

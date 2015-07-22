@@ -7,7 +7,7 @@ import DocumentTitle from "react-document-title";
 import modelValidators from "shared/validators/monster";
 import {statics} from "frontend/helpers/react";
 import modelActions from "frontend/actions/monster";
-import {ShallowComponent} from "frontend/components/component";
+import {ShallowComponent} from "frontend/components/common";
 import {Form} from "frontend/components/form";
 
 // COMPONENTS ======================================================================================
@@ -15,12 +15,7 @@ import {Form} from "frontend/components/form";
   loadData: modelActions.loadIndex,
 })
 @branch({
-  cursors: {
-    monsters: "monsters",
-  },
-  facets: {
-    model: "emptyMonster",
-  },
+  model: ["$emptyMonster"],
 })
 export default class MonsterAdd extends Form {
   constructor(props) {
@@ -38,70 +33,63 @@ export default class MonsterAdd extends Form {
   }
 
   render() {
-    let {loading, loadError} = this.props.monsters;
     let form = this.state.form;
 
-    if (loading) {
-      return <Loading/>;
-    } else if (loadError) {
-      return <Error loadError={loadError}/>;
-    } else {
-      return (
-        <DocumentTitle title={"Add Monster"}>
-          <div>
-            <Actions {...this.props}/>
-            <section className="container margin-top-lg">
-              <div className="row">
-                <div className="col-xs-12 col-sm-9">
-                  <h1 className="nomargin-top">Add Monster</h1>
-                  <fieldset>
-                    <div className={Class("form-group", {
-                      required: false,
+    return (
+      <DocumentTitle title={"Add Monster"}>
+        <div>
+          <Actions {...this.props}/>
+          <section className="container margin-top-lg">
+            <div className="row">
+              <div className="col-xs-12 col-sm-9">
+                <h1 className="nomargin-top">Add Monster</h1>
+                <fieldset>
+                  <div className={Class("form-group", {
+                    required: false,
+                    error: this.hasErrors("name"),
+                  })}>
+                    <label htmlFor="name">Name</label>
+                    <input type="text"
+                      value={form.name}
+                      onBlur={() => this.validate("name")}
+                      onChange={event => this.handleChange("name", event.currentTarget.value)}
+                      id="name" ref="name"
+                      className="form-control"/>
+                    <div className={Class("help", {
                       error: this.hasErrors("name"),
                     })}>
-                      <label htmlFor="name">Name</label>
-                      <input type="text"
-                        value={form.name}
-                        onBlur={() => this.validate("name")}
-                        onChange={event => this.handleChange("name", event.currentTarget.value)}
-                        id="name" ref="name"
-                        className="form-control"/>
-                      <div className={Class("help", {
-                        error: this.hasErrors("name"),
-                      })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("name"))}
-                      </div>
+                      {map(message => <span key="">{message}</span>, this.getErrors("name"))}
                     </div>
+                  </div>
 
-                    <div className={Class("form-group", {
-                      required: false,
+                  <div className={Class("form-group", {
+                    required: false,
+                    error: this.hasErrors("citizenship"),
+                  })}>
+                    <label htmlFor="citizenship">Citizenship</label>
+                    <input type="text"
+                      value={form.citizenship}
+                      onBlur={() => this.validate("citizenship")}
+                      onChange={event => this.handleChange("citizenship", event.currentTarget.value)}
+                      id="citizenship" ref="citizenship"
+                      className="form-control"/>
+                    <div className={Class("help", {
                       error: this.hasErrors("citizenship"),
                     })}>
-                      <label htmlFor="citizenship">Citizenship</label>
-                      <input type="text"
-                        value={form.citizenship}
-                        onBlur={() => this.validate("citizenship")}
-                        onChange={event => this.handleChange("citizenship", event.currentTarget.value)}
-                        id="citizenship" ref="citizenship"
-                        className="form-control"/>
-                      <div className={Class("help", {
-                        error: this.hasErrors("citizenship"),
-                      })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("citizenship"))}
-                      </div>
+                      {map(message => <span key="">{message}</span>, this.getErrors("citizenship"))}
                     </div>
-                  </fieldset>
-                  <div className="btn-group">
-                    <button className="btn btn-default" type="button" onClick={() => this.handleReset()}>Reset</button>
-                    <button className="btn btn-primary" type="button" onClick={() => this.handleSubmit()} disabled={this.hasErrors()}>Submit</button>
                   </div>
+                </fieldset>
+                <div className="btn-group">
+                  <button className="btn btn-default" type="button" onClick={() => this.handleReset()}>Reset</button>
+                  <button className="btn btn-primary" type="button" onClick={() => this.handleSubmit()} disabled={this.hasErrors()}>Submit</button>
                 </div>
               </div>
-            </section>
-          </div>
-        </DocumentTitle>
-      );
-    }
+            </div>
+          </section>
+        </div>
+      </DocumentTitle>
+    );
   }
 
   handleSubmit() {

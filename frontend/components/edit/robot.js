@@ -11,8 +11,7 @@ import modelValidators from "shared/validators/robot";
 import {statics} from "frontend/helpers/react";
 import modelActions from "frontend/actions/robot";
 import alertActions from "frontend/actions/alert";
-import {ShallowComponent} from "frontend/components/component";
-import {ModelLink} from "frontend/components/link";
+import {ShallowComponent, ModelLink} from "frontend/components/common";
 import {Form} from "frontend/components/form";
 
 // COMPONENTS ======================================================================================
@@ -20,12 +19,11 @@ import {Form} from "frontend/components/form";
   loadData: modelActions.establishModel,
 })
 @branch({
-  cursors: {
-    robots: "robots",
-  },
-  facets: {
-    model: "currentRobot",
-  },
+  filters: ["robots", "filters"],
+  sorts: ["robots", "sorts"],
+  offset: ["robots", "offset"],
+  limit: ["robots", "limit"],
+  model: ["$currentRobot"],
 })
 export default class RobotEdit extends Form {
   constructor(props) {
@@ -47,19 +45,13 @@ export default class RobotEdit extends Form {
       form: clone(props.model),
       model: clone(props.model),
       errors: {},
-      schema: modelValidators.model
     });
   }
 
   render() {
-    let {loading, loadError} = this.props.robots;
-    let form = this.state.form;
+    let {form} = this.state;
 
-    if (loading) {
-      return <Loading/>;
-    } else if (loadError) {
-      return <Error loadError={loadError}/>;
-    } else {
+    if (form) {
       return (
         <DocumentTitle title={"Edit " + form.name}>
           <div>
@@ -120,13 +112,21 @@ export default class RobotEdit extends Form {
           </div>
         </DocumentTitle>
       );
+    } else {
+      return null;
     }
   }
 
   handleSubmit() {
     this.validate().then(isValid => {
       if (isValid) {
-        modelActions.editModel(this.state.model);
+        modelActions
+          .editModel(this.state.model)
+          .then(([model, response]) => {
+            if (!response.status.startsWith("2")) {
+              alertActions.addModel({message: "Edit Robot failed with message " + response.statusText, category: "error"});
+            }
+          });
       }
     });
   }
@@ -134,9 +134,8 @@ export default class RobotEdit extends Form {
 
 class Actions extends ShallowComponent {
   render() {
-    let robots = this.props.robots;
-    let form = this.props.form;
-    let query = formatQuery(robots);
+    let {filters, sorts, offset, limit, form} = this.props;
+    let query = formatQuery({filters, sorts, offset, limit});
 
     return (
       <div className="actions">
@@ -151,7 +150,7 @@ class Actions extends ShallowComponent {
             <Link to="robot-add" className="btn btn-sm btn-green" title="Add">
               <span className="fa fa-plus"></span>
             </Link>
-            <ModelLink to="robot-detail" className="btn btn-blue" title="Detail">
+            <ModelLink to="robot-detail" params={{id: form.id}} className="btn btn-blue" title="Detail">
               <span className="fa fa-eye"></span>
             </ModelLink>
             <a className="btn btn-red" title="Remove" onClick={() => modelActions.removeModel(form.id)}>

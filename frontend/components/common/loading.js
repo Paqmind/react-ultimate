@@ -2,13 +2,11 @@ import Class from "classnames";
 import React from "react";
 import DocumentTitle from "react-document-title";
 import {branch} from "baobab-react/decorators";
-import {Component} from "frontend/components/component";
+import {Component} from "./component";
 
 // COMPONENTS ======================================================================================
 @branch({
-  cursors: {
-    ajaxQueue: "ajaxQueue",
-  }
+  ajaxQueue: ["ajaxQueue"],
 })
 export default class Loading extends Component {
   static propTypes = {

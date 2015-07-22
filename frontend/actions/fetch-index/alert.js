@@ -1,49 +1,32 @@
 import {map} from "ramda";
-import Axios from "axios";
 import {toObject} from "shared/helpers/common";
 import {formatQueryForAxios} from "shared/helpers/jsonapi";
-import Alert from "shared/models/alert";
+import api from "shared/api/alert";
+import Model from "shared/models/alert";
 import state from "frontend/state";
+import ajax from "frontend/ajax";
 
 // CURSORS =========================================================================================
-let modelCursor = state.select("alerts");
+let $data = state.select(api.plural);
+let $models = $data.select("models");
 
 // ACTIONS =========================================================================================
+// Filters, Sorts, Offset, Limit -> Maybe [Model]
 export default function fetchIndex(filters, sorts, offset, limit) {
-  let url = `/api/alerts/`;
-
-  modelCursor.set("loading", true);
+  console.debug(api.plural + ".fetchIndex(...)");
 
   let query = formatQueryForAxios({filters, sorts, offset, limit});
 
-  return Axios.get(url, {params: query})
+  return ajax.get(api.indexUrl, {params: query})
     .then(response => {
-      let {data, meta} = response.data;
-      let newModels = map(m => Alert(m), data);
-
-      modelCursor.select("models").merge(toObject(newModels));
-      modelCursor.merge({
-        total: meta.page.total,
-        loading: false,
-        loadError: undefined
-      });
-
-      return response.status;
-    })
-    .catch(response => {
-      if (response instanceof Error) {
-        throw response;
+      if (response.status.startsWith("2")) {
+        let newModelsArray = map(m => Model(m), response.data.data);
+        let newModels = toObject(newModelsArray);
+        $models.merge(newModels);
+        $data.set("total", response.data.meta.page.total);
+        return newModels;
       } else {
-        modelCursor.merge({
-          loading: false,
-          loadError: {
-            status: response.status,
-            description: response.statusText,
-            url
-          }
-        });
-
-        return response.status;
+        return [];
       }
     });
 }
