@@ -12,19 +12,17 @@ let $ajaxQueue = state.select("ajaxQueue");
 export function handleAjaxQueue() {
   if ($ajaxQueue.get().length) {
     let pendingRequest = $ajaxQueue.get(0);
-    $ajaxQueue.apply(data => drop(1, data));
 
-    console.debug("Handling request:", pendingRequest, "requests left:", $ajaxQueue.get().length);
-
-    let responsePromise;
+    let response;
     if (indexOf(pendingRequest.verb, ["head", "get", "delete"]) == -1) {
-      responsePromise = Axios[pendingRequest.verb](pendingRequest.url, pendingRequest.data, pendingRequest.config);
+      response = Axios[pendingRequest.verb](pendingRequest.url, pendingRequest.data, pendingRequest.config);
     } else {
-      responsePromise = Axios[pendingRequest.verb](pendingRequest.url, pendingRequest.config);
+      response = Axios[pendingRequest.verb](pendingRequest.url, pendingRequest.config);
     }
 
-    responsePromise
+    response
       .then(response => {
+        $ajaxQueue.apply(data => drop(1, data));
         response.status = String(response.status);
         pendingRequest.resolve(response);
         setImmediate(handleAjaxQueue);
@@ -33,6 +31,7 @@ export function handleAjaxQueue() {
         if (response instanceof Error) {
           throw response;
         } else {
+          $ajaxQueue.apply(data => drop(1, data));
           response.status = String(response.status);
           pendingRequest.resolve(response);
           setImmediate(handleAjaxQueue);
