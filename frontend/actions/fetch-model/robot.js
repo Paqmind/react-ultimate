@@ -12,9 +12,6 @@ let $models = $data.select("models");
 export default function fetchModel(id) {
   console.debug(api.plural + `.fetchModel(${id})`);
 
-  console.log("id:", id);
-  console.log("apiUrl:", api.modelUrl.replace(`:id`, id));
-
   return ajax.get(api.modelUrl.replace(`:id`, id))
     .then(response => {
       if (response.status.startsWith("2")) {

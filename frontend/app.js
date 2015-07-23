@@ -36,7 +36,7 @@ window._router.run((Application, url) => {
   React.render(<Application/>, document.getElementById("app"));
 });
 
-// Request alert index once (TODO this should be made real-time with push notifications)
+// Request alert index once (TODO this should be realtime with push notifications)
 alertActions.fetchIndex();
 
 setImmediate(handleAjaxQueue);
