@@ -1,4 +1,4 @@
-import {filter, indexOf} from "ramda";
+import {indexOf, reject} from "ramda";
 import api from "shared/api/monster";
 import {recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
@@ -24,7 +24,7 @@ export default function removeModel(id) {
 
   $models.unset(id);
   $data.apply("total", t => t ? t - 1 : t);
-  $data.apply("pagination", pp => filter(_id => _id != id, pp));
+  $data.apply("pagination", pp => reject(_id => _id == id, pp));
 
   if ($url.get("route") == api.singular + "-index") {
     setImmediate(() => {

@@ -8,7 +8,7 @@ let $data = state.select(api.plural);
 let $models = $data.select("models");
 
 // ACTIONS =========================================================================================
-// Model -> Maybe Model
+// ModelData -> Maybe Model
 export default function editModel(model) {
   console.debug(api.plural + `.editModel(${model.id})`);
 

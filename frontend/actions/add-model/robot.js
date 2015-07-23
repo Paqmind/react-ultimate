@@ -1,4 +1,4 @@
-import {append, filter} from "ramda";
+import {append, reject} from "ramda";
 import api from "shared/api/robot";
 import Model from "shared/models/robot";
 import state from "frontend/state";
@@ -12,7 +12,7 @@ let $data = state.select(api.plural);
 let $models = $data.select("models");
 
 // ACTIONS =========================================================================================
-// Model -> Maybe Model
+// ModelData -> Maybe Model
 export default function addModel(model) {
   console.debug(api.plural + `.addModel(...)`);
 
@@ -49,7 +49,7 @@ export default function addModel(model) {
       } else {
         $models.unset(id);
         $data.apply("total", t => t ? t - 1 : t);
-        $data.apply("pagination", pp => filter(id => id != model.id, pp));
+        $data.apply("pagination", pp => reject(id => id == model.id, pp));
         alertActions.addModel({message: "Add Robot failed with message " + response.statusText, category: "error"});
         return;
       }

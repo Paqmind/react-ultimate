@@ -7,8 +7,8 @@ let $url = state.select("url");
 let $data = state.select(api.plural);
 
 // ACTIONS =========================================================================================
-// Model -> Maybe Model
-export default function addModel(model) {
+// ModelData -> Model
+export default function addAlert(model) {
   model = Alert(model);
   let id = model.id;
 
