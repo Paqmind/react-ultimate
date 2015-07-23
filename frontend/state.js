@@ -7,29 +7,9 @@ import {joiValidate} from "shared/helpers/validation";
 import commonValidators from "shared/validators/common";
 import robotApi from "shared/api/robot";
 import monsterApi from "shared/api/robot";
+import {ALERT, ROBOT, MONSTER} from "frontend/constants";
 
 // STATE ===========================================================================================
-export const EXAMPLE = {
-  FILTERS: undefined, // {published: true} || undefined
-  SORTS: undefined,   // ["+publishedAt", "-id"] || undefined
-  OFFSET: 0,          // 0 || -1
-  LIMIT: 20,          // 10 || 20 || 50 ...
-};
-
-export const ROBOT = {
-  FILTERS: undefined,
-  SORTS: ["+name"],
-  OFFSET: 0,
-  LIMIT: 12,
-};
-
-export const MONSTER = {
-  FILTERS: undefined,
-  SORTS: ["+name"],
-  OFFSET: 0,
-  LIMIT: 12,
-};
-
 window._state = new Baobab(
   {
     url: {
@@ -48,10 +28,10 @@ window._state = new Baobab(
       pagination: [],
 
       // INDEX
-      filters: ROBOT.FILTERS,
-      sorts: ROBOT.SORTS,
-      offset: ROBOT.OFFSET,
-      limit: ROBOT.LIMIT,
+      filters: ROBOT.index.filters,
+      sorts: ROBOT.index.sorts,
+      offset: ROBOT.index.offset,
+      limit: ROBOT.index.limit,
 
       // MODEL
       id: undefined,
@@ -64,10 +44,10 @@ window._state = new Baobab(
       pagination: [],
 
       // INDEX
-      filters: ROBOT.FILTERS,
-      sorts: ROBOT.SORTS,
-      offset: ROBOT.OFFSET,
-      limit: ROBOT.LIMIT,
+      filters: MONSTER.index.filters,
+      sorts: MONSTER.index.sorts,
+      offset: MONSTER.index.offset,
+      limit: MONSTER.index.limit,
 
       // MODEL
       id: undefined,

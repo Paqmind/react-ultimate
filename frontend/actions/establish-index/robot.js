@@ -1,6 +1,7 @@
 import {eqDeep, filter} from "ramda";
 import api from "shared/api/robot";
-import state, {ROBOT} from "frontend/state";
+import {ROBOT} from "frontend/constants";
+import state from "frontend/state";
 import loadIndex from "frontend/actions/load-index/robot";
 
 // CURSORS =========================================================================================
@@ -20,8 +21,8 @@ export default function establishIndex() {
 
   let {filters, sorts} = $data.get();
 
-  if (!eqDeep(urlFilters || ROBOT.FILTERS, filters)) {
-    $data.set("filters", urlFilters || ROBOT.FILTERS);
+  if (!eqDeep(urlFilters || ROBOT.index.filters, filters)) {
+    $data.set("filters", urlFilters || ROBOT.index.filters);
     if (true || !state.get("$allRobotsAreLoaded")) {
       /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
       // Pagination is messed up, do reset
@@ -29,16 +30,16 @@ export default function establishIndex() {
       $data.set("pagination", []);
     }
   }
-  if (!eqDeep(urlSorts || ROBOT.SORTS, sorts)) {
-    $data.set("sorts", urlSorts || ROBOT.SORTS);
+  if (!eqDeep(urlSorts || ROBOT.index.sorts, sorts)) {
+    $data.set("sorts", urlSorts || ROBOT.index.sorts);
     if (!state.get("$allRobotsAreLoaded")) {
       // Pagination is messed up, do reset
       $data.set("total", 0);
       $data.set("pagination", []);
     }
   }
-  $data.set("offset", urlOffset || ROBOT.OFFSET);
-  $data.set("limit", urlLimit || ROBOT.LIMIT);
+  $data.set("offset", urlOffset || ROBOT.index.offset);
+  $data.set("limit", urlLimit || ROBOT.index.limit);
 
   return loadIndex();
 }

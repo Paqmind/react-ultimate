@@ -3,6 +3,7 @@ import api from "shared/api/robot";
 import {recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
 import {indexRouter} from "frontend/router";
+import {ALERT} from "frontend/constants";
 import ajax from "frontend/ajax";
 import fetchIndex from "frontend/actions/fetch-index/robot";
 

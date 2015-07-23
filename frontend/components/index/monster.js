@@ -52,7 +52,7 @@ export default class MonsterIndex extends DeepComponent {
   }
 
   setOffset(offset) {
-    $data.set("offset", offset || MONSTER.OFFSET);
+    $data.set("offset", offset || MONSTER.index.offset);
     modelActions.loadIndex();
   }
 }
@@ -122,7 +122,7 @@ class Actions extends ShallowComponent {
   }
 
   setLimit(limit) {
-    $data.set("limit", limit || MONSTER.LIMIT);
+    $data.set("limit", limit || MONSTER.index.limit);
     modelActions.loadIndex();
   }
 }

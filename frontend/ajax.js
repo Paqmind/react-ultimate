@@ -1,9 +1,7 @@
 import {drop, indexOf} from "ramda";
 import Axios from "axios";
+import {AJAX} from "frontend/constants";
 import state from "frontend/state";
-
-// CONSTANTS =======================================================================================
-const IDLE_TIMEOUT_MS = 500;
 
 // CURSORS =========================================================================================
 let $ajaxQueue = state.select("ajaxQueue");
@@ -38,7 +36,7 @@ export function handleAjaxQueue() {
         }
       });
   } else {
-    setTimeout(handleAjaxQueue, IDLE_TIMEOUT_MS);
+    setTimeout(processAjaxQueue, AJAX.throttleTimeoutMs);
   }
 }
 
