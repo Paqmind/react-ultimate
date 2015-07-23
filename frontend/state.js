@@ -1,5 +1,6 @@
-import {filter, find, identity, keys, map, pipe, propEq, slice, sortBy, tap, values} from "ramda";
+import {filter, find, forEach, identity, keys, map, pipe, propEq, slice, sortBy, tap, values} from "ramda";
 import Baobab from "baobab";
+import throttle from "lodash.throttle";
 import {flattenArrayObject, filterByAll, sortByAll} from "shared/helpers/common";
 import {parseQuery} from "shared/helpers/jsonapi";
 import {joiValidate} from "shared/helpers/validation";
@@ -72,6 +73,20 @@ window._state = new Baobab(
       id: undefined,
     },
 
+    $havePendingRequestsRobot: [
+      ["ajaxQueue"],
+      function (queue) {
+        return ajaxQueueContains(queue, robotApi.indexUrl);
+      }
+    ],
+
+    $havePendingRequestsMonster: [
+      ["ajaxQueue"],
+      function (queue) {
+        return ajaxQueueContains(queue, monsterApi.indexUrl);
+      }
+    ],
+
     alerts: {
       // DATA
       total: 0,
@@ -108,22 +123,6 @@ window._state = new Baobab(
           //assemblyDate: undefined,
           manufacturer: undefined,
         };
-      }
-    ],
-
-    $hasPendingRequestsRobot: [
-      ["ajaxQueue"],
-      function (queue) {
-        return ajaxQueueContains(queue, robotApi.indexUrl) ||
-               ajaxQueueContains(queue, robotApi.modelUrl);
-      }
-    ],
-
-    $hasPendingRequestsMonster: [
-      ["ajaxQueue"],
-      function (queue) {
-        return ajax.queueContains(queue, monsterApi.indexUrl) ||
-               ajax.queueContains(queue, monsterApi.modelUrl);
       }
     ],
 

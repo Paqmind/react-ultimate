@@ -12,12 +12,12 @@ import {ShallowComponent, DeepComponent, ModelLink, Loading, NotFound} from "fro
   loadData: modelActions.establishModel,
 })
 @branch({
-  hasPendingRequests: ["$hasPendingRequestsMonster"],
+  havePendingRequests: ["$havePendingRequestsMonster"],
   model: ["$currentMonster"],
 })
 export default class MonsterDetail extends DeepComponent {
   render() {
-    let {hasPendingRequests, model} = this.props;
+    let {havePendingRequests, model} = this.props;
 
     if (model) {
       return (
@@ -45,7 +45,7 @@ export default class MonsterDetail extends DeepComponent {
           </div>
         </DocumentTitle>
       );
-    } else if (hasPendingRequests) {
+    } else if (havePendingRequests) {
       return null;
     } else {
       return <NotFound/>;

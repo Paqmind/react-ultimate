@@ -14,7 +14,7 @@ import {ShallowComponent, DeepComponent, ModelLink, Loading, NotFound} from "fro
   loadData: modelActions.establishModel,
 })
 @branch({
-  hasPendingRequests: ["$hasPendingRequestsRobot"],
+  havePendingRequests: ["$havePendingRequestsRobot"],
   filters: ["robots", "filters"],
   sorts: ["robots", "sorts"],
   offset: ["robots", "offset"],
@@ -23,10 +23,7 @@ import {ShallowComponent, DeepComponent, ModelLink, Loading, NotFound} from "fro
 })
 export default class RobotDetail extends DeepComponent {
   render() {
-    let {hasPendingRequests, model} = this.props;
-
-    console.log("model:", model);
-    console.log("hasPendingRequests:", hasPendingRequests);
+    let {havePendingRequests, model} = this.props;
 
     if (model) {
       return (
@@ -54,7 +51,7 @@ export default class RobotDetail extends DeepComponent {
           </div>
         </DocumentTitle>
       );
-    } else if (hasPendingRequests) {
+    } else if (havePendingRequests) {
       return null;
     } else {
       return <NotFound/>;
