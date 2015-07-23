@@ -243,6 +243,5 @@ export default window._state;
 
 // HELPERS =========================================================================================
 function ajaxQueueContains(queue, url) {
-  console.log(queue);
-  return Boolean(filter(pendindRequest => pendindRequest.url == url, queue).length);
+  return Boolean(filter(pendindRequest => pendindRequest.url.startsWith(url), queue).length);
 }
