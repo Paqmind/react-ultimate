@@ -4,6 +4,7 @@ import {recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
 import {indexRouter} from "frontend/router";
 import ajax from "frontend/ajax";
+import alertActions from "frontend/actions/alert";
 import fetchIndex from "frontend/actions/fetch-index/monster";
 
 // CURSORS =========================================================================================
@@ -54,6 +55,7 @@ export default function removeModel(id) {
         if (oldIndex != -1) {
           $data.apply("pagination", pp => insert(oldIndex, id, pp));
         }
+        alertActions.addModel({message: "Remove Monster failed with message " + response.statusText, category: "error"});
         return;
       }
     });

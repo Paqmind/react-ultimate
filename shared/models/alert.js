@@ -12,7 +12,6 @@ export default function Alert(data={}) {
     id: UUID.v4(),
     closable: true,
     expire: data.category == "error" ? 0 : 4000,
-    createdDate: data.createdDate ? data.createdDate : new Date()
   });
 
   // Convert and validate

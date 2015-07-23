@@ -3,13 +3,13 @@ import "shared/shims"; // TODO except for prerender (isomorphic) step, because b
 import {filter, forEach, keys, map, pipe} from "ramda";
 import React from "react";
 import {create as createRouter, HistoryLocation} from "react-router";
-import {normalize, flattenArrayObject} from "shared/helpers/common";
-import {parseQuery} from "shared/helpers/jsonapi";
+import {normalize} from "shared/helpers/common";
 import commonValidators from "shared/validators/common";
 import state from "frontend/state";
-import {handleAjaxQueue} from "frontend/ajax";
-import routes from "frontend/routes";
 import alertActions from "frontend/actions/alert";
+import {processAlertQueue} from "frontend/alerts";
+import {processAjaxQueue} from "frontend/ajax";
+import routes from "frontend/routes";
 import "frontend/less/theme.less";
 
 // CURSORS =========================================================================================
@@ -38,6 +38,7 @@ window._router.run((Application, url) => {
 });
 
 // Request alert index once (TODO this should be realtime with push notifications)
-alertActions.fetchIndex();
+//alertActions.fetchIndex();
 
-setImmediate(handleAjaxQueue);
+setImmediate(processAlertQueue);
+setImmediate(processAjaxQueue);

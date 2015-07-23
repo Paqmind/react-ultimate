@@ -7,8 +7,7 @@ import state from "frontend/state";
 import ajax from "frontend/ajax";
 
 // CURSORS =========================================================================================
-let $data = state.select(api.plural);
-let $models = $data.select("models");
+let $alertQueue = state.select("alertQueue");
 
 // ACTIONS =========================================================================================
 // Filters, Sorts, Offset, Limit -> Maybe [Model]
@@ -20,10 +19,8 @@ export default function fetchIndex(filters, sorts, offset, limit) {
   return ajax.get(api.indexUrl, {params: query})
     .then(response => {
       if (response.status.startsWith("2")) {
-        let newModelsArray = map(m => Model(m), response.data.data);
-        let newModels = toObject(newModelsArray);
-        $models.merge(newModels);
-        $data.set("total", response.data.meta.page.total);
+        let newModels = map(m => Model(m), response.data.data);
+        $alertQueue.concat(newModels);
         return newModels;
       } else {
         return [];

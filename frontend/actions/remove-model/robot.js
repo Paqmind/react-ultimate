@@ -5,6 +5,7 @@ import state from "frontend/state";
 import {indexRouter} from "frontend/router";
 import {ALERT} from "frontend/constants";
 import ajax from "frontend/ajax";
+import alertActions from "frontend/actions/alert";
 import fetchIndex from "frontend/actions/fetch-index/robot";
 
 // CURSORS =========================================================================================
@@ -55,6 +56,7 @@ export default function removeModel(id) {
         if (oldIndex != -1) {
           $data.apply("pagination", pp => insert(oldIndex, id, pp));
         }
+        alertActions.addModel({message: "Remove Robot failed with message " + response.statusText, category: "error"});
         return;
       }
     });

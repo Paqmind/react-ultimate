@@ -21,6 +21,9 @@ window._state = new Baobab(
 
     ajaxQueue: [],
 
+    alertQueue: [],
+    alertTimeout: undefined,
+
     robots: {
       // DATA
       total: 0,
@@ -66,12 +69,6 @@ window._state = new Baobab(
         return ajaxQueueContains(queue, monsterApi.indexUrl);
       }
     ],
-
-    alerts: {
-      // DATA
-      total: 0,
-      models: {},
-    },
 
     $urlQuery: [
       ["url", "query"],
@@ -168,18 +165,6 @@ window._state = new Baobab(
           return models[id];
         } else {
           return;
-        }
-      }
-    ],
-
-    $currentAlerts: [
-      ["alerts"],
-      function (data) {
-        let modelsArray = values(data.models);
-        if (modelsArray.length) {
-          return sortBy(m => m.createdDate, modelsArray);
-        } else {
-          return [];
         }
       }
     ],

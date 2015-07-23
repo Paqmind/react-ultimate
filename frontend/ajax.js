@@ -7,15 +7,22 @@ import state from "frontend/state";
 let $ajaxQueue = state.select("ajaxQueue");
 
 // AJAX MANAGER ====================================================================================
-export function handleAjaxQueue() {
-  if ($ajaxQueue.get().length) {
-    let pendingRequest = $ajaxQueue.get(0);
+// We need to be sure that order of Backend responses is the same
+// as order of Frontend requests. Otherwise data consistency will break.
+// That's why each item is processed after previous one was handled
+// More sophisticated techniques will require declarations of data-dependencies
+// (say Relay, GraphQL) because we need to know which endpoint provides which data
+// and which data requests may not block each other. We don't have this information presently.
+export function processAjaxQueue() {
+  let ajaxQueue = $ajaxQueue.get();
+  if (ajaxQueue.length) {
+    let pendingRequest = ajaxQueue[0];
 
     let response;
-    if (indexOf(pendingRequest.verb, ["head", "get", "delete"]) == -1) {
-      response = Axios[pendingRequest.verb](pendingRequest.url, pendingRequest.data, pendingRequest.config);
-    } else {
+    if (indexOf(pendingRequest.verb, ["head", "get", "delete"]) >= 0) {
       response = Axios[pendingRequest.verb](pendingRequest.url, pendingRequest.config);
+    } else {
+      response = Axios[pendingRequest.verb](pendingRequest.url, pendingRequest.data, pendingRequest.config);
     }
 
     response
@@ -23,7 +30,7 @@ export function handleAjaxQueue() {
         $ajaxQueue.apply(data => drop(1, data));
         response.status = String(response.status);
         pendingRequest.resolve(response);
-        setImmediate(handleAjaxQueue);
+        setImmediate(processAjaxQueue);
       })
       .catch(response => {
         if (response instanceof Error) {
@@ -32,7 +39,7 @@ export function handleAjaxQueue() {
           $ajaxQueue.apply(data => drop(1, data));
           response.status = String(response.status);
           pendingRequest.resolve(response);
-          setImmediate(handleAjaxQueue);
+          setImmediate(processAjaxQueue);
         }
       });
   } else {

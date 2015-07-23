@@ -9,6 +9,5 @@ export default {
     // TODO improve
     //closable: true,
     //expire: data.category == "error" ? 0 : 5000,
-    //createdDate: data.createdDate ? data.createdDate : new Date()
   },
 };
