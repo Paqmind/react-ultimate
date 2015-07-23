@@ -33,6 +33,7 @@ window._state = new Baobab(
   {
     url: {
       route: undefined,
+      path: undefined,
       params: undefined,
       query: undefined,
     },

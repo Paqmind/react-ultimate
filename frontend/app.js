@@ -24,7 +24,8 @@ window._router = createRouter({
 window._router.run((Application, url) => {
   let route =  url.routes.slice(-1)[0];
 
-  $url.set("route", url.routes.slice(-1)[0].name);
+  $url.set("route", route.name);
+  $url.set("path", route.path);
   $url.set("params", normalize(url.params));
   $url.set("query", normalize(url.query));
 
