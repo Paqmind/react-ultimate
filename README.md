@@ -130,6 +130,9 @@ on your business priorities. Secondary components will always be URL-unbound.
 [React-Sandbox](https://github.com/Paqmind/react-sandbox) - sandbox for React experiments.
 Contains much lesser boilerplate than this project.
 
-## Wiki
+## Links
 
-See [wiki](https://github.com/Paqmind/react-starter/wiki/Workflow) for more information.
+[Wiki](https://github.com/Paqmind/react-starter/wiki) contains more information about this project.
+
+[React-Sandbox](https://github.com/Paqmind/react-sandbox) provides simplified boilerplate for experiments with React.
+
