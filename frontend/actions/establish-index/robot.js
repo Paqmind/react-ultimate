@@ -23,7 +23,7 @@ export default function establishIndex() {
 
   if (!eqDeep(urlFilters || ROBOT.index.filters, filters)) {
     $data.set("filters", urlFilters || ROBOT.index.filters);
-    if (true || !state.get("$allRobotsAreLoaded")) {
+    if (true || !$data.get("$fullLoad")) {
       /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
       // Pagination is messed up, do reset
       $data.set("total", 0);
@@ -32,7 +32,7 @@ export default function establishIndex() {
   }
   if (!eqDeep(urlSorts || ROBOT.index.sorts, sorts)) {
     $data.set("sorts", urlSorts || ROBOT.index.sorts);
-    if (!state.get("$allRobotsAreLoaded")) {
+    if (!$data.get("$fullLoad")) {
       // Pagination is messed up, do reset
       $data.set("total", 0);
       $data.set("pagination", []);

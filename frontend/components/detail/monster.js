@@ -12,8 +12,8 @@ import {ShallowComponent, DeepComponent, ModelLink, Loading, NotFound} from "fro
   loadData: modelActions.establishModel,
 })
 @branch({
-  havePendingRequests: ["$havePendingRequestsMonster"],
-  model: ["$currentMonster"],
+  havePendingRequests: ["monsters", "$havePendingRequests"],
+  model: ["monsters", "$currentModel"],
 })
 export default class MonsterDetail extends DeepComponent {
   render() {

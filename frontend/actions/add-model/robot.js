@@ -23,7 +23,7 @@ export default function addModel(model) {
   $data.apply("total", t => t + 1);
   $models.set(id, model);
 
-  if (state.get("$allRobotsAreLoaded")) {
+  if ($data.get("$fullLoad")) {
     // Inject new id at whatever place
     $data.apply("pagination", pp => append(id, pp));
   } else {

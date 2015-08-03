@@ -24,7 +24,7 @@ let $data = state.select("monsters");
   offset: ["monsters", "offset"],
   limit: ["monsters", "limit"],
   total: ["monsters", "total"],
-  models: ["$currentMonsters"],
+  models: ["monsters", "$currentModels"],
 })
 export default class MonsterIndex extends DeepComponent {
   render() {

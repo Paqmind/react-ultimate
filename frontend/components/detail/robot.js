@@ -14,12 +14,12 @@ import {ShallowComponent, DeepComponent, ModelLink, Loading, NotFound} from "fro
   loadData: modelActions.establishModel,
 })
 @branch({
-  havePendingRequests: ["$havePendingRequestsRobot"],
+  havePendingRequests: ["robots", "$havePendingRequests"],
   filters: ["robots", "filters"],
   sorts: ["robots", "sorts"],
   offset: ["robots", "offset"],
   limit: ["robots", "limit"],
-  model: ["$currentRobot"],
+  model: ["robots", "$currentModel"],
 })
 export default class RobotDetail extends DeepComponent {
   render() {

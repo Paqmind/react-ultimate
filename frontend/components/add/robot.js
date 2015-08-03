@@ -22,7 +22,7 @@ import {Form} from "frontend/components/form";
   sorts: ["robots", "sorts"],
   offset: ["robots", "offset"],
   limit: ["robots", "limit"],
-  model: ["$emptyRobot"],
+  model: ["robots", "$emptyModel"],
 })
 export default class RobotAdd extends Form {
   constructor(props) {
@@ -40,7 +40,7 @@ export default class RobotAdd extends Form {
   }
 
   render() {
-    let form = this.state.form;
+    let {form} = this.state;
 
     return (
       <DocumentTitle title={"Add Robot"}>

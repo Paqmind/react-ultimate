@@ -21,7 +21,7 @@ import RobotItem from "frontend/components/item/robot";
   offset: ["robots", "offset"],
   limit: ["robots", "limit"],
   total: ["robots", "total"],
-  models: ["$currentRobots"],
+  models: ["robots", "$currentModels"],
 })
 export default class RobotIndex extends DeepComponent {
   render() {

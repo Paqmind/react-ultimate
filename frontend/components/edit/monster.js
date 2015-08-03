@@ -18,7 +18,7 @@ import {Form} from "frontend/components/form";
   loadData: modelActions.establishModel,
 })
 @branch({
-  model: ["$currentMonster"],
+  model: ["monsters", "$currentModel"],
 })
 export default class MonsterEdit extends Form {
   constructor(props) {
@@ -44,7 +44,7 @@ export default class MonsterEdit extends Form {
   }
 
   render() {
-    let form = this.state.form;
+    let {form} = this.state;
 
     if (form) {
       return (
@@ -115,13 +115,7 @@ export default class MonsterEdit extends Form {
   handleSubmit() {
     this.validate().then(isValid => {
       if (isValid) {
-        modelActions
-          .editModel(this.state.model)
-          .then(([model, response]) => {
-            if (!response.status.startsWith("2")) {
-              alertActions.addModel({message: "Edit Monster failed with message " + response.statusText, category: "error"});
-            }
-          });
+        modelActions.editModel(this.state.model);
       }
     });
   }

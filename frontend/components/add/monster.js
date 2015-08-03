@@ -15,7 +15,7 @@ import {Form} from "frontend/components/form";
   loadData: modelActions.loadIndex,
 })
 @branch({
-  model: ["$emptyMonster"],
+  model: ["monsters", "$emptyModel"],
 })
 export default class MonsterAdd extends Form {
   constructor(props) {
@@ -33,7 +33,7 @@ export default class MonsterAdd extends Form {
   }
 
   render() {
-    let form = this.state.form;
+    let {form} = this.state;
 
     return (
       <DocumentTitle title={"Add Monster"}>

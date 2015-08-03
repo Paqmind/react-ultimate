@@ -15,8 +15,8 @@ window._state = new Baobab(
     url: {
       route: undefined,
       path: undefined,
-      params: undefined,
-      query: undefined,
+      params: {},
+      query: {},
     },
 
     ajaxQueue: [],
@@ -38,6 +38,72 @@ window._state = new Baobab(
 
       // MODEL
       id: undefined,
+
+      // FACETS
+      $havePendingRequests: [
+        ["ajaxQueue"],
+        function (queue) {
+          return ajaxQueueContains(queue, robotApi.indexUrl);
+        }
+      ],
+
+      $fullLoad: [
+        ["robots", "total"],
+        ["robots", "pagination"],
+        function (total, pagination) {
+          let loaded = filter(id => id, pagination).length;
+          if (loaded < total) {
+            return false;
+          } else if (loaded == total) {
+            return true;
+          } else {
+            throw Error(`invalid total ${total}`);
+          }
+        }
+      ],
+
+      $currentModel: [
+        ["robots", "models"],
+        ["robots", "id"],
+        function (models, id) {
+          if (id) {
+            return models[id];
+          } else {
+            return;
+          }
+        }
+      ],
+
+      $currentModels: [
+        ["robots", "filters"],
+        ["robots", "sorts"],
+        ["robots", "offset"],
+        ["robots", "limit"],
+        ["robots", "models"],
+        ["robots", "pagination"],
+        ["robots", "$fullLoad"],
+        function (filters, sorts, offset, limit, models, pagination, fullLoad) {
+          let modelsArray = map(id => id && models[id], pagination);
+          return pipe(
+            fullLoad ? filterByAll(filters) : identity,
+            fullLoad ? sortByAll(sorts) : identity,
+            slice(offset, offset + limit),
+            filter(m => m)
+          )(modelsArray);
+        }
+      ],
+
+      // Quick hack until Form will be implemented as Component
+      $emptyModel: [
+        ["url"],
+        function (url) {
+          return {
+            name: undefined,
+            //assemblyDate: undefined,
+            manufacturer: undefined,
+          };
+        }
+      ],
     },
 
     monsters: {
@@ -54,21 +120,73 @@ window._state = new Baobab(
 
       // MODEL
       id: undefined,
+
+      // FACETS
+      $havePendingRequests: [
+        ["ajaxQueue"],
+        function (queue) {
+          return ajaxQueueContains(queue, monsterApi.indexUrl);
+        }
+      ],
+
+      $fullLoad: [
+        ["monsters", "total"],
+        ["monsters", "pagination"],
+        function (total, pagination) {
+          let loaded = filter(id => id, pagination).length;
+          if (loaded < total) {
+            return false;
+          } else if (loaded == total) {
+            return true;
+          } else {
+            throw Error(`invalid total ${total}`);
+          }
+        }
+      ],
+
+      $currentModel: [
+        ["monsters", "models"],
+        ["monsters", "id"],
+        function (models, id) {
+          if (id) {
+            return models[id];
+          } else {
+            return;
+          }
+        }
+      ],
+
+      $currentModels: [
+        ["monsters", "filters"],
+        ["monsters", "sorts"],
+        ["monsters", "offset"],
+        ["monsters", "limit"],
+        ["monsters", "models"],
+        ["monsters", "pagination"],
+        ["monsters", "$fullLoad"],
+        function (filters, sorts, offset, limit, models, pagination, fullLoad) {
+          let modelsArray = map(id => id && models[id], pagination);
+          return pipe(
+            fullLoad ? filterByAll(filters) : identity,
+            fullLoad ? sortByAll(sorts) : identity,
+            slice(offset, offset + limit),
+            filter(m => m)
+          )(modelsArray);
+        }
+      ],
+
+      // Quick hack until Form will be implemented as Component
+      $emptyModel: [
+        ["url"],
+        function (url) {
+          return {
+            name: undefined,
+            //birthDate: undefined,
+            citizenship: undefined,
+          };
+        }
+      ],
     },
-
-    $havePendingRequestsRobot: [
-      ["ajaxQueue"],
-      function (queue) {
-        return ajaxQueueContains(queue, robotApi.indexUrl);
-      }
-    ],
-
-    $havePendingRequestsMonster: [
-      ["ajaxQueue"],
-      function (queue) {
-        return ajaxQueueContains(queue, monsterApi.indexUrl);
-      }
-    ],
 
     $urlQuery: [
       ["url", "query"],
@@ -88,114 +206,6 @@ window._state = new Baobab(
           offset: cleanedQuery.offset,
           limit: cleanedQuery.limit,
         };
-      }
-    ],
-
-    // Quick hack until Form will be implemented as Component
-    $emptyRobot: [
-      ["url"],
-      function (url) {
-        return {
-          name: undefined,
-          //assemblyDate: undefined,
-          manufacturer: undefined,
-        };
-      }
-    ],
-
-    // Quick hack until Form will be implemented as Component
-    $emptyMonster: [
-      ["url"],
-      function (url) {
-        return {
-          name: undefined,
-          //birthDate: undefined,
-          citizenship: undefined,
-        };
-      }
-    ],
-
-    $allRobotsAreLoaded: [
-      ["robots", "total"],
-      ["robots", "pagination"],
-      function (total, pagination) {
-        let loaded = filter(id => id, pagination).length;
-        if (loaded < total) {
-          return false;
-        } else if (loaded == total) {
-          return true;
-        } else {
-          throw Error(`invalid total ${total}`);
-        }
-      }
-    ],
-
-    $allMonstersAreLoaded: [
-      ["monsters", "total"],
-      ["monsters", "pagination"],
-      function (total, pagination) {
-        let loaded = filter(id => id, pagination).length;
-        if (loaded < total) {
-          return false;
-        } else if (loaded == total) {
-          return true;
-        } else {
-          throw Error(`invalid total ${total}`);
-        }
-      }
-    ],
-
-    $currentRobot: [
-      ["robots", "models"],
-      ["robots", "id"],
-      function (models, id) {
-        if (id) {
-          return models[id];
-        } else {
-          return;
-        }
-      }
-    ],
-
-    $currentMonster: [
-      ["monsters", "models"],
-      ["monsters", "id"],
-      function (models, id) {
-        if (id) {
-          return models[id];
-        } else {
-          return;
-        }
-      }
-    ],
-
-    $currentRobots: [
-      ["robots"],
-      ["$allRobotsAreLoaded"],
-      function (data, fullLoad) {
-        let {filters, sorts, offset, limit, models, pagination} = data;
-        let modelsArray = map(id => id && models[id], pagination);
-        return pipe(
-          fullLoad ? filterByAll(filters) : identity,
-          fullLoad ? sortByAll(sorts) : identity,
-          slice(offset, offset + limit),
-          filter(m => m)
-        )(modelsArray);
-      }
-    ],
-
-    $currentMonsters: [
-      ["monsters"],
-      ["$allMonstersAreLoaded"],
-      function (data, fullLoad) {
-        let {filters, sorts, offset, limit, models, pagination} = data;
-        let modelsArray = map(id => id && models[id], pagination);
-        return pipe(
-          fullLoad ? filterByAll(filters) : identity,
-          fullLoad ? sortByAll(sorts) : identity,
-          slice(offset, offset + limit),
-          filter(m => m)
-        )(modelsArray);
       }
     ],
   },

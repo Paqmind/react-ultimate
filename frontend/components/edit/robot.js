@@ -23,7 +23,7 @@ import {Form} from "frontend/components/form";
   sorts: ["robots", "sorts"],
   offset: ["robots", "offset"],
   limit: ["robots", "limit"],
-  model: ["$currentRobot"],
+  model: ["robots", "$currentModel"],
 })
 export default class RobotEdit extends Form {
   constructor(props) {
@@ -120,13 +120,7 @@ export default class RobotEdit extends Form {
   handleSubmit() {
     this.validate().then(isValid => {
       if (isValid) {
-        modelActions
-          .editModel(this.state.model)
-          .then(([model, response]) => {
-            if (!response.status.startsWith("2")) {
-              alertActions.addModel({message: "Edit Robot failed with message " + response.statusText, category: "error"});
-            }
-          });
+        modelActions.editModel(this.state.model);
       }
     });
   }
