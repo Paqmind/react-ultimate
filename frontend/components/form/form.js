@@ -6,7 +6,6 @@ import Lens from "paqmind.data-lens";
 import React from "react";
 import {flattenObject, unflattenObject} from "shared/helpers/common";
 import {joiValidate} from "shared/helpers/validation";
-import robotValidators from "shared/validators/robot";
 import {DeepComponent} from "frontend/components/common";
 
 // COMPONENTS ======================================================================================
