@@ -38,7 +38,7 @@ window._router.run((Application, url) => {
 });
 
 // Request alert index once (TODO this should be realtime with push notifications)
-//alertActions.fetchIndex();
+alertActions.fetchIndex();
 
 setImmediate(processAlertQueue);
 setImmediate(processAjaxQueue);
