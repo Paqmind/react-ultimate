@@ -8,6 +8,6 @@ export default function makeMonster(manualData={}) {
   return Monster(merge(manualData, {
     name: Faker.name.findName(),
     //birthDate: Faker.date.between("1970-01-01", "1995-01-01"),
-    citizenship: Faker.random.array_element(["Russia", "USA", "China"]),
+    citizenship: Faker.random.arrayElement(["Russia", "USA", "China"]),
   }));
 }
