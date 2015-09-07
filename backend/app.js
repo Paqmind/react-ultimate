@@ -9,8 +9,8 @@ import Express from "express";
 
 // APP =============================================================================================
 let app = Express();
+
 app.set("etag", Boolean(process.env.HTTP_USE_ETAG));
-export default app;
 
 // LOGGER ==========================================================================================
 import logger from "backend/logger";
@@ -59,11 +59,11 @@ app.use("/api/robots", robotRouter);
 app.use("/api/monsters", monsterRouter);
 app.use("/", commonRouter);
 
-app.use(function (req, res, cb) {
+app.use((req, res, cb) => {
   res.status(404).render("errors/404.html");
 });
 
-app.use(function (err, req, res, cb) {
+app.use((err, req, res, cb) => {
   logger.error(err.stack);
   res.status(err.status || 500);
   res.render("errors/500.html", {
@@ -71,3 +71,5 @@ app.use(function (err, req, res, cb) {
     error: (app.get("env") == "development") ? err : {}
   });
 });
+
+export default app;
