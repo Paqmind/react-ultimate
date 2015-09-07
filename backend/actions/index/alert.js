@@ -33,21 +33,3 @@ router.get("/",
     return res.status(200).send(payload); // Status: ok
   }
 );
-
-router.get("/total",
-  middlewares.createParseQuery({}),
-  function handler(req, res, cb) {
-    let filters = req.query.filters;
-
-    let models = values(DB);
-    if (filters) {
-      models = filterByAll(filters, models);
-    }
-    let total = models.length;
-
-    let payload = {
-      data: total,
-    };
-    return res.status(200).send(payload); // Status: ok
-  }
-);
