@@ -12,7 +12,7 @@
     "release-patch": "git checkout master && npm version patch && git push origin master --tags",
     "release-minor": "git checkout master && npm version minor && git push origin master --tags",
     "release-major": "git checkout master && npm version major && git push origin master --tags",
-    "release-as-lib": "git checkout master && npm run prod && git commit -am 'Distribute' && npm version major && git push origin master --tags",
+    "release-as-lib": "git checkout master && npm run build && git commit -am 'Distribute' && npm version major && git push origin master --tags",
     "mocha": "source .testing; mocha --opts specs/mocha.opts specs",
     "test": "npm run eslint -s && npm run mocha -s"
   },
