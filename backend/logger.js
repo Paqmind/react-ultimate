@@ -41,7 +41,7 @@ let logger = new (Winston.Logger)({
         if (options.meta instanceof Error) {
           meta = "\n  " + options.meta.stack;
         } else {
-          meta = keys(options.meta).length ? Inspect.inspect(options.meta) : "";
+          meta = keys(options.meta).length ? inspect(options.meta) : "";
         }
         return `${timestamp} ${level} ${message} ${meta}`;
       }

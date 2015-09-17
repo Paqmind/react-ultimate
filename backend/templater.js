@@ -9,7 +9,7 @@ export default function (app) {
   app.set("views", TEMPLATE_DIR);
   app.set("view engine", "html");
 
-  return Nunjucks.configure(TEMPLATE_DIR, { // TODO why duplication ?!
+  return Nunjucks.configure(TEMPLATE_DIR, {
     autoescape: true,
     express: app
   });
