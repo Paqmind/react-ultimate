@@ -19,7 +19,7 @@ export default function editModel(model) {
   let oldModel = $models.get(id);
   $models.set(id, model);
 
-  return ajax.put(api.modelUrl.replace(":id", id), model)
+  return ajax.put(api.itemUrl.replace(":id", id), model)
     .then(response => {
       if (response.status.startsWith("2")) {
         if (response.status == "200" && response.data.data) {

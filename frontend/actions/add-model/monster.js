@@ -38,7 +38,7 @@ export default function addModel(model) {
     });
   }
 
-  return ajax.put(api.modelUrl.replace(":id", id), model)
+  return ajax.put(api.itemUrl.replace(":id", id), model)
     .then(response => {
       let {total, models, pagination} = $data.get();
       if (response.status.startsWith("2")) {

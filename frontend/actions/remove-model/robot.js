@@ -39,7 +39,7 @@ export default function removeModel(id) {
     });
   }
 
-  return ajax.delete(api.modelUrl.replace(":id", id))
+  return ajax.delete(api.itemUrl.replace(":id", id))
     .then(response => {
       let {filters, sorts, offset, limit, pagination} = $data.get();
 

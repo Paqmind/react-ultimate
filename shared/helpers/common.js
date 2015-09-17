@@ -1,8 +1,17 @@
 import DeepMerge from "deep-merge";
 import {assoc, curry, forEach, filter, pipe, prop, keys, map, mapIndexed, range, reduce, reduceIndexed, reverse, slice, sortBy} from "ramda";
+import debounce from "lodash.debounce";
+import throttle from "lodash.throttle";
 import flat from "flat";
 
-// HELPERS =========================================================================================
+function isArray(o) {
+  return toString.call(o) === '[object Array]';
+}
+
+function isPlainObject(o) {
+  return toString.call(o) === '[object Object]';
+}
+
 // Workaround until https://github.com/ramda/ramda/issues/1073 (wait for release) //////////////////
 let doMerge = DeepMerge((a, b, key) => {
   return b;
@@ -88,7 +97,7 @@ function unflattenObject(obj) {
 }
 
 function toObject(array) {
-  if (array instanceof Array) {
+  if (isArray(array)) {
     return reduce((memo, item) => {
       return assoc(item.id, item, memo);
     }, {}, array);
@@ -98,52 +107,19 @@ function toObject(array) {
 }
 
 function toArray(object) {
-  if (object instanceof Object) {
+  if (isPlainObject(object)) {
     return sortBy(
       item => item.id,
       map(key => object[key], keys(object))
     );
   } else {
-    throw Error(`object must be a basic Object, got ${object}`);
-  }
-}
-
-function normalize(data) {
-  if (data instanceof Array) {
-    return map(v => normalize(v), data);
-  } else if (data instanceof Object) {
-    return reduce((obj, k) => {
-      if (k.includes(".")) {
-        let kk = k.split(".");
-        obj[kk[0]] = normalize({[kk.slice(1).join(".")]: data[k]});
-      } else {
-        obj[k] = normalize(data[k]);
-      }
-      return obj;
-    }, {}, keys(data));
-  } else if (typeof data == "string") {
-    if (data === "false") {
-      return false;
-    } else if (data === "true") {
-      return true;
-    } else if (data === "undefined") {
-      return undefined;
-    } else if (data === "null") {
-      return null;
-    } else if (data.match(/^-?\d+\.\d+$/)) {
-      return parseFloat(data);
-    } else if (data.match(/^-?\d+$/)) {
-      return parseInt(data);
-    } else {
-      return data;
-    }
-  } else {
-    return data;
+    throw Error(`object must be a plain Object, got ${object}`);
   }
 }
 
 export default {
+  isArray, isPlainObject,
   merge, assign, chunked, filterByAll, sortByAll,
   flattenArrayObject, flattenObject, unflattenObject,
-  toObject, toArray, normalize
+  toObject, toArray, debounce, throttle,
 };

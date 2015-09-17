@@ -20,7 +20,7 @@ function updateModel(modelFragment) {
   let oldModel = $models.get(id);
   let model = $models.merge(id, modelFragment);
 
-  return ajax.patch(api.modelUrl.replace(":id", id), modelFragment)
+  return ajax.patch(api.itemUrl.replace(":id", id), modelFragment)
     .then(response => {
       if (response.status.startsWith("2")) {
         if (response.status == "200" && response.data.data) {

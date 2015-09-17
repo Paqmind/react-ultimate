@@ -1,6 +1,6 @@
 import {assoc, keys, map, pipe, reduce} from "ramda";
+import {isPlainObject} from "shared/helpers/common";
 
-// JSON API ========================================================================================
 function parseQuery(query) {
   let result = {};
 
@@ -26,8 +26,8 @@ function parseQuery(query) {
 }
 
 function formatQuery(query) {
-  if (!(query instanceof Object)) {
-    throw new Error(`query must be a basic Object, got ${query}`);
+  if (!isPlainObject(query)) {
+    throw Error(`query must be a plain Object, got ${query}`);
   }
 
   let result = {};
@@ -54,8 +54,8 @@ function formatQuery(query) {
 }
 
 function formatQueryForAxios(query) {
-  if (!(query instanceof Object)) {
-    throw new Error(`query must be a basic Object, got ${query}`);
+  if (!isPlainObject(query)) {
+    throw Error(`query must be a plain Object, got ${query}`);
   }
 
   let result = {};
