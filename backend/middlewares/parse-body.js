@@ -1,19 +1,18 @@
-import Joi from "joi";
-import {joiOptions} from "shared/helpers/validation";
-import {toSingleMessage} from "backend/helpers";
+import {map} from "ramda";
+import {validate} from "tcomb-validation";
+import {parseTyped} from "shared/parsers";
 
-// MIDDLEWARES =====================================================================================
-export default function createParseBody(scheme, options=joiOptions) {
-  if (!scheme) { throw Error("`scheme` is required"); }
+export default function createParseBody(type) {
+  if (!type) { throw Error("`type` is required"); }
   return function parseBody(req, res, cb) {
-    let result = Joi.validate(req.body, scheme, options);
-    if (result.error) {
-      return res.status(400).render("errors/400.html", {
-        errors: toSingleMessage(result)
-      });
-    } else {
-      req.body = result.value;
+    let data = parseTyped(req.body, type);
+    let result = validate(data, type);
+    if (result.isValid()) {
       return cb();
+    } else {
+      return res.status(400).render("errors/400.html", {
+        errors: map(e => e.message, result.errors)
+      });
     }
   };
 }

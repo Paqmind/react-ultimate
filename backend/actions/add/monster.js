@@ -1,20 +1,19 @@
+import Tc from "tcomb";
 import {merge} from "shared/helpers/common";
-import commonValidators from "shared/validators/common";
-import modelValidators from "shared/validators/monster";
-import makeModel from "shared/makers/monster";
+import {Monster} from "shared/types/monster";
+import makeMonster from "shared/makers/monster";
 import middlewares from "backend/middlewares";
 import DB from "backend/dbs/monster";
 import router from "backend/routers/monster";
 
-// ROUTES ==========================================================================================
 router.post("/",
-  middlewares.createParseQuery({}),
-  middlewares.createParseBody(modelValidators.model),
+  middlewares.createParseQuery(Tc.Any),
+  middlewares.createParseBody(Monster),
   function handler(req, res, cb) {
-    let model = merge(req.body, makeModel());
-    DB[model.id] = model;
+    let item = merge(req.body, makeMonster());
+    DB[item.id] = item;
     let payload = {
-      data: model,
+      data: item,
     };
     return res.status(201).send(payload); // Status: created
   }

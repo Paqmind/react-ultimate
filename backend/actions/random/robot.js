@@ -1,14 +1,14 @@
-import makeModel from "shared/makers/robot";
+import Tc from "tcomb";
+import makeRobot from "shared/makers/robot";
 import middlewares from "backend/middlewares";
 import router from "backend/routers/robot";
 
-// ROUTES ==========================================================================================
 router.get("/random",
-  middlewares.createParseQuery({}),
+  middlewares.createParseQuery(Tc.Any),
   function handler(req, res, cb) {
-    let model = makeModel();
+    let item = makeRobot();
     let payload = {
-      data: model,
+      data: item,
     };
     return res.status(200).send(payload); // Status: ok
   }

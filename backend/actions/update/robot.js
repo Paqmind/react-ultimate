@@ -1,27 +1,25 @@
+import Tc from "tcomb";
 import {merge} from "shared/helpers/common";
-import Model from "shared/models/robot";
-import makeModel from "shared/makers/robot";
-import commonValidators from "shared/validators/common";
-import modelValidators from "shared/validators/robot";
+import {Uid} from "shared/types/common";
+import {Robot} from "shared/types/robot";
 import middlewares from "backend/middlewares";
 import DB from "backend/dbs/robot";
 import router from "backend/routers/robot";
 
-// ROUTES ==========================================================================================
 router.patch("/:id",
-  middlewares.createParseParams(commonValidators.id),
-  middlewares.createParseQuery({}),
-  middlewares.createParseBody(modelValidators.model),
+  middlewares.createParseParams(Tc.struct({id: Uid})),
+  middlewares.createParseQuery(Tc.Any),
+  middlewares.createParseBody(Robot),
   function handler(req, res, cb) {
-    let oldModel = DB[req.params.id];
-    let newModel = Model(req.body);
-    if (oldModel) {
-      DB[newModel.id] = merge(newModel, oldModel);
+    let oldItem = DB[req.params.id];
+    let newItem = req.body;
+    if (oldItem) {
+      DB[newItem.id] = merge(newItem, oldItem);
       return res.status(204).send(); // Status: no-content
     } else {
-      DB[newModel.id] = newModel;
+      DB[newItem.id] = newItem;
       let payload = {
-        data: newModel,
+        data: newItem,
       };
       return res.status(201).send(payload); // Status: created
     }

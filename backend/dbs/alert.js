@@ -1,5 +1,5 @@
 import {range, reduce} from "ramda";
-import Alert from "shared/models/alert";
+import {Alert} from "shared/types/alert";
 
 // FAKE DB =========================================================================================
 export function makeDB() {

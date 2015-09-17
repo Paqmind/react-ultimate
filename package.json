@@ -75,7 +75,7 @@
     "tcomb": "^2.4.0",
     "tcomb-validation": "^2.1.1",
     "url-loader": "^0.5.6",
-    "util-inspect": "^0.1.8",
+    "util": "^0.10.3",
     "webpack": "^1.9.10",
     "webpack-dev-server": "^1.9.0",
     "winston": "^1.0.0",

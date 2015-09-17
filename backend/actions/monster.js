@@ -1,6 +1,6 @@
 import "./index/monster";
-import "./create/monster";
-import "./create-or-update/monster";
+import "./add/monster";
+import "./add-or-edit/monster";
 import "./remove/monster";
 import "./random/monster";
 import "./detail/monster";

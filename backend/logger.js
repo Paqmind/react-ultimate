@@ -1,5 +1,5 @@
 import {keys} from "ramda";
-import Inspect from "util-inspect";
+import {inspect} from "util";
 import Winston from "winston";
 import WinstonMail from "winston-mail";
 import Moment from "moment";

@@ -1,11 +1,11 @@
 import {range, reduce} from "ramda";
-import makeModel from "shared/makers/robot";
+import makeRobot from "shared/makers/robot";
 
 // FAKE DB =========================================================================================
 export function makeDB() {
   return reduce(db => {
-    let model = makeModel();
-    db[model.id] = model;
+    let item = makeRobot();
+    db[item.id] = item;
     return db;
   }, {}, range(0, 50));
 }

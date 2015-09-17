@@ -1,14 +1,14 @@
-import makeModel from "shared/makers/monster";
+import Tc from "tcomb";
+import makeMonster from "shared/makers/monster";
 import middlewares from "backend/middlewares";
 import router from "backend/routers/monster";
 
-// ROUTES ==========================================================================================
 router.get("/random",
-  middlewares.createParseQuery({}),
+  middlewares.createParseQuery(Tc.Any),
   function handler(req, res, cb) {
-    let model = makeModel();
+    let item = makeMonster();
     let payload = {
-      data: model,
+      data: item,
     };
     return res.status(200).send(payload); // Status: ok
   }

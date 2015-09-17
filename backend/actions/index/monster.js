@@ -1,31 +1,30 @@
 import {keys, values} from "ramda";
+import Tc from "tcomb";
 import {filterByAll, sortByAll} from "shared/helpers/common";
-import commonValidators from "shared/validators/common";
 import middlewares from "backend/middlewares";
 import DB from "backend/dbs/monster";
 import router from "backend/routers/monster";
 
-// ROUTES ==========================================================================================
 router.get("/",
-  middlewares.createParseQuery(commonValidators.urlQuery),
+  middlewares.createParseQuery(Tc.Any),
   function handler(req, res, cb) {
     let filters = req.query.filters;
     let sorts = req.query.sorts;
     let offset = req.query.offset || 0;
     let limit = req.query.limit || 20;
 
-    let models = values(DB);
+    let items = values(DB);
     if (filters) {
-      models = filterByAll(filters, models);
+      items = filterByAll(filters, items);
     }
     if (sorts) {
-      models = sortByAll(sorts, models);
+      items = sortByAll(sorts, items);
     }
-    let total = models.length;
-    models = models.slice(offset, offset + limit);
+    let total = items.length;
+    items = items.slice(offset, offset + limit);
 
     let payload = {
-      data: models,
+      data: items,
       meta: {
         page: {offset, limit, total}
       }
