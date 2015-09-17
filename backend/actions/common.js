@@ -1,6 +1,5 @@
 import router from "backend/routers/common";
 
-// ROUTES ==========================================================================================
 router.get("*", function (req, res, cb) {
   if (req.path.startsWith("/public/")) {
     return cb();
