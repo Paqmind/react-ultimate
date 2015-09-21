@@ -4,11 +4,7 @@ const AJAX = {
 
 const ALERT = {
   throttleTimeoutMs: 100,
-  expire: {
-    success: 4000,
-    info: 5000,
-    warning: 6000,
-  },
+  expire: 5000,
 };
 
 const ROBOT = {
