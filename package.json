@@ -50,7 +50,6 @@
     "less": "^2.5.1",
     "less-loader": "^2.2.0",
     "lodash.debounce": "^3.1.0",
-    "lodash.result": "^3.1.2",
     "lodash.throttle": "^3.0.3",
     "marked": "^0.3.3",
     "mkdirp": "^0.5.0",

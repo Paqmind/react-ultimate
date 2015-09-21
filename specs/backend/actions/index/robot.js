@@ -1,7 +1,6 @@
 import {keys} from "ramda";
 import {expect} from "chai";
 import Axios from "axios";
-import makeModel from "shared/makers/robot";
 import DB, {makeDB} from "backend/dbs/robot";
 import app from "backend/app";
 import "backend/server";

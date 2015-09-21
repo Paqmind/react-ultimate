@@ -1,7 +1,7 @@
 import {keys} from "ramda";
 import {expect} from "chai";
 import Axios from "axios";
-import makeModel from "shared/makers/robot";
+import makeRobot from "shared/makers/robot";
 import DB, {makeDB} from "backend/dbs/robot";
 import app from "backend/app";
 import "backend/server";
@@ -25,7 +25,7 @@ describe("/api/robots/random GET", function () {
 
   before(function () {
     resetDB();
-    id = makeModel().id;
+    id = makeRobot().id;
     total = keys(DB).length;
 
     return Axios.get(apiRootURL + "/robots/random")

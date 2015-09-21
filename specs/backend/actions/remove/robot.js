@@ -1,7 +1,7 @@
 import {keys} from "ramda";
 import {expect} from "chai";
 import Axios from "axios";
-import makeModel from "shared/makers/robot";
+import makeRobot from "shared/makers/robot";
 import DB, {makeDB} from "backend/dbs/robot";
 import app from "backend/app";
 import "backend/server";
@@ -26,7 +26,7 @@ describe("/api/robots/:id DELETE", function () {
 
     before(function () {
       resetDB();
-      model = makeModel();
+      model = makeRobot();
       id = model.id;
       total = keys(DB).length;
 

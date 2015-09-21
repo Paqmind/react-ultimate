@@ -1,7 +1,7 @@
 import {keys} from "ramda";
 import {expect} from "chai";
 import Axios from "axios";
-import makeModel from "shared/makers/monster";
+import makeMonster from "shared/makers/monster";
 import DB, {makeDB} from "backend/dbs/monster";
 import app from "backend/app";
 import "backend/server";
@@ -26,7 +26,7 @@ describe("/api/monsters/:id DELETE", function () {
 
     before(function () {
       resetDB();
-      model = makeModel();
+      model = makeMonster();
       id = model.id;
       total = keys(DB).length;
 

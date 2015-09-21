@@ -1,6 +1,5 @@
 import {map} from "ramda";
 
-// SHIMS ===========================================================================================
 // How it's ever missed?!
 RegExp.escape = function(string) {
   return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
