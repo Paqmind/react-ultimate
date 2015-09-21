@@ -1,6 +1,5 @@
 import {keys, eqDeep} from "ramda";
 
-// EXPORTS =========================================================================================
 /**
  * Decorator to attach static methods to HOC
  * Example:
@@ -32,7 +31,6 @@ export function deepCompare(nextState, nextProps) {
   return !eqDeep(this.props, nextProps) || !eqDeep(this.state, nextState);
 }
 
-// HELPERS =========================================================================================
 function isEqualShallow(objA, objB) {
   if (objA === objB) {
     return true;
