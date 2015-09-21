@@ -2,10 +2,9 @@ import {merge} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
 import state from "frontend/state";
 
-// CURSORS =========================================================================================
 let $url = state.select("url");
 
-// PROXY ROUTERS TO REMOVE CIRCULAR DEPENDENCY =====================================================
+// PROXY ROUTERS TO REMOVE CIRCULAR DEPENDENCY
 // Turns:
 //   app (router) <- routes <- components <- actions <- app (router)
 // to:
@@ -100,7 +99,6 @@ let indexRouter = {
   }
 };
 
-// HELPERS =========================================================================================
 function getCurrentRoute(route) {
   let urlRoute = $url.get("route");
   return route || urlRoute;

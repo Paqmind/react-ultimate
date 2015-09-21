@@ -3,10 +3,8 @@ import Axios from "axios";
 import {AJAX} from "frontend/constants";
 import state from "frontend/state";
 
-// CURSORS =========================================================================================
 let $ajaxQueue = state.select("ajaxQueue");
 
-// AJAX MANAGER ====================================================================================
 // We need to be sure that order of Backend responses is the same
 // as order of Frontend requests. Otherwise data consistency will break.
 // That's why each item is processed after previous one was handled

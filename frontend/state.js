@@ -3,13 +3,10 @@ import Baobab from "baobab";
 import throttle from "lodash.throttle";
 import {flattenArrayObject, filterByAll, sortByAll} from "shared/helpers/common";
 import {parseQuery} from "shared/helpers/jsonapi";
-import {joiValidate} from "shared/helpers/validation";
-import commonValidators from "shared/validators/common";
 import robotApi from "shared/api/robot";
 import monsterApi from "shared/api/robot";
 import {ALERT, ROBOT, MONSTER} from "frontend/constants";
 
-// STATE ===========================================================================================
 window._state = new Baobab(
   {
     url: {
@@ -35,9 +32,15 @@ window._state = new Baobab(
       sorts: ROBOT.index.sorts,
       offset: ROBOT.index.offset,
       limit: ROBOT.index.limit,
+      // filterForm ???
+      // filterFormErrors ???
 
-      // MODEL
+      // CRUD
       id: undefined,
+      addForm: {},
+      addFormErrors: {},
+      editForm: {},
+      editFormErrors: {},
 
       // FACETS
       $havePendingRequests: [
@@ -69,7 +72,7 @@ window._state = new Baobab(
           if (id) {
             return items[id];
           } else {
-            return;
+            return undefined;
           }
         }
       ],
@@ -117,9 +120,15 @@ window._state = new Baobab(
       sorts: MONSTER.index.sorts,
       offset: MONSTER.index.offset,
       limit: MONSTER.index.limit,
+      // filterForm ???
+      // filterFormErrors ???
 
-      // MODEL
+      // CRUD
       id: undefined,
+      addForm: {},
+      editForm: {},
+      addFormErrors: {},
+      editFormErrors: {},
 
       // FACETS
       $havePendingRequests: [
@@ -151,7 +160,7 @@ window._state = new Baobab(
           if (id) {
             return items[id];
           } else {
-            return;
+            return undefined;
           }
         }
       ],
@@ -193,7 +202,12 @@ window._state = new Baobab(
       function (query) {
         // Parse and validate URL Query
         let parsedQuery = parseQuery(query);
-        let [cleanedQuery, errors] = joiValidate(parsedQuery, commonValidators.urlQuery);
+        // TODO
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        //let [cleanedQuery, errors] = validate(parsedQuery, commonValidators.urlQuery);
+        let cleanedQuery = parsedQuery;
+        let errors = [];
+        ////////////////////////////////////////////////////////////////////////////////////////////
         if (keys(errors).length) {
           let humanReadableErrors = flattenArrayObject(errors).join(", ");
           alert(`Invalid URL query params. Errors: ${humanReadableErrors}`);
@@ -214,9 +228,8 @@ window._state = new Baobab(
   }
 );
 
-export default window._state;
-
-// HELPERS =========================================================================================
 function ajaxQueueContains(queue, url) {
   return Boolean(filter(pendindRequest => pendindRequest.url.startsWith(url), queue).length);
 }
+
+export default window._state;

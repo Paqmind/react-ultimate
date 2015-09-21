@@ -13,7 +13,6 @@ import {NotFound} from "frontend/components/common";
 import {RobotIndex, RobotAdd, RobotDetail, RobotEdit} from "frontend/components/robot";
 import {MonsterIndex, MonsterAdd, MonsterDetail, MonsterEdit} from "frontend/components/monster";
 
-// ROUTES ==========================================================================================
 export default (
   <Route path="/" handler={Body}>
     <DefaultRoute name="about" handler={About}/>
