@@ -3,7 +3,6 @@ import {Link} from "react-router";
 import actions from "frontend/actions/robot";
 import {ShallowComponent} from "frontend/components/common";
 
-// COMPONENTS ======================================================================================
 export default class RobotItem extends ShallowComponent {
   static propTypes = {
     item: React.PropTypes.object,

@@ -1,66 +1,87 @@
 import {clone, map} from "ramda";
+import Globalize from "globalize";
 import Class from "classnames";
 import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
+import api from "shared/api/robot";
+import {debounce} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
-import {parseString, parseInteger, parseFloat, parseDate} from "shared/converters";
-import {formatString, formatInteger, formatFloat, formatDate} from "shared/converters";
-import itemValidators from "shared/validators/robot";
+import {Robot} from "shared/types/robot";
 import {statics} from "frontend/helpers/react";
 import actions from "frontend/actions/robot";
 import alertActions from "frontend/actions/alert";
-import {ShallowComponent, ItemLink} from "frontend/components/common";
+import {ShallowComponent, ItemLink, NotFound} from "frontend/components/common";
 import {Form} from "frontend/components/form";
+import state from "frontend/state";
 
-// COMPONENTS ======================================================================================
+let $data = state.select(api.plural);
+
+let validateFormDebounced = debounce(key => {
+  actions.validateEditForm(key).catch(() => {});
+}, 500);
+
 @statics({
-  loadData: actions.establishItem,
+  loadData: () => {
+    actions
+      .establishItem()
+      .then(item => actions.resetEditForm(item.id));
+  }
 })
 @branch({
-  filters: ["robots", "filters"],
-  sorts: ["robots", "sorts"],
-  offset: ["robots", "offset"],
-  limit: ["robots", "limit"],
-  item: ["robots", "$currentItem"],
+  havePendingRequests: [api.plural, "$havePendingRequests"],
+  item: [api.plural, "$currentItem"],
+  form: [api.plural, "editForm"],
+  errors: [api.plural, "editFormErrors"],
 })
 export default class RobotEdit extends Form {
-  constructor(props) {
-    super();
-    this.state = {
-      // Raw state for all fields
-      form: clone(props.item),
-      // Validated and converter state for action
-      item: clone(props.item),
-      // Errors
-      errors: {},
-      // Validation schema
-      schema: itemValidators.item,
-    };
+  handleBlur(key) {
+    actions.validateEditForm(key);
   }
 
-  componentWillReceiveProps(props) {
-    this.setState({
-      form: clone(props.item),
-      item: clone(props.item),
-      errors: {},
-    });
+  handleChange(key, data) {
+    actions.updateEditForm(key, data);
+    validateFormDebounced(key);
+  }
+
+  handleSubmit() {
+    actions
+      .validateEditForm("")
+      .then(actions.editItem)
+      .then(item => {
+        alertActions.addItem({
+          message: "Robot edited with id: " + item.id,
+          category: "success",
+        });
+      })
+      .catch(error => {
+        alertActions.addItem({
+          message: "Failed to edit Robot: " + error,
+          category: "error",
+        });
+      });
+  }
+
+  handleReset() {
+    actions.resetEditForm(this.props.item.id);
   }
 
   render() {
-    let {form} = this.state;
+    let {havePendingRequests, item, form, errors} = this.props;
 
-    if (form) {
+    console.log(item);
+
+    if (item) {
       return (
         <DocumentTitle title={"Edit " + form.name}>
           <div>
-            <Actions {...this.props} form={form}/>
+            <Actions {...this.props}/>
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-3">
                   <div className="thumbnail">
-                    <img src={"http://robohash.org/" + form.id + "?size=200x200"} width="200px" height="200px"/>
+                    <img src={"http://robohash.org/" + item.id + "?size=200x200"} width="200px" height="200px"/>
                   </div>
                 </div>
                 <div className="col-xs-12 col-sm-9">
@@ -68,37 +89,55 @@ export default class RobotEdit extends Form {
                   <fieldset>
                     <div className={Class("form-group", {
                       required: false,
-                      error: this.hasErrors("name"),
+                      error: Boolean(errors.name),
                     })}>
                       <label htmlFor="name">Name</label>
                       <input type="text"
-                        value={formatString(form.name)}
-                        onBlur={() => this.validate("name")}
+                        value={form.name}
+                        onBlur={() => this.handleBlur("name")}
                         onChange={event => this.handleChange("name", event.currentTarget.value)}
                         id="name" ref="name"
                         className="form-control"/>
                       <div className={Class("help", {
-                        error: this.hasErrors("name"),
+                        error: Boolean(errors.name),
                       })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("name"))}
+                        {map(message => <span key="">{message}</span>, [errors.name])}
                       </div>
                     </div>
 
                     <div className={Class("form-group", {
                       required: false,
-                      error: this.hasErrors("manufacturer"),
+                      error: Boolean(errors.manufacturer),
                     })}>
                       <label htmlFor="manufacturer">Manufacturer</label>
                       <input type="text"
-                        value={formatString(form.manufacturer)}
-                        onBlur={() => this.validate("manufacturer")}
+                        value={form.manufacturer}
+                        onBlur={() => this.handleBlur("manufacturer")}
                         onChange={event => this.handleChange("manufacturer", event.currentTarget.value)}
                         id="manufacturer" ref="manufacturer"
                         className="form-control"/>
                       <div className={Class("help", {
-                        error: this.hasErrors("manufacturer"),
+                        error: Boolean(errors.manufacturer),
                       })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("manufacturer"))}
+                        {map(message => <span key="">{message}</span>, [errors.manufacturer])}
+                      </div>
+                    </div>
+
+                    <div className={Class("form-group", {
+                      required: false,
+                      error: Boolean(errors.assemblyDate),
+                    })}>
+                      <label htmlFor="assemblyDate">Assembly Date</label>
+                      <input type="text"
+                        value={form.assemblyDate}
+                        onBlur={() => this.handleBlur("assemblyDate")}
+                        onChange={event => this.handleChange("assemblyDate", event.currentTarget.value)}
+                        id="assemblyDate" ref="assemblyDate"
+                        className="form-control"/>
+                      <div className={Class("help", {
+                        error: Boolean(errors.assemblyDate),
+                      })}>
+                        {map(message => <span key="">{message}</span>, [errors.assemblyDate])}
                       </div>
                     </div>
                   </fieldset>
@@ -112,24 +151,23 @@ export default class RobotEdit extends Form {
           </div>
         </DocumentTitle>
       );
-    } else {
+    } else if (havePendingRequests) {
       return null;
+    } else {
+      return <NotFound/>;
     }
-  }
-
-  handleSubmit() {
-    this.validate().then(isValid => {
-      if (isValid) {
-        actions.editItem(this.state.item);
-      }
-    });
   }
 }
 
 class Actions extends ShallowComponent {
   render() {
-    let {filters, sorts, offset, limit, form} = this.props;
-    let query = formatQuery({filters, sorts, offset, limit});
+    let {item} = this.props;
+    let query = formatQuery({
+      filters: $data.get("filters"),
+      sorts: $data.get("sorts"),
+      offset: $data.get("offset"),
+      limit: $data.get("limit"),
+    });
 
     return (
       <div className="actions">
@@ -144,10 +182,10 @@ class Actions extends ShallowComponent {
             <Link to="robot-add" className="btn btn-sm btn-green" title="Add">
               <span className="fa fa-plus"></span>
             </Link>
-            <ItemLink to="robot-detail" params={{id: form.id}} className="btn btn-blue" title="Detail">
+            <ItemLink to="robot-detail" params={{id: item.id}} className="btn btn-blue" title="Detail">
               <span className="fa fa-eye"></span>
             </ItemLink>
-            <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(form.id)}>
+            <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(item.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>
@@ -156,33 +194,3 @@ class Actions extends ShallowComponent {
     );
   }
 }
-
-/*
-<TextInput label="Name" placeholder="Name" id="item.name" form={this}/>
-<TextInput label="Assembly Date" placeholder="Assembly Date" id="item.assemblyDate" form={this}/>
-<TextInput label="Manufacturer" placeholder="Manufacturer" id="item.manufacturer" form={this}/>
-*/
-
-//(this.validatorTypes().manufacturer._flags.presence == "required")
-//(this.validatorTypes().name._flags.presence == "required"),
-//(this.validatorTypes().assemblyDate._flags.presence == "required"),
-
-// TODO min date, max date
-
-//<div className={Class("form-group", {
-//  required: false,
-//  error: this.hasErrors("assemblyDate"),
-//})}>
-//  <label htmlFor="assemblyDate">Assembly Date</label>
-//  <input type="text"
-//    value={formatDate(form.assemblyDate, "YYYY-MM-DD")}
-//    onBlur={() => this.validate("assemblyDate")}
-//    onChange={event => this.handleChange("assemblyDate", event.currentTarget.value)}
-//    id="assemblyDate" ref="assemblyDate"
-//    className="form-control"/>
-//  <div className={Class("help", {
-//    error: this.hasErrors("assemblyDate"),
-//  })}>
-//    {map(message => <span key="">{message}</span>, this.getErrors("assemblyDate"))}
-//  </div>
-//</div>

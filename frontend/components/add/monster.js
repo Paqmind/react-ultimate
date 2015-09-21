@@ -1,39 +1,65 @@
 import {clone, map} from "ramda";
+import Globalize from "globalize";
 import Class from "classnames";
 import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
-import itemValidators from "shared/validators/monster";
+import api from "shared/api/monster";
+import {debounce} from "shared/helpers/common";
+import {formatQuery} from "shared/helpers/jsonapi";
+import {formatTyped} from "shared/formatters";
+import {Monster} from "shared/types/monster";
 import {statics} from "frontend/helpers/react";
 import actions from "frontend/actions/monster";
-import {ShallowComponent} from "frontend/components/common";
+import alertActions from "frontend/actions/alert";
+import {ShallowComponent, ItemLink, NotFound} from "frontend/components/common";
 import {Form} from "frontend/components/form";
+import state from "frontend/state";
 
-// COMPONENTS ======================================================================================
+let $data = state.select(api.plural);
+
+let validateFormDebounced = debounce(key => {
+  actions.validateAddForm(key).catch(() => {});
+}, 500);
+
 @statics({
   loadData: actions.loadIndex,
 })
 @branch({
-  item: ["monsters", "$emptyItem"],
+  form: [api.plural, "addForm"],
+  errors: [api.plural, "addFormErrors"],
 })
 export default class MonsterAdd extends Form {
-  constructor(props) {
-    super();
-    this.state = {
-      // Raw state for all fields
-      form: clone(props.item),
-      // Validated and converter state for action
-      item: clone(props.item),
-      // Errors
-      errors: {},
-      // Validation schema
-      schema: itemValidators.item,
-    };
+  handleBlur(key) {
+    actions.validateAddForm(key);
+  }
+
+  handleChange(key, data) {
+    actions.updateAddForm(key, data);
+    validateFormDebounced(key);
+  }
+
+  handleSubmit() {
+    actions
+      .validateAddForm("")
+      .then(actions.addItem)
+      .then(item => {
+        alertActions.addItem({
+          message: "Monster added with id: " + item.id,
+          category: "success",
+        });
+      })
+      .catch(error => {
+        alertActions.addItem({
+          message: "Failed to add Monster: " + error,
+          category: "error",
+        });
+      });
   }
 
   render() {
-    let {form} = this.state;
+    let {form, errors} = this.props;
 
     return (
       <DocumentTitle title={"Add Monster"}>
@@ -46,37 +72,55 @@ export default class MonsterAdd extends Form {
                 <fieldset>
                   <div className={Class("form-group", {
                     required: false,
-                    error: this.hasErrors("name"),
+                    error: Boolean(errors.name),
                   })}>
                     <label htmlFor="name">Name</label>
                     <input type="text"
                       value={form.name}
-                      onBlur={() => this.validate("name")}
+                      onBlur={() => this.handleBlur("name")}
                       onChange={event => this.handleChange("name", event.currentTarget.value)}
                       id="name" ref="name"
                       className="form-control"/>
                     <div className={Class("help", {
-                      error: this.hasErrors("name"),
+                      error: Boolean(errors.name),
                     })}>
-                      {map(message => <span key="">{message}</span>, this.getErrors("name"))}
+                      {map(message => <span key="">{message}</span>, [errors.name])}
                     </div>
                   </div>
 
                   <div className={Class("form-group", {
                     required: false,
-                    error: this.hasErrors("citizenship"),
+                    error: Boolean(errors.citizenship),
                   })}>
                     <label htmlFor="citizenship">Citizenship</label>
                     <input type="text"
                       value={form.citizenship}
-                      onBlur={() => this.validate("citizenship")}
+                      onBlur={() => this.handleBlur("citizenship")}
                       onChange={event => this.handleChange("citizenship", event.currentTarget.value)}
                       id="citizenship" ref="citizenship"
                       className="form-control"/>
                     <div className={Class("help", {
-                      error: this.hasErrors("citizenship"),
+                      error: Boolean(errors.citizenship),
                     })}>
-                      {map(message => <span key="">{message}</span>, this.getErrors("citizenship"))}
+                      {map(message => <span key="">{message}</span>, [errors.citizenship])}
+                    </div>
+                  </div>
+
+                  <div className={Class("form-group", {
+                    required: false,
+                    error: Boolean(errors.birthDate),
+                  })}>
+                    <label htmlFor="birthDate">Birth Date</label>
+                    <input type="text"
+                      value={form.birthDate}
+                      onBlur={() => this.handleBlur("birthDate")}
+                      onChange={event => this.handleChange("birthDate", event.currentTarget.value)}
+                      id="birthDate" ref="birthDate"
+                      className="form-control"/>
+                    <div className={Class("help", {
+                      error: Boolean(errors.birthDate),
+                    })}>
+                      {map(message => <span key="">{message}</span>, [errors.birthDate])}
                     </div>
                   </div>
                 </fieldset>
@@ -90,14 +134,6 @@ export default class MonsterAdd extends Form {
         </div>
       </DocumentTitle>
     );
-  }
-
-  handleSubmit() {
-    this.validate().then(isValid => {
-      if (isValid) {
-        actions.addItem(this.state.item);
-      }
-    });
   }
 }
 
@@ -117,27 +153,3 @@ class Actions extends ShallowComponent {
     );
   }
 }
-
-/*
-<TextInput label="Name" placeholder="Name" id="item.name" form={this}/>
-<TextInput label="Assembly Date" placeholder="Assembly Date" id="item.assemblyDate" form={this}/>
-<TextInput label="Citizenship" placeholder="Citizenship" id="item.citizenship" form={this}/>
-*/
-
-//<div className={Class("form-group", {
-//  required: false,
-//  error: this.hasErrors("birthDate"),
-//})}>
-//  <label htmlFor="birthDate">Birth Date</label>
-//  <input type="date"
-//    value={form.assemblyDate}
-//    onBlur={() => this.validate("birthDate")}
-//    onChange={event =? this.handleChange("birthDate", event.currentTarget.value)}
-//    id="birthDate" ref="birthDate"
-//    className="form-control"/>
-//  <div className={Class("help", {
-//    error: this.hasErrors("birthDate"),
-//  })}>
-//    {map(message => <span key="">{message}</span>, this.getErrors("item.birthDate"))}
-//  </div>
-//</div>

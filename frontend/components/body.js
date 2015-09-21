@@ -7,7 +7,6 @@ import state from "frontend/state";
 import {Component, Loading, Menu, Header, Footer} from "frontend/components/common";
 import AlertIndex from "frontend/components/index/alert";
 
-// BODY ============================================================================================
 @root(state)
 export default class Body extends Component {
   constructor() {
@@ -28,7 +27,7 @@ export default class Body extends Component {
   }
 
   documentClickHandler() {
-    if (!this.state.menuCollapse) { return; }
+    if (!this.state.menuCollapse) { return undefined; }
 
     // Menu should collapsed on any click (on link, on toogler or outside the block)
     this.hideMenu();

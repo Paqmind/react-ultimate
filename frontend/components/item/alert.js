@@ -4,7 +4,6 @@ import {Link} from "react-router";
 import alertActions from "frontend/actions/alert";
 import {ShallowComponent} from "frontend/components/common";
 
-// EXPORTS =========================================================================================
 class CloseLink extends ShallowComponent {
   handleClick(event) {
     event.preventDefault();
@@ -30,12 +29,12 @@ export default class Item extends ShallowComponent {
       "alert": true,
       ["alert-" + item.category]: true,
       "animated": this.props.animated,
-      "alert-dismissible": item.closable
+      "alert-dismissible": item.closable === false
     });
 
     return (
       <div className={classes} {...this.props}>
-        {item.closable ? <CloseLink onClick={() => alertActions.removeItem(item.id)}/> : ""}
+        {item.closable === false ? <CloseLink onClick={() => alertActions.removeItem(item.id)}/> : ""}
         {item.message}
       </div>
     );

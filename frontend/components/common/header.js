@@ -2,7 +2,6 @@ import React from "react";
 import throttle from "lodash.throttle";
 import {Component} from "./component";
 
-// EXPORTS =========================================================================================
 export default class Header extends Component {
   static propTypes = {
     component: React.PropTypes.string,

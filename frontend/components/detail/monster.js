@@ -1,19 +1,22 @@
+import Globalize from "globalize";
 import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
+import api from "shared/api/monster";
 import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
 import actions from "frontend/actions/monster";
-import {ShallowComponent, DeepComponent, ItemLink, Loading, NotFound} from "frontend/components/common";
+import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 
-// COMPONENTS ======================================================================================
+let $data = state.select(api.plural);
+
 @statics({
   loadData: actions.establishItem,
 })
 @branch({
-  havePendingRequests: ["monsters", "$havePendingRequests"],
-  item: ["monsters", "$currentItem"],
+  havePendingRequests: [api.plural, "$havePendingRequests"],
+  item: [api.plural, "$currentItem"],
 })
 export default class MonsterDetail extends DeepComponent {
   render() {
@@ -38,6 +41,8 @@ export default class MonsterDetail extends DeepComponent {
                     <dd>{item.id}</dd>
                     <dt>Manufacturer</dt>
                     <dd>{item.manufacturer}</dd>
+                    <dt>Birth Date</dt>
+                    <dd>{Globalize.formatDate(item.birthDate)}</dd>
                   </dl>
                 </div>
               </div>
@@ -82,6 +87,3 @@ class Actions extends ShallowComponent {
     );
   }
 }
-
-//<dt>Birth Date</dt>
-//<dd>{item.birthDate}</dd>

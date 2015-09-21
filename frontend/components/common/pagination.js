@@ -5,7 +5,6 @@ import {getTotalPages} from "frontend/helpers/pagination";
 import IndexLink from "./indexlink";
 import {ShallowComponent} from "./component";
 
-// EXPORTS =========================================================================================
 export default class Pagination extends ShallowComponent {
   static propTypes = {
     makeHref: React.PropTypes.func,

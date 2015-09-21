@@ -4,27 +4,27 @@ import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import {branch} from "baobab-react/decorators";
 import {toArray} from "shared/helpers/common";
+import api from "shared/api/monster";
 import {statics} from "frontend/helpers/react";
-import state, {MONSTER} from "frontend/state";
+import {MONSTER} from "frontend/constants";
+import state from "frontend/state";
 import actions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/common";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import MonsterItem from "frontend/components/item/monster";
 
-// CURSORS =========================================================================================
 let $data = state.select("monsters");
 
-// COMPONENTS ======================================================================================
 @statics({
   loadData: actions.loadIndex,
 })
 @branch({
-  filters: ["monsters", "filters"],
-  sorts: ["monsters", "sorts"],
-  offset: ["monsters", "offset"],
-  limit: ["monsters", "limit"],
-  total: ["monsters", "total"],
-  items: ["monsters", "$currentItems"],
+  filters: [api.plural, "filters"],
+  sorts: [api.plural, "sorts"],
+  offset: [api.plural, "offset"],
+  limit: [api.plural, "limit"],
+  total: [api.plural, "total"],
+  items: [api.plural, "$currentItems"],
 })
 export default class MonsterIndex extends DeepComponent {
   render() {

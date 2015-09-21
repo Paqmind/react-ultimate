@@ -2,7 +2,6 @@ import {filter} from "ramda";
 import React from "react";
 import {Component, ShallowComponent} from "./component";
 
-// EXPORTS =========================================================================================
 export default class TextHolder extends ShallowComponent {
   getListOfNodeParents(el) {
     let parents = [];

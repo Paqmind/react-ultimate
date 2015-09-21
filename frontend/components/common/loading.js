@@ -4,7 +4,6 @@ import DocumentTitle from "react-document-title";
 import {branch} from "baobab-react/decorators";
 import {Component} from "./component";
 
-// COMPONENTS ======================================================================================
 @branch({
   ajaxQueue: ["ajaxQueue"],
 })

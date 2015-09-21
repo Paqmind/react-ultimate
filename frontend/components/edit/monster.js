@@ -1,61 +1,84 @@
 import {clone, map} from "ramda";
+import Globalize from "globalize";
 import Class from "classnames";
 import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
-import {parseString, parseInteger, parseFloat, parseDate} from "shared/converters";
-import {formatString, formatInteger, formatFloat, formatDate} from "shared/converters";
-import itemValidators from "shared/validators/monster";
+import api from "shared/api/monster";
+import {debounce} from "shared/helpers/common";
+import {Monster} from "shared/types/monster";
 import {statics} from "frontend/helpers/react";
 import actions from "frontend/actions/monster";
 import alertActions from "frontend/actions/alert";
-import {ShallowComponent, ItemLink} from "frontend/components/common";
+import {ShallowComponent, ItemLink, NotFound} from "frontend/components/common";
 import {Form} from "frontend/components/form";
+import state from "frontend/state";
 
-// COMPONENTS ======================================================================================
+let $data = state.select(api.plural);
+
+let validateFormDebounced = debounce(key => {
+  actions.validateEditForm(key).catch(() => {});
+}, 500);
+
 @statics({
-  loadData: actions.establishItem,
+  loadData: () => {
+    actions
+      .establishItem()
+      .then(item => actions.resetEditForm(item.id));
+  }
 })
 @branch({
-  item: ["monsters", "$currentItem"],
+  havePendingRequests: [api.plural, "$havePendingRequests"],
+  item: [api.plural, "$currentItem"],
+  form: [api.plural, "editForm"],
+  errors: [api.plural, "editFormErrors"],
 })
 export default class MonsterEdit extends Form {
-  constructor(props) {
-    super();
-    this.state = {
-      // Raw state for all fields
-      form: clone(props.item),
-      // Validated and converter state for action
-      item: clone(props.item),
-      // Errors
-      errors: {},
-      // Validation schema
-      schema: itemValidators.item,
-    };
+  handleBlur(key) {
+    actions.validateEditForm(key);
   }
 
-  componentWillReceiveProps(props) {
-    this.setState({
-      form: clone(props.item),
-      item: clone(props.item),
-      errors: {},
-    });
+  handleChange(key, data) {
+    actions.updateEditForm(key, data);
+    validateFormDebounced(key);
+  }
+
+  handleSubmit() {
+    actions
+      .validateEditForm("")
+      .then(actions.editItem)
+      .then(item => {
+        alertActions.addItem({
+          message: "Monster edited with id: " + item.id,
+          category: "success",
+        });
+      })
+      .catch(error => {
+        alertActions.addItem({
+          message: "Failed to edit Monster: " + error,
+          category: "error",
+        });
+      });
+  }
+
+  handleReset() {
+    actions.resetEditForm(this.props.item.id);
   }
 
   render() {
-    let {form} = this.state;
+    let {havePendingRequests, item, form, errors} = this.props;
 
-    if (form) {
+    if (item) {
       return (
         <DocumentTitle title={"Edit " + form.name}>
           <div>
-            <Actions {...this.props} form={form}/>
+            <Actions {...this.props}/>
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-3">
                   <div className="thumbnail">
-                    <img src={"http://robohash.org/" + form.id + "?set=set2&size=200x200"} width="200px" height="200px"/>
+                    <img src={"http://robohash.org/" + item.id + "?size=200x200"} width="200px" height="200px"/>
                   </div>
                 </div>
                 <div className="col-xs-12 col-sm-9">
@@ -63,37 +86,55 @@ export default class MonsterEdit extends Form {
                   <fieldset>
                     <div className={Class("form-group", {
                       required: false,
-                      error: this.hasErrors("name"),
+                      error: Boolean(errors.name),
                     })}>
                       <label htmlFor="name">Name</label>
                       <input type="text"
-                        value={formatString(form.name)}
-                        onBlur={() => this.validate("name")}
+                        value={form.name}
+                        onBlur={() => this.handleBlur("name")}
                         onChange={event => this.handleChange("name", event.currentTarget.value)}
                         id="name" ref="name"
                         className="form-control"/>
                       <div className={Class("help", {
-                        error: this.hasErrors("name"),
+                        error: Boolean(errors.name),
                       })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("name"))}
+                        {map(message => <span key="">{message}</span>, [errors.name])}
                       </div>
                     </div>
 
                     <div className={Class("form-group", {
                       required: false,
-                      error: this.hasErrors("citizenship"),
+                      error: Boolean(errors.citizenship),
                     })}>
                       <label htmlFor="citizenship">Citizenship</label>
                       <input type="text"
-                        value={formatString(form.citizenship)}
-                        onBlur={() => this.validate("citizenship")}
+                        value={form.citizenship}
+                        onBlur={() => this.handleBlur("citizenship")}
                         onChange={event => this.handleChange("citizenship", event.currentTarget.value)}
                         id="citizenship" ref="citizenship"
                         className="form-control"/>
                       <div className={Class("help", {
-                        error: this.hasErrors("citizenship"),
+                        error: Boolean(errors.citizenship),
                       })}>
-                        {map(message => <span key="">{message}</span>, this.getErrors("citizenship"))}
+                        {map(message => <span key="">{message}</span>, [errors.citizenship])}
+                      </div>
+                    </div>
+
+                    <div className={Class("form-group", {
+                      required: false,
+                      error: Boolean(errors.birthDate),
+                    })}>
+                      <label htmlFor="birthDate">Birth Date</label>
+                      <input type="text"
+                        value={form.birthDate}
+                        onBlur={() => this.handleBlur("birthDate")}
+                        onChange={event => this.handleChange("birthDate", event.currentTarget.value)}
+                        id="birthDate" ref="birthDate"
+                        className="form-control"/>
+                      <div className={Class("help", {
+                        error: Boolean(errors.birthDate),
+                      })}>
+                        {map(message => <span key="">{message}</span>, [errors.birthDate])}
                       </div>
                     </div>
                   </fieldset>
@@ -107,23 +148,17 @@ export default class MonsterEdit extends Form {
           </div>
         </DocumentTitle>
       );
-    } else {
+    } else if (havePendingRequests) {
       return null;
+    } else {
+      return <NotFound/>;
     }
-  }
-
-  handleSubmit() {
-    this.validate().then(isValid => {
-      if (isValid) {
-        actions.editItem(this.state.item);
-      }
-    });
   }
 }
 
 class Actions extends ShallowComponent {
   render() {
-    let {form} = this.props;
+    let {item} = this.props;
 
     return (
       <div className="actions">
@@ -138,10 +173,10 @@ class Actions extends ShallowComponent {
             <Link to="monster-add" className="btn btn-sm btn-green" title="Add">
               <span className="fa fa-plus"></span>
             </Link>
-            <ItemLink to="monster-detail" params={{id: form.id}} className="btn btn-blue" title="Detail">
+            <ItemLink to="monster-detail" params={{id: item.id}} className="btn btn-blue" title="Detail">
               <span className="fa fa-eye"></span>
             </ItemLink>
-            <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(form.id)}>
+            <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(item.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>
@@ -150,33 +185,3 @@ class Actions extends ShallowComponent {
     );
   }
 }
-
-/*
-<TextInput label="Name" placeholder="Name" id="item.name" form={this}/>
-<TextInput label="Birth Date" placeholder="Birth Date" id="item.birthDate" form={this}/>
-<TextInput label="citizenship" placeholder="citizenship" id="item.citizenship" form={this}/>
-*/
-
-//(this.validatorTypes().citizenship._flags.presence == "required")
-//(this.validatorTypes().name._flags.presence == "required"),
-//(this.validatorTypes().birthDate._flags.presence == "required"),
-
-// TODO min date, max date
-
-//<div className={Class("form-group", {
-//  required: false,
-//  error: this.hasErrors("birthDate"),
-//})}>
-//  <label htmlFor="birthDate">Birth Date</label>
-//  <input type="date"
-//    value={formatDate(form.birthDate)}
-//    onBlur={() => this.validate("birthDate")}
-//    onChange={event => this.handleChange("birthDate", event.currentTarget.value)}
-//    id="birthDate" ref="birthDate"
-//    className="form-control"/>
-//  <div className={Class("help", {
-//    error: this.hasErrors("birthDate"),
-//  })}>
-//    {map(message => <span key="">{message}</span>, this.getErrors("birthDate"))}
-//  </div>
-//</div>

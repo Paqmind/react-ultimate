@@ -2,7 +2,6 @@ import {filter} from "ramda";
 import {shallowCompare, deepCompare} from "frontend/helpers/react";
 import React from "react";
 
-// COMPONENTS ======================================================================================
 class Component extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +21,6 @@ export default {
   Component, ShallowComponent, DeepComponent,
 };
 
-// HELPERS =========================================================================================
 function getAllMethods(obj) {
   return filter(key => typeof obj[key] == "function", Object.getOwnPropertyNames(obj));
 }

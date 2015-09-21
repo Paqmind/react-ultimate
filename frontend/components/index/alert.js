@@ -5,7 +5,6 @@ import {branch} from "baobab-react/decorators";
 import {DeepComponent} from "frontend/components/common";
 import AlertItem from "frontend/components/item/alert";
 
-// COMPONENTS ======================================================================================
 let CSSTransitionGroup = ReactAddons.addons.CSSTransitionGroup;
 
 @branch({

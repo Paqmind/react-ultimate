@@ -3,7 +3,6 @@ import Class from "classnames";
 import React from "react";
 import {ShallowComponent} from "frontend/components/common";
 
-// COMPONENTS ======================================================================================
 export default class SortBy extends ShallowComponent {
   static propTypes = {
     makeHref: React.PropTypes.func,
@@ -14,7 +13,7 @@ export default class SortBy extends ShallowComponent {
 
   constructor(props) {
     if (!props.route && !props.onClick) {
-      throw new Error("either route or onClick must be set");
+      throw Error("either route or onClick must be set");
     }
     super();
     this.state = {

@@ -2,7 +2,6 @@ import React from "react";
 import DocumentTitle from "react-document-title";
 import {Component} from "./component";
 
-// EXPORTS =========================================================================================
 export default class NotFound extends Component {
   render() {
     return (

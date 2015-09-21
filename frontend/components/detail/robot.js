@@ -1,25 +1,23 @@
+import Globalize from "globalize";
 import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
+import api from "shared/api/robot";
 import {formatQuery} from "shared/helpers/jsonapi";
 import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
-import ajax from "frontend/ajax";
 import actions from "frontend/actions/robot";
-import {ShallowComponent, DeepComponent, ItemLink, Loading, NotFound} from "frontend/components/common";
+import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 
-// COMPONENTS ======================================================================================
+let $data = state.select(api.plural);
+
 @statics({
   loadData: actions.establishItem,
 })
 @branch({
-  havePendingRequests: ["robots", "$havePendingRequests"],
-  filters: ["robots", "filters"],
-  sorts: ["robots", "sorts"],
-  offset: ["robots", "offset"],
-  limit: ["robots", "limit"],
-  item: ["robots", "$currentItem"],
+  havePendingRequests: [api.plural, "$havePendingRequests"],
+  item: [api.plural, "$currentItem"],
 })
 export default class RobotDetail extends DeepComponent {
   render() {
@@ -44,6 +42,8 @@ export default class RobotDetail extends DeepComponent {
                     <dd>{item.id}</dd>
                     <dt>Manufacturer</dt>
                     <dd>{item.manufacturer}</dd>
+                    <dt>Assembly Date</dt>
+                    <dd>{Globalize.formatDate(item.assemblyDate)}</dd>
                   </dl>
                 </div>
               </div>
@@ -61,8 +61,13 @@ export default class RobotDetail extends DeepComponent {
 
 class Actions extends ShallowComponent {
   render() {
-    let {filters, sorts, offset, limit, item} = this.props;
-    let query = formatQuery({filters, sorts, offset, limit});
+    let {item} = this.props;
+    let query = formatQuery({
+      filters: $data.get("filters"),
+      sorts: $data.get("sorts"),
+      offset: $data.get("offset"),
+      limit: $data.get("limit"),
+    });
 
     return (
       <div className="actions">
@@ -89,6 +94,3 @@ class Actions extends ShallowComponent {
     );
   }
 }
-
-//<dt>Assembly Date</dt>
-//<dd>{item.assemblyDate}</dd>

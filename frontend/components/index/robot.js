@@ -4,24 +4,25 @@ import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import {branch} from "baobab-react/decorators";
 import {toArray} from "shared/helpers/common";
+import api from "shared/api/robot";
 import {statics} from "frontend/helpers/react";
 import {indexRouter} from "frontend/router";
+import state from "frontend/state";
 import actions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/common";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import RobotItem from "frontend/components/item/robot";
 
-// COMPONENTS ======================================================================================
 @statics({
   loadData: actions.establishIndex,
 })
 @branch({
-  filters: ["robots", "filters"],
-  sorts: ["robots", "sorts"],
-  offset: ["robots", "offset"],
-  limit: ["robots", "limit"],
-  total: ["robots", "total"],
-  items: ["robots", "$currentItems"],
+  filters: [api.plural, "filters"],
+  sorts: [api.plural, "sorts"],
+  offset: [api.plural, "offset"],
+  limit: [api.plural, "limit"],
+  total: [api.plural, "total"],
+  items: [api.plural, "$currentItems"],
 })
 export default class RobotIndex extends DeepComponent {
   render() {

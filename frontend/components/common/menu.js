@@ -2,7 +2,6 @@ import React from "react";
 import {Link} from "react-router";
 import {Component} from "./component";
 
-// MENU ============================================================================================
 export default class Menu extends Component {
   render() {
     return (

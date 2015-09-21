@@ -5,10 +5,8 @@ import {merge} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
 import {Component} from "./component";
 
-// CURSORS =========================================================================================
 let $url = state.select("url");
 
-// COMPONENTS ======================================================================================
 export default class IndexLink extends Component {
   render() {
     let {query, ...props} = this.props;
