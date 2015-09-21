@@ -121,7 +121,7 @@ describe("/api/monsters/:id PUT", function () {
 
     before(function () {
       resetDB();
-      model = makeModel();
+      model = makeMonster();
       id = model.id;
       total = keys(DB).length;
 
