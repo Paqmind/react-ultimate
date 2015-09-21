@@ -10,7 +10,7 @@ import {DeepComponent} from "frontend/components/common";
 
 // COMPONENTS ======================================================================================
 /**
- * this.props.data -- original data (model)
+ * this.props.data -- original data (item)
  * this.state.form -- current state of the form fields (can't be auto-updated to "correct format" to keep UX smooth)
  * this.state.data -- parsed state of the form fields (can be auto-updated). Is used in submit action.
  * this.state.errors -- validation errors. Have the same structure as this.state.data
@@ -18,8 +18,8 @@ import {DeepComponent} from "frontend/components/common";
 export default class Form extends DeepComponent {
   handleReset() {
     this.setState({
-      form: clone(this.props.model),
-      model: clone(this.props.model),
+      form: clone(this.props.item),
+      item: clone(this.props.item),
     }, this.validate.bind(this));
   }
 
@@ -42,12 +42,12 @@ export default class Form extends DeepComponent {
 
   validate(key=undefined) {
     let formKey  = key ? this.formKey  + "." + key : this.formKey;
-    let modelKey  = key ? this.modelKey + "." + key : this.modelKey;
+    let itemKey  = key ? this.itemKey + "." + key : this.itemKey;
     let errorKey = key ? this.errorKey + "." + key : this.errorKey;
     let schemaKey = key ? this.schemaKey + "." + key : this.schemaKey;
 
     let formLens = Lens(formKey);
-    let modelLens = Lens(modelKey);
+    let itemLens = Lens(itemKey);
     let errorLens = Lens(errorKey);
     let schemaLens = Lens(schemaKey);
 
@@ -56,12 +56,12 @@ export default class Form extends DeepComponent {
 
     // Validate it
     let tailKey = formKey.split(".").slice(-1);
-    let [_model, _errors] = joiValidate({[tailKey]: form}, {[tailKey]: schema});
-    let model = _model[tailKey];
+    let [_item, _errors] = joiValidate({[tailKey]: form}, {[tailKey]: schema});
+    let item = _item[tailKey];
     let errors = _errors[tailKey];
 
     let state = this.state;
-    state = modelLens.set(state, model);
+    state = itemLens.set(state, item);
     state = errorLens.set(state, errors);
 
     // Apply it
@@ -92,8 +92,8 @@ export default class Form extends DeepComponent {
     return "form";
   }
 
-  get modelKey() {
-    return "model";
+  get itemKey() {
+    return "item";
   }
 
   get errorKey() {

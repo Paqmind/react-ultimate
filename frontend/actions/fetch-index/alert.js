@@ -2,7 +2,7 @@ import {map} from "ramda";
 import {toObject} from "shared/helpers/common";
 import {formatQueryForAxios} from "shared/helpers/jsonapi";
 import api from "shared/api/alert";
-import Model from "shared/models/alert";
+import Alert from "shared/types/alert";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 
@@ -10,7 +10,7 @@ import ajax from "frontend/ajax";
 let $alertQueue = state.select("alertQueue");
 
 // ACTIONS =========================================================================================
-// Filters, Sorts, Offset, Limit -> Maybe [Model]
+// Filters, Sorts, Offset, Limit -> Maybe [Item]
 export default function fetchIndex(filters, sorts, offset, limit) {
   console.debug(api.plural + ".fetchIndex(...)");
 
@@ -19,9 +19,9 @@ export default function fetchIndex(filters, sorts, offset, limit) {
   return ajax.get(api.indexUrl, {params: query})
     .then(response => {
       if (response.status.startsWith("2")) {
-        let newModels = map(m => Model(m), response.data.data);
-        $alertQueue.concat(newModels);
-        return newModels;
+        let newItems = map(m => Alert(m), response.data.data);
+        $alertQueue.concat(newItems);
+        return newItems;
       } else {
         return [];
       }

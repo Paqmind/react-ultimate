@@ -6,12 +6,12 @@ import {formatQuery} from "shared/helpers/jsonapi";
 import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
-import modelActions from "frontend/actions/robot";
-import {ShallowComponent, DeepComponent, ModelLink, Loading, NotFound} from "frontend/components/common";
+import actions from "frontend/actions/robot";
+import {ShallowComponent, DeepComponent, ItemLink, Loading, NotFound} from "frontend/components/common";
 
 // COMPONENTS ======================================================================================
 @statics({
-  loadData: modelActions.establishModel,
+  loadData: actions.establishItem,
 })
 @branch({
   havePendingRequests: ["robots", "$havePendingRequests"],
@@ -19,31 +19,31 @@ import {ShallowComponent, DeepComponent, ModelLink, Loading, NotFound} from "fro
   sorts: ["robots", "sorts"],
   offset: ["robots", "offset"],
   limit: ["robots", "limit"],
-  model: ["robots", "$currentModel"],
+  item: ["robots", "$currentItem"],
 })
 export default class RobotDetail extends DeepComponent {
   render() {
-    let {havePendingRequests, model} = this.props;
+    let {havePendingRequests, item} = this.props;
 
-    if (model) {
+    if (item) {
       return (
-        <DocumentTitle title={"Detail " + model.name}>
+        <DocumentTitle title={"Detail " + item.name}>
           <div>
             <Actions {...this.props}/>
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-3">
                   <div className="thumbnail">
-                    <img src={"http://robohash.org/" + model.id + "?size=200x200"} width="200px" height="200px"/>
+                    <img src={"http://robohash.org/" + item.id + "?size=200x200"} width="200px" height="200px"/>
                   </div>
                 </div>
                 <div className="col-xs-12 col-sm-9">
-                  <h1 className="nomargin-top">{model.name}</h1>
+                  <h1 className="nomargin-top">{item.name}</h1>
                   <dl>
                     <dt>Serial Number</dt>
-                    <dd>{model.id}</dd>
+                    <dd>{item.id}</dd>
                     <dt>Manufacturer</dt>
-                    <dd>{model.manufacturer}</dd>
+                    <dd>{item.manufacturer}</dd>
                   </dl>
                 </div>
               </div>
@@ -61,7 +61,7 @@ export default class RobotDetail extends DeepComponent {
 
 class Actions extends ShallowComponent {
   render() {
-    let {filters, sorts, offset, limit, model} = this.props;
+    let {filters, sorts, offset, limit, item} = this.props;
     let query = formatQuery({filters, sorts, offset, limit});
 
     return (
@@ -77,10 +77,10 @@ class Actions extends ShallowComponent {
             <Link to="robot-add" className="btn btn-sm btn-green" title="Add">
               <span className="fa fa-plus"></span>
             </Link>
-            <ModelLink to="robot-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
+            <ItemLink to="robot-edit" params={{id: item.id}} className="btn btn-orange" title="Edit">
               <span className="fa fa-edit"></span>
-            </ModelLink>
-            <a className="btn btn-red" title="Remove" onClick={() => modelActions.removeModel(model.id)}>
+            </ItemLink>
+            <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(item.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>
@@ -91,4 +91,4 @@ class Actions extends ShallowComponent {
 }
 
 //<dt>Assembly Date</dt>
-//<dd>{model.assemblyDate}</dd>
+//<dd>{item.assemblyDate}</dd>

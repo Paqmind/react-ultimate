@@ -1,13 +1,13 @@
-import Alert from "shared/models/alert";
+import Alert from "shared/items/alert";
 import state from "frontend/state";
 
 // CURSORS =========================================================================================
 let $alertQueue = state.select("alertQueue");
 
 // ACTIONS =========================================================================================
-// ModelData -> Model
-export default function addAlert(model) {
-  model = Alert(model);
-  $alertQueue.push(model);
-  return model;
+// Object -> Maybe Alert
+export default function addAlert(item) {
+  item = Alert(item);
+  $alertQueue.push(item);
+  return Promise.resolve(item);
 }

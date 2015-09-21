@@ -1,21 +1,21 @@
 import api from "shared/api/robot";
 import state from "frontend/state";
-import fetchModel from "frontend/actions/fetch-model/robot";
+import fetchItem from "frontend/actions/fetch-item/robot";
 
 // CURSORS =========================================================================================
 let $data = state.select(api.plural);
-let $models = $data.select("models");
+let $items = $data.select("items");
 
 // ACTIONS =========================================================================================
-export default function loadModel() {
-  console.debug(api.plural + `.loadModel()`);
+export default function loadItem() {
+  console.debug(api.plural + `.loadItem()`);
 
   let id = $data.get("id");
-  let model = $models.get(id);
+  let item = $items.get(id);
 
-  if (model) {
-    return Promise.resolve(model);
+  if (item) {
+    return Promise.resolve(item);
   } else {
-    return fetchModel(id);
+    return fetchItem(id);
   }
 }

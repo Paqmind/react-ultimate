@@ -80,7 +80,7 @@ export default class About extends Component {
 
             <h4>Index Backlinks</h4>
             <p>
-              Backlinks from model pages to index pages point to the corresponding offsets in paginations.
+              Backlinks from item pages to index pages point to the corresponding offsets in paginations.
               It was practically impossible to do this "right" in backend-driven apps. As soon
               as multiple browser tabs were opened, and cookies were overwritten, you were into trouble...
               Fortunately that days are gone.

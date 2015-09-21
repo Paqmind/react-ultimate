@@ -2,9 +2,9 @@
 import fetchIndex from "frontend/actions/fetch-index/alert";
 
 // CRUD
-import addModel from "frontend/actions/add-model/alert";
-import removeModel from "frontend/actions/remove-model/alert";
+import addItem from "frontend/actions/add-item/alert";
+import removeItem from "frontend/actions/remove-item/alert";
 
 export default {
-  fetchIndex, addModel, removeModel,
+  fetchIndex, addItem, removeItem,
 };

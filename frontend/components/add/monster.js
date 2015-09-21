@@ -4,31 +4,31 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
-import modelValidators from "shared/validators/monster";
+import itemValidators from "shared/validators/monster";
 import {statics} from "frontend/helpers/react";
-import modelActions from "frontend/actions/monster";
+import actions from "frontend/actions/monster";
 import {ShallowComponent} from "frontend/components/common";
 import {Form} from "frontend/components/form";
 
 // COMPONENTS ======================================================================================
 @statics({
-  loadData: modelActions.loadIndex,
+  loadData: actions.loadIndex,
 })
 @branch({
-  model: ["monsters", "$emptyModel"],
+  item: ["monsters", "$emptyItem"],
 })
 export default class MonsterAdd extends Form {
   constructor(props) {
     super();
     this.state = {
       // Raw state for all fields
-      form: clone(props.model),
+      form: clone(props.item),
       // Validated and converter state for action
-      model: clone(props.model),
+      item: clone(props.item),
       // Errors
       errors: {},
       // Validation schema
-      schema: modelValidators.model,
+      schema: itemValidators.item,
     };
   }
 
@@ -95,7 +95,7 @@ export default class MonsterAdd extends Form {
   handleSubmit() {
     this.validate().then(isValid => {
       if (isValid) {
-        modelActions.addModel(this.state.model);
+        actions.addItem(this.state.item);
       }
     });
   }
@@ -119,9 +119,9 @@ class Actions extends ShallowComponent {
 }
 
 /*
-<TextInput label="Name" placeholder="Name" id="model.name" form={this}/>
-<TextInput label="Assembly Date" placeholder="Assembly Date" id="model.assemblyDate" form={this}/>
-<TextInput label="Citizenship" placeholder="Citizenship" id="model.citizenship" form={this}/>
+<TextInput label="Name" placeholder="Name" id="item.name" form={this}/>
+<TextInput label="Assembly Date" placeholder="Assembly Date" id="item.assemblyDate" form={this}/>
+<TextInput label="Citizenship" placeholder="Citizenship" id="item.citizenship" form={this}/>
 */
 
 //<div className={Class("form-group", {
@@ -138,6 +138,6 @@ class Actions extends ShallowComponent {
 //  <div className={Class("help", {
 //    error: this.hasErrors("birthDate"),
 //  })}>
-//    {map(message => <span key="">{message}</span>, this.getErrors("model.birthDate"))}
+//    {map(message => <span key="">{message}</span>, this.getErrors("item.birthDate"))}
 //  </div>
 //</div>

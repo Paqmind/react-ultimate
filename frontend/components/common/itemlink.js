@@ -9,7 +9,7 @@ import {Component} from "./component";
 let $url = state.select("url");
 
 // COMPONENTS ======================================================================================
-export default class ModelLink extends Component {
+export default class ItemLink extends Component {
   render() {
     let {params, ...props} = this.props;
     params = merge(params || {}, $url.get("params"));

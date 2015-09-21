@@ -20,23 +20,23 @@ class CloseLink extends ShallowComponent {
 
 export default class Item extends ShallowComponent {
   static propTypes = {
-    model: React.PropTypes.object,
+    item: React.PropTypes.object,
   }
 
   render() {
-    let model = this.props.model;
+    let item = this.props.item;
 
     let classes = classNames({
       "alert": true,
-      ["alert-" + model.category]: true,
+      ["alert-" + item.category]: true,
       "animated": this.props.animated,
-      "alert-dismissible": model.closable
+      "alert-dismissible": item.closable
     });
 
     return (
       <div className={classes} {...this.props}>
-        {model.closable ? <CloseLink onClick={() => alertActions.removeModel(model.id)}/> : ""}
-        {model.message}
+        {item.closable ? <CloseLink onClick={() => alertActions.removeItem(item.id)}/> : ""}
+        {item.message}
       </div>
     );
   }

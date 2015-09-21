@@ -9,16 +9,16 @@ import AlertItem from "frontend/components/item/alert";
 let CSSTransitionGroup = ReactAddons.addons.CSSTransitionGroup;
 
 @branch({
-  models: ["alertQueue"],
+  items: ["alertQueue"],
 })
 export default class AlertIndex extends DeepComponent {
   render() {
-    let {models} = this.props;
+    let {items} = this.props;
 
     return (
       <div className="special-layer top-right">
         <CSSTransitionGroup component="div" transitionName="fadeUp">
-          {map(model => <AlertItem model={model} key={model.id} animated={true}/>, models)}
+          {map(item => <AlertItem item={item} key={item.id} animated={true}/>, items)}
         </CSSTransitionGroup>
       </div>
     );

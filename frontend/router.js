@@ -40,7 +40,7 @@ let router = {
   }
 };
 
-let modelRouter = {
+let itemRouter = {
   makePath(route=undefined, id=undefined) {
     let [_route, _params] = getCurrentRouteAndParams(route);
     return window._router.makePath(_route, _params);
@@ -119,5 +119,5 @@ function getCurrentRouteAndQuery(route, query) {
 }
 
 export default {
-  router, modelRouter, indexRouter,
+  router, itemRouter, indexRouter,
 };

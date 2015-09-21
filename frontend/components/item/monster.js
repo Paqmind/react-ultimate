@@ -1,38 +1,38 @@
 import React from "react";
 import {Link} from "react-router";
-import modelActions from "frontend/actions/monster";
+import actions from "frontend/actions/monster";
 import {ShallowComponent} from "frontend/components/common";
 
 // COMPONENTS ======================================================================================
 export default class MonsterItem extends ShallowComponent {
   static propTypes = {
-    model: React.PropTypes.object,
+    item: React.PropTypes.object,
   }
 
   render() {
-    let model = this.props.model;
+    let item = this.props.item;
 
     return (
-      <div key={model.id} className="col-sm-6 col-md-3">
-        <div className="panel panel-default" key={model.id}>
+      <div key={item.id} className="col-sm-6 col-md-3">
+        <div className="panel panel-default" key={item.id}>
           <div className="panel-heading">
-            <h4 className="panel-title"><Link to="monster-detail" params={{id: model.id}}>{model.name}</Link></h4>
+            <h4 className="panel-title"><Link to="monster-detail" params={{id: item.id}}>{item.name}</Link></h4>
           </div>
           <div className="panel-body text-center nopadding">
-            <Link to="monster-detail" params={{id: model.id}}>
-              <img src={'http://robohash.org/' + model.id + '?set=set2&size=200x200'} width="200px" height="200px"/>
+            <Link to="monster-detail" params={{id: item.id}}>
+              <img src={'http://robohash.org/' + item.id + '?set=set2&size=200x200'} width="200px" height="200px"/>
             </Link>
           </div>
           <div className="panel-footer">
             <div className="clearfix">
               <div className="btn-group btn-group-sm pull-right">
-                <Link to="monster-detail" params={{id: model.id}} className="btn btn-blue" title="Detail">
+                <Link to="monster-detail" params={{id: item.id}} className="btn btn-blue" title="Detail">
                   <span className="fa fa-eye"></span>
                 </Link>
-                <Link to="monster-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
+                <Link to="monster-edit" params={{id: item.id}} className="btn btn-orange" title="Edit">
                   <span className="fa fa-edit"></span>
                 </Link>
-                <a className="btn btn-red" title="Remove" onClick={() => modelActions.removeModel(model.id)}>
+                <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(item.id)}>
                   <span className="fa fa-times"></span>
                 </a>
               </div>

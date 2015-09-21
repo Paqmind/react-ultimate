@@ -4,40 +4,40 @@ import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
-import modelActions from "frontend/actions/monster";
-import {ShallowComponent, DeepComponent, ModelLink, Loading, NotFound} from "frontend/components/common";
+import actions from "frontend/actions/monster";
+import {ShallowComponent, DeepComponent, ItemLink, Loading, NotFound} from "frontend/components/common";
 
 // COMPONENTS ======================================================================================
 @statics({
-  loadData: modelActions.establishModel,
+  loadData: actions.establishItem,
 })
 @branch({
   havePendingRequests: ["monsters", "$havePendingRequests"],
-  model: ["monsters", "$currentModel"],
+  item: ["monsters", "$currentItem"],
 })
 export default class MonsterDetail extends DeepComponent {
   render() {
-    let {havePendingRequests, model} = this.props;
+    let {havePendingRequests, item} = this.props;
 
-    if (model) {
+    if (item) {
       return (
-        <DocumentTitle title={"Detail " + model.name}>
+        <DocumentTitle title={"Detail " + item.name}>
           <div>
             <Actions {...this.props}/>
             <section className="container margin-top-lg">
               <div className="row">
                 <div className="col-xs-12 col-sm-3">
                   <div className="thumbnail">
-                    <img src={"http://robohash.org/" + model.id + "?set=set2&size=200x200"} width="200px" height="200px"/>
+                    <img src={"http://robohash.org/" + item.id + "?set=set2&size=200x200"} width="200px" height="200px"/>
                   </div>
                 </div>
                 <div className="col-xs-12 col-sm-9">
-                  <h1 className="nomargin-top">{model.name}</h1>
+                  <h1 className="nomargin-top">{item.name}</h1>
                   <dl>
                     <dt>Serial Number</dt>
-                    <dd>{model.id}</dd>
+                    <dd>{item.id}</dd>
                     <dt>Manufacturer</dt>
-                    <dd>{model.manufacturer}</dd>
+                    <dd>{item.manufacturer}</dd>
                   </dl>
                 </div>
               </div>
@@ -55,7 +55,7 @@ export default class MonsterDetail extends DeepComponent {
 
 class Actions extends ShallowComponent {
   render() {
-    let {model} = this.props;
+    let {item} = this.props;
 
     return (
       <div className="actions">
@@ -70,10 +70,10 @@ class Actions extends ShallowComponent {
             <Link to="monster-add" className="btn btn-sm btn-green" title="Add">
               <span className="fa fa-plus"></span>
             </Link>
-            <ModelLink to="monster-edit" params={{id: model.id}} className="btn btn-orange" title="Edit">
+            <ItemLink to="monster-edit" params={{id: item.id}} className="btn btn-orange" title="Edit">
               <span className="fa fa-edit"></span>
-            </ModelLink>
-            <a className="btn btn-red" title="Remove" onClick={() => modelActions.removeModel(model.id)}>
+            </ItemLink>
+            <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(item.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>
@@ -84,4 +84,4 @@ class Actions extends ShallowComponent {
 }
 
 //<dt>Birth Date</dt>
-//<dd>{model.birthDate}</dd>
+//<dd>{item.birthDate}</dd>

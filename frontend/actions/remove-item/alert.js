@@ -7,8 +7,8 @@ let $alertQueue = state.select("alertQueue");
 let $alertTimeout = state.select("alertTimeout");
 
 // ACTIONS =========================================================================================
-// Id -> Maybe Model
-export default function removeModel(id) {
+// Id -> Maybe Item
+export default function removeItem(id) {
   let alertQueue = $alertQueue.get();
   let i = findIndex(m => m.id == id, alertQueue);
   if (i >= 0) {

@@ -10,20 +10,20 @@ import fetchIndex from "frontend/actions/fetch-index/monster";
 // CURSORS =========================================================================================
 let $url = state.select("url");
 let $data = state.select(api.plural);
-let $models = $data.select("models");
+let $items = $data.select("items");
 
 // ACTIONS =========================================================================================
-// Id -> Maybe Model
-export default function removeModel(id) {
-  console.debug(api.plural + `.removeModel(${id})`);
+// Id -> Maybe Item
+export default function removeItem(id) {
+  console.debug(api.plural + `.removeItem(${id})`);
 
-  let {models, pagination} = $data.get();
+  let {items, pagination} = $data.get();
 
   // Optimistic update
-  let oldModel = models[id];
+  let oldMonster = items[id];
   let oldIndex = indexOf(id, pagination);
 
-  $models.unset(id);
+  $items.unset(id);
   $data.apply("total", t => t ? t - 1 : t);
   $data.apply("pagination", pp => reject(_id => _id == id, pp));
 
@@ -48,14 +48,14 @@ export default function removeModel(id) {
             fetchIndex(filters, sorts, offset + limit - 1, 1);
           }
         }
-        return oldModel;
+        return oldMonster;
       } else {
-        $models.set(id, oldModel);
+        $items.set(id, oldItem);
         $data.apply("total", t => t + 1);
         if (oldIndex != -1) {
           $data.apply("pagination", pp => insert(oldIndex, id, pp));
         }
-        alertActions.addModel({message: "Remove Monster failed with message " + response.statusText, category: "error"});
+        alertActions.addItem({message: "Remove Monster failed with message " + response.statusText, category: "error"});
         return;
       }
     });

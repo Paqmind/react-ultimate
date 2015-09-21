@@ -6,7 +6,7 @@ import {branch} from "baobab-react/decorators";
 import {toArray} from "shared/helpers/common";
 import {statics} from "frontend/helpers/react";
 import state, {MONSTER} from "frontend/state";
-import modelActions from "frontend/actions/monster";
+import actions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/common";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import MonsterItem from "frontend/components/item/monster";
@@ -16,7 +16,7 @@ let $data = state.select("monsters");
 
 // COMPONENTS ======================================================================================
 @statics({
-  loadData: modelActions.loadIndex,
+  loadData: actions.loadIndex,
 })
 @branch({
   filters: ["monsters", "filters"],
@@ -24,11 +24,11 @@ let $data = state.select("monsters");
   offset: ["monsters", "offset"],
   limit: ["monsters", "limit"],
   total: ["monsters", "total"],
-  models: ["monsters", "$currentModels"],
+  items: ["monsters", "$currentItems"],
 })
 export default class MonsterIndex extends DeepComponent {
   render() {
-    let {filters, sorts, offset, limit, total, models} = this.props;
+    let {filters, sorts, offset, limit, total, items} = this.props;
 
     let pagination = <Pagination
       onClick={_offset => this.setOffset(_offset)}
@@ -42,7 +42,7 @@ export default class MonsterIndex extends DeepComponent {
             <h1>Monsters</h1>
             {pagination}
             <div className="row">
-              {map(model => <MonsterItem model={model} key={model.id}/>, models)}
+              {map(item => <MonsterItem item={item} key={item.id}/>, items)}
             </div>
             {pagination}
           </section>
@@ -53,7 +53,7 @@ export default class MonsterIndex extends DeepComponent {
 
   setOffset(offset) {
     $data.set("offset", offset || MONSTER.index.offset);
-    modelActions.loadIndex();
+    actions.loadIndex();
   }
 }
 
@@ -106,7 +106,7 @@ class Actions extends ShallowComponent {
         $data.set("total", 0);
       }
     }
-    modelActions.loadIndex();
+    actions.loadIndex();
   }
 
   setSorts(sorts) {
@@ -118,11 +118,11 @@ class Actions extends ShallowComponent {
         $data.set("total", 0);
       }
     }
-    modelActions.loadIndex();
+    actions.loadIndex();
   }
 
   setLimit(limit) {
     $data.set("limit", limit || MONSTER.index.limit);
-    modelActions.loadIndex();
+    actions.loadIndex();
   }
 }

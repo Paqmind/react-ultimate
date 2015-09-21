@@ -7,7 +7,7 @@ import fetchIndex from "frontend/actions/fetch-index/robot";
 
 // CURSORS =========================================================================================
 let $data = state.select(api.plural);
-let $models = state.select("models");
+let $items = state.select("items");
 
 // ACTIONS =========================================================================================
 export default function loadIndex() {
@@ -22,9 +22,9 @@ export default function loadIndex() {
       return Promise.resolve([]); // TODO ?!
     } else {
       if (inCache(offset, limit, total, pagination)) {
-        // return cached models
+        // return cached items
         return Promise.resolve(reduce(
-          (memo, id) => assoc(memo, id, $models.get(id)),
+          (memo, id) => assoc(memo, id, $items.get(id)),
           {}, pagination.slice(offset, offset + limit)
         ));
       } else {
@@ -43,9 +43,9 @@ export default function loadIndex() {
             return []; // TODO ?!
           }
         }
-        // return fetched models
+        // return fetched items
         return reduce(
-          (memo, id) => assoc(memo, id, $models.get(id)),
+          (memo, id) => assoc(memo, id, $items.get(id)),
           {}, pagination.slice(offset, offset + limit)
         );
     });

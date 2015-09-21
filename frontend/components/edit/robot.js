@@ -7,43 +7,43 @@ import DocumentTitle from "react-document-title";
 import {formatQuery} from "shared/helpers/jsonapi";
 import {parseString, parseInteger, parseFloat, parseDate} from "shared/converters";
 import {formatString, formatInteger, formatFloat, formatDate} from "shared/converters";
-import modelValidators from "shared/validators/robot";
+import itemValidators from "shared/validators/robot";
 import {statics} from "frontend/helpers/react";
-import modelActions from "frontend/actions/robot";
+import actions from "frontend/actions/robot";
 import alertActions from "frontend/actions/alert";
-import {ShallowComponent, ModelLink} from "frontend/components/common";
+import {ShallowComponent, ItemLink} from "frontend/components/common";
 import {Form} from "frontend/components/form";
 
 // COMPONENTS ======================================================================================
 @statics({
-  loadData: modelActions.establishModel,
+  loadData: actions.establishItem,
 })
 @branch({
   filters: ["robots", "filters"],
   sorts: ["robots", "sorts"],
   offset: ["robots", "offset"],
   limit: ["robots", "limit"],
-  model: ["robots", "$currentModel"],
+  item: ["robots", "$currentItem"],
 })
 export default class RobotEdit extends Form {
   constructor(props) {
     super();
     this.state = {
       // Raw state for all fields
-      form: clone(props.model),
+      form: clone(props.item),
       // Validated and converter state for action
-      model: clone(props.model),
+      item: clone(props.item),
       // Errors
       errors: {},
       // Validation schema
-      schema: modelValidators.model,
+      schema: itemValidators.item,
     };
   }
 
   componentWillReceiveProps(props) {
     this.setState({
-      form: clone(props.model),
-      model: clone(props.model),
+      form: clone(props.item),
+      item: clone(props.item),
       errors: {},
     });
   }
@@ -120,7 +120,7 @@ export default class RobotEdit extends Form {
   handleSubmit() {
     this.validate().then(isValid => {
       if (isValid) {
-        modelActions.editModel(this.state.model);
+        actions.editItem(this.state.item);
       }
     });
   }
@@ -144,10 +144,10 @@ class Actions extends ShallowComponent {
             <Link to="robot-add" className="btn btn-sm btn-green" title="Add">
               <span className="fa fa-plus"></span>
             </Link>
-            <ModelLink to="robot-detail" params={{id: form.id}} className="btn btn-blue" title="Detail">
+            <ItemLink to="robot-detail" params={{id: form.id}} className="btn btn-blue" title="Detail">
               <span className="fa fa-eye"></span>
-            </ModelLink>
-            <a className="btn btn-red" title="Remove" onClick={() => modelActions.removeModel(form.id)}>
+            </ItemLink>
+            <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(form.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>
@@ -158,9 +158,9 @@ class Actions extends ShallowComponent {
 }
 
 /*
-<TextInput label="Name" placeholder="Name" id="model.name" form={this}/>
-<TextInput label="Assembly Date" placeholder="Assembly Date" id="model.assemblyDate" form={this}/>
-<TextInput label="Manufacturer" placeholder="Manufacturer" id="model.manufacturer" form={this}/>
+<TextInput label="Name" placeholder="Name" id="item.name" form={this}/>
+<TextInput label="Assembly Date" placeholder="Assembly Date" id="item.assemblyDate" form={this}/>
+<TextInput label="Manufacturer" placeholder="Manufacturer" id="item.manufacturer" form={this}/>
 */
 
 //(this.validatorTypes().manufacturer._flags.presence == "required")

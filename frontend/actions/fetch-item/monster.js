@@ -1,23 +1,23 @@
 import api from "shared/api/monster";
-import Model from "shared/models/monster";
+import Monster from "shared/types/monster";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 
 // CURSORS =========================================================================================
 let $data = state.select(api.plural);
-let $models = $data.select("models");
+let $items = $data.select("items");
 
 // ACTIONS =========================================================================================
-// Id -> Maybe Model
-export default function fetchModel(id) {
-  console.debug(api.plural + `.fetchModel(${id})`);
+// Id -> Maybe Monster
+export default function fetchItem(id) {
+  console.debug(api.plural + `.fetchItem(${id})`);
 
   return ajax.get(api.itemUrl.replace(":id", id))
     .then(response => {
       if (response.status.startsWith("2")) {
-        let model = Model(response.data.data);
-        $models.set(id, model);
-        return model;
+        let item = Monster(response.data.data);
+        $items.set(id, item);
+        return item;
       } else {
         return;
       }

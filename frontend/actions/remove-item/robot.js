@@ -11,20 +11,20 @@ import fetchIndex from "frontend/actions/fetch-index/robot";
 // CURSORS =========================================================================================
 let $url = state.select("url");
 let $data = state.select(api.plural);
-let $models = $data.select("models");
+let $items = $data.select("items");
 
 // ACTIONS =========================================================================================
-// Id -> Maybe Model
-export default function removeModel(id) {
-  console.debug(api.plural + `.removeModel(${id})`);
+// Id -> Maybe Robot
+export default function removeItem(id) {
+  console.debug(api.plural + `.removeItem(${id})`);
 
-  let {models, pagination} = $data.get();
+  let {items, pagination} = $data.get();
 
   // Optimistic update
-  let oldModel = models[id];
+  let oldRobot = items[id];
   let oldIndex = indexOf(id, pagination);
 
-  $models.unset(id);
+  $items.unset(id);
   $data.apply("total", t => t ? t - 1 : t);
   $data.apply("pagination", pp => reject(_id => _id == id, pp));
 
@@ -49,14 +49,14 @@ export default function removeModel(id) {
             fetchIndex(filters, sorts, offset + limit - 1, 1);
           }
         }
-        return oldModel;
+        return oldRobot;
       } else {
-        $models.set(id, oldModel);
+        $items.set(id, oldRobot);
         $data.apply("total", t => t + 1);
         if (oldIndex != -1) {
           $data.apply("pagination", pp => insert(oldIndex, id, pp));
         }
-        alertActions.addModel({message: "Remove Robot failed with message " + response.statusText, category: "error"});
+        alertActions.addItem({message: "Remove Robot failed with message " + response.statusText, category: "error"});
         return;
       }
     });

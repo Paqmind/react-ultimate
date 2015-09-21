@@ -6,14 +6,14 @@ import {branch} from "baobab-react/decorators";
 import {toArray} from "shared/helpers/common";
 import {statics} from "frontend/helpers/react";
 import {indexRouter} from "frontend/router";
-import modelActions from "frontend/actions/robot";
+import actions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/common";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import RobotItem from "frontend/components/item/robot";
 
 // COMPONENTS ======================================================================================
 @statics({
-  loadData: modelActions.establishIndex,
+  loadData: actions.establishIndex,
 })
 @branch({
   filters: ["robots", "filters"],
@@ -21,11 +21,11 @@ import RobotItem from "frontend/components/item/robot";
   offset: ["robots", "offset"],
   limit: ["robots", "limit"],
   total: ["robots", "total"],
-  models: ["robots", "$currentModels"],
+  items: ["robots", "$currentItems"],
 })
 export default class RobotIndex extends DeepComponent {
   render() {
-    let {filters, sorts, offset, limit, total, models} = this.props;
+    let {filters, sorts, offset, limit, total, items} = this.props;
 
     let pagination = <Pagination
       makeHref={_offset => this.showOffset(_offset)}
@@ -40,7 +40,7 @@ export default class RobotIndex extends DeepComponent {
             <h1>Robots</h1>
             {pagination}
             <div className="row">
-              {map(model => <RobotItem model={model} key={model.id}/>, models)}
+              {map(item => <RobotItem item={item} key={item.id}/>, items)}
             </div>
             {pagination}
           </section>

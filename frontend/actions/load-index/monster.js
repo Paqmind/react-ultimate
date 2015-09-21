@@ -6,7 +6,7 @@ import fetchIndex from "frontend/actions/fetch-index/monster";
 
 // CURSORS =========================================================================================
 let $data = state.select(api.plural);
-let $models = $data.select("models");
+let $items = $data.select("items");
 
 // ACTIONS =========================================================================================
 export default function loadIndex() {
@@ -21,9 +21,9 @@ export default function loadIndex() {
       return loadIndex(filters, sorts, offset, limit);
     } else {
       if (inCache(offset, limit, total, pagination)) {
-        // return cached models
+        // return cached items
         return Promise.resolve(reduce(
-          (memo, id) => assoc(memo, id, $models.get(id)),
+          (memo, id) => assoc(memo, id, $items.get(id)),
           {}, pagination.slice(offset, offset + limit)
         ));
       } else {
@@ -42,9 +42,9 @@ export default function loadIndex() {
             return loadIndex(filters, sorts, offset, limit);
           }
         }
-        // return fetched models
+        // return fetched items
         return reduce(
-          (memo, id) => assoc(memo, id, $models.get(id)),
+          (memo, id) => assoc(memo, id, $items.get(id)),
           {}, pagination.slice(offset, offset + limit)
         );
     });

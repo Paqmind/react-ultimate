@@ -27,7 +27,7 @@ window._state = new Baobab(
     robots: {
       // DATA
       total: 0,
-      models: {},
+      items: {},
       pagination: [],
 
       // INDEX
@@ -62,39 +62,39 @@ window._state = new Baobab(
         }
       ],
 
-      $currentModel: [
-        ["robots", "models"],
+      $currentItem: [
+        ["robots", "items"],
         ["robots", "id"],
-        function (models, id) {
+        function (items, id) {
           if (id) {
-            return models[id];
+            return items[id];
           } else {
             return;
           }
         }
       ],
 
-      $currentModels: [
+      $currentItems: [
         ["robots", "filters"],
         ["robots", "sorts"],
         ["robots", "offset"],
         ["robots", "limit"],
-        ["robots", "models"],
+        ["robots", "items"],
         ["robots", "pagination"],
         ["robots", "$fullLoad"],
-        function (filters, sorts, offset, limit, models, pagination, fullLoad) {
-          let modelsArray = map(id => id && models[id], pagination);
+        function (filters, sorts, offset, limit, items, pagination, fullLoad) {
+          let itemsArray = map(id => id && items[id], pagination);
           return pipe(
             fullLoad ? filterByAll(filters) : identity,
             fullLoad ? sortByAll(sorts) : identity,
             slice(offset, offset + limit),
             filter(m => m)
-          )(modelsArray);
+          )(itemsArray);
         }
       ],
 
       // Quick hack until Form will be implemented as Component
-      $emptyModel: [
+      $emptyItem: [
         ["url"],
         function (url) {
           return {
@@ -109,7 +109,7 @@ window._state = new Baobab(
     monsters: {
       // DATA
       total: 0,
-      models: {},
+      items: {},
       pagination: [],
 
       // INDEX
@@ -144,39 +144,39 @@ window._state = new Baobab(
         }
       ],
 
-      $currentModel: [
-        ["monsters", "models"],
+      $currentItem: [
+        ["monsters", "items"],
         ["monsters", "id"],
-        function (models, id) {
+        function (items, id) {
           if (id) {
-            return models[id];
+            return items[id];
           } else {
             return;
           }
         }
       ],
 
-      $currentModels: [
+      $currentItems: [
         ["monsters", "filters"],
         ["monsters", "sorts"],
         ["monsters", "offset"],
         ["monsters", "limit"],
-        ["monsters", "models"],
+        ["monsters", "items"],
         ["monsters", "pagination"],
         ["monsters", "$fullLoad"],
-        function (filters, sorts, offset, limit, models, pagination, fullLoad) {
-          let modelsArray = map(id => id && models[id], pagination);
+        function (filters, sorts, offset, limit, items, pagination, fullLoad) {
+          let itemsArray = map(id => id && items[id], pagination);
           return pipe(
             fullLoad ? filterByAll(filters) : identity,
             fullLoad ? sortByAll(sorts) : identity,
             slice(offset, offset + limit),
             filter(m => m)
-          )(modelsArray);
+          )(itemsArray);
         }
       ],
 
       // Quick hack until Form will be implemented as Component
-      $emptyModel: [
+      $emptyItem: [
         ["url"],
         function (url) {
           return {

@@ -1,6 +1,6 @@
 import {append, reject} from "ramda";
 import api from "shared/api/robot";
-import Model from "shared/models/robot";
+import Robot from "shared/items/robot";
 import state from "frontend/state";
 import {router} from "frontend/router";
 import ajax from "frontend/ajax";
@@ -9,19 +9,19 @@ import alertActions from "frontend/actions/alert";
 // CURSORS =========================================================================================
 let $url = state.select("url");
 let $data = state.select(api.plural);
-let $models = $data.select("models");
+let $items = $data.select("items");
 
 // ACTIONS =========================================================================================
-// ModelData -> Maybe Model
-export default function addModel(model) {
-  console.debug(api.plural + `.addModel(...)`);
+// Object -> Maybe Robot
+export default function addItem(data) {
+  console.debug(api.plural + `.addItem(...)`);
 
-  model = Model(model);
-  let id = model.id;
+  let item = Robot(data);
+  let id = item.id;
 
   // Optimistic update
   $data.apply("total", t => t + 1);
-  $models.set(id, model);
+  $items.set(id, item);
 
   if ($data.get("$fullLoad")) {
     // Inject new id at whatever place
@@ -34,23 +34,23 @@ export default function addModel(model) {
 
   if ($url.get("route") == api.singular + "-add") {
     setImmediate(() => {
-      router.transitionTo(api.singular + "-detail", {id: model.id});
+      router.transitionTo(api.singular + "-detail", {id: item.id});
     });
   }
 
-  return ajax.put(api.itemUrl.replace(":id", id), model)
+  return ajax.put(api.itemUrl.replace(":id", id), item)
     .then(response => {
-      let {total, models, pagination} = $data.get();
+      let {total, items, pagination} = $data.get();
       if (response.status.startsWith("2")) {
         if (response.status == "200" && response.data.data) {
-          model = $models.set(id, Model(response.data.data));
+          item = $items.set(id, Robot(response.data.data));
         }
-        return model;
+        return item;
       } else {
-        $models.unset(id);
+        $items.unset(id);
         $data.apply("total", t => t ? t - 1 : t);
-        $data.apply("pagination", pp => reject(id => id == model.id, pp));
-        alertActions.addModel({message: "Add Robot failed with message " + response.statusText, category: "error"});
+        $data.apply("pagination", pp => reject(id => id == item.id, pp));
+        alertActions.addItem({message: "Add Robot failed with message " + response.statusText, category: "error"});
         return;
       }
     });
