@@ -4,12 +4,10 @@ import {ROBOT} from "frontend/constants";
 import state from "frontend/state";
 import loadIndex from "frontend/actions/load-index/robot";
 
-// CURSORS =========================================================================================
 let $url = state.select("url");
 let $urlQuery = state.select("$urlQuery");
 let $data = state.select(api.plural);
 
-// ACTIONS =========================================================================================
 export default function establishIndex() {
   console.debug(api.plural + `.establishIndex()`);
 

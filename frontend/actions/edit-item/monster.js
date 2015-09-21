@@ -1,22 +1,21 @@
 import api from "shared/api/monster";
-import Monster from "shared/items/monster";
+import {Monster} from "shared/types/monster";
+import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 
-// CURSORS =========================================================================================
 let $data = state.select(api.plural);
 let $items = $data.select("items");
 
-// ACTIONS =========================================================================================
 // Object -> Maybe Monster
 export default function editItem(data) {
   console.debug(api.plural + `.editItem(${data.id})`);
 
-  let item = Monster(data);
+  let item = parseAs(data, Monster);
   let id = item.id;
 
   // Optimistic update
-  let oldMonster = $items.get(id);
+  let oldItem = $items.get(id);
   $items.set(id, item);
 
   return ajax.put(api.itemUrl.replace(":id", id), item)
@@ -27,9 +26,8 @@ export default function editItem(data) {
         }
         return item;
       } else {
-        $items.set(id, oldMonster);
-        alertActions.addItem({message: "Edit Monster failed with message " + response.statusText, category: "error"});
-        return;
+        $items.set(id, oldItem);
+        throw Error(response.statusText);
       }
     });
 }

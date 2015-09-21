@@ -1,4 +1,4 @@
-import {indexOf, reject} from "ramda";
+import {indexOf, insert, reject} from "ramda";
 import api from "shared/api/robot";
 import {recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
@@ -8,12 +8,10 @@ import ajax from "frontend/ajax";
 import alertActions from "frontend/actions/alert";
 import fetchIndex from "frontend/actions/fetch-index/robot";
 
-// CURSORS =========================================================================================
 let $url = state.select("url");
 let $data = state.select(api.plural);
 let $items = $data.select("items");
 
-// ACTIONS =========================================================================================
 // Id -> Maybe Robot
 export default function removeItem(id) {
   console.debug(api.plural + `.removeItem(${id})`);
@@ -21,7 +19,7 @@ export default function removeItem(id) {
   let {items, pagination} = $data.get();
 
   // Optimistic update
-  let oldRobot = items[id];
+  let oldItem = items[id];
   let oldIndex = indexOf(id, pagination);
 
   $items.unset(id);
@@ -49,15 +47,15 @@ export default function removeItem(id) {
             fetchIndex(filters, sorts, offset + limit - 1, 1);
           }
         }
-        return oldRobot;
+        return oldItem;
       } else {
-        $items.set(id, oldRobot);
+        $items.set(id, oldItem);
         $data.apply("total", t => t + 1);
         if (oldIndex != -1) {
           $data.apply("pagination", pp => insert(oldIndex, id, pp));
         }
         alertActions.addItem({message: "Remove Robot failed with message " + response.statusText, category: "error"});
-        return;
+        return undefined;
       }
     });
 }

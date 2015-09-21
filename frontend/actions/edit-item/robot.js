@@ -1,5 +1,6 @@
 import api from "shared/api/robot";
-import Robot from "shared/types/robot";
+import {Robot} from "shared/types/robot";
+import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 
@@ -10,7 +11,7 @@ let $items = $data.select("items");
 export default function editItem(data) {
   console.debug(api.plural + `.editItem(${data.id})`);
 
-  let item = Robot(data);
+  let item = parseAs(data, Robot);
   let id = item.id;
 
   // Optimistic update
@@ -26,8 +27,7 @@ export default function editItem(data) {
         return item;
       } else {
         $items.set(id, oldItem);
-        alertActions.addItem({message: "Edit Robot failed with message " + response.statusText, category: "error"});
-        return;
+        throw Error(response.statusText);
       }
     });
 }

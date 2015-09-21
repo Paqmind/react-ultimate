@@ -1,13 +1,11 @@
 import api from "shared/api/monster";
-import Monster from "shared/types/monster";
+import {Monster} from "shared/types/monster";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 
-// CURSORS =========================================================================================
 let $data = state.select(api.plural);
 let $items = $data.select("items");
 
-// ACTIONS =========================================================================================
 // Id -> Maybe Monster
 export default function fetchItem(id) {
   console.debug(api.plural + `.fetchItem(${id})`);
@@ -19,7 +17,7 @@ export default function fetchItem(id) {
         $items.set(id, item);
         return item;
       } else {
-        return;
+        return undefined;
       }
     });
 }

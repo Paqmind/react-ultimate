@@ -5,11 +5,9 @@ import state from "frontend/state";
 import {indexRouter} from "frontend/router";
 import fetchIndex from "frontend/actions/fetch-index/robot";
 
-// CURSORS =========================================================================================
 let $data = state.select(api.plural);
 let $items = state.select("items");
 
-// ACTIONS =========================================================================================
 export default function loadIndex() {
   console.debug(api.plural + ".loadIndex()");
 

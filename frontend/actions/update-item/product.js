@@ -2,25 +2,23 @@ import api from "shared/api/product";
 import Product from "shared/types/product";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
+import alertActions from "frontend/actions/alert";
 
-// CURSORS =========================================================================================
 let $data = state.select(api.plural);
 let $items = $data.select("items");
 
-// ACTIONS =========================================================================================
 // Object -> Maybe Product
-function updateItem(dataFragment) {
-  console.debug(api.plural + `.updateItem(${dataFragment.id})`);
+function updateItem(data) {
+  console.debug(api.plural + `.updateItem(${data.id})`);
 
-  // TODO check for itemFragment.id ?!
-
-  let id = itemFragment.id;
+  // TODO check for data.id ?!
+  let id = data.id;
 
   // Optimistic update
-  let oldProduct = $items.get(id);
-  let item = $items.merge(id, itemFragment);
+  let oldItem = $items.get(id);
+  let item = $items.merge(id, data);
 
-  return ajax.patch(api.itemUrl.replace(":id", id), itemFragment)
+  return ajax.patch(api.itemUrl.replace(":id", id), data)
     .then(response => {
       if (response.status.startsWith("2")) {
         if (response.status == "200" && response.data.data) {
@@ -28,20 +26,20 @@ function updateItem(dataFragment) {
         }
         return item;
       } else {
-        $items.set(id, oldProduct);
+        $items.set(id, oldItem);
         alertActions.addItem({message: "Edit Product failed with message " + response.statusText, category: "error"});
-        return;
+        return undefined;
       }
     });
 }
 
-function updateItemUnsync(itemFragment) {
+function updateItemUnsync(data) {
   console.debug(api.plural + `.updateItemUnsync(...)`);
 
-  // TODO check for itemFragment.id ?!
+  // TODO check for data.id ?!
 
-  let id = itemFragment.id;
-  let item = $items.merge(id, itemFragment);
+  let id = data.id;
+  let item = $items.merge(id, data);
 
   return Promise.resolve(item);
 }

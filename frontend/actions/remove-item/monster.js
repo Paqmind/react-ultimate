@@ -1,4 +1,4 @@
-import {indexOf, reject} from "ramda";
+import {indexOf, insert, reject} from "ramda";
 import api from "shared/api/monster";
 import {recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
@@ -7,20 +7,18 @@ import ajax from "frontend/ajax";
 import alertActions from "frontend/actions/alert";
 import fetchIndex from "frontend/actions/fetch-index/monster";
 
-// CURSORS =========================================================================================
 let $url = state.select("url");
 let $data = state.select(api.plural);
 let $items = $data.select("items");
 
-// ACTIONS =========================================================================================
-// Id -> Maybe Item
+// Id -> Maybe Monster
 export default function removeItem(id) {
   console.debug(api.plural + `.removeItem(${id})`);
 
   let {items, pagination} = $data.get();
 
   // Optimistic update
-  let oldMonster = items[id];
+  let oldItem = items[id];
   let oldIndex = indexOf(id, pagination);
 
   $items.unset(id);
@@ -48,7 +46,7 @@ export default function removeItem(id) {
             fetchIndex(filters, sorts, offset + limit - 1, 1);
           }
         }
-        return oldMonster;
+        return oldItem;
       } else {
         $items.set(id, oldItem);
         $data.apply("total", t => t + 1);
@@ -56,7 +54,7 @@ export default function removeItem(id) {
           $data.apply("pagination", pp => insert(oldIndex, id, pp));
         }
         alertActions.addItem({message: "Remove Monster failed with message " + response.statusText, category: "error"});
-        return;
+        return undefined;
       }
     });
 }

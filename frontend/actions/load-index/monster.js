@@ -4,11 +4,9 @@ import {inCache, getTotalPages, recommendOffset} from "frontend/helpers/paginati
 import state from "frontend/state";
 import fetchIndex from "frontend/actions/fetch-index/monster";
 
-// CURSORS =========================================================================================
 let $data = state.select(api.plural);
 let $items = $data.select("items");
 
-// ACTIONS =========================================================================================
 export default function loadIndex() {
   console.debug(api.plural + ".loadIndex()");
 

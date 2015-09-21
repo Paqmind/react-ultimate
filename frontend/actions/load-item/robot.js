@@ -2,11 +2,9 @@ import api from "shared/api/robot";
 import state from "frontend/state";
 import fetchItem from "frontend/actions/fetch-item/robot";
 
-// CURSORS =========================================================================================
 let $data = state.select(api.plural);
 let $items = $data.select("items");
 
-// ACTIONS =========================================================================================
 export default function loadItem() {
   console.debug(api.plural + `.loadItem()`);
 

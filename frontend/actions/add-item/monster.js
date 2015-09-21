@@ -1,22 +1,22 @@
-import {append, reject} from "ramda";
+import {append, assoc, reject} from "ramda";
+import UUID from "node-uuid";
 import api from "shared/api/monster";
-import Monster from "shared/items/monster";
+import {Monster} from "shared/types/monster";
+import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import {router} from "frontend/router";
 import ajax from "frontend/ajax";
-import alertActions from "frontend/actions/alert";
 
-// CURSORS =========================================================================================
 let $url = state.select("url");
 let $data = state.select(api.plural);
 let $items = $data.select("items");
 
-// ACTIONS =========================================================================================
 // Object -> Maybe Monster
 export default function addItem(data) {
   console.debug(api.plural + `.addItem(...)`);
 
-  let item = Monster(data);
+  data = assoc("id", data.id || UUID.v4(), data);
+  let item = parseAs(data, Monster);
   let id = item.id;
 
   // Optimistic update
@@ -50,8 +50,7 @@ export default function addItem(data) {
         $items.unset(id);
         $data.apply("total", t => t ? t - 1 : t);
         $data.apply("pagination", pp => reject(id => id == item.id, pp));
-        alertActions.addItem({message: "Add Monster failed with message " + response.statusText, category: "error"});
-        return;
+        throw Error(response.statusText);
       }
     });
 }

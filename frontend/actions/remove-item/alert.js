@@ -2,12 +2,10 @@ import {findIndex} from "ramda";
 import state from "frontend/state";
 import {processAlertQueue} from "frontend/alerts";
 
-// CURSORS =========================================================================================
 let $alertQueue = state.select("alertQueue");
 let $alertTimeout = state.select("alertTimeout");
 
-// ACTIONS =========================================================================================
-// Id -> Maybe Item
+// Id -> Maybe Alert
 export default function removeItem(id) {
   let alertQueue = $alertQueue.get();
   let i = findIndex(m => m.id == id, alertQueue);
@@ -20,6 +18,6 @@ export default function removeItem(id) {
     }
     return alertQueue[i];
   } else {
-    return;
+    return undefined;
   }
 }
