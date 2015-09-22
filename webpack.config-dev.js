@@ -1,9 +1,9 @@
 import Fs from "fs";
 import Path from "path";
 import {assoc, map, reduce} from "ramda";
-import Webpack from "webpack";
-import ExtractTextPlugin from "extract-text-webpack-plugin";
 import {Base64} from "js-base64";
+import Webpack from "webpack";
+import GlobalizePlugin from "globalize-webpack-plugin";
 
 // CONSTANTS =======================================================================================
 const NODE_MODULES_DIR = Path.join(__dirname, "node_modules");
@@ -38,8 +38,6 @@ export default {
   // Entry files: http://webpack.github.io/docs/configuration.html#entry
   entry: {
     bundle: "./frontend/app",
-
-    vendors: ["react", "react-router"],
   },
 
   // Output files: http://webpack.github.io/docs/configuration.html#output
@@ -78,7 +76,7 @@ export default {
     // http://webpack.github.io/docs/loaders.html
     loaders: [
       // JS
-      {test: /\.(js(\?.*)?)$/, loaders: ["react-hot", "babel?stage=0"], exclude: /node_modules/},
+      {test: /\.(js(\?.*)?)$/, loaders: ["babel?stage=0"], exclude: /node_modules/},
 
       // JSON
       {test: /\.(json(\?.*)?)$/,  loaders: ["json"]},
@@ -109,10 +107,10 @@ export default {
       {test: /\.(md(\?.*)?)$/, loaders: ["html", "markdown"]},
 
       // CSS: https://github.com/webpack/css-loader
-      {test: /\.(css(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css?sourceMap`)},
+      {test: /\.(css(\?.*)?)$/, loaders: ["css?sourceMap"]},
 
       // LESS: https://github.com/webpack/less-loader
-      {test: /\.(less(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css?sourceMap!less?sourceMap`)},
+      {test: /\.(less(\?.*)?)$/, loaders: ["css?sourceMap", "less?sourceMap"]},
     ],
   },
 
@@ -141,10 +139,15 @@ export default {
   plugins: [
     new Webpack.NoErrorsPlugin(),
     new Webpack.IgnorePlugin(/^vertx$/),
-    new Webpack.optimize.CommonsChunkPlugin("vendors", "vendors.js"),
-    new ExtractTextPlugin("[name].css"),
     new Webpack.DefinePlugin(DEFINE),
-    //  new Webpack.HotModuleReplacementPlugin(), TODO track https://github.com/gaearon/react-hot-loader/issues/125
+    new Webpack.optimize.DedupePlugin(),
+    new GlobalizePlugin({
+			production: false,
+			developmentLocale: "en",
+			supportedLocales: ["en", "ru"],
+			messages: "messages/[locale].json",
+			output: "i18n/[locale].[hash].js"
+		})
   ],
 
   // Include polyfills or mocks for various node stuff: http://webpack.github.io/docs/configuration.html#node

@@ -4,6 +4,7 @@
 /ignore/
 /logs/
 /test*.js
+.tmp-globalize-webpack
 
 # BY MASK ------------------------------------------------------------------------------------------
 .development

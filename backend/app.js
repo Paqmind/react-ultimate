@@ -8,6 +8,27 @@ import Fs from "fs";
 import Path from "path";
 import Express from "express";
 
+// GLOBALIZE =======================================================================================
+import Globalize from "globalize";
+import CldrGregorian from "cldr-data/main/en/ca-gregorian";
+import CldrCurrencies from "cldr-data/main/en/currencies";
+import CldrDateFields from "cldr-data/main/en/dateFields";
+import CldrNumbers from "cldr-data/main/en/numbers";
+import CldrCurrencyData from "cldr-data/supplemental/currencyData";
+import CldrLikelySubtags from "cldr-data/supplemental/likelySubtags";
+import CldrPlurals from "cldr-data/supplemental/plurals";
+import CldrTimeData from "cldr-data/supplemental/timeData";
+import CldrWeekData from "cldr-data/supplemental/weekData";
+
+Globalize.load(
+	CldrGregorian, CldrCurrencies,
+  CldrDateFields, CldrNumbers,
+  CldrLikelySubtags, CldrCurrencyData,
+  CldrPlurals, CldrTimeData, CldrWeekData
+);
+
+Globalize.locale("en");
+
 // CONSTANTS =======================================================================================
 const PROJECT_DIR = Path.dirname(__dirname);
 const NODE_MODULES_DIR = Path.join(PROJECT_DIR, "node_modules");

@@ -81,6 +81,7 @@ let sortByAll = curry((sorts, data) => {
   }, data, reverse(sorts));
 });
 
+// TODO Joi heritage. Remove?!!
 function flattenArrayObject(object, sorter=(v => v)) {
   let sortedKeys = sortBy(sorter, keys(object));
   return reduce((combinedArray, key) => {

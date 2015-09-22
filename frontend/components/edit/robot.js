@@ -70,8 +70,6 @@ export default class RobotEdit extends Form {
   render() {
     let {havePendingRequests, item, form, errors} = this.props;
 
-    console.log(item);
-
     if (item) {
       return (
         <DocumentTitle title={"Edit " + form.name}>

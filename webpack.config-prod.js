@@ -1,9 +1,11 @@
 import Fs from "fs";
 import Path from "path";
 import {assoc, map, reduce} from "ramda";
-import Webpack from "webpack";
-import ExtractTextPlugin from "extract-text-webpack-plugin";
 import {Base64} from "js-base64";
+import Webpack from "webpack";
+import GlobalizePlugin from "globalize-webpack-plugin";
+import CommonsChunkPlugin from "webpack/lib/optimize/CommonsChunkPlugin";
+import ExtractTextPlugin from "extract-text-webpack-plugin";
 
 // CONSTANTS =======================================================================================
 const NODE_MODULES_DIR = Path.join(__dirname, "node_modules");
@@ -41,7 +43,15 @@ export default {
   entry: {
     bundle: "./frontend/app",
 
-    vendors: ["react", "react-router"],
+		vendors: [
+			"globalize",
+			"globalize/dist/globalize-runtime/number",
+			"globalize/dist/globalize-runtime/plural",
+			"globalize/dist/globalize-runtime/message",
+			"globalize/dist/globalize-runtime/currency",
+			"globalize/dist/globalize-runtime/date",
+			"globalize/dist/globalize-runtime/relative-time"
+		],
   },
 
   // Output files: http://webpack.github.io/docs/configuration.html#output
@@ -143,10 +153,23 @@ export default {
   plugins: [
     new Webpack.NoErrorsPlugin(),
     new Webpack.IgnorePlugin(/^vertx$/),
+    new Webpack.DefinePlugin(DEFINE),
+    new Webpack.optimize.DedupePlugin(),
+		new Webpack.optimize.UglifyJsPlugin({
+			compress: {
+				warnings: false,
+			},
+		}),
     new Webpack.optimize.CommonsChunkPlugin("vendors", "vendors.js?[chunkhash]"),
     new Webpack.optimize.UglifyJsPlugin({mangle: {except: ["$", "window", "document", "console"]}}),
     new ExtractTextPlugin("[name].css?[contenthash]"),
-    new Webpack.DefinePlugin(DEFINE),
+    new GlobalizePlugin({
+			production: true,
+			developmentLocale: "en",
+			supportedLocales: ["en", "ru"],
+			messages: "messages/[locale].json",
+			output: "i18n/[locale].[hash].js"
+		}),
     function () {
       this.plugin("done", function (stats) {
         let jsonStats = stats.toJson({

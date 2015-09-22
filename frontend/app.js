@@ -1,6 +1,7 @@
 import "babel/polyfill";
 import "shared/shims"; // TODO except for prerender (isomorphic) step, because babel-node auto-injects it's polyfill
 import {filter, forEach, keys, map, pipe} from "ramda";
+import Globalize from "globalize";
 import React from "react";
 import {create as createRouter, HistoryLocation} from "react-router";
 import {parseDefault} from "shared/parsers";
