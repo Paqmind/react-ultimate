@@ -1,5 +1,5 @@
 import DeepMerge from "deep-merge";
-import {assoc, curry, forEach, filter, pipe, prop, keys, map, mapIndexed, range, reduce, reduceIndexed, reverse, slice, sortBy} from "ramda";
+import {assoc, curry, forEach, filter, pipe, prop, keys, length, map, mapIndexed, range, reduce, reduceIndexed, reverse, slice, sortBy, values} from "ramda";
 import debounce from "lodash.debounce";
 import throttle from "lodash.throttle";
 import flat from "flat";
@@ -89,12 +89,12 @@ function flattenArrayObject(object, sorter=(v => v)) {
   }, [], sortedKeys);
 }
 
-function flattenObject(obj) {
-  return flat(obj, {safe: true});
+function flattenObject(object) {
+  return flat(object, {safe: true});
 }
 
-function unflattenObject(obj) {
-  return flat.unflatten(obj, {object: false});
+function unflattenObject(object) {
+  return flat.unflatten(object, {object: false});
 }
 
 function toObject(array) {
@@ -118,9 +118,21 @@ function toArray(object) {
   }
 }
 
+function hasValues(object) {
+  return pipe(
+    flattenObject,
+    values,
+    filter(x => x !== undefined && x !== null),
+    length,
+    Boolean
+  )(object);
+}
+
 export default {
   isArray, isPlainObject,
   merge, assign, chunked, filterByAll, sortByAll,
   flattenArrayObject, flattenObject, unflattenObject,
-  toObject, toArray, debounce, throttle,
+  toObject, toArray,
+  hasValues,
+  debounce, throttle,
 };

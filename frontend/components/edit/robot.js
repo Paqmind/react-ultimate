@@ -6,14 +6,13 @@ import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import api from "shared/api/robot";
-import {debounce} from "shared/helpers/common";
+import {debounce, hasValues} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
 import {Robot} from "shared/types/robot";
 import {statics} from "frontend/helpers/react";
 import actions from "frontend/actions/robot";
 import alertActions from "frontend/actions/alert";
-import {ShallowComponent, ItemLink, NotFound} from "frontend/components/common";
-import {Form} from "frontend/components/form";
+import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 import state from "frontend/state";
 
 let $data = state.select(api.plural);
@@ -35,7 +34,7 @@ let validateFormDebounced = debounce(key => {
   form: [api.plural, "editForm"],
   errors: [api.plural, "editFormErrors"],
 })
-export default class RobotEdit extends Form {
+export default class RobotEdit extends DeepComponent {
   handleBlur(key) {
     actions.validateEditForm(key);
   }
@@ -141,7 +140,7 @@ export default class RobotEdit extends Form {
                   </fieldset>
                   <div className="btn-group">
                     <button className="btn btn-default" type="button" onClick={() => this.handleReset()}>Reset</button>
-                    <button className="btn btn-primary" type="button" onClick={() => this.handleSubmit()} disabled={this.hasErrors()}>Submit</button>
+                    <button className="btn btn-primary" type="button" onClick={() => this.handleSubmit()} disabled={hasValues(errors)}>Submit</button>
                   </div>
                 </div>
               </div>
