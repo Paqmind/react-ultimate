@@ -1,7 +1,7 @@
 import {filter, find, forEach, identity, keys, map, pipe, propEq, slice, sortBy, tap, values} from "ramda";
 import Baobab from "baobab";
 import throttle from "lodash.throttle";
-import {flattenArrayObject, filterByAll, sortByAll} from "shared/helpers/common";
+import {filterByAll, sortByAll} from "shared/helpers/common";
 import {parseQuery} from "shared/helpers/jsonapi";
 import robotApi from "shared/api/robot";
 import monsterApi from "shared/api/robot";
@@ -200,26 +200,8 @@ window._state = new Baobab(
     $urlQuery: [
       ["url", "query"],
       function (query) {
-        // Parse and validate URL Query
-        let parsedQuery = parseQuery(query);
-        // TODO
-        ////////////////////////////////////////////////////////////////////////////////////////////
-        //let [cleanedQuery, errors] = validate(parsedQuery, commonValidators.urlQuery);
-        let cleanedQuery = parsedQuery;
-        let errors = [];
-        ////////////////////////////////////////////////////////////////////////////////////////////
-        if (keys(errors).length) {
-          let humanReadableErrors = flattenArrayObject(errors).join(", ");
-          alert(`Invalid URL query params. Errors: ${humanReadableErrors}`);
-          throw Error(`Invalid URL query params. Errors: ${humanReadableErrors}`);
-        }
-
-        return {
-          filters: cleanedQuery.filters,
-          sorts: cleanedQuery.sorts,
-          offset: cleanedQuery.offset,
-          limit: cleanedQuery.limit,
-        };
+        let {filters, sorts, offset, limit} = parseQuery(query);
+        return {filters, sorts, offset, limit};
       }
     ],
   },

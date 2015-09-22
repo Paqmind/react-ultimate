@@ -81,14 +81,6 @@ let sortByAll = curry((sorts, data) => {
   }, data, reverse(sorts));
 });
 
-// TODO Joi heritage. Remove?!!
-function flattenArrayObject(object, sorter=(v => v)) {
-  let sortedKeys = sortBy(sorter, keys(object));
-  return reduce((combinedArray, key) => {
-    return combinedArray.concat(object[key]);
-  }, [], sortedKeys);
-}
-
 function flattenObject(object) {
   return flat(object, {safe: true});
 }
@@ -131,7 +123,7 @@ function hasValues(object) {
 export default {
   isArray, isPlainObject,
   merge, assign, chunked, filterByAll, sortByAll,
-  flattenArrayObject, flattenObject, unflattenObject,
+  flattenObject, unflattenObject,
   toObject, toArray,
   hasValues,
   debounce, throttle,
