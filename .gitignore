@@ -1,12 +1,11 @@
-# EXACT --------------------------------------------------------------------------------------------
+# EXCLUDE EXACT
 /build/
-/public/
 /ignore/
 /logs/
 /test*.js
 .tmp-globalize-webpack
 
-# BY MASK ------------------------------------------------------------------------------------------
+# EXCLUDE BY MASK
 .development
 .production
 .testing
@@ -15,3 +14,7 @@
 .DS_Store
 node_modules
 npm-debug.log
+/public/*
+
+# INCLUDE EXACT
+!/public/errors/
