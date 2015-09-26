@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# Seed public folder
-mkdir -p public
-
 # Seed code folders (enables absolute paths like `import x from "frontend"`)
 rm -f node_modules/shared   && ln -s ../shared   node_modules/shared
 rm -f node_modules/frontend && ln -s ../frontend node_modules/frontend
