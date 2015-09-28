@@ -17,7 +17,7 @@ export default class Loading extends Component {
   }
 
   render() {
-    let ajaxQueue = this.props.ajaxQueue;
+    let {ajaxQueue} = this.props;
     if (ajaxQueue.length) {
       return (
         <div className="special-layer top-left">
