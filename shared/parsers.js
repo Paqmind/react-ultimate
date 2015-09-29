@@ -72,6 +72,11 @@ function parseString(value) {
 }
 
 function parseTyped(data, type) {
+  // Replace `maybe` with contained type
+  if (type && type.meta && type.meta.kind == "maybe") {
+    type = type.meta.type;
+  }
+
   if (isArray(data)) {
     return map(v => parseTyped(v, type ? type.meta.type : undefined), data);
   } else if (isPlainObject(data)) {
