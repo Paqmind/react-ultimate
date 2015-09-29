@@ -3,7 +3,7 @@ import {Uid} from "./common";
 
 let MonsterName = Tc.subtype(Tc.String, x => {
   return x.length >= 2 && x.length <= 100;
-});
+}, "MonsterName");
 
 let MonsterCitizenship = Tc.enums.of(["China", "Russia", "USA"], "MonsterCitizenship");
 
