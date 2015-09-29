@@ -1,18 +1,19 @@
-import {dissoc} from "ramda";
 import Tc from "tcomb";
 import {Uid} from "./common";
 
-let Category = Tc.enums.of(["success", "error", "info", "warning"], "Category");
+let AlertCategory = Tc.enums.of(["success", "error", "info", "warning"], "AlertCategory");
 
-let AlertType = {
-  id: Uid,
+let AlmostAlert = Tc.struct({
   message: Tc.String,
-  category: Category,
+  category: AlertCategory,
   closable: Tc.Boolean,
   expire: Tc.Number,
-};
+}, "AlmostAlert");
+
+let Alert = AlmostAlert.extend({
+  id: Uid,
+}, "Alert");
 
 export default {
-  Alert: Tc.struct(AlertType, "Alert"),
-  AlmostAlert: Tc.struct(dissoc("id", AlertType), "AlmostAlert"),
+  AlmostAlert, Alert,
 };

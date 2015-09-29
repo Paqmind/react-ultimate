@@ -1,21 +1,22 @@
-import {dissoc} from "ramda";
 import Tc from "tcomb";
 import {Uid} from "./common";
 
-let Name = Tc.subtype(Tc.String, x => {
-  return x.length >= 1;
+let RobotName = Tc.subtype(Tc.String, x => {
+  return x.length >= 2 && x.length <= 100;
 });
 
-let Manufacturer = Tc.enums.of(["China", "Russia", "USA"], "Manufacturer");
+let RobotManufacturer = Tc.enums.of(["China", "Russia", "USA"], "RobotManufacturer");
 
-let RobotType = {
-  id: Uid,
-  name: Name,
-  manufacturer: Manufacturer,
+let AlmostRobot = Tc.struct({
+  name: RobotName,
+  manufacturer: RobotManufacturer,
   assemblyDate: Tc.Date,
-};
+}, "AlmostRobot");
+
+let Robot = AlmostRobot.extend({
+  id: Uid,
+}, "Robot");
 
 export default {
-  Robot: Tc.struct(RobotType, "Robot"),
-  AlmostRobot: Tc.struct(dissoc("id", RobotType), "AlmostRobot"),
+  AlmostRobot, Robot,
 };

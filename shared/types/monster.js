@@ -1,21 +1,22 @@
-import {dissoc} from "ramda";
 import Tc from "tcomb";
 import {Uid} from "./common";
 
-let Name = Tc.subtype(Tc.String, x => {
-  return x.length >= 2;
+let MonsterName = Tc.subtype(Tc.String, x => {
+  return x.length >= 2 && x.length <= 100;
 });
 
-let Citizenship = Tc.enums.of(["China", "Russia", "USA"], "Citizenship");
+let MonsterCitizenship = Tc.enums.of(["China", "Russia", "USA"], "MonsterCitizenship");
 
-let MonsterType = {
-  id: Uid,
-  name: Name,
-  citizenship: Citizenship,
+let AlmostMonster = Tc.struct({
+  name: MonsterName,
+  citizenship: MonsterCitizenship,
   birthDate: Tc.Date,
-};
+}, "AlmostMonster");
+
+let Monster = AlmostMonster.extend({
+  id: Uid,
+}, "Monster");
 
 export default {
-  Monster: Tc.struct(MonsterType, "Monster"),
-  AlmostMonster: Tc.struct(dissoc("id", MonsterType), "AlmostMonster"),
+  AlmostMonster, Monster,
 };
