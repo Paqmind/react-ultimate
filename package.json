@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "autoprefixer-loader": "https://registry.npmjs.org/autoprefixer-loader/-/autoprefixer-loader-2.1.0.tgz",
-    "axios": "^0.5.4",
+    "axios": "^0.7.0",
     "babel": "^5.4.7",
     "babel-core": "^5.4.7",
     "babel-eslint": "^4.1.3",
@@ -72,7 +72,6 @@
     "react-router": "^0.13.2",
     "readable-stream": "^1.1.13",
     "style-loader": "^0.12.3",
-    "superagent": "^1.3.0",
     "tcomb": "^2.4.0",
     "tcomb-validation": "^2.1.1",
     "url-loader": "^0.5.6",
