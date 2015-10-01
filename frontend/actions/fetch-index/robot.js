@@ -7,8 +7,8 @@ import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 
-let $data = state.select(api.plural);
-let $items = $data.select("items");
+let data$ = state.select(api.plural);
+let items$ = data$.select("items");
 
 // Filters, Sorts, Offset, Limit -> Maybe [Robot]
 export default function fetchIndex(filters, sorts, offset, limit) {
@@ -21,9 +21,9 @@ export default function fetchIndex(filters, sorts, offset, limit) {
       if (response.status.startsWith("2")) {
         let newItemsArray = map(data => parseAs(data, Robot), response.data.data);
         let newItems = toObject(newItemsArray);
-        $items.merge(newItems);
-        $data.set("total", response.data.meta.page.total);
-        $data.apply("pagination", pp => {
+        items$.merge(newItems);
+        data$.set("total", response.data.meta.page.total);
+        data$.apply("pagination", pp => {
           return reduceIndexed((memo, m, i) => {
               memo[offset + i] = m.id;
               return memo;

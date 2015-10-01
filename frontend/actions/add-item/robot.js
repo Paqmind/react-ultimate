@@ -7,9 +7,9 @@ import state from "frontend/state";
 import {router} from "frontend/router";
 import ajax from "frontend/ajax";
 
-let $url = state.select("url");
-let $data = state.select(api.plural);
-let $items = $data.select("items");
+let url$ = state.select("url");
+let data$ = state.select(api.plural);
+let items$ = data$.select("items");
 
 // Object -> Maybe Robot
 export default function addItem(data) {
@@ -20,19 +20,19 @@ export default function addItem(data) {
   let id = item.id;
 
   // Optimistic update
-  $data.apply("total", t => t + 1);
-  $items.set(id, item);
+  data$.apply("total", t => t + 1);
+  items$.set(id, item);
 
-  if ($data.get("$fullLoad")) {
+  if (data$.get("fullLoad")) {
     // Inject new id at whatever place
-    $data.apply("pagination", pp => append(id, pp));
+    data$.apply("pagination", pp => append(id, pp));
   } else {
     // Pagination is messed up, do reset
-    $data.set("total", 0);
-    $data.set("pagination", []);
+    data$.set("total", 0);
+    data$.set("pagination", []);
   }
 
-  if ($url.get("route") == api.singular + "-add") {
+  if (url$.get("route") == api.singular + "-add") {
     setImmediate(() => {
       router.transitionTo(api.singular + "-detail", {id: item.id});
     });
@@ -40,16 +40,16 @@ export default function addItem(data) {
 
   return ajax.put(api.itemUrl.replace(":id", id), item)
     .then(response => {
-      let {total, items, pagination} = $data.get();
+      let {total, items, pagination} = data$.get();
       if (response.status.startsWith("2")) {
         if (response.status == "200" && response.data.data) {
-          item = $items.set(id, Robot(response.data.data));
+          item = items$.set(id, Robot(response.data.data));
         }
         return item;
       } else {
-        $items.unset(id);
-        $data.apply("total", t => t ? t - 1 : t);
-        $data.apply("pagination", pp => reject(id => id == item.id, pp));
+        items$.unset(id);
+        data$.apply("total", t => t ? t - 1 : t);
+        data$.apply("pagination", pp => reject(id => id == item.id, pp));
         throw Error(response.statusText);
       }
     });

@@ -14,7 +14,7 @@ import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 import state from "frontend/state";
 
-let $data = state.select(api.plural);
+let data$ = state.select(api.plural);
 
 let validateFormDebounced = debounce(key => {
   actions.validateEditForm(key).catch(() => {});
@@ -28,10 +28,12 @@ let validateFormDebounced = debounce(key => {
   }
 })
 @branch({
-  havePendingRequests: [api.plural, "$havePendingRequests"],
-  item: [api.plural, "$currentItem"],
-  form: [api.plural, "editForm"],
-  errors: [api.plural, "editFormErrors"],
+  cursors: {
+    havePendingRequests: [api.plural, "havePendingRequests"],
+    item: [api.plural, "currentItem"],
+    form: [api.plural, "editForm"],
+    errors: [api.plural, "editFormErrors"],
+  },
 })
 export default class MonsterEdit extends DeepComponent {
   handleBlur(key) {

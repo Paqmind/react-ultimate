@@ -8,7 +8,9 @@ import AlertItem from "frontend/components/item/alert";
 let CSSTransitionGroup = ReactAddons.addons.CSSTransitionGroup;
 
 @branch({
-  items: ["alertQueue"],
+  cursors: {
+    items: ["alertQueue"],
+  }
 })
 export default class AlertIndex extends DeepComponent {
   render() {

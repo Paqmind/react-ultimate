@@ -12,7 +12,7 @@ import {processAjaxQueue} from "frontend/ajax";
 import routes from "frontend/routes";
 import "frontend/less/theme.less";
 
-let $url = state.select("url");
+let url$ = state.select("url");
 
 window._router = createRouter({
   routes: routes,
@@ -22,10 +22,10 @@ window._router = createRouter({
 window._router.run((Application, url) => {
   let route =  url.routes.slice(-1)[0];
 
-  $url.set("route", route.name);
-  $url.set("path", route.path);
-  $url.set("params", parseDefault(url.params));
-  $url.set("query", parseDefault(url.query));
+  url$.set("route", route.name);
+  url$.set("path", route.path);
+  url$.set("params", parseDefault(url.params));
+  url$.set("query", parseDefault(url.query));
 
   pipe(
     filter(route => route.handler.loadData),

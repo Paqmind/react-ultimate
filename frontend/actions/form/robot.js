@@ -10,39 +10,39 @@ import ajax from "frontend/ajax";
 import alertActions from "frontend/actions/alert";
 import addItem from "frontend/actions/add-item/robot";
 
-let $data = state.select(api.plural);
-let $items = $data.select("items");
+let data$ = state.select(api.plural);
+let items$ = data$.select("items");
 
 // ProductData -> Maybe Product
 function updateAddForm(key, data) {
   console.debug(api.plural + `.updateAddForm(${key}, ...)`);
 
-  let form = $data.get("addForm");
-  let newForm = $data.set("addForm", Lens(key).set(form, data));
+  let form = data$.get("addForm");
+  let newForm = data$.set("addForm", Lens(key).set(form, data));
   return Promise.resolve(newForm);
 }
 
 function updateEditForm(key, data) {
   console.debug(api.plural + `.updateEditForm(${key}, ...)`);
 
-  let form = $data.get("editForm");
-  let newForm = $data.set("editForm", Lens(key).set(form, data));
+  let form = data$.get("editForm");
+  let newForm = data$.set("editForm", Lens(key).set(form, data));
   return Promise.resolve(newForm);
 }
 
 function validateAddForm(key) {
   console.debug(api.plural + `.validateAddForm(${key})`);
 
-  let {addForm, addFormErrors} = $data.get();
+  let {addForm, addFormErrors} = data$.get();
   let data = Lens(key).get(addForm);
   let type = TcLens(key).get(AlmostRobot);
 
   let {valid, errors, value} = validateData(data, type, key);
   if (valid) {
-    $data.set("addFormErrors", merge(unflattenObject({[key]: undefined}), addFormErrors));
+    data$.set("addFormErrors", merge(unflattenObject({[key]: undefined}), addFormErrors));
     return Promise.resolve(value);
   } else {
-    $data.set("addFormErrors", merge(errors, addFormErrors));
+    data$.set("addFormErrors", merge(errors, addFormErrors));
     return Promise.reject(errors);
   }
 }
@@ -50,30 +50,30 @@ function validateAddForm(key) {
 function validateEditForm(key) {
   console.debug(api.plural + `.validateEditForm(${key})`);
 
-  let {editForm, editFormErrors} = $data.get();
+  let {editForm, editFormErrors} = data$.get();
   let data = Lens(key).get(editForm);
   let type = TcLens(key).get(Robot);
 
   let {valid, errors, value} = validateData(data, type, key);
   if (valid) {
-    $data.set("editFormErrors", merge(unflattenObject({[key]: undefined}), editFormErrors));
+    data$.set("editFormErrors", merge(unflattenObject({[key]: undefined}), editFormErrors));
     return Promise.resolve(value);
   } else {
-    $data.set("editFormErrors", merge(errors, editFormErrors));
+    data$.set("editFormErrors", merge(errors, editFormErrors));
     return Promise.reject(errors);
   }
 }
 
 function resetAddForm(id) {
-  $data.set("addForm", {});
-  $data.set("addFormErrors", {});
+  data$.set("addForm", {});
+  data$.set("addFormErrors", {});
 }
 
 function resetEditForm(id) {
-  let item = $items.get(id);
+  let item = items$.get(id);
   let form = formatTyped(item, Robot);
-  $data.set("editForm", form);
-  $data.set("editFormErrors", {});
+  data$.set("editForm", form);
+  data$.set("editFormErrors", {});
 }
 
 export default {

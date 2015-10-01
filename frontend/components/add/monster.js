@@ -16,7 +16,7 @@ import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 import state from "frontend/state";
 
-let $data = state.select(api.plural);
+let data$ = state.select(api.plural);
 
 let validateFormDebounced = debounce(key => {
   actions.validateAddForm(key).catch(() => {});
@@ -26,8 +26,10 @@ let validateFormDebounced = debounce(key => {
   loadData: actions.loadIndex,
 })
 @branch({
-  form: [api.plural, "addForm"],
-  errors: [api.plural, "addFormErrors"],
+  cursors: {
+    form: [api.plural, "addForm"],
+    errors: [api.plural, "addFormErrors"],
+  }
 })
 export default class MonsterAdd extends DeepComponent {
   handleBlur(key) {

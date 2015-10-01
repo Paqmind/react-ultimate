@@ -15,7 +15,7 @@ import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 import state from "frontend/state";
 
-let $data = state.select(api.plural);
+let data$ = state.select(api.plural);
 
 let validateFormDebounced = debounce(key => {
   actions.validateEditForm(key).catch(() => {});
@@ -29,10 +29,12 @@ let validateFormDebounced = debounce(key => {
   }
 })
 @branch({
-  havePendingRequests: [api.plural, "$havePendingRequests"],
-  item: [api.plural, "$currentItem"],
-  form: [api.plural, "editForm"],
-  errors: [api.plural, "editFormErrors"],
+  cursors: {
+    havePendingRequests: [api.plural, "havePendingRequests"],
+    item: [api.plural, "currentItem"],
+    form: [api.plural, "editForm"],
+    errors: [api.plural, "editFormErrors"],
+  }
 })
 export default class RobotEdit extends DeepComponent {
   handleBlur(key) {
@@ -160,10 +162,10 @@ class Actions extends ShallowComponent {
   render() {
     let {item} = this.props;
     let query = formatQuery({
-      filters: $data.get("filters"),
-      sorts: $data.get("sorts"),
-      offset: $data.get("offset"),
-      limit: $data.get("limit"),
+      filters: data$.get("filters"),
+      sorts: data$.get("sorts"),
+      offset: data$.get("offset"),
+      limit: data$.get("limit"),
     });
 
     return (

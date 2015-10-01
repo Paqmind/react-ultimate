@@ -5,7 +5,9 @@ import {branch} from "baobab-react/decorators";
 import {Component} from "./component";
 
 @branch({
-  ajaxQueue: ["ajaxQueue"],
+  cursors: {
+    ajaxQueue: ["ajaxQueue"]
+  },
 })
 export default class Loading extends Component {
   static propTypes = {
@@ -18,6 +20,7 @@ export default class Loading extends Component {
 
   render() {
     let {ajaxQueue} = this.props;
+
     if (ajaxQueue.length) {
       return (
         <div className="special-layer top-left">

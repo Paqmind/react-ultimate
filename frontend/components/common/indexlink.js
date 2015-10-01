@@ -5,12 +5,12 @@ import {merge} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
 import {Component} from "./component";
 
-let $url = state.select("url");
+let url$ = state.select("url");
 
 export default class IndexLink extends Component {
   render() {
     let {query, ...props} = this.props;
-    query = merge(formatQuery(query), $url.get("query"));
+    query = merge(formatQuery(query), url$.get("query"));
 
     return (
       <ReactRouter.Link query={query} {...props}>

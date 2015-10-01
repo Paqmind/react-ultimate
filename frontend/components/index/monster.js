@@ -13,18 +13,20 @@ import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/c
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import MonsterItem from "frontend/components/item/monster";
 
-let $data = state.select("monsters");
+let data$ = state.select("monsters");
 
 @statics({
   loadData: actions.loadIndex,
 })
 @branch({
-  filters: [api.plural, "filters"],
-  sorts: [api.plural, "sorts"],
-  offset: [api.plural, "offset"],
-  limit: [api.plural, "limit"],
-  total: [api.plural, "total"],
-  items: [api.plural, "$currentItems"],
+  cursors: {
+    filters: [api.plural, "filters"],
+    sorts: [api.plural, "sorts"],
+    offset: [api.plural, "offset"],
+    limit: [api.plural, "limit"],
+    total: [api.plural, "total"],
+    items: [api.plural, "currentItems"],
+  }
 })
 export default class MonsterIndex extends DeepComponent {
   render() {
@@ -52,7 +54,7 @@ export default class MonsterIndex extends DeepComponent {
   }
 
   setOffset(offset) {
-    $data.set("offset", offset || MONSTER.index.offset);
+    data$.set("offset", offset || MONSTER.index.offset);
     actions.loadIndex();
   }
 }
@@ -97,32 +99,32 @@ class Actions extends ShallowComponent {
   }
 
   setFilters(filters) {
-    if (!eqDeep(filters, $data.get("filters"))) {
-      $data.set("filters", filters);
-      if (($data.get("pagination").length < $data.get("total")) || true) {
+    if (!eqDeep(filters, data$.get("filters"))) {
+      data$.set("filters", filters);
+      if ((data$.get("pagination").length < data$.get("total")) || true) {
         /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
         // not all data loaded or new filters aren't subset of old
-        $data.set("pagination", []);
-        $data.set("total", 0);
+        data$.set("pagination", []);
+        data$.set("total", 0);
       }
     }
     actions.loadIndex();
   }
 
   setSorts(sorts) {
-    if (!eqDeep(sorts, $data.get("sorts"))) {
-      $data.set("sorts", sorts);
-      if ($data.get("pagination").length < $data.get("total")) {
+    if (!eqDeep(sorts, data$.get("sorts"))) {
+      data$.set("sorts", sorts);
+      if (data$.get("pagination").length < data$.get("total")) {
         // not all data loaded
-        $data.set("pagination", []);
-        $data.set("total", 0);
+        data$.set("pagination", []);
+        data$.set("total", 0);
       }
     }
     actions.loadIndex();
   }
 
   setLimit(limit) {
-    $data.set("limit", limit || MONSTER.index.limit);
+    data$.set("limit", limit || MONSTER.index.limit);
     actions.loadIndex();
   }
 }

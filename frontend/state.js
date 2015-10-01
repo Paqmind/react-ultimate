@@ -7,6 +7,8 @@ import robotApi from "shared/api/robot";
 import monsterApi from "shared/api/robot";
 import {ALERT, ROBOT, MONSTER} from "frontend/constants";
 
+let monkey = Baobab.monkey;
+
 window._state = new Baobab(
   {
     url: {
@@ -43,14 +45,14 @@ window._state = new Baobab(
       editFormErrors: {},
 
       // FACETS
-      $havePendingRequests: [
+      havePendingRequests: monkey([
         ["ajaxQueue"],
         function (queue) {
           return ajaxQueueContains(queue, robotApi.indexUrl);
         }
-      ],
+      ]),
 
-      $fullLoad: [
+      fullLoad: monkey([
         ["robots", "total"],
         ["robots", "pagination"],
         function (total, pagination) {
@@ -63,9 +65,9 @@ window._state = new Baobab(
             throw Error(`invalid total ${total}`);
           }
         }
-      ],
+      ]),
 
-      $currentItem: [
+      currentItem: monkey([
         ["robots", "items"],
         ["robots", "id"],
         function (items, id) {
@@ -75,16 +77,16 @@ window._state = new Baobab(
             return undefined;
           }
         }
-      ],
+      ]),
 
-      $currentItems: [
+      currentItems: monkey([
         ["robots", "filters"],
         ["robots", "sorts"],
         ["robots", "offset"],
         ["robots", "limit"],
         ["robots", "items"],
         ["robots", "pagination"],
-        ["robots", "$fullLoad"],
+        ["robots", "fullLoad"],
         function (filters, sorts, offset, limit, items, pagination, fullLoad) {
           let itemsArray = map(id => id && items[id], pagination);
           return pipe(
@@ -94,19 +96,7 @@ window._state = new Baobab(
             filter(m => m)
           )(itemsArray);
         }
-      ],
-
-      // Quick hack until Form will be implemented as Component
-      $emptyItem: [
-        ["url"],
-        function (url) {
-          return {
-            name: undefined,
-            //assemblyDate: undefined,
-            manufacturer: undefined,
-          };
-        }
-      ],
+      ]),
     },
 
     monsters: {
@@ -131,14 +121,14 @@ window._state = new Baobab(
       editFormErrors: {},
 
       // FACETS
-      $havePendingRequests: [
+      havePendingRequests: monkey([
         ["ajaxQueue"],
         function (queue) {
           return ajaxQueueContains(queue, monsterApi.indexUrl);
         }
-      ],
+      ]),
 
-      $fullLoad: [
+      fullLoad: monkey([
         ["monsters", "total"],
         ["monsters", "pagination"],
         function (total, pagination) {
@@ -151,9 +141,9 @@ window._state = new Baobab(
             throw Error(`invalid total ${total}`);
           }
         }
-      ],
+      ]),
 
-      $currentItem: [
+      currentItem: monkey([
         ["monsters", "items"],
         ["monsters", "id"],
         function (items, id) {
@@ -163,16 +153,16 @@ window._state = new Baobab(
             return undefined;
           }
         }
-      ],
+      ]),
 
-      $currentItems: [
+      currentItems: monkey([
         ["monsters", "filters"],
         ["monsters", "sorts"],
         ["monsters", "offset"],
         ["monsters", "limit"],
         ["monsters", "items"],
         ["monsters", "pagination"],
-        ["monsters", "$fullLoad"],
+        ["monsters", "fullLoad"],
         function (filters, sorts, offset, limit, items, pagination, fullLoad) {
           let itemsArray = map(id => id && items[id], pagination);
           return pipe(
@@ -182,31 +172,19 @@ window._state = new Baobab(
             filter(m => m)
           )(itemsArray);
         }
-      ],
-
-      // Quick hack until Form will be implemented as Component
-      $emptyItem: [
-        ["url"],
-        function (url) {
-          return {
-            name: undefined,
-            //birthDate: undefined,
-            citizenship: undefined,
-          };
-        }
-      ],
+      ]),
     },
 
-    $urlQuery: [
+    urlQuery: monkey([
       ["url", "query"],
       function (query) {
         let {filters, sorts, offset, limit} = parseQuery(query);
         return {filters, sorts, offset, limit};
       }
-    ],
+    ]),
   },
   { // OPTIONS
-    immutable: false
+    immutable: process.env.NODE_ENV != "production",
   }
 );
 

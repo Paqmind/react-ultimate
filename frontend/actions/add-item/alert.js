@@ -5,7 +5,7 @@ import {parseAs} from "shared/parsers";
 import {ALERT} from "frontend/constants";
 import state from "frontend/state";
 
-let $alertQueue = state.select("alertQueue");
+let alertQueue$ = state.select("alertQueue");
 
 // Object -> Maybe Alert
 export default function addItem(data) {
@@ -17,6 +17,6 @@ export default function addItem(data) {
     data.expire = ALERT.expire;
   }
   let item = parseAs(data, Alert);
-  $alertQueue.push(item);
+  alertQueue$.push(item);
   return Promise.resolve(item);
 }

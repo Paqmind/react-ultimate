@@ -5,13 +5,13 @@ import state from "frontend/state";
 import {indexRouter} from "frontend/router";
 import fetchIndex from "frontend/actions/fetch-index/robot";
 
-let $data = state.select(api.plural);
-let $items = state.select("items");
+let data$ = state.select(api.plural);
+let items$ = state.select("items");
 
 export default function loadIndex() {
   console.debug(api.plural + ".loadIndex()");
 
-  let {filters, sorts, offset, limit, total, pagination} = $data.get();
+  let {filters, sorts, offset, limit, total, pagination} = data$.get();
 
   if (total) {
     let recommendedOffset = recommendOffset(total, offset, limit);
@@ -22,7 +22,7 @@ export default function loadIndex() {
       if (inCache(offset, limit, total, pagination)) {
         // return cached items
         return Promise.resolve(reduce(
-          (memo, id) => assoc(memo, id, $items.get(id)),
+          (memo, id) => assoc(memo, id, items$.get(id)),
           {}, pagination.slice(offset, offset + limit)
         ));
       } else {
@@ -32,7 +32,7 @@ export default function loadIndex() {
   } else {
     return fetchIndex(filters, sorts, offset, limit)
       .then(() => {
-        let {filters, sorts, offset, limit, total, pagination} = $data.get();
+        let {filters, sorts, offset, limit, total, pagination} = data$.get();
 
         if (total) {
           let recommendedOffset = recommendOffset(total, offset, limit);
@@ -43,7 +43,7 @@ export default function loadIndex() {
         }
         // return fetched items
         return reduce(
-          (memo, id) => assoc(memo, id, $items.get(id)),
+          (memo, id) => assoc(memo, id, items$.get(id)),
           {}, pagination.slice(offset, offset + limit)
         );
     });
