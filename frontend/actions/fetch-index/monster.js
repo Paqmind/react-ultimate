@@ -1,4 +1,4 @@
-import {map, reduceIndexed} from "ramda";
+import {insert, map, reduceIndexed} from "ramda";
 import {toObject} from "shared/helpers/common";
 import {formatQueryForAxios} from "shared/helpers/jsonapi";
 import api from "shared/api/monster";
@@ -25,8 +25,7 @@ export default function fetchIndex(filters, sorts, offset, limit) {
         data$.set("total", response.data.meta.page.total);
         data$.apply("pagination", pp => {
           return reduceIndexed((memo, m, i) => {
-              memo[offset + i] = m.id;
-              return memo;
+              return insert(offset + i, m.id, memo);
             }, pp, newItemsArray
           );
         });
