@@ -1,4 +1,4 @@
-import {keys, eqDeep} from "ramda";
+import {keys, equals} from "ramda";
 
 /**
  * Decorator to attach static methods to HOC
@@ -28,7 +28,7 @@ export function shallowCompare(nextState, nextProps) {
 */
 export function deepCompare(nextState, nextProps) {
   //console.debug("deepCompare()");
-  return !eqDeep(this.props, nextProps) || !eqDeep(this.state, nextState);
+  return !equals(this.props, nextProps) || !equals(this.state, nextState);
 }
 
 function isEqualShallow(objA, objB) {

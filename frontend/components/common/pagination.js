@@ -1,9 +1,11 @@
-import {map, mapIndexed, range, reject} from "ramda";
+import {addIndex, map, range, reject} from "ramda";
 import Class from "classnames";
 import React from "react";
 import {getTotalPages} from "frontend/helpers/pagination";
 import IndexLink from "./indexlink";
 import {ShallowComponent} from "./component";
+
+let mapIndexed = addIndex(map);
 
 export default class Pagination extends ShallowComponent {
   static propTypes = {

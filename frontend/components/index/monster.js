@@ -1,4 +1,4 @@
-import {eqDeep, keys, map} from "ramda";
+import {equals, keys, map} from "ramda";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
@@ -99,7 +99,7 @@ class Actions extends ShallowComponent {
   }
 
   setFilters(filters) {
-    if (!eqDeep(filters, data$.get("filters"))) {
+    if (!equals(filters, data$.get("filters"))) {
       data$.set("filters", filters);
       if ((data$.get("pagination").length < data$.get("total")) || true) {
         /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
@@ -112,7 +112,7 @@ class Actions extends ShallowComponent {
   }
 
   setSorts(sorts) {
-    if (!eqDeep(sorts, data$.get("sorts"))) {
+    if (!equals(sorts, data$.get("sorts"))) {
       data$.set("sorts", sorts);
       if (data$.get("pagination").length < data$.get("total")) {
         // not all data loaded

@@ -1,4 +1,4 @@
-import {eqDeep, filter} from "ramda";
+import {equals, filter} from "ramda";
 import api from "shared/api/robot";
 import {ROBOT} from "frontend/constants";
 import state from "frontend/state";
@@ -19,7 +19,7 @@ export default function establishIndex() {
 
   let {filters, sorts} = data$.get();
 
-  if (!eqDeep(urlFilters || ROBOT.index.filters, filters)) {
+  if (!equals(urlFilters || ROBOT.index.filters, filters)) {
     data$.set("filters", urlFilters || ROBOT.index.filters);
     if (true || !data$.get("fullLoad")) {
       /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
@@ -28,7 +28,7 @@ export default function establishIndex() {
       data$.set("pagination", []);
     }
   }
-  if (!eqDeep(urlSorts || ROBOT.index.sorts, sorts)) {
+  if (!equals(urlSorts || ROBOT.index.sorts, sorts)) {
     data$.set("sorts", urlSorts || ROBOT.index.sorts);
     if (!data$.get("fullLoad")) {
       // Pagination is messed up, do reset
