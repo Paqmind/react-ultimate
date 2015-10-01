@@ -19,6 +19,8 @@
     "no-alert": [0],
     "dot-notation": [0],
     "no-use-before-define": [2, "nofunc"],
+    "semi": [2, "always"],
+    "no-extra-semi": [2],
     "new-cap": [0],
     "no-shadow": [0]
   }
