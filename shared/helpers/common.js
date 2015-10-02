@@ -1,8 +1,12 @@
 import DeepMerge from "deep-merge";
-import {assoc, curry, forEach, filter, pipe, prop, keys, length, map, mapIndexed, range, reduce, reduceIndexed, reverse, slice, sortBy, values} from "ramda";
+import {addIndex, assoc, curry, forEach, filter, pipe, prop, keys, length, map, range, reduce, reverse, slice, sortBy, values} from "ramda";
 import debounce from "lodash.debounce";
 import throttle from "lodash.throttle";
 import flat from "flat";
+
+let mapIndexed = addIndex(map);
+let
+  reduceIndexed = addIndex(reduce);
 
 function isArray(o) {
   return toString.call(o) === '[object Array]';

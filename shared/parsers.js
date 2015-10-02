@@ -1,4 +1,4 @@
-import {identity, keys, map, reduce, reduceIndexed} from "ramda";
+import {identity, keys, map, reduce} from "ramda";
 import Tc from "tcomb";
 import Globalize from "globalize";
 import {isArray, isPlainObject} from "shared/helpers/common";
