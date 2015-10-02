@@ -1,5 +1,5 @@
 import {filter, map} from "ramda";
-import {ALERT} from "frontend/constants";
+import {ALERT} from "shared/constants";
 import state from "frontend/state";
 
 let alertQueue$ = state.select("alertQueue");

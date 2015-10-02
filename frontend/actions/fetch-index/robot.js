@@ -1,4 +1,4 @@
-import {insert, map, reduceIndexed} from "ramda";
+import {addIndex, insert, map, reduce} from "ramda";
 import {toObject} from "shared/helpers/common";
 import {formatQueryForAxios} from "shared/helpers/jsonapi";
 import api from "shared/api/robot";
@@ -7,6 +7,7 @@ import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 
+let reduceIndexed = addIndex(reduce);
 let data$ = state.select(api.plural);
 let items$ = data$.select("items");
 

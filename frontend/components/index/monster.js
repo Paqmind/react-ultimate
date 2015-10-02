@@ -1,12 +1,12 @@
-import {eqDeep, keys, map} from "ramda";
+import {equals, keys, map} from "ramda";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import {branch} from "baobab-react/decorators";
 import {toArray} from "shared/helpers/common";
+import {MONSTER} from "shared/constants";
 import api from "shared/api/monster";
 import {statics} from "frontend/helpers/react";
-import {MONSTER} from "frontend/constants";
 import state from "frontend/state";
 import actions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/common";
@@ -99,7 +99,7 @@ class Actions extends ShallowComponent {
   }
 
   setFilters(filters) {
-    if (!eqDeep(filters, data$.get("filters"))) {
+    if (!equals(filters, data$.get("filters"))) {
       data$.set("filters", filters);
       if ((data$.get("pagination").length < data$.get("total")) || true) {
         /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
@@ -112,7 +112,7 @@ class Actions extends ShallowComponent {
   }
 
   setSorts(sorts) {
-    if (!eqDeep(sorts, data$.get("sorts"))) {
+    if (!equals(sorts, data$.get("sorts"))) {
       data$.set("sorts", sorts);
       if (data$.get("pagination").length < data$.get("total")) {
         // not all data loaded

@@ -1,6 +1,6 @@
 import {drop, indexOf} from "ramda";
 import Axios from "axios";
-import {AJAX} from "frontend/constants";
+import {AJAX} from "shared/constants";
 import state from "frontend/state";
 
 let ajaxQueue$ = state.select("ajaxQueue");

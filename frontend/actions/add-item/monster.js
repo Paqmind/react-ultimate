@@ -43,7 +43,7 @@ export default function addItem(data) {
       let {total, items, pagination} = data$.get();
       if (response.status.startsWith("2")) {
         if (response.status == "200" && response.data.data) {
-          item = items$.set(id, Monster(response.data.data));
+          item = items$.set(id, parseAs(response.data.data, Monster));
         }
         return item;
       } else {

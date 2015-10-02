@@ -29,15 +29,9 @@ Globalize.load(
 
 Globalize.locale("en");
 
-// CONSTANTS =======================================================================================
-const PROJECT_DIR = Path.dirname(__dirname);
-const NODE_MODULES_DIR = Path.join(PROJECT_DIR, "node_modules");
-const SHARED_DIR = Path.join(PROJECT_DIR, "shared");
-const FRONTEND_DIR = Path.join(PROJECT_DIR, "frontend");
-const BACKEND_DIR = Path.join(PROJECT_DIR, "backend");
-const PUBLIC_DIR = Path.join(PROJECT_DIR, "public");
-
 // APP =============================================================================================
+import {PUBLIC_DIR} from "shared/constants";
+
 let app = Express();
 
 app.set("etag", Boolean(process.env.HTTP_USE_ETAG));

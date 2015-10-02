@@ -1,13 +1,15 @@
-import {keys} from "ramda";
+import {assoc, dissoc, keys} from "ramda";
 import {expect} from "chai";
 import Axios from "axios";
-import makeMonster from "shared/makers/monster";
-import DB, {makeDB} from "backend/dbs/monster";
+import api from "shared/api/robot";
+import {Robot} from "shared/types/robot";
+import makeRobot from "shared/makers/robot";
+import {parseAs} from "shared/parsers";
+import DB, {makeDB} from "backend/dbs/robot";
 import app from "backend/app";
 import "backend/server";
 
-// VARS ============================================================================================
-let apiRootURL = "http://localhost:" + process.env.HTTP_PORT + "/api";
+let apiHost = "http://localhost:" + process.env.HTTP_PORT;
 
 function resetDB() {
   let newDB = makeDB();
@@ -19,18 +21,17 @@ function resetDB() {
   }
 }
 
-// SPECS ===========================================================================================
-describe("/api/monsters POST", function () {
+describe(api.indexUrl + " POST", function () {
   describe("valid data", function () {
-    let id, model, total, status, body;
+    let id, item, total, status, body;
 
     before(function () {
       resetDB();
-      model = makeMonster();
-      id = model.id;
+      item = makeRobot();
+      id = item.id;
       total = keys(DB).length;
 
-      return Axios.post(apiRootURL + "/monsters", model)
+      return Axios.post(apiHost + api.indexUrl, item)
         .then(response => [response.status, response.data])
         .catch(response => [response.status, response.data])
         .then(([_status, _body]) => {
@@ -39,12 +40,9 @@ describe("/api/monsters POST", function () {
         });
     });
 
-    it("should change DB length", function () {
+    it("should create an item", function () {
+      expect(DB[id]).eql(item);
       expect(keys(DB).length).eql(total + 1);
-    });
-
-    it("should create a model", function () {
-      expect(DB[id]).eql(model);
     });
 
     it("should respond with 201 status", function () {
@@ -53,22 +51,22 @@ describe("/api/monsters POST", function () {
 
     it("should respond with valid body", function () {
       expect(body).to.have.property("data");
-      expect(body.data).eql(model);
+      expect(parseAs(body.data, Robot)).eql(item);
     });
   });
 
   describe("invalid data (name is missed)", function () {
-    let id, model, total, status, body;
+    let id, item, total, status, body;
 
     before(function () {
       resetDB();
-      model = makeMonster();
-      id = model.id;
+      item = makeRobot();
+      id = item.id;
       total = keys(DB).length;
 
-      delete model.name;
+      item = dissoc("name", item);
 
-      return Axios.post(apiRootURL + "/monsters", model)
+      return Axios.post(apiHost + api.indexUrl, item)
         .then(response => [response.status, response.data])
         .catch(response => [response.status, response.data])
         .then(([_status, _body]) => {
@@ -77,12 +75,9 @@ describe("/api/monsters POST", function () {
         });
     });
 
-    it("should not change DB length", function () {
-      expect(keys(DB).length).eql(total);
-    });
-
-    it("should not create a model", function () {
+    it("should not create an item", function () {
       expect(DB[id]).eql(undefined);
+      expect(keys(DB).length).eql(total);
     });
 
     it("should respond with 400 status", function () {

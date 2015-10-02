@@ -1,8 +1,8 @@
 import {assoc} from "ramda";
 import UUID from "node-uuid";
+import {ALERT} from "shared/constants";
 import {Alert} from "shared/types/alert";
 import {parseAs} from "shared/parsers";
-import {ALERT} from "frontend/constants";
 import state from "frontend/state";
 
 let alertQueue$ = state.select("alertQueue");

@@ -3,9 +3,9 @@ import Baobab from "baobab";
 import throttle from "lodash.throttle";
 import {filterByAll, sortByAll} from "shared/helpers/common";
 import {parseQuery} from "shared/helpers/jsonapi";
+import {ALERT, ROBOT, MONSTER} from "shared/constants";
 import robotApi from "shared/api/robot";
 import monsterApi from "shared/api/robot";
-import {ALERT, ROBOT, MONSTER} from "frontend/constants";
 
 let monkey = Baobab.monkey;
 

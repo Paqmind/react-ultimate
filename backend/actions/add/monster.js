@@ -1,6 +1,7 @@
 import Tc from "tcomb";
 import {merge} from "shared/helpers/common";
 import {Monster} from "shared/types/monster";
+import {parseAs} from "shared/parsers";
 import makeMonster from "shared/makers/monster";
 import middlewares from "backend/middlewares";
 import DB from "backend/dbs/monster";
@@ -10,7 +11,7 @@ router.post("/",
   middlewares.createParseQuery(Tc.Any),
   middlewares.createParseBody(Monster),
   function handler(req, res, cb) {
-    let item = merge(req.body, makeMonster());
+    let item = parseAs(merge(req.body, makeMonster()), Monster);
     DB[item.id] = item;
     let payload = {
       data: item,
