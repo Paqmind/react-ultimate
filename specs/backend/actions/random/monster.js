@@ -1,13 +1,14 @@
 import {keys} from "ramda";
 import {expect} from "chai";
 import Axios from "axios";
+import api from "shared/api/monster";
 import makeMonster from "shared/makers/monster";
 import DB, {makeDB} from "backend/dbs/monster";
 import app from "backend/app";
 import "backend/server";
 
 // VARS ============================================================================================
-let apiRootURL = "http://localhost:" + process.env.HTTP_PORT + "/api";
+let apiHost = "http://localhost:" + process.env.HTTP_PORT;
 
 function resetDB() {
   let newDB = makeDB();
@@ -20,7 +21,7 @@ function resetDB() {
 }
 
 // SPECS ===========================================================================================
-describe("/api/monsters/random GET", function () {
+describe(api.randomUrl + " GET", function () {
   let id, total, status, body;
 
   before(function () {
@@ -28,9 +29,7 @@ describe("/api/monsters/random GET", function () {
     id = makeMonster().id;
     total = keys(DB).length;
 
-    console.log(apiRootURL + "/monsters/random");
-
-    return Axios.get(apiRootURL + "/monsters/random")
+    return Axios.get(apiHost + api.randomUrl)
       .then(response => [response.status, response.data])
       .catch(response => [response.status, response.data])
       .then(([_status, _body]) => {
