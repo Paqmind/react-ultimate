@@ -1,6 +1,7 @@
 import Tc from "tcomb";
 import {Uid} from "shared/types/common";
 import {Monster} from "shared/types/monster";
+import {parseAs} from "shared/parsers";
 import middlewares from "backend/middlewares";
 import DB from "backend/dbs/monster";
 import router from "backend/routers/monster";
@@ -11,7 +12,7 @@ router.put("/:id",
   middlewares.createParseBody(Monster),
   function handler(req, res, cb) {
     let oldItem = DB[req.params.id];
-    let newItem = req.body;
+    let newItem = parseAs(req.body, Monster);
     DB[newItem.id] = newItem;
     if (oldItem) {
       return res.status(204).send(); // Status: no-content
