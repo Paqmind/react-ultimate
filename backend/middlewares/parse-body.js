@@ -1,5 +1,6 @@
 import {map} from "ramda";
 import {validate} from "tcomb-validation";
+import {PUBLIC_DIR} from "shared/constants";
 import {parseTyped} from "shared/parsers";
 
 export default function createParseBody(type) {

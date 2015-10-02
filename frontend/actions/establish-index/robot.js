@@ -1,6 +1,6 @@
 import {equals, filter} from "ramda";
+import {ROBOT} from "shared/constants";
 import api from "shared/api/robot";
-import {ROBOT} from "frontend/constants";
 import state from "frontend/state";
 import loadIndex from "frontend/actions/load-index/robot";
 
