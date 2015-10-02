@@ -22,7 +22,7 @@ export default function editItem(data) {
     .then(response => {
       if (response.status.startsWith("2")) {
         if (response.status == "200" && response.data.data) {
-          item = items$.set(id, Robot(response.data.data));
+          item = items$.set(id, parseAs(response.data.data, Robot));
         }
         return item;
       } else {
