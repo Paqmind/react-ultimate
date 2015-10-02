@@ -104,8 +104,10 @@ class Actions extends ShallowComponent {
       if ((data$.get("pagination").length < data$.get("total")) || true) {
         /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
         // not all data loaded or new filters aren't subset of old
-        data$.set("pagination", []);
-        data$.set("total", 0);
+        data$.merge({
+          total: 0,
+          pagination: [],
+        });
       }
     }
     actions.loadIndex();
@@ -116,8 +118,10 @@ class Actions extends ShallowComponent {
       data$.set("sorts", sorts);
       if (data$.get("pagination").length < data$.get("total")) {
         // not all data loaded
-        data$.set("pagination", []);
-        data$.set("total", 0);
+        data$.merge({
+          total: 0,
+          pagination: [],
+        });
       }
     }
     actions.loadIndex();

@@ -28,8 +28,10 @@ export default function addItem(data) {
     data$.apply("pagination", pp => append(id, pp));
   } else {
     // Pagination is messed up, do reset
-    data$.set("total", 0);
-    data$.set("pagination", []);
+    data$.merge({
+      total: 0,
+      pagination: [],
+    });
   }
 
   if (url$.get("route") == api.singular + "-add") {

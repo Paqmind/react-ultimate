@@ -24,16 +24,20 @@ export default function establishIndex() {
     if (true || !data$.get("fullLoad")) {
       /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
       // Pagination is messed up, do reset
-      data$.set("total", 0);
-      data$.set("pagination", []);
+      data$.merge({
+        total: 0,
+        pagination: [],
+      });
     }
   }
   if (!equals(urlSorts || ROBOT.index.sorts, sorts)) {
     data$.set("sorts", urlSorts || ROBOT.index.sorts);
     if (!data$.get("fullLoad")) {
       // Pagination is messed up, do reset
-      data$.set("total", 0);
-      data$.set("pagination", []);
+      data$.merge({
+        total: 0,
+        pagination: [],
+      });
     }
   }
   data$.set("offset", urlOffset || ROBOT.index.offset);
