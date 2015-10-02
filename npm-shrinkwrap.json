@@ -1985,35 +1985,6 @@
       "version": "0.2.1",
       "from": "bootstrap-ext@>=0.2.0 <0.3.0"
     },
-    "chai": {
-      "version": "3.3.0",
-      "from": "chai@3.3.0",
-      "resolved": "https://registry.npmjs.org/chai/-/chai-3.3.0.tgz",
-      "dependencies": {
-        "assertion-error": {
-          "version": "1.0.1",
-          "from": "assertion-error@>=1.0.1 <2.0.0",
-          "resolved": "https://registry.npmjs.org/assertion-error/-/assertion-error-1.0.1.tgz"
-        },
-        "deep-eql": {
-          "version": "0.1.3",
-          "from": "deep-eql@>=0.1.3 <0.2.0",
-          "resolved": "https://registry.npmjs.org/deep-eql/-/deep-eql-0.1.3.tgz",
-          "dependencies": {
-            "type-detect": {
-              "version": "0.1.1",
-              "from": "type-detect@0.1.1",
-              "resolved": "https://registry.npmjs.org/type-detect/-/type-detect-0.1.1.tgz"
-            }
-          }
-        },
-        "type-detect": {
-          "version": "1.0.0",
-          "from": "type-detect@>=1.0.0 <2.0.0",
-          "resolved": "https://registry.npmjs.org/type-detect/-/type-detect-1.0.0.tgz"
-        }
-      }
-    },
     "classnames": {
       "version": "2.1.5",
       "from": "classnames@2.1.5",
