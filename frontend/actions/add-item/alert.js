@@ -14,7 +14,7 @@ export default function addItem(data) {
     data.closable = data.category === "error" ? false : true;
   }
   if (data.expire === undefined) {
-    data.expire = ALERT.expire;
+    data.expire = data.category == "error" ? 0 : ALERT.expire;
   }
   let item = parseAs(data, Alert);
   alertQueue$.push(item);

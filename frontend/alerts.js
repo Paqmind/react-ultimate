@@ -15,7 +15,7 @@ function processAlertQueue() {
         alertQueue$.unset(0);
         alertTimeout$.unset();
         setImmediate(processAlertQueue);
-      }, alert.expire === undefined ? (alert.category == "error" ? 0 : 4000) : alert.expire);
+      }, alert.expire);
       alertTimeout$.set(timeout);
     } else {
       setTimeout(processAlertQueue, ALERT.throttleTimeoutMs);
