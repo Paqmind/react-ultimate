@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "backend/server.js",
   "scripts": {
-    "eslint": "eslint .",
+    "lint": "eslint .",
     "build": "source .production; webpack --config webpack.config-prod.js --progress --profile --colors",
     "dev": "source .development; webpack-dev-server --config webpack.config-dev.js --progress --colors --port 2992 --inline",
     "node": "source .production; babel-node backend/server.js",
@@ -13,7 +13,7 @@
     "release-major": "git checkout master && npm version major && git push origin master --tags",
     "release-as-lib": "git checkout master && npm run build && git commit -am 'Distribute' && npm version major && git push origin master --tags",
     "mocha": "source .testing; mocha --opts specs/mocha.opts specs",
-    "test": "npm run eslint -s && npm run mocha -s"
+    "test": "npm run mocha -s"
   },
   "dependencies": {
     "autoprefixer-loader": "^3.1.0",
