@@ -12,9 +12,9 @@ export default class NotFound extends Component {
               <h1 id="http-error-heading">Page not found</h1>
               <p>Keep inner peace.</p>
               <p>Perhaps it was the result of either:</p>
-              <ul className="fa-ul margin-bottom-lg">
-                <li><i className="fa-li fa fa-chevron-circle-right"></i>a mistyped address</li>
-                <li><i className="fa-li fa fa-chevron-circle-right"></i>an outdated link</li>
+              <ul className="margin-bottom-lg">
+                <li>a mistyped address</li>
+                <li>an outdated link</li>
               </ul>
               <p>But you can always start from <a href="/">home page</a>.</p>
               <script>
