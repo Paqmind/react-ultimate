@@ -1,7 +1,9 @@
 import Tc from "tcomb";
+import Express from "express";
 import makeMonster from "shared/makers/monster";
 import middlewares from "backend/middlewares";
-import router from "backend/routers/monster";
+
+let router = Express.Router();
 
 router.get("/random",
   middlewares.createParseQuery(Tc.Any),
@@ -13,3 +15,5 @@ router.get("/random",
     return res.status(200).send(payload); // Status: ok
   }
 );
+
+export default router;

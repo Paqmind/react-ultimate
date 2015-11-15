@@ -1,1 +1,5 @@
-import "./index/alert";
+import indexRouter from "./index/alert";
+
+export default [
+  indexRouter,
+];

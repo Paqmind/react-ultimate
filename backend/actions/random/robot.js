@@ -1,7 +1,9 @@
 import Tc from "tcomb";
+import Express from "express";
 import makeRobot from "shared/makers/robot";
 import middlewares from "backend/middlewares";
-import router from "backend/routers/robot";
+
+let router = Express.Router();
 
 router.get("/random",
   middlewares.createParseQuery(Tc.Any),
@@ -13,3 +15,5 @@ router.get("/random",
     return res.status(200).send(payload); // Status: ok
   }
 );
+
+export default router;

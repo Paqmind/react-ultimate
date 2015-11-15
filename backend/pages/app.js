@@ -1,4 +1,6 @@
-import router from "backend/routers/common";
+import Express from "express";
+
+let router = Express.Router();
 
 router.get("*", function (req, res, cb) {
   if (req.path.startsWith("/public/")) {
@@ -18,3 +20,5 @@ router.get("*", function (req, res, cb) {
     }
   }
 });
+
+export default router;

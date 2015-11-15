@@ -1,10 +1,12 @@
 import Tc from "tcomb";
+import Express from "express";
 import {merge} from "shared/helpers/common";
 import {Uid} from "shared/types/common";
 import {Monster} from "shared/types/monster";
 import middlewares from "backend/middlewares";
 import DB from "backend/dbs/monster";
-import router from "backend/routers/monster";
+
+let router = Express.Router();
 
 router.patch("/:id",
   middlewares.createParseParams(Tc.struct({id: Uid})),
@@ -25,3 +27,5 @@ router.patch("/:id",
     }
   }
 );
+
+export default router;

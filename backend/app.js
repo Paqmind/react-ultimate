@@ -62,25 +62,18 @@ if (process.env.NODE_ENV != "testing") {
   }));
 }
 
-import commonRouter from "./routers/common";
-import "backend/pages/app";
+import appRouter from "backend/pages/app";
+import alertRouters from "backend/actions/alert";
+import robotRouters from "backend/actions/robot";
+import monsterRouters from "backend/actions/monster";
 
-import alertRouter from "./routers/alert";
-import "backend/actions/alert";
+let publicRouter = Express.static("public", {etag: false});
 
-import robotRouter from "./routers/robot";
-import "backend/actions/robot";
-
-import monsterRouter from "./routers/monster";
-import "backend/actions/monster";
-
-let staticRouter = Express.static("public", {etag: false});
-
-app.use("/public", staticRouter);
-app.use("/api/alerts", alertRouter);
-app.use("/api/robots", robotRouter);
-app.use("/api/monsters", monsterRouter);
-app.use("/", commonRouter);
+app.use("/", appRouter);
+app.use("/public", publicRouter);
+forEach(router => app.use("/api/alerts/", router), alertRouters);
+forEach(router => app.use("/api/robots/", router), robotRouters);
+forEach(router => app.use("/api/monsters/", router), monsterRouters);
 
 app.use((req, res, cb) => {
   res.status(404).sendFile(Path.join(PUBLIC_DIR, "errors/404.html"));

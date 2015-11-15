@@ -1,11 +1,13 @@
 import Tc from "tcomb";
+import Express from "express";
 import {merge} from "shared/helpers/common";
 import {Monster} from "shared/types/monster";
 import {parseAs} from "shared/parsers";
 import makeMonster from "shared/makers/monster";
 import middlewares from "backend/middlewares";
 import DB from "backend/dbs/monster";
-import router from "backend/routers/monster";
+
+let router = Express.Router();
 
 router.post("/",
   middlewares.createParseQuery(Tc.Any),
@@ -19,3 +21,5 @@ router.post("/",
     return res.status(201).send(payload); // Status: created
   }
 );
+
+export default router;

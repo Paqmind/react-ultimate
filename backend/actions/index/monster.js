@@ -1,9 +1,11 @@
 import {keys, values} from "ramda";
 import Tc from "tcomb";
+import Express from "express";
 import {filterByAll, sortByAll} from "shared/helpers/common";
 import middlewares from "backend/middlewares";
 import DB from "backend/dbs/monster";
-import router from "backend/routers/monster";
+
+let router = Express.Router();
 
 router.get("/",
   middlewares.createParseQuery(Tc.Any),
@@ -32,3 +34,5 @@ router.get("/",
     return res.status(200).send(payload); // Status: ok
   }
 );
+
+export default router;
