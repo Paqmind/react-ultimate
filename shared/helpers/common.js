@@ -123,6 +123,10 @@ function hasValues(object) {
   )(object);
 }
 
+function getRandomBetween(min=0, max=100) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 export default {
   isArray, isPlainObject,
   merge, assign, chunked, filterByAll, sortByAll,
@@ -130,4 +134,7 @@ export default {
   toObject, toArray,
   hasValues,
   debounce, throttle,
+  getRandomBetween,
 };
+
+
