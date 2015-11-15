@@ -4,7 +4,7 @@ import Globalize from "globalize";
 import {isArray, isPlainObject} from "shared/helpers/common";
 
 function formatBoolean(value) {
-  if (value === undefined) {
+  if (value === undefined || value === null) {
     return "";
   } else {
     return `${value}`;
@@ -12,46 +12,49 @@ function formatBoolean(value) {
 }
 
 function formatString(value) {
-  if (value === undefined) {
+  if (value === undefined || value === null) {
     return "";
   } else {
     return `${value}`;
   }
 }
 
+// TODO use GLOBALIZE
 function formatInteger(value) {
-  if (value === undefined) {
+  if (value === undefined || value === null) {
     return "";
   } else {
     return `${value}`;
   }
 }
 
+// TODO use GLOBALIZE
 function formatFloat(value) {
-  if (value === undefined) {
+  if (value === undefined || value === null) {
     return "";
   } else {
     return `${value}`;
   }
 }
 
+// TODO use GLOBALIZE
 function formatDate(value) {
-  if (value === undefined) {
+  if (value === undefined || value === null) {
     return "";
   } else {
     return Globalize.formatDate(value);
   }
 }
 
-function formatTyped(value, type) {
+function formatTyped(type, value) {
   if (isArray(value)) {
-    return map(v => formatTyped(v, type ? type.meta.type : undefined), value);
+    return map(v => formatTyped(type ? type.meta.type : null, v), value);
   } else if (isPlainObject(value)) {
     return reduce((obj, k) => {
       if (k.includes(".")) {
         // compound key
         let kk = k.split(".");
-        obj[kk[0]] = formatTyped({[kk.slice(1).join(".")]: value[k]}, type);
+        obj[kk[0]] = formatTyped(type, {[kk.slice(1).join(".")]: value[k]});
       } else {
         // simple key
         let nextType;
@@ -64,7 +67,7 @@ function formatTyped(value, type) {
           //console.log(type);
           //throw Error(`Invalid type ${type} for key "${k}"`);
         // }
-        obj[k] = formatTyped(value[k], nextType);
+        obj[k] = formatTyped(nextType, value[k]);
       }
       return obj;
     }, {}, keys(value));

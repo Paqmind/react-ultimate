@@ -10,7 +10,7 @@ export default function createParseQuery(type) {
   if (!type) { throw Error("`type` is required"); }
   return function parseQuery(req, res, cb) {
     req.query = jsonApi.parseQuery(req.query);
-    let data = parseTyped(req.query, type);
+    let data = parseTyped(type, req.query);
     let result = validate(data, type);
     if (result.isValid()) {
       return cb();

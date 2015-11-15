@@ -15,7 +15,7 @@ export default function fetchItem(id) {
     .then(response => {
       if (response.status.startsWith("2")) {
         let data = response.data.data;
-        let item = parseAs(data, Robot);
+        let item = parseAs(Robot, data);
         itemsCursor.set(id, item);
         return item;
       } else {

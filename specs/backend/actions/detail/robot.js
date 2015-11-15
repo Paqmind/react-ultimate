@@ -99,7 +99,7 @@ describe(api.itemUrl + " GET", function () {
 
     it("should respond with valid body", function () {
       expect(body).to.have.property("data");
-      expect(parseAs(body.data, Robot)).eql(model);
+      expect(parseAs(Robot, body.data)).eql(model);
     });
   });
 });

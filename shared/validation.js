@@ -24,7 +24,7 @@ function validateValue(value, type, key) {
 
 // Any -> Type -> String -> {valid, errors, value}
 function validateData(data, type, key) {
-  let value = parseTyped(data, type);
+  let value = parseTyped(type, data);
   let {valid, errors} = validateValue(value, type, key);
   return {valid, errors, value};
 }

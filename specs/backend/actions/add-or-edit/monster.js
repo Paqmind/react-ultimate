@@ -51,7 +51,7 @@ describe(api.itemUrl + " PUT", function () {
 
     it("should respond with valid body", function () {
       expect(body).to.have.property("data");
-      expect(parseAs(body.data, Monster)).eql(item);
+      expect(parseAs(Monster, body.data)).eql(item);
     });
   });
 

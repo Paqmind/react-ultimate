@@ -8,7 +8,7 @@ import logger from "backend/logger";
 export default function createParseBody(type) {
   if (!type) { throw Error("`type` is required"); }
   return function parseBody(req, res, cb) {
-    let data = parseTyped(req.body, type);
+    let data = parseTyped(type, req.body);
     let result = validate(data, type);
     if (result.isValid()) {
       return cb();

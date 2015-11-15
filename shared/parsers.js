@@ -1,4 +1,4 @@
-import {identity, keys, map, reduce} from "ramda";
+import {curry, identity, keys, map, reduce} from "ramda";
 import Tc from "tcomb";
 import Globalize from "globalize";
 import {isArray, isPlainObject} from "shared/helpers/common";
@@ -6,7 +6,7 @@ import {isArray, isPlainObject} from "shared/helpers/common";
 function parseBoolean(value) {
   value = value.trim();
   if (value == "") {
-    return undefined;
+    return null;
   } else if (value == "true" || value == "yes" || value == "1") {
     return true;
   } else if (value == "false" || value == "no" || value == "0") {
@@ -39,7 +39,7 @@ function parseDate(value, options) {
 function parseInteger(value) {
   value = value.trim();
   if (value == "") {
-    return undefined;
+    return null;
   } else {
     if (/^-?\d+$/.test(value)) {
       return Number(value);
@@ -52,7 +52,7 @@ function parseInteger(value) {
 function parseFloat(value) {
   value = value.trim();
   if (value == "") {
-    return undefined;
+    return null;
   } else {
     if (/^-?\d+(\.\d+)*$/.test(value)) {
       return Number(value);
@@ -65,26 +65,25 @@ function parseFloat(value) {
 function parseString(value) {
   value = value.trim();
   if (value == "") {
-    return undefined;
+    return null;
   } else {
     return value;
   }
 }
 
-function parseTyped(data, type) {
-  // Replace `maybe` with contained type
+let parseTyped = curry((type, data) => {
   if (type && type.meta && type.meta.kind == "maybe") {
     type = type.meta.type;
   }
 
   if (isArray(data)) {
-    return map(v => parseTyped(v, type ? type.meta.type : undefined), data);
+    return map(v => parseTyped(type ? type.meta.type : null, v), data);
   } else if (isPlainObject(data)) {
     return reduce((obj, k) => {
       if (k.includes(".")) {
         // compound key
         let kk = k.split(".");
-        obj[kk[0]] = parseTyped({[kk.slice(1).join(".")]: data[k]}, type);
+        obj[kk[0]] = parseTyped(type, {[kk.slice(1).join(".")]: data[k]});
       } else {
         // simple key
         let nextType;
@@ -97,7 +96,7 @@ function parseTyped(data, type) {
           //console.log(type);
           //throw Error(`Invalid type ${type} for key "${k}"`);
         //}
-        obj[k] = parseTyped(data[k], nextType);
+        obj[k] = parseTyped(nextType, data[k]);
       }
       return obj;
     }, {}, keys(data));
@@ -113,9 +112,9 @@ function parseTyped(data, type) {
   }
 }
 
-function parseAs(data, type) {
-  return type(parseTyped(data, type));
-}
+let parseAs = curry((type, data) => {
+  return type(parseTyped(type, data));
+});
 
 function parseDefault(data) {
   if (data instanceof Array) {
@@ -135,9 +134,7 @@ function parseDefault(data) {
       return false;
     } else if (data === "true") {
       return true;
-    } else if (data === "undefined") {
-      return undefined;
-    } else if (data === "null") {
+    } else if (data === "undefined" || data === "null") {
       return null;
     } else if (data.match(/^-?\d+\.\d+$/)) {
       return parseFloat(data);
@@ -155,6 +152,7 @@ let typeToParser = new Map([
   [Tc.Boolean, parseBoolean],
   [Tc.Date, parseDate],
   [Tc.Number, parseFloat],
+  // [SomeJsonType, JSON.parse], // example
 ]);
 
 export default {

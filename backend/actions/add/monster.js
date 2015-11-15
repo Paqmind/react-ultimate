@@ -11,7 +11,7 @@ router.post("/",
   middlewares.createParseQuery(Tc.Any),
   middlewares.createParseBody(Monster),
   function handler(req, res, cb) {
-    let item = parseAs(merge(req.body, makeMonster()), Monster);
+    let item = parseAs(Monster, merge(req.body, makeMonster()));
     DB[item.id] = item;
     let payload = {
       data: item,

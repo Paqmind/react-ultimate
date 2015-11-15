@@ -51,7 +51,7 @@ describe(api.indexUrl + " POST", function () {
 
     it("should respond with valid body", function () {
       expect(body).to.have.property("data");
-      expect(parseAs(body.data, Robot)).eql(item);
+      expect(parseAs(Robot, body.data)).eql(item);
     });
   });
 

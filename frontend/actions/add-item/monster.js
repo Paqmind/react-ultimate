@@ -16,7 +16,7 @@ export default function addItem(data) {
   console.debug(api.plural + `.addItem(...)`);
 
   data = assoc("id", data.id || UUID.v4(), data);
-  let item = parseAs(data, Monster);
+  let item = parseAs(Monster, data);
   let id = item.id;
 
   // Optimistic update
@@ -45,7 +45,7 @@ export default function addItem(data) {
       let {total, items, pagination} = dataCursor.get();
       if (response.status.startsWith("2")) {
         if (response.status == "200" && response.data.data) {
-          item = itemsCursor.set(id, parseAs(response.data.data, Monster));
+          item = itemsCursor.set(id, parseAs(Monster, response.data.data));
         }
         return item;
       } else {

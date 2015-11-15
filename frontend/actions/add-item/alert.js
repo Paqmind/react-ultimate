@@ -16,7 +16,7 @@ export default function addItem(data) {
   if (data.expire === undefined) {
     data.expire = data.category == "error" ? 0 : ALERT.expire;
   }
-  let item = parseAs(data, Alert);
+  let item = parseAs(Alert, data);
   alertQueueCursor.push(item);
   return Promise.resolve(item);
 }

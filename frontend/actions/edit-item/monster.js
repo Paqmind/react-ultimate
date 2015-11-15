@@ -11,7 +11,7 @@ let itemsCursor = dataCursor.select("items");
 export default function editItem(data) {
   console.debug(api.plural + `.editItem(${data.id})`);
 
-  let item = parseAs(data, Monster);
+  let item = parseAs(Monster, data);
   let id = item.id;
 
   // Optimistic update
@@ -22,7 +22,7 @@ export default function editItem(data) {
     .then(response => {
       if (response.status.startsWith("2")) {
         if (response.status == "200" && response.data.data) {
-          item = itemsCursor.set(id, parseAs(response.data.data, Monster));
+          item = itemsCursor.set(id, parseAs(Monster, response.data.data));
         }
         return item;
       } else {

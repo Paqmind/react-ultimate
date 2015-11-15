@@ -109,7 +109,7 @@ function toArray(object) {
       map(key => object[key], keys(object))
     );
   } else {
-    throw Error(`object must be a plain Object, got ${object}`);
+    throw Error(`object must be plain Object, got ${object}`);
   }
 }
 

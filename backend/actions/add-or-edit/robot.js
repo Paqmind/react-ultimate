@@ -12,7 +12,7 @@ router.put("/:id",
   middlewares.createParseBody(Robot),
   function handler(req, res, cb) {
     let oldItem = DB[req.params.id];
-    let newItem = parseAs(req.body, Robot);
+    let newItem = parseAs(Robot, req.body);
     DB[newItem.id] = newItem;
     if (oldItem) {
       return res.status(204).send(); // Status: no-content
