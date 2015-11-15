@@ -78,6 +78,10 @@ let parseTyped = curry((type, data) => {
     type = type.meta.type;
   }
 
+  if (type && type.meta && type.meta.kind == "union") {
+    type = type.dispatch(data);
+  }
+
   if (isArray(data)) {
     return map(v => parseTyped(type ? type.meta.type : null, v), data);
   } else if (isPlainObject(data)) {
