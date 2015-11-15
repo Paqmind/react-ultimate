@@ -16,14 +16,14 @@ export function processAjaxQueue() {
   if (ajaxQueue.length) {
     let pendingRequest = ajaxQueue[0];
 
-    let response;
+    let response$;
     if (indexOf(pendingRequest.verb, ["head", "get", "delete"]) >= 0) {
-      response = Axios[pendingRequest.verb](pendingRequest.url, pendingRequest.config);
+      response$ = Axios[pendingRequest.verb](pendingRequest.url, pendingRequest.config);
     } else {
-      response = Axios[pendingRequest.verb](pendingRequest.url, pendingRequest.data, pendingRequest.config);
+      response$ = Axios[pendingRequest.verb](pendingRequest.url, pendingRequest.data, pendingRequest.config);
     }
 
-    response
+    response$
       .then(response => {
         ajaxQueueCursor.apply(data => drop(1, data));
         response.status = String(response.status);
