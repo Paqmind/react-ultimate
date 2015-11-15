@@ -5,8 +5,7 @@ import throttle from "lodash.throttle";
 import flat from "flat";
 
 let mapIndexed = addIndex(map);
-let
-  reduceIndexed = addIndex(reduce);
+let reduceIndexed = addIndex(reduce);
 
 function isArray(o) {
   return toString.call(o) === '[object Array]';

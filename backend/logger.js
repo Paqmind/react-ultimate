@@ -4,7 +4,6 @@ import Winston from "winston";
 import WinstonMail from "winston-mail";
 import Moment from "moment";
 
-// LOGGING =========================================================================================
 let customColors = {
   trace: "white",
   debug: "blue",

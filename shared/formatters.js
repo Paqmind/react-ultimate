@@ -19,7 +19,6 @@ function formatString(value) {
   }
 }
 
-// TODO use GLOBALIZE
 function formatInteger(value) {
   if (value === undefined) {
     return "";
@@ -28,7 +27,6 @@ function formatInteger(value) {
   }
 }
 
-// TODO use GLOBALIZE
 function formatFloat(value) {
   if (value === undefined) {
     return "";
@@ -37,7 +35,6 @@ function formatFloat(value) {
   }
 }
 
-// TODO use GLOBALIZE
 function formatDate(value) {
   if (value === undefined) {
     return "";
