@@ -25,7 +25,7 @@ export default function addItem(data) {
 
   if (dataCursor.get("fullLoad")) {
     // Inject new id at whatever place
-    dataCursor.apply("pagination", pp => append(id, pp));
+    dataCursor.apply("pagination", ps => append(id, ps));
   } else {
     // Pagination is messed up, do reset
     dataCursor.merge({
@@ -51,7 +51,7 @@ export default function addItem(data) {
       } else {
         itemsCursor.unset(id);
         dataCursor.apply("total", t => t ? t - 1 : t);
-        dataCursor.apply("pagination", pp => reject(id => id == item.id, pp));
+        dataCursor.apply("pagination", ps => reject(id => id == item.id, ps));
         throw Error(response.statusText);
       }
     });

@@ -23,7 +23,7 @@ export default function removeItem(id) {
 
   itemsCursor.unset(id);
   dataCursor.apply("total", t => t ? t - 1 : t);
-  dataCursor.apply("pagination", pp => reject(_id => _id == id, pp));
+  dataCursor.apply("pagination", ps => reject(_id => _id == id, ps));
 
   if (urlCursor.get("route") == api.singular + "-index") {
     setImmediate(() => {
@@ -51,7 +51,7 @@ export default function removeItem(id) {
         itemsCursor.set(id, oldItem);
         dataCursor.apply("total", t => t + 1);
         if (oldIndex != -1) {
-          dataCursor.apply("pagination", pp => insert(oldIndex, id, pp));
+          dataCursor.apply("pagination", ps => insert(oldIndex, id, ps));
         }
         alertActions.addItem({message: "Remove Monster failed with message " + response.statusText, category: "error"});
         return undefined;
