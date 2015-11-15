@@ -11,11 +11,11 @@ function parseQuery(query) {
     result.sorts = map(v => v.replace(/^ /, "+"), query.sort.split(","));
   }
   if (query.page) {
-    if (query.page.offset || query.page.offset == 0) {
-      result.offset = query.page.offset;
+    if (query.page.offset || query.page.offset == "0") {
+      result.offset = parseInt(query.page.offset);
     }
-    if (query.page.limit || query.page.limit == 0) {
-      result.limit = query.page.limit;
+    if (query.page.limit || query.page.limit == "0") {
+      result.limit = parseInt(query.page.limit);
     }
   }
   if (query.reset) {
