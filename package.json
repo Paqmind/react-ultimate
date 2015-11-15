@@ -2,6 +2,10 @@
   "name": "react-starter",
   "version": "0.1.0",
   "main": "backend/server.js",
+  "engines": {
+    "node": "4.2.2",
+    "npm": "2.14.7"
+  },
   "scripts": {
     "lint": "eslint .",
     "build": "source .production; webpack --config webpack.config-prod.js --progress --profile --colors",
