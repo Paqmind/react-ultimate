@@ -2,7 +2,7 @@ import {merge} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
 import state from "frontend/state";
 
-let url$ = state.select("url");
+let urlCursor = state.select("url");
 
 // PROXY ROUTERS TO REMOVE CIRCULAR DEPENDENCY
 // Turns:
@@ -100,19 +100,19 @@ let indexRouter = {
 };
 
 function getCurrentRoute(route) {
-  let urlRoute = url$.get("route");
+  let urlRoute = urlCursor.get("route");
   return route || urlRoute;
 }
 
 function getCurrentRouteAndParams(route, id) {
-  let urlRoute = url$.get("route");
-  let urlParams = url$.get("params");
+  let urlRoute = urlCursor.get("route");
+  let urlParams = urlCursor.get("params");
   return [route || urlRoute,  id ? {id} : urlParams];
 }
 
 function getCurrentRouteAndQuery(route, query) {
-  let urlRoute = url$.get("route");
-  let urlQuery = url$.get("query");
+  let urlRoute = urlCursor.get("route");
+  let urlQuery = urlCursor.get("query");
   return [route || urlRoute, merge(formatQuery(query), urlQuery)];
 }
 

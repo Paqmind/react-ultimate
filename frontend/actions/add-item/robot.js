@@ -7,9 +7,9 @@ import state from "frontend/state";
 import {router} from "frontend/router";
 import ajax from "frontend/ajax";
 
-let url$ = state.select("url");
-let data$ = state.select(api.plural);
-let items$ = data$.select("items");
+let urlCursor = state.select("url");
+let dataCursor = state.select(api.plural);
+let itemsCursor = dataCursor.select("items");
 
 // Object -> Maybe Robot
 export default function addItem(data) {
@@ -20,21 +20,21 @@ export default function addItem(data) {
   let id = item.id;
 
   // Optimistic update
-  data$.apply("total", t => t + 1);
-  items$.set(id, item);
+  dataCursor.apply("total", t => t + 1);
+  itemsCursor.set(id, item);
 
-  if (data$.get("fullLoad")) {
+  if (dataCursor.get("fullLoad")) {
     // Inject new id at whatever place
-    data$.apply("pagination", pp => append(id, pp));
+    dataCursor.apply("pagination", pp => append(id, pp));
   } else {
     // Pagination is messed up, do reset
-    data$.merge({
+    dataCursor.merge({
       total: 0,
       pagination: [],
     });
   }
 
-  if (url$.get("route") == api.singular + "-add") {
+  if (urlCursor.get("route") == api.singular + "-add") {
     setImmediate(() => {
       router.transitionTo(api.singular + "-detail", {id: item.id});
     });
@@ -42,16 +42,16 @@ export default function addItem(data) {
 
   return ajax.put(api.itemUrl.replace(":id", id), item)
     .then(response => {
-      let {total, items, pagination} = data$.get();
+      let {total, items, pagination} = dataCursor.get();
       if (response.status.startsWith("2")) {
         if (response.status == "200" && response.data.data) {
-          item = items$.set(id, parseAs(response.data.data, Robot));
+          item = itemsCursor.set(id, parseAs(response.data.data, Robot));
         }
         return item;
       } else {
-        items$.unset(id);
-        data$.apply("total", t => t ? t - 1 : t);
-        data$.apply("pagination", pp => reject(id => id == item.id, pp));
+        itemsCursor.unset(id);
+        dataCursor.apply("total", t => t ? t - 1 : t);
+        dataCursor.apply("pagination", pp => reject(id => id == item.id, pp));
         throw Error(response.statusText);
       }
     });

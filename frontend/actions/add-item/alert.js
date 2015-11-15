@@ -5,7 +5,7 @@ import {Alert} from "shared/types/alert";
 import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 
-let alertQueue$ = state.select("alertQueue");
+let alertQueueCursor = state.select("alertQueue");
 
 // Object -> Maybe Alert
 export default function addItem(data) {
@@ -17,6 +17,6 @@ export default function addItem(data) {
     data.expire = data.category == "error" ? 0 : ALERT.expire;
   }
   let item = parseAs(data, Alert);
-  alertQueue$.push(item);
+  alertQueueCursor.push(item);
   return Promise.resolve(item);
 }

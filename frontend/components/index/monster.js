@@ -13,7 +13,7 @@ import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/c
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import MonsterItem from "frontend/components/item/monster";
 
-let data$ = state.select("monsters");
+let dataCursor = state.select("monsters");
 
 @statics({
   loadData: actions.loadIndex,
@@ -54,7 +54,7 @@ export default class MonsterIndex extends DeepComponent {
   }
 
   setOffset(offset) {
-    data$.set("offset", offset || MONSTER.index.offset);
+    dataCursor.set("offset", offset || MONSTER.index.offset);
     actions.loadIndex();
   }
 }
@@ -99,12 +99,12 @@ class Actions extends ShallowComponent {
   }
 
   setFilters(filters) {
-    if (!equals(filters, data$.get("filters"))) {
-      data$.set("filters", filters);
-      if ((data$.get("pagination").length < data$.get("total")) || true) {
+    if (!equals(filters, dataCursor.get("filters"))) {
+      dataCursor.set("filters", filters);
+      if ((dataCursor.get("pagination").length < dataCursor.get("total")) || true) {
         /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
         // not all data loaded or new filters aren't subset of old
-        data$.merge({
+        dataCursor.merge({
           total: 0,
           pagination: [],
         });
@@ -114,11 +114,11 @@ class Actions extends ShallowComponent {
   }
 
   setSorts(sorts) {
-    if (!equals(sorts, data$.get("sorts"))) {
-      data$.set("sorts", sorts);
-      if (data$.get("pagination").length < data$.get("total")) {
+    if (!equals(sorts, dataCursor.get("sorts"))) {
+      dataCursor.set("sorts", sorts);
+      if (dataCursor.get("pagination").length < dataCursor.get("total")) {
         // not all data loaded
-        data$.merge({
+        dataCursor.merge({
           total: 0,
           pagination: [],
         });
@@ -128,7 +128,7 @@ class Actions extends ShallowComponent {
   }
 
   setLimit(limit) {
-    data$.set("limit", limit || MONSTER.index.limit);
+    dataCursor.set("limit", limit || MONSTER.index.limit);
     actions.loadIndex();
   }
 }

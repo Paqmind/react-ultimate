@@ -16,7 +16,7 @@ import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 import state from "frontend/state";
 
-let data$ = state.select(api.plural);
+let dataCursor = state.select(api.plural);
 
 let validateFormDebounced = debounce(key => {
   actions.validateAddForm(key).catch(() => {});

@@ -16,7 +16,7 @@ import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 import state from "frontend/state";
 
-let data$ = state.select(api.plural);
+let dataCursor = state.select(api.plural);
 
 let validateFormDebounced = debounce(key => {
   actions.validateAddForm(key).catch(() => {});
@@ -141,10 +141,10 @@ export default class RobotAdd extends DeepComponent {
 class Actions extends ShallowComponent {
   render() {
     let query = formatQuery({
-      filters: data$.get("filters"),
-      sorts: data$.get("sorts"),
-      offset: data$.get("offset"),
-      limit: data$.get("limit")
+      filters: dataCursor.get("filters"),
+      sorts: dataCursor.get("sorts"),
+      offset: dataCursor.get("offset"),
+      limit: dataCursor.get("limit")
     });
 
     return (

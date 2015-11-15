@@ -5,12 +5,12 @@ import {merge} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
 import {Component} from "./component";
 
-let url$ = state.select("url");
+let urlCursor = state.select("url");
 
 export default class ItemLink extends Component {
   render() {
     let {params, ...props} = this.props;
-    params = merge(params || {}, url$.get("params"));
+    params = merge(params || {}, urlCursor.get("params"));
 
     return (
       <ReactRouter.Link params={params} {...props}>

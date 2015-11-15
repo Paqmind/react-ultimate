@@ -4,8 +4,8 @@ import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 
-let data$ = state.select(api.plural);
-let items$ = data$.select("items");
+let dataCursor = state.select(api.plural);
+let itemsCursor = dataCursor.select("items");
 
 // Id -> Maybe Robot
 export default function fetchItem(id) {
@@ -16,7 +16,7 @@ export default function fetchItem(id) {
       if (response.status.startsWith("2")) {
         let data = response.data.data;
         let item = parseAs(data, Robot);
-        items$.set(id, item);
+        itemsCursor.set(id, item);
         return item;
       } else {
         return undefined;

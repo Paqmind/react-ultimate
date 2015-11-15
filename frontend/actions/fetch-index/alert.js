@@ -6,7 +6,7 @@ import {Alert} from "shared/types/alert";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 
-let alertQueue$ = state.select("alertQueue");
+let alertQueueCursor = state.select("alertQueue");
 
 // Filters, Sorts, Offset, Limit -> Maybe [Alert]
 export default function fetchIndex(filters, sorts, offset, limit) {
@@ -18,7 +18,7 @@ export default function fetchIndex(filters, sorts, offset, limit) {
     .then(response => {
       if (response.status.startsWith("2")) {
         let newItems = map(m => Alert(m), response.data.data);
-        alertQueue$.concat(newItems);
+        alertQueueCursor.concat(newItems);
         return newItems;
       } else {
         return [];

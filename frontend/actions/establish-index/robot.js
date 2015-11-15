@@ -4,44 +4,44 @@ import api from "shared/api/robot";
 import state from "frontend/state";
 import loadIndex from "frontend/actions/load-index/robot";
 
-let url$ = state.select("url");
-let urlQuery$ = state.select("urlQuery");
-let data$ = state.select(api.plural);
+let urlCursor = state.select("url");
+let urlQueryCursor = state.select("urlQuery");
+let dataCursor = state.select(api.plural);
 
 export default function establishIndex() {
   console.debug(api.plural + `.establishIndex()`);
 
-  let urlQuery = urlQuery$.get();
+  let urlQuery = urlQueryCursor.get();
   let urlFilters = urlQuery.filters;
   let urlSorts = urlQuery.sorts;
   let urlOffset = urlQuery.offset;
   let urlLimit = urlQuery.limit;
 
-  let {filters, sorts} = data$.get();
+  let {filters, sorts} = dataCursor.get();
 
   if (!equals(urlFilters || ROBOT.index.filters, filters)) {
-    data$.set("filters", urlFilters || ROBOT.index.filters);
-    if (true || !data$.get("fullLoad")) {
+    dataCursor.set("filters", urlFilters || ROBOT.index.filters);
+    if (true || !dataCursor.get("fullLoad")) {
       /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
       // Pagination is messed up, do reset
-      data$.merge({
+      dataCursor.merge({
         total: 0,
         pagination: [],
       });
     }
   }
   if (!equals(urlSorts || ROBOT.index.sorts, sorts)) {
-    data$.set("sorts", urlSorts || ROBOT.index.sorts);
-    if (!data$.get("fullLoad")) {
+    dataCursor.set("sorts", urlSorts || ROBOT.index.sorts);
+    if (!dataCursor.get("fullLoad")) {
       // Pagination is messed up, do reset
-      data$.merge({
+      dataCursor.merge({
         total: 0,
         pagination: [],
       });
     }
   }
-  data$.set("offset", urlOffset || ROBOT.index.offset);
-  data$.set("limit", urlLimit || ROBOT.index.limit);
+  dataCursor.set("offset", urlOffset || ROBOT.index.offset);
+  dataCursor.set("limit", urlLimit || ROBOT.index.limit);
 
   return loadIndex();
 }

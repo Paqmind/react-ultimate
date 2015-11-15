@@ -9,7 +9,7 @@ import state from "frontend/state";
 import actions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 
-let data$ = state.select(api.plural);
+let dataCursor = state.select(api.plural);
 
 @statics({
   loadData: actions.establishItem,
