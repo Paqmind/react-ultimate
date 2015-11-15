@@ -19,7 +19,9 @@ function parseBoolean(value) {
 function parseDate(value, options) {
   value = value.trim();
   if (value == "") {
-    return undefined;
+    return null;
+  } else if (value == "0000-00-00 00:00:00") { // TODO get rid of this hack? how? was added for SQL parsing
+    return null;
   } else {
     //try {
     //  return Moment(value).toDate();
