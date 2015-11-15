@@ -4,28 +4,52 @@
  * in this complex file.
  */
 import "shared/shims";
+import {forEach} from "ramda";
 import Fs from "fs";
 import Path from "path";
 import Express from "express";
+import {MESSAGES_DIR} from "shared/constants";
 
 // GLOBALIZE =======================================================================================
 import Globalize from "globalize";
-import CldrGregorian from "cldr-data/main/en/ca-gregorian";
-import CldrCurrencies from "cldr-data/main/en/currencies";
-import CldrDateFields from "cldr-data/main/en/dateFields";
-import CldrNumbers from "cldr-data/main/en/numbers";
-import CldrCurrencyData from "cldr-data/supplemental/currencyData";
+
 import CldrLikelySubtags from "cldr-data/supplemental/likelySubtags";
 import CldrPlurals from "cldr-data/supplemental/plurals";
 import CldrTimeData from "cldr-data/supplemental/timeData";
 import CldrWeekData from "cldr-data/supplemental/weekData";
+import CldrCurrencyData from "cldr-data/supplemental/currencyData";
 
+import CldrGregorianEn from "cldr-data/main/en/ca-gregorian";
+import CldrCurrenciesEn from "cldr-data/main/en/currencies";
+import CldrDateFieldsEn from "cldr-data/main/en/dateFields";
+import CldrNumbersEn from "cldr-data/main/en/numbers";
+
+// locale-independent
 Globalize.load(
-	CldrGregorian, CldrCurrencies,
-  CldrDateFields, CldrNumbers,
-  CldrLikelySubtags, CldrCurrencyData,
-  CldrPlurals, CldrTimeData, CldrWeekData
+  CldrLikelySubtags,
+  CldrPlurals,
+  CldrTimeData,
+  CldrWeekData,
+  CldrCurrencyData
 );
+
+// locale-dependent
+Globalize.load(
+	CldrGregorianEn,
+  CldrCurrenciesEn,
+  CldrDateFieldsEn,
+  CldrNumbersEn
+);
+
+function readMessages(path) {
+  if (!Fs.existsSync(path) || !Fs.statSync(path).isFile()) {
+    console.warn("Unable to find message file: `" + path + "`");
+    return null;
+  }
+  return JSON.parse(Fs.readFileSync(path));
+}
+
+Globalize.loadMessages(readMessages(Path.join(MESSAGES_DIR, "en.json")));
 
 Globalize.locale("en");
 
