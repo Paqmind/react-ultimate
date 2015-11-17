@@ -107,10 +107,10 @@ export default {
       {test: /\.(md(\?.*)?)$/, loaders: ["html", "markdown"]},
 
       // CSS: https://github.com/webpack/css-loader
-      {test: /\.(css(\?.*)?)$/, loaders: ["css?sourceMap"]},
+      {test: /\.(css(\?.*)?)$/, loaders: ["style", "css?sourceMap"]},
 
       // LESS: https://github.com/webpack/less-loader
-      {test: /\.(less(\?.*)?)$/, loaders: ["css?sourceMap", "less?sourceMap"]},
+      {test: /\.(less(\?.*)?)$/, loaders: ["style", "css?sourceMap", "less?sourceMap"]},
     ],
   },
 

@@ -14,15 +14,8 @@
   </main>
 {% endblock %}
 
-{% block styles %}
-  {{ super() }}
-
-  <link href="http://localhost:2992/public/bundle.css" rel="stylesheet"/>
-{% endblock %}
-
 {% block scripts %}
   {{ super() }}
 
-  <script src="http://localhost:2992/public/vendors.js"></script>
   <script src="http://localhost:2992/public/bundle.js"></script>
 {% endblock %}
