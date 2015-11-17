@@ -17,7 +17,7 @@ import state from "frontend/state";
 let dataCursor = state.select(api.plural);
 
 let validateFormDebounced = debounce(key => {
-  actions.validateEditForm(key).catch(() => {});
+  actions.validateEditForm(key).catch(err => null);
 }, 500);
 
 @statics({
