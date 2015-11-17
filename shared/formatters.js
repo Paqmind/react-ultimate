@@ -1,4 +1,4 @@
-import {identity, keys, map, reduce} from "ramda";
+import {curry, identity, keys, map, reduce} from "ramda";
 import Tc from "tcomb";
 import Globalize from "globalize";
 import {isArray, isPlainObject} from "shared/helpers/common";
@@ -46,7 +46,7 @@ function formatDate(value) {
   }
 }
 
-function formatTyped(type, value) {
+let formatTyped = curry((type, value) => {
   if (isArray(value)) {
     return map(v => formatTyped(type ? type.meta.type : null, v), value);
   } else if (isPlainObject(value)) {
@@ -75,12 +75,13 @@ function formatTyped(type, value) {
     let formatter = type ? typeToFormatter.get(type) : identity;
     return formatter ? formatter(value) : formatString(value);
   }
-}
+});
 
 let typeToFormatter = new Map([
   [Tc.Boolean, formatBoolean],
   [Tc.Date, formatDate],
   [Tc.Number, formatFloat],
+  // [SomeJsonType, JSON.stringify], // example
 ]);
 
 export default {

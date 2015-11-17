@@ -108,11 +108,7 @@ let parseTyped = curry((type, data) => {
     }, {}, keys(data));
   } else if (typeof data == "string") {
     let parser = type ? typeToParser.get(type) : identity;
-    if (parser) {
-      return parser(data);
-    } else {
-      return parseString(data);
-    }
+    return parser ? parser(data) : parseString(data);
   } else if ((data === 1 || data === 0) && type == Tc.Boolean) { // semi-hack for SQL booleans as tinyints...
     return Boolean(data);
   } else {

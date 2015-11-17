@@ -76,7 +76,7 @@ function resetAddForm(id) {
 
 function resetEditForm(id) {
   let item = itemsCursor.get(id);
-  let form = formatTyped(item, Robot);
+  let form = formatTyped(Robot, item);
   dataCursor.set("editForm", form);
   dataCursor.set("editFormErrors", {});
 }
