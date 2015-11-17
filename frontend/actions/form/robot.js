@@ -1,8 +1,9 @@
+import UUID from "node-uuid";
 import Lens from "paqmind.data-lens";
 import TcLens from "paqmind.tcomb-lens";
 import {merge, unflattenObject} from "shared/helpers/common";
 import api from "shared/api/robot";
-import {Robot, AlmostRobot} from "shared/types/robot";
+import {Robot} from "shared/types";
 import {formatTyped} from "shared/formatters";
 import {validateData} from "shared/validation";
 import state from "frontend/state";
@@ -33,9 +34,13 @@ function updateEditForm(key, data) {
 function validateAddForm(key) {
   console.debug(api.plural + `.validateAddForm(${key})`);
 
+  if (!key && !dataCursor.select("addForm").get("id")) {
+    dataCursor.select("addForm", "id").set(UUID.v4());
+  }
+
   let {addForm, addFormErrors} = dataCursor.get();
   let data = Lens(key).get(addForm);
-  let type = TcLens(key).get(AlmostRobot);
+  let type = TcLens(key).get(Robot);
 
   let {valid, errors, value} = validateData(data, type, key);
   if (valid) {

@@ -2,7 +2,7 @@ import {keys} from "ramda";
 import {expect} from "chai";
 import Axios from "axios";
 import api from "shared/api/monster";
-import {Monster} from "shared/types/monster";
+import {Monster} from "shared/types";
 import makeMonster from "shared/makers/monster";
 import {parseAs} from "shared/parsers";
 import DB, {makeDB} from "backend/dbs/monster";

@@ -7,7 +7,7 @@ import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import api from "shared/api/monster";
 import {debounce, hasValues} from "shared/helpers/common";
-import {Monster} from "shared/types/monster";
+import {Monster} from "shared/types";
 import {statics} from "frontend/helpers/react";
 import actions from "frontend/actions/monster";
 import alertActions from "frontend/actions/alert";
@@ -37,7 +37,7 @@ let validateFormDebounced = debounce(key => {
 })
 export default class MonsterEdit extends DeepComponent {
   handleBlur(key) {
-    actions.validateEditForm(key);
+    actions.validateEditForm(key).catch(err => null);
   }
 
   handleChange(key, data) {

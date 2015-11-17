@@ -1,7 +1,7 @@
 import UUID from "node-uuid";
 import Faker from "faker";
 import {merge} from "shared/helpers/common";
-import Alert from "shared/types/alert";
+import {Alert} from "shared/types";
 
 export default function makeAlert(data={}) {
   return Alert(merge(data, {

@@ -1,7 +1,7 @@
 import {append, assoc, reject} from "ramda";
 import UUID from "node-uuid";
 import api from "shared/api/monster";
-import {Monster} from "shared/types/monster";
+import {Monster} from "shared/types";
 import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import {router} from "frontend/router";

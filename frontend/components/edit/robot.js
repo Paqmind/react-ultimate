@@ -8,7 +8,7 @@ import DocumentTitle from "react-document-title";
 import api from "shared/api/robot";
 import {debounce, hasValues} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
-import {Robot} from "shared/types/robot";
+import {Robot} from "shared/types";
 import {statics} from "frontend/helpers/react";
 import actions from "frontend/actions/robot";
 import alertActions from "frontend/actions/alert";
@@ -34,11 +34,11 @@ let validateFormDebounced = debounce(key => {
     item: [api.plural, "currentItem"],
     form: [api.plural, "editForm"],
     errors: [api.plural, "editFormErrors"],
-  }
+  },
 })
 export default class RobotEdit extends DeepComponent {
   handleBlur(key) {
-    actions.validateEditForm(key);
+    actions.validateEditForm(key).catch(err => null);
   }
 
   handleChange(key, data) {

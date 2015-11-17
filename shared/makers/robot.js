@@ -1,7 +1,7 @@
 import UUID from "node-uuid";
 import Faker from "faker";
 import {merge} from "shared/helpers/common";
-import {Robot} from "shared/types/robot";
+import {Robot} from "shared/types";
 
 export default function makeRobot(data={}) {
   return Robot(merge(data, {

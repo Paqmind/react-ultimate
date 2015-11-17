@@ -1,7 +1,7 @@
 import {assoc} from "ramda";
 import UUID from "node-uuid";
 import {ALERT} from "shared/constants";
-import {Alert} from "shared/types/alert";
+import {Alert} from "shared/types";
 import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 

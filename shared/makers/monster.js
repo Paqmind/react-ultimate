@@ -1,7 +1,7 @@
 import UUID from "node-uuid";
 import Faker from "faker";
 import {merge} from "shared/helpers/common";
-import {Monster} from "shared/types/monster";
+import {Monster} from "shared/types";
 
 export default function makeMonster(data={}) {
   return Monster(merge(data, {

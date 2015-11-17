@@ -1,8 +1,9 @@
+import UUID from "node-uuid";
 import Lens from "paqmind.data-lens";
 import TcLens from "paqmind.tcomb-lens";
 import {merge, unflattenObject} from "shared/helpers/common";
 import api from "shared/api/monster";
-import {Monster, AlmostMonster} from "shared/types/monster";
+import {Monster} from "shared/types";
 import {formatTyped} from "shared/formatters";
 import {validateData} from "shared/validation";
 import state from "frontend/state";
@@ -18,7 +19,7 @@ function updateAddForm(key, data) {
   console.debug(api.plural + `.updateAddForm(${key}, ...)`);
 
   let form = dataCursor.get("addForm");
-  let newForm = dataCursor.set("addForm", merge(data, form));
+  let newForm = dataCursor.set("addForm", Lens(key).set(form, data));
   return Promise.resolve(newForm);
 }
 
@@ -26,16 +27,20 @@ function updateEditForm(key, data) {
   console.debug(api.plural + `.updateEditForm(${key}, ...)`);
 
   let form = dataCursor.get("editForm");
-  let newForm = dataCursor.set("editForm", merge(data, form));
+  let newForm = dataCursor.set("editForm", Lens(key).set(form, data));
   return Promise.resolve(newForm);
 }
 
 function validateAddForm(key) {
   console.debug(api.plural + `.validateAddForm(${key})`);
 
+  if (!key && !dataCursor.select("addForm").get("id")) {
+    dataCursor.select("addForm", "id").set(UUID.v4());
+  }
+
   let {addForm, addFormErrors} = dataCursor.get();
   let data = Lens(key).get(addForm);
-  let type = TcLens(key).get(AlmostMonster);
+  let type = TcLens(key).get(Monster);
 
   let {valid, errors, value} = validateData(data, type, key);
   if (valid) {

@@ -9,7 +9,7 @@ import api from "shared/api/robot";
 import {debounce, hasValues} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
 import {formatTyped} from "shared/formatters";
-import {Robot} from "shared/types/robot";
+import {Robot} from "shared/types";
 import {statics} from "frontend/helpers/react";
 import actions from "frontend/actions/robot";
 import alertActions from "frontend/actions/alert";
@@ -33,7 +33,7 @@ let validateFormDebounced = debounce(key => {
 })
 export default class RobotAdd extends DeepComponent {
   handleBlur(key) {
-    actions.validateAddForm(key);
+    actions.validateAddForm(key).catch(err => null);
   }
 
   handleChange(key, data) {

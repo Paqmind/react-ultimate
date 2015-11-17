@@ -1,7 +1,7 @@
 import {append, assoc, reject} from "ramda";
 import UUID from "node-uuid";
 import api from "shared/api/robot";
-import {Robot} from "shared/types/robot";
+import {Robot} from "shared/types";
 import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import {router} from "frontend/router";

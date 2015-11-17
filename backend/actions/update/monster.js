@@ -1,8 +1,7 @@
 import Tc from "tcomb";
 import Express from "express";
 import {merge} from "shared/helpers/common";
-import {Uid} from "shared/types/common";
-import {Monster} from "shared/types/monster";
+import {Uid, Monster} from "shared/types";
 import middlewares from "backend/middlewares";
 import DB from "backend/dbs/monster";
 

@@ -2,7 +2,7 @@ import {addIndex, insert, map, reduce} from "ramda";
 import {toObject} from "shared/helpers/common";
 import {formatQueryForAxios} from "shared/helpers/jsonapi";
 import api from "shared/api/monster";
-import {Monster} from "shared/types/monster";
+import {Monster} from "shared/types";
 import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import ajax from "frontend/ajax";

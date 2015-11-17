@@ -2,7 +2,7 @@ import {map} from "ramda";
 import {toObject} from "shared/helpers/common";
 import {formatQueryForAxios} from "shared/helpers/jsonapi";
 import api from "shared/api/alert";
-import {Alert} from "shared/types/alert";
+import {Alert} from "shared/types";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 

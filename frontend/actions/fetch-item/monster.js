@@ -1,5 +1,5 @@
 import api from "shared/api/monster";
-import {Monster} from "shared/types/monster";
+import {Monster} from "shared/types";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 

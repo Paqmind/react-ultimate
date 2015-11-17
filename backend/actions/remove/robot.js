@@ -1,6 +1,6 @@
 import Tc from "tcomb";
 import Express from "express";
-import {Uid} from "shared/types/common";
+import {Uid} from "shared/types";
 import middlewares from "backend/middlewares";
 import DB from "backend/dbs/robot";
 

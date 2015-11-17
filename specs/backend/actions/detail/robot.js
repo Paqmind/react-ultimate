@@ -2,7 +2,7 @@ import {keys} from "ramda";
 import {expect} from "chai";
 import Axios from "axios";
 import api from "shared/api/robot";
-import {Robot} from "shared/types/robot";
+import {Robot} from "shared/types";
 import makeRobot from "shared/makers/robot";
 import {parseAs} from "shared/parsers";
 import DB, {makeDB} from "backend/dbs/robot";
