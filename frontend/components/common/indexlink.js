@@ -10,7 +10,7 @@ let urlCursor = state.select("url");
 export default class IndexLink extends Component {
   render() {
     let {query, ...props} = this.props;
-    query = merge(formatQuery(query), urlCursor.get("query"));
+    query = merge(urlCursor.get("query"), formatQuery(query));
 
     return (
       <ReactRouter.Link query={query} {...props}>

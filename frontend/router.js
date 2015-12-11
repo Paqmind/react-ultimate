@@ -113,7 +113,7 @@ function getCurrentRouteAndParams(route, id) {
 function getCurrentRouteAndQuery(route, query) {
   let urlRoute = urlCursor.get("route");
   let urlQuery = urlCursor.get("query");
-  return [route || urlRoute, merge(formatQuery(query), urlQuery)];
+  return [route || urlRoute, merge(urlQuery, formatQuery(query))];
 }
 
 export default {

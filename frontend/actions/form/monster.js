@@ -44,10 +44,10 @@ function validateAddForm(key) {
 
   let {valid, errors, value} = validateData(data, type, key);
   if (valid) {
-    dataCursor.set("addFormErrors", merge(unflattenObject({[key]: undefined}), addFormErrors));
+    dataCursor.set("addFormErrors", merge(addFormErrors, unflattenObject({[key]: undefined})));
     return Promise.resolve(value);
   } else {
-    dataCursor.set("addFormErrors", merge(errors, addFormErrors));
+    dataCursor.set("addFormErrors", merge(addFormErrors, errors));
     return Promise.reject(errors);
   }
 }
@@ -61,10 +61,10 @@ function validateEditForm(key) {
 
   let {valid, errors, value} = validateData(data, type, key);
   if (valid) {
-    dataCursor.set("editFormErrors", merge(unflattenObject({[key]: undefined}), editFormErrors));
+    dataCursor.set("editFormErrors", merge(editFormErrors, unflattenObject({[key]: undefined})));
     return Promise.resolve(value);
   } else {
-    dataCursor.set("editFormErrors", merge(errors, editFormErrors));
+    dataCursor.set("editFormErrors", merge(editFormErrors, errors));
     return Promise.reject(errors);
   }
 }

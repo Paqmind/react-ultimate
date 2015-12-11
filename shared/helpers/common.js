@@ -15,18 +15,9 @@ function isPlainObject(o) {
   return toString.call(o) === '[object Object]';
 }
 
-// Workaround until https://github.com/ramda/ramda/issues/1073 (wait for release) //////////////////
-let doMerge = DeepMerge((a, b, key) => {
-  return b;
-});
-
-let merge = curry((a, b) => {
-  return doMerge(b, a);
-});
-
-let assign = curry((a, b) => {
-  return Object.assign({}, b, a);
-});
+let doMerge = DeepMerge((x, y, key) => y);
+let merge = curry((x, y) => doMerge(x, y));
+let assign = curry((x, y) => Object.assign({}, x, y));
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * Split array into chunks with predefined chunk length. Useful for pagination.

@@ -10,7 +10,7 @@ let urlCursor = state.select("url");
 export default class ItemLink extends Component {
   render() {
     let {params, ...props} = this.props;
-    params = merge(params || {}, urlCursor.get("params"));
+    params = merge(urlCursor.get("params"), params || {});
 
     return (
       <ReactRouter.Link params={params} {...props}>

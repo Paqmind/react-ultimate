@@ -15,7 +15,7 @@ router.patch("/:id",
     let oldItem = DB[req.params.id];
     let newItem = req.body;
     if (oldItem) {
-      DB[newItem.id] = merge(newItem, oldItem);
+      DB[newItem.id] = merge(oldItem, newItem);
       return res.status(204).send(); // Status: no-content
     } else {
       DB[newItem.id] = newItem;

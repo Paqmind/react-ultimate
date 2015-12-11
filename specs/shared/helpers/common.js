@@ -5,10 +5,10 @@ import {merge, assign, chunked, filterByAll, sortByAll} from "shared/helpers/com
 // SPECS ===========================================================================================
 describe("merge()", function () {
   it("should work", function () {
-    let a1 = {model: {"1": {id: 1, name: "jacinto"}}};
-    let b1 = {model: {"1": {id: 1, name: "jac"}}};
+    let a1 = {model: {"1": {id: 1, name: "jac"}}};
+    let b1 = {model: {"1": {id: 1, name: "jacinto"}}};
 
-    expect(merge(a1, b1)).eql(a1);
+    expect(merge(a1, b1)).eql(b1);
 
     let a2 = {model: {}};
     let b2 = {model: {"1": {id: 1, name: "jac"}}};
