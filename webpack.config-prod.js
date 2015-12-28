@@ -89,7 +89,7 @@ export default {
 
     // http://webpack.github.io/docs/loaders.html
     loaders: [
-      // JS
+      // JS https://github.com/babel/babel-loader
       {test: /\.(js(\?.*)?)$/, loaders: ["babel?stage=0"], exclude: /node_modules/},
 
       // JSON
@@ -183,11 +183,4 @@ export default {
       });
     },
   ],
-
-  // Include polyfills or mocks for various node stuff: http://webpack.github.io/docs/configuration.html#node
-  node: {
-    // Required to include Joi
-    net: "empty",
-    dns: "empty",
-  },
 };
