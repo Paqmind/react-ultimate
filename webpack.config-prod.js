@@ -65,9 +65,6 @@ export default {
     // Web path (used to prefix URLs): http://webpack.github.io/docs/configuration.html#output-publicpath
     publicPath: "/public/",
 
-    // ??? http://webpack.github.io/docs/configuration.html#output-sourcemapfilename
-    sourceMapFilename: "debugging/[file].map",
-
     // Include pathinfo in output (like `require(/*./test*/23)`): http://webpack.github.io/docs/configuration.html#output-pathinfo
     pathinfo: false,
   },
@@ -76,7 +73,7 @@ export default {
   debug: false,
 
   // Enhance debugging: http://webpack.github.io/docs/configuration.html#devtool
-  devtool: undefined,
+  devtool: null,
 
   // Capture timing information: http://webpack.github.io/docs/configuration.html#profile
   profile: false,
@@ -92,11 +89,11 @@ export default {
       // JS https://github.com/babel/babel-loader
       {test: /\.(js(\?.*)?)$/, loaders: ["babel?stage=0"], exclude: /node_modules/},
 
-      // JSON
+      // JSON https://github.com/webpack/json-loader
       {test: /\.(json(\?.*)?)$/,  loaders: ["json"]},
       {test: /\.(json5(\?.*)?)$/, loaders: ["json5"]},
 
-      // RAW
+      // RAW https://github.com/webpack/raw-loader
       {test: /\.(txt(\?.*)?)$/, loaders: ["raw"]},
 
       // URL: https://github.com/webpack/url-loader
