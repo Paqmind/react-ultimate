@@ -13,22 +13,22 @@ const BACKEND_DIR = Path.join(__dirname, "backend");
 const PUBLIC_DIR = Path.join(__dirname, "public");
 
 // Paths to minified library distributions relative to the root node_modules
-const MINIFIED_DEPS = Object.freeze([
+const MINIFIED_DEPS = [
   "moment/min/moment.min.js",
-]);
+];
 
 const API_AUTH = process.env.hasOwnProperty("API_USER_NAME") && process.env.hasOwnProperty("API_USER_PASS")
   ? "Basic " + Base64.encode(process.env.API_USER_NAME + ":" + process.env.API_USER_PASS)
   : undefined;
 
-const DEFINE = Object.freeze({
+const DEFINE = {
   "process.env": {
     "NODE_ENV": JSON.stringify(process.env.NODE_ENV),
   },
   "config": {
     "api-auth": JSON.stringify(API_AUTH),
   },
-});
+};
 
 // CONFIG ==========================================================================================
 export default {
