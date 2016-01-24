@@ -4,8 +4,7 @@ import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 
-let dataCursor = state.select(api.plural);
-let itemsCursor = dataCursor.select("items");
+let DBCursor = state.select("DB", api.plural);
 
 // Id -> Maybe Robot
 export default function fetchItem(id) {
@@ -14,9 +13,8 @@ export default function fetchItem(id) {
   return ajax.get(api.itemUrl.replace(`:id`, id))
     .then(response => {
       if (response.status.startsWith("2")) {
-        let data = response.data.data;
-        let item = parseAs(Robot, data);
-        itemsCursor.set(id, item);
+        let item = parseAs(Robot, response.data.data);
+        DBCursor.set(id, item);
         return item;
       } else {
         return undefined;

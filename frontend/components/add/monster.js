@@ -16,7 +16,7 @@ import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 import state from "frontend/state";
 
-let dataCursor = state.select(api.plural);
+let UICursor = state.select("UI", api.plural);
 
 let validateFormDebounced = debounce(key => {
   actions.validateAddForm(key).catch(err => null);
@@ -27,8 +27,8 @@ let validateFormDebounced = debounce(key => {
 })
 @branch({
   cursors: {
-    form: [api.plural, "addForm"],
-    errors: [api.plural, "addFormErrors"],
+    form: ["UI", api.plural, "addForm"],
+    errors: ["UI", api.plural, "addFormErrors"],
   }
 })
 export default class MonsterAdd extends DeepComponent {

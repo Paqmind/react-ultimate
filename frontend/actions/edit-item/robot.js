@@ -4,8 +4,8 @@ import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 
-let dataCursor = state.select(api.plural);
-let itemsCursor = dataCursor.select("items");
+let DBCursor = state.select("DB", api.plural);
+let UICursor = state.select("UI", api.plural);
 
 // Object -> Maybe Robot
 export default function editItem(data) {
@@ -15,18 +15,18 @@ export default function editItem(data) {
   let id = item.id;
 
   // Optimistic update
-  let oldItem = itemsCursor.get(id);
-  itemsCursor.set(id, item);
+  let oldItem = DBCursor.get(id);
+  DBCursor.set(id, item);
 
   return ajax.put(api.itemUrl.replace(":id", id), item)
     .then(response => {
       if (response.status.startsWith("2")) {
         if (response.status == "200" && response.data.data) {
-          item = itemsCursor.set(id, parseAs(Robot, response.data.data));
+          item = DBCursor.set(id, parseAs(Robot, response.data.data));
         }
         return item;
       } else {
-        itemsCursor.set(id, oldItem);
+        DBCursor.set(id, oldItem);
         throw Error(response.statusText);
       }
     });

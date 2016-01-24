@@ -9,26 +9,26 @@ import alertActions from "frontend/actions/alert";
 import fetchIndex from "frontend/actions/fetch-index/robot";
 
 let urlCursor = state.select("url");
-let dataCursor = state.select(api.plural);
-let itemsCursor = dataCursor.select("items");
+let DBCursor = state.select("DB", api.plural);
+let UICursor = state.select("UI", api.plural);
 
 // Id -> Maybe Robot
 export default function removeItem(id) {
   console.debug(api.plural + `.removeItem(${id})`);
 
-  let {items, pagination} = dataCursor.get();
+  let {pagination} = UICursor.get();
 
   // Optimistic update
-  let oldItem = items[id];
+  let oldItem = DBCursor.get(id);
   let oldIndex = indexOf(id, pagination);
 
-  itemsCursor.unset(id);
-  dataCursor.apply("total", t => t ? t - 1 : t);
-  dataCursor.apply("pagination", ps => reject(_id => _id == id, ps));
+  DBCursor.unset(id);
+  UICursor.apply("total", t => t ? t - 1 : t);
+  UICursor.apply("pagination", ps => reject(_id => _id == id, ps));
 
   if (urlCursor.get("route") == api.singular + "-index") {
     setImmediate(() => {
-      let {total, offset, limit} = dataCursor.get();
+      let {total, offset, limit} = UICursor.get();
 
       let recommendedOffset = recommendOffset(total, offset, limit);
       if (offset > recommendedOffset) {
@@ -39,7 +39,7 @@ export default function removeItem(id) {
 
   return ajax.delete(api.itemUrl.replace(":id", id))
     .then(response => {
-      let {filters, sorts, offset, limit, pagination} = dataCursor.get();
+      let {filters, sorts, offset, limit, pagination} = UICursor.get();
 
       if (response.status.startsWith("2")) {
         if (urlCursor.get("route") == api.singular + "-index") {
@@ -49,10 +49,10 @@ export default function removeItem(id) {
         }
         return oldItem;
       } else {
-        itemsCursor.set(id, oldItem);
-        dataCursor.apply("total", t => t + 1);
+        DBCursor.set(id, oldItem);
+        UICursor.apply("total", t => t + 1);
         if (oldIndex != -1) {
-          dataCursor.apply("pagination", ps => insert(oldIndex, id, ps));
+          UICursor.apply("pagination", ps => insert(oldIndex, id, ps));
         }
         alertActions.addItem({message: "Remove Robot failed with message " + response.statusText, category: "error"});
         return undefined;

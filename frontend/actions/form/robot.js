@@ -11,43 +11,43 @@ import ajax from "frontend/ajax";
 import alertActions from "frontend/actions/alert";
 import addItem from "frontend/actions/add-item/robot";
 
-let dataCursor = state.select(api.plural);
-let itemsCursor = dataCursor.select("items");
+let DBCursor = state.select("DB", api.plural);
+let UICursor = state.select("UI", api.plural);
 
 // ProductData -> Maybe Product
 function updateAddForm(key, data) {
   console.debug(api.plural + `.updateAddForm(${key}, ...)`);
 
-  let form = dataCursor.get("addForm");
-  let newForm = dataCursor.set("addForm", Lens(key).set(form, data));
+  let form = UICursor.get("addForm");
+  let newForm = UICursor.set("addForm", Lens(key).set(form, data));
   return Promise.resolve(newForm);
 }
 
 function updateEditForm(key, data) {
   console.debug(api.plural + `.updateEditForm(${key}, ...)`);
 
-  let form = dataCursor.get("editForm");
-  let newForm = dataCursor.set("editForm", Lens(key).set(form, data));
+  let form = UICursor.get("editForm");
+  let newForm = UICursor.set("editForm", Lens(key).set(form, data));
   return Promise.resolve(newForm);
 }
 
 function validateAddForm(key) {
   console.debug(api.plural + `.validateAddForm(${key})`);
 
-  if (!key && !dataCursor.select("addForm").get("id")) {
-    dataCursor.select("addForm", "id").set(UUID.v4());
+  if (!key && !UICursor.select("addForm").get("id")) {
+    UICursor.select("addForm", "id").set(UUID.v4());
   }
 
-  let {addForm, addFormErrors} = dataCursor.get();
+  let {addForm, addFormErrors} = UICursor.get();
   let data = Lens(key).get(addForm);
   let type = TcLens(key).get(Robot);
 
   let {valid, errors, value} = validateData(data, type, key);
   if (valid) {
-    dataCursor.set("addFormErrors", merge(addFormErrors, unflattenObject({[key]: undefined})));
+    UICursor.set("addFormErrors", merge(addFormErrors, unflattenObject({[key]: undefined})));
     return Promise.resolve(value);
   } else {
-    dataCursor.set("addFormErrors", merge(addFormErrors, errors));
+    UICursor.set("addFormErrors", merge(addFormErrors, errors));
     return Promise.reject(errors);
   }
 }
@@ -55,30 +55,30 @@ function validateAddForm(key) {
 function validateEditForm(key) {
   console.debug(api.plural + `.validateEditForm(${key})`);
 
-  let {editForm, editFormErrors} = dataCursor.get();
+  let {editForm, editFormErrors} = UICursor.get();
   let data = Lens(key).get(editForm);
   let type = TcLens(key).get(Robot);
 
   let {valid, errors, value} = validateData(data, type, key);
   if (valid) {
-    dataCursor.set("editFormErrors", merge(editFormErrors, unflattenObject({[key]: undefined})));
+    UICursor.set("editFormErrors", merge(editFormErrors, unflattenObject({[key]: undefined})));
     return Promise.resolve(value);
   } else {
-    dataCursor.set("editFormErrors", merge(editFormErrors, errors));
+    UICursor.set("editFormErrors", merge(editFormErrors, errors));
     return Promise.reject(errors);
   }
 }
 
 function resetAddForm(id) {
-  dataCursor.set("addForm", {});
-  dataCursor.set("addFormErrors", {});
+  UICursor.set("addForm", {});
+  UICursor.set("addFormErrors", {});
 }
 
 function resetEditForm(id) {
-  let item = itemsCursor.get(id);
+  let item = DBCursor.get(id);
   let form = formatTyped(Robot, item);
-  dataCursor.set("editForm", form);
-  dataCursor.set("editFormErrors", {});
+  UICursor.set("editForm", form);
+  UICursor.set("editFormErrors", {});
 }
 
 export default {

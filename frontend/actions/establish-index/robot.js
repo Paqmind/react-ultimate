@@ -6,7 +6,7 @@ import loadIndex from "frontend/actions/load-index/robot";
 
 let urlCursor = state.select("url");
 let urlQueryCursor = state.select("urlQuery");
-let dataCursor = state.select(api.plural);
+let UICursor = state.select("UI", api.plural);
 
 export default function establishIndex() {
   console.debug(api.plural + `.establishIndex()`);
@@ -17,31 +17,31 @@ export default function establishIndex() {
   let urlOffset = urlQuery.offset;
   let urlLimit = urlQuery.limit;
 
-  let {filters, sorts} = dataCursor.get();
+  let {filters, sorts} = UICursor.get();
 
   if (!equals(urlFilters || ROBOT.index.filters, filters)) {
-    dataCursor.set("filters", urlFilters || ROBOT.index.filters);
-    if (true || !dataCursor.get("fullLoad")) {
+    UICursor.set("filters", urlFilters || ROBOT.index.filters);
+    if (true || !UICursor.get("fullLoad")) {
       /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
       // Pagination is messed up, do reset
-      dataCursor.merge({
+      UICursor.merge({
         total: 0,
         pagination: [],
       });
     }
   }
   if (!equals(urlSorts || ROBOT.index.sorts, sorts)) {
-    dataCursor.set("sorts", urlSorts || ROBOT.index.sorts);
-    if (!dataCursor.get("fullLoad")) {
+    UICursor.set("sorts", urlSorts || ROBOT.index.sorts);
+    if (!UICursor.get("fullLoad")) {
       // Pagination is messed up, do reset
-      dataCursor.merge({
+      UICursor.merge({
         total: 0,
         pagination: [],
       });
     }
   }
-  dataCursor.set("offset", urlOffset || ROBOT.index.offset);
-  dataCursor.set("limit", urlLimit || ROBOT.index.limit);
+  UICursor.set("offset", urlOffset || ROBOT.index.offset);
+  UICursor.set("limit", urlLimit || ROBOT.index.limit);
 
   return loadIndex();
 }

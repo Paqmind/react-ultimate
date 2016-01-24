@@ -3,8 +3,7 @@ import {Monster} from "shared/types";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 
-let dataCursor = state.select(api.plural);
-let itemsCursor = dataCursor.select("items");
+let DBCursor = state.select("DB", api.plural);
 
 // Id -> Maybe Monster
 export default function fetchItem(id) {
@@ -14,7 +13,7 @@ export default function fetchItem(id) {
     .then(response => {
       if (response.status.startsWith("2")) {
         let item = Monster(response.data.data);
-        itemsCursor.set(id, item);
+        DBCursor.set(id, item);
         return item;
       } else {
         return undefined;

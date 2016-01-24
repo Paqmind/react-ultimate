@@ -10,15 +10,15 @@ import state from "frontend/state";
 import actions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 
-let dataCursor = state.select(api.plural);
+let UICursor = state.select("UI", api.plural);
 
 @statics({
   loadData: actions.establishItem,
 })
 @branch({
   cursors: {
-    havePendingRequests: [api.plural, "havePendingRequests"],
-    item: [api.plural, "currentItem"],
+    havePendingRequests: ["UI", api.plural, "havePendingRequests"],
+    item: ["UI", api.plural, "currentItem"],
   }
 })
 export default class RobotDetail extends DeepComponent {
@@ -65,10 +65,10 @@ class Actions extends ShallowComponent {
   render() {
     let {item} = this.props;
     let query = formatQuery({
-      filters: dataCursor.get("filters"),
-      sorts: dataCursor.get("sorts"),
-      offset: dataCursor.get("offset"),
-      limit: dataCursor.get("limit"),
+      filters: UICursor.get("filters"),
+      sorts: UICursor.get("sorts"),
+      offset: UICursor.get("offset"),
+      limit: UICursor.get("limit"),
     });
 
     return (

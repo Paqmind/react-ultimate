@@ -13,19 +13,19 @@ import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/c
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import MonsterItem from "frontend/components/item/monster";
 
-let dataCursor = state.select("monsters");
+let UICursor = state.select("UI", api.plural);
 
 @statics({
   loadData: actions.loadIndex,
 })
 @branch({
   cursors: {
-    filters: [api.plural, "filters"],
-    sorts: [api.plural, "sorts"],
-    offset: [api.plural, "offset"],
-    limit: [api.plural, "limit"],
-    total: [api.plural, "total"],
-    items: [api.plural, "currentItems"],
+    filters: ["UI", api.plural, "filters"],
+    sorts: ["UI", api.plural, "sorts"],
+    offset: ["UI", api.plural, "offset"],
+    limit: ["UI", api.plural, "limit"],
+    total: ["UI", api.plural, "total"],
+    items: ["UI", api.plural, "currentItems"],
   }
 })
 export default class MonsterIndex extends DeepComponent {
@@ -54,7 +54,7 @@ export default class MonsterIndex extends DeepComponent {
   }
 
   setOffset(offset) {
-    dataCursor.set("offset", offset || MONSTER.index.offset);
+    UICursor.set("offset", offset || MONSTER.index.offset);
     actions.loadIndex();
   }
 }
@@ -99,12 +99,12 @@ class Actions extends ShallowComponent {
   }
 
   setFilters(filters) {
-    if (!equals(filters, dataCursor.get("filters"))) {
-      dataCursor.set("filters", filters);
-      if ((dataCursor.get("pagination").length < dataCursor.get("total")) || true) {
+    if (!equals(filters, UICursor.get("filters"))) {
+      UICursor.set("filters", filters);
+      if ((UICursor.get("pagination").length < UICursor.get("total")) || true) {
         /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
         // not all data loaded or new filters aren't subset of old
-        dataCursor.merge({
+        UICursor.merge({
           total: 0,
           pagination: [],
         });
@@ -114,11 +114,11 @@ class Actions extends ShallowComponent {
   }
 
   setSorts(sorts) {
-    if (!equals(sorts, dataCursor.get("sorts"))) {
-      dataCursor.set("sorts", sorts);
-      if (dataCursor.get("pagination").length < dataCursor.get("total")) {
+    if (!equals(sorts, UICursor.get("sorts"))) {
+      UICursor.set("sorts", sorts);
+      if (UICursor.get("pagination").length < UICursor.get("total")) {
         // not all data loaded
-        dataCursor.merge({
+        UICursor.merge({
           total: 0,
           pagination: [],
         });
@@ -128,7 +128,7 @@ class Actions extends ShallowComponent {
   }
 
   setLimit(limit) {
-    dataCursor.set("limit", limit || MONSTER.index.limit);
+    UICursor.set("limit", limit || MONSTER.index.limit);
     actions.loadIndex();
   }
 }

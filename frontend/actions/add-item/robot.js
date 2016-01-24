@@ -8,8 +8,8 @@ import {router} from "frontend/router";
 import ajax from "frontend/ajax";
 
 let urlCursor = state.select("url");
-let dataCursor = state.select(api.plural);
-let itemsCursor = dataCursor.select("items");
+let DBCursor = state.select("DB", api.plural);
+let UICursor = state.select("UI", api.plural);
 
 // Object -> Maybe Robot
 export default function addItem(data) {
@@ -20,15 +20,15 @@ export default function addItem(data) {
   let id = item.id;
 
   // Optimistic update
-  dataCursor.apply("total", t => t + 1);
-  itemsCursor.set(id, item);
+  UICursor.apply("total", t => t + 1);
+  DBCursor.set(id, item);
 
-  if (dataCursor.get("fullLoad")) {
+  if (UICursor.get("fullLoad")) {
     // Inject new id at whatever place
-    dataCursor.apply("pagination", ps => append(id, ps));
+    UICursor.apply("pagination", ps => append(id, ps));
   } else {
     // Pagination is messed up, do reset
-    dataCursor.merge({
+    UICursor.merge({
       total: 0,
       pagination: [],
     });
@@ -42,16 +42,16 @@ export default function addItem(data) {
 
   return ajax.put(api.itemUrl.replace(":id", id), item)
     .then(response => {
-      let {total, items, pagination} = dataCursor.get();
+      let {total, items, pagination} = UICursor.get();
       if (response.status.startsWith("2")) {
         if (response.status == "200" && response.data.data) {
-          item = itemsCursor.set(id, parseAs(Robot, response.data.data));
+          item = DBCursor.set(id, parseAs(Robot, response.data.data));
         }
         return item;
       } else {
-        itemsCursor.unset(id);
-        dataCursor.apply("total", t => t ? t - 1 : t);
-        dataCursor.apply("pagination", ps => reject(id => id == item.id, ps));
+        DBCursor.unset(id);
+        UICursor.apply("total", t => t ? t - 1 : t);
+        UICursor.apply("pagination", ps => reject(id => id == item.id, ps));
         throw Error(response.statusText);
       }
     });

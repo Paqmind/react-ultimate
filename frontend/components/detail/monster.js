@@ -9,15 +9,15 @@ import state from "frontend/state";
 import actions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 
-let dataCursor = state.select(api.plural);
+let UICursor = state.select("UI", api.plural);
 
 @statics({
   loadData: actions.establishItem,
 })
 @branch({
   cursors: {
-    havePendingRequests: [api.plural, "havePendingRequests"],
-    item: [api.plural, "currentItem"],
+    havePendingRequests: ["UI", api.plural, "havePendingRequests"],
+    item: ["UI", api.plural, "currentItem"],
   }
 })
 export default class MonsterDetail extends DeepComponent {

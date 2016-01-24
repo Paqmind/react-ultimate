@@ -18,12 +18,12 @@ import RobotItem from "frontend/components/item/robot";
 })
 @branch({
   cursors: {
-    filters: [api.plural, "filters"],
-    sorts: [api.plural, "sorts"],
-    offset: [api.plural, "offset"],
-    limit: [api.plural, "limit"],
-    total: [api.plural, "total"],
-    items: [api.plural, "currentItems"],
+    filters: ["UI", api.plural, "filters"],
+    sorts: ["UI", api.plural, "sorts"],
+    offset: ["UI", api.plural, "offset"],
+    limit: ["UI", api.plural, "limit"],
+    total: ["UI", api.plural, "total"],
+    items: ["UI", api.plural, "currentItems"],
   }
 })
 export default class RobotIndex extends DeepComponent {

@@ -8,8 +8,8 @@ import state from "frontend/state";
 import ajax from "frontend/ajax";
 
 let reduceIndexed = addIndex(reduce);
-let dataCursor = state.select(api.plural);
-let itemsCursor = dataCursor.select("items");
+let DBCursor = state.select("DB", api.plural);
+let UICursor = state.select("UI", api.plural);
 
 // Filters, Sorts, Offset, Limit -> Maybe [Monster]
 export default function fetchIndex(filters, sorts, offset, limit) {
@@ -22,9 +22,9 @@ export default function fetchIndex(filters, sorts, offset, limit) {
       if (response.status.startsWith("2")) {
         let newItemsArray = map(m => parseAs(Monster, m), response.data.data);
         let newItems = toObject(newItemsArray);
-        itemsCursor.merge(newItems);
-        dataCursor.set("total", response.data.meta.page.total);
-        dataCursor.apply("pagination", ps => {
+        DBCursor.merge(newItems);
+        UICursor.set("total", response.data.meta.page.total);
+        UICursor.apply("pagination", ps => {
           return reduceIndexed((memo, m, i) => {
               return insert(offset + i, m.id, memo);
             }, ps, newItemsArray
