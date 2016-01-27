@@ -35,7 +35,7 @@ export default class Tech extends Component {
 
             <h3>Shared</h3>
             <ul>
-              <li><a href="https://http://ramdajs.com/">Ramda</a>: functional library</li>
+              <li><a href="http://ramdajs.com/">Ramda</a>: functional library</li>
               <li><a href="https://github.com/jquery/globalize">Globalize</a>: I18n, L10n</li>
               <li><a href="https://github.com/gcanti/tcomb">Tcomb</a>: type checking and DDD</li>
               <li><a href="https://github.com/gcanti/tcomb-validation">Tcomb-Validation</a>: tcomb-based validation</li>
