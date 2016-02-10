@@ -21,7 +21,8 @@ React is not a final answer. Reactivity probably is.
 
 ```
 $ wget https://github.com/Paqmind/react-ultimate/archive/master.zip; unzip master.zip -d react-ultimate; rm master.zip
-$ cd react-starter
+$ cd react-ultimate
+$ cd react-ultimate-master
 $ npm install; bin/install
 ```
 
