@@ -71,10 +71,8 @@ function resetAddForm(UICursor) {
   UICursor.set("addFormErrors", {});
 }
 
-function resetEditForm(UICursor, Type, model) {
-  console.debug(`.resetEditForm`);
-
-  let form = formatTyped(Type, model);
+function resetEditForm(UICursor, Type, origin) {
+  let form = formatTyped(Type, origin);
   UICursor.set("editForm", form);
   UICursor.set("editFormErrors", {});
 }

@@ -2,8 +2,8 @@ import {append, assoc, reject} from "ramda";
 import UUID from "node-uuid";
 import {parseAs} from "shared/parsers";
 import state from "frontend/state";
-import {router} from "frontend/router";
 import ajax from "frontend/ajax";
+import {router} from "frontend/router";
 
 let urlCursor = state.select("url");
 

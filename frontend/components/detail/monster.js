@@ -17,7 +17,6 @@ let UICursor = state.select("UI", "monster");
   loadData: function() {
     let urlParams = state.select("url").get("params");
     let id = urlParams.id;
-
     UICursor.set("id", id);
     return actions.loadItem(DBCursor, UICursor, Monster, api);
   }

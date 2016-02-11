@@ -18,7 +18,6 @@ let UICursor = state.select("UI", "robot");
   loadData: function() {
     let urlParams = state.select("url").get("params");
     let id = urlParams.id;
-
     UICursor.set("id", id);
     return actions.loadItem(DBCursor, UICursor, Robot, api);
   }

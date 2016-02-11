@@ -4,6 +4,7 @@ import updateUI from "frontend/actions/load-index/update-ui";
 
 import loadItem from "frontend/actions/load-item/index";
 import addItem from "frontend/actions/add-item/index";
+import editItem from "frontend/actions/edit-item/index";
 
 import {updateAddForm, validateAddForm, resetAddForm} from "frontend/actions/form/index";
 import {updateEditForm, validateEditForm, resetEditForm} from "frontend/actions/form/index";
@@ -14,8 +15,8 @@ export default {
 
   // CRUD
   loadItem,
-  addItem,
-  // editItem, removeItem,
+  addItem, editItem,
+  // removeItem,
   updateAddForm, validateAddForm, resetAddForm,
   updateEditForm, validateEditForm, resetEditForm,
 };

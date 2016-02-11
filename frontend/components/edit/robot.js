@@ -10,46 +10,57 @@ import {debounce, hasValues} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
 import {Robot} from "shared/types";
 import {statics} from "frontend/helpers/react";
-import actions from "frontend/actions/robot";
+import actions from "frontend/actions/index";
 import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 import state from "frontend/state";
 
-let UICursor = state.select("UI", api.plural);
+let DBCursor = state.select("DB", "robots");
+let UICursor = state.select("UI", "robot");
 
 let validateFormDebounced = debounce(key => {
-  actions.validateEditForm(key).catch(err => null);
+  actions.validateEditForm(UICursor, key, Robot).catch(err => null);
 }, 500);
 
 @statics({
   loadData: () => {
+    let urlParams = state.select("url").get("params");
+    let id = urlParams.id;
+    UICursor.set("id", id);
+
     actions
-      .establishItem()
-      .then(item => actions.resetEditForm(item.id));
+      .loadItem(DBCursor, UICursor, Robot, api)
+      .then(() => {
+        let model = UICursor.get("currentItem");
+        UICursor.set("editForm", model);
+        actions.resetEditForm(UICursor, Robot, model);
+      });
   }
 })
 @branch({
   cursors: {
     havePendingRequests: ["UI", api.plural, "havePendingRequests"],
-    item: ["UI", api.plural, "currentItem"],
-    form: ["UI", api.plural, "editForm"],
-    errors: ["UI", api.plural, "editFormErrors"],
+    item: ["UI", "robot", "currentItem"],
+    form: ["UI", "robot", "editForm"],
+    errors: ["UI", "robot", "editFormErrors"],
   },
 })
 export default class RobotEdit extends DeepComponent {
   handleBlur(key) {
-    actions.validateEditForm(key).catch(err => null);
+    actions.validateEditForm(UICursor, key, Robot).catch(err => null);
   }
 
   handleChange(key, data) {
-    actions.updateEditForm(key, data);
+    actions.updateEditForm(UICursor, key, data);
     validateFormDebounced(key);
   }
 
   handleSubmit() {
     actions
-      .validateEditForm("")
-      .then(actions.editItem)
+      .validateEditForm(UICursor, "", Robot)
+      .then(() => {
+        return actions.editItem(DBCursor, UICursor, Robot, api);
+      })
       .then(item => {
         alertActions.addItem({
           message: "Robot edited with id: " + item.id,
@@ -65,7 +76,8 @@ export default class RobotEdit extends DeepComponent {
   }
 
   handleReset() {
-    actions.resetEditForm(this.props.item.id);
+    let model = UICursor.get("currentItem");
+    actions.resetEditForm(UICursor, Robot, model);
   }
 
   render() {

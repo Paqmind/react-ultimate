@@ -20,7 +20,7 @@ let DBCursor = state.select("DB", "robots");
 let UICursor = state.select("UI", "robot");
 
 let validateFormDebounced = debounce(key => {
-  actions.validateAddForm(UICursor, key).catch(err => null);
+  actions.validateAddForm(UICursor, key, Robot).catch(err => null);
 }, 500);
 
 @branch({
@@ -43,7 +43,7 @@ export default class RobotAdd extends DeepComponent {
     actions
       .validateAddForm(UICursor, "", Robot)
       .then(() => {
-        return actions.addItem(DBCursor, UICursor, Robot, api)
+        return actions.addItem(DBCursor, UICursor, Robot, api);
       })
       .then(item => {
         alertActions.addItem({

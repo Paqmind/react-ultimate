@@ -1,17 +1,16 @@
-import api from "shared/api/robot";
-import {Robot} from "shared/types";
 import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 
-let DBCursor = state.select("DB", api.plural);
-let UICursor = state.select("UI", api.plural);
 
-// Object -> Maybe Robot
-export default function editItem(data) {
+// Object -> Maybe Type
+export default function editItem(DBCursor, UICursor, Type, api) {
+
+  let data = UICursor.get("editForm")
+
   console.debug(api.plural + `.editItem(${data.id})`);
 
-  let item = parseAs(Robot, data);
+  let item = parseAs(Type, data);
   let id = item.id;
 
   // Optimistic update
@@ -22,7 +21,7 @@ export default function editItem(data) {
     .then(response => {
       if (response.status.startsWith("2")) {
         if (response.status == "200" && response.data.data) {
-          item = DBCursor.set(id, parseAs(Robot, response.data.data));
+          item = DBCursor.set(id, parseAs(Type, response.data.data));
         }
         return item;
       } else {

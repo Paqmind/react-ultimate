@@ -9,46 +9,57 @@ import api from "shared/api/monster";
 import {debounce, hasValues} from "shared/helpers/common";
 import {Monster} from "shared/types";
 import {statics} from "frontend/helpers/react";
-import actions from "frontend/actions/monster";
+import actions from "frontend/actions/index";
 import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 import state from "frontend/state";
 
-let UICursor = state.select("UI", api.plural);
+let DBCursor = state.select("DB", "monsters");
+let UICursor = state.select("UI", "monster");
 
 let validateFormDebounced = debounce(key => {
-  actions.validateEditForm(key).catch(err => null);
+  actions.validateEditForm(UICursor, key, Monster).catch(err => null);
 }, 500);
 
 @statics({
   loadData: () => {
+    let urlParams = state.select("url").get("params");
+    let id = urlParams.id;
+    UICursor.set("id", id);
+
     actions
-      .establishItem()
-      .then(item => actions.resetEditForm(item.id));
+      .loadItem(DBCursor, UICursor, Monster, api)
+      .then(() => {
+        let model = UICursor.get("currentItem");
+        UICursor.set("editForm", model);
+        actions.resetEditForm(UICursor, Monster, model);
+      });
   }
 })
 @branch({
   cursors: {
     havePendingRequests: ["UI", api.plural, "havePendingRequests"],
-    item: ["UI", api.plural, "currentItem"],
-    form: ["UI", api.plural, "editForm"],
-    errors: ["UI", api.plural, "editFormErrors"],
+    item: ["UI",  "monster", "currentItem"],
+    form: ["UI",  "monster", "editForm"],
+    errors: ["UI",  "monster", "editFormErrors"],
   },
 })
 export default class MonsterEdit extends DeepComponent {
   handleBlur(key) {
-    actions.validateEditForm(key).catch(err => null);
+    actions.validateEditForm(UICursor, key, Monster).catch(err => null);
   }
 
   handleChange(key, data) {
-    actions.updateEditForm(key, data);
+    actions.updateEditForm(UICursor, key, data);
     validateFormDebounced(key);
   }
 
   handleSubmit() {
     actions
-      .validateEditForm("")
-      .then(actions.editItem)
+      .validateEditForm(UICursor, "", Monster)
+      .then(() => {
+        return actions.editItem(DBCursor, UICursor, Monster, api);
+      })
       .then(item => {
         alertActions.addItem({
           message: "Monster edited with id: " + item.id,
@@ -64,7 +75,8 @@ export default class MonsterEdit extends DeepComponent {
   }
 
   handleReset() {
-    actions.resetEditForm(this.props.item.id);
+    let model = UICursor.get("currentItem");
+    actions.resetEditForm(UICursor, Monster, model);
   }
 
   render() {
@@ -79,7 +91,7 @@ export default class MonsterEdit extends DeepComponent {
               <div className="row">
                 <div className="col-xs-12 col-sm-3">
                   <div className="thumbnail">
-                    <img src={"http://robohash.org/" + item.id + "?size=200x200"} width="200px" height="200px"/>
+                    <img src={"http://robohash.org/" + item.id + "?set=set2&size=200x200"} width="200px" height="200px"/>
                   </div>
                 </div>
                 <div className="col-xs-12 col-sm-9">
