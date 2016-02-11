@@ -1,22 +1,19 @@
 import {append, assoc, reject} from "ramda";
 import UUID from "node-uuid";
-import api from "shared/api/robot";
-import {Robot} from "shared/types";
 import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import {router} from "frontend/router";
 import ajax from "frontend/ajax";
 
 let urlCursor = state.select("url");
-let DBCursor = state.select("DB", api.plural);
-let UICursor = state.select("UI", api.plural);
 
-// Object -> Maybe Robot
-export default function addItem(data) {
+// Object -> Maybe Type
+export default function addItem(DBCursor, UICursor, Type, api) {
   console.debug(api.plural + `.addItem(...)`);
 
+  let data = UICursor.get("addForm");
   data = assoc("id", data.id || UUID.v4(), data);
-  let item = parseAs(Robot, data);
+  let item = parseAs(Type, data);
   let id = item.id;
 
   // Optimistic update
@@ -25,12 +22,12 @@ export default function addItem(data) {
 
   if (UICursor.get("fullLoad")) {
     // Inject new id at whatever place
-    UICursor.apply("pagination", ps => append(id, ps));
+    UICursor.apply("ids", ps => append(id, ps));
   } else {
     // Pagination is messed up, do reset
     UICursor.merge({
       total: 0,
-      pagination: [],
+      ids: [],
     });
   }
 
@@ -42,16 +39,16 @@ export default function addItem(data) {
 
   return ajax.put(api.itemUrl.replace(":id", id), item)
     .then(response => {
-      let {total, items, pagination} = UICursor.get();
+      let {total, items, ids} = UICursor.get();
       if (response.status.startsWith("2")) {
         if (response.status == "200" && response.data.data) {
-          item = DBCursor.set(id, parseAs(Robot, response.data.data));
+          item = DBCursor.set(id, parseAs(Type, response.data.data));
         }
         return item;
       } else {
         DBCursor.unset(id);
         UICursor.apply("total", t => t ? t - 1 : t);
-        UICursor.apply("pagination", ps => reject(id => id == item.id, ps));
+        UICursor.apply("ids", ps => reject(id => id == item.id, ps));
         throw Error(response.statusText);
       }
     });

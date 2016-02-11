@@ -2,37 +2,32 @@ import UUID from "node-uuid";
 import Lens from "paqmind.data-lens";
 import TcLens from "paqmind.tcomb-lens";
 import {merge, unflattenObject} from "shared/helpers/common";
-import api from "shared/api/monster";
-import {Monster} from "shared/types";
 import {formatTyped} from "shared/formatters";
 import {validateData} from "shared/validation";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 import alertActions from "frontend/actions/alert";
-import addItem from "frontend/actions/add-item/monster";
-
-let DBCursor = state.select("DB", api.plural);
-let UICursor = state.select("UI", api.plural);
 
 // ProductData -> Maybe Product
-function updateAddForm(key, data) {
-  console.debug(api.plural + `.updateAddForm(${key}, ...)`);
+function updateAddForm(UICursor, key, data) {
+  console.log('key:', key);
+  console.debug(`.updateAddForm(${key}, ...)`);
 
   let form = UICursor.get("addForm");
   let newForm = UICursor.set("addForm", Lens(key).set(form, data));
   return Promise.resolve(newForm);
 }
 
-function updateEditForm(key, data) {
-  console.debug(api.plural + `.updateEditForm(${key}, ...)`);
+function updateEditForm(UICursor, key, data) {
+  console.debug(`.updateEditForm(${key}, ...)`);
 
   let form = UICursor.get("editForm");
   let newForm = UICursor.set("editForm", Lens(key).set(form, data));
   return Promise.resolve(newForm);
 }
 
-function validateAddForm(key) {
-  console.debug(api.plural + `.validateAddForm(${key})`);
+function validateAddForm(UICursor, key, Type) {
+  console.debug(`.validateAddForm(${key})`);
 
   if (!key && !UICursor.select("addForm").get("id")) {
     UICursor.select("addForm", "id").set(UUID.v4());
@@ -40,7 +35,7 @@ function validateAddForm(key) {
 
   let {addForm, addFormErrors} = UICursor.get();
   let data = Lens(key).get(addForm);
-  let type = TcLens(key).get(Monster);
+  let type = TcLens(key).get(Type);
 
   let {valid, errors, value} = validateData(data, type, key);
   if (valid) {
@@ -52,12 +47,12 @@ function validateAddForm(key) {
   }
 }
 
-function validateEditForm(key) {
-  console.debug(api.plural + `.validateEditForm(${key})`);
+function validateEditForm(UICursor, key, Type) {
+  console.debug(`.validateEditForm(${key})`);
 
   let {editForm, editFormErrors} = UICursor.get();
   let data = Lens(key).get(editForm);
-  let type = TcLens(key).get(Monster);
+  let type = TcLens(key).get(Type);
 
   let {valid, errors, value} = validateData(data, type, key);
   if (valid) {
@@ -69,14 +64,17 @@ function validateEditForm(key) {
   }
 }
 
-function resetAddForm(id) {
+function resetAddForm(UICursor) {
+  console.debug(`.resetAddForm`);
+
   UICursor.set("addForm", {});
   UICursor.set("addFormErrors", {});
 }
 
-function resetEditForm(id) {
-  let item = DBCursor.get(id);
-  let form = formatTyped(Monster, item);
+function resetEditForm(UICursor, Type, model) {
+  console.debug(`.resetEditForm`);
+
+  let form = formatTyped(Type, model);
   UICursor.set("editForm", form);
   UICursor.set("editFormErrors", {});
 }

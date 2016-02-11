@@ -11,40 +11,40 @@ import {formatQuery} from "shared/helpers/jsonapi";
 import {formatTyped} from "shared/formatters";
 import {Monster} from "shared/types";
 import {statics} from "frontend/helpers/react";
-import actions from "frontend/actions/monster";
+import actions from "frontend/actions/index";
 import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 import state from "frontend/state";
 
-let UICursor = state.select("UI", api.plural);
+let DBCursor = state.select("DB", "monsters");
+let UICursor = state.select("UI", "monster");
 
 let validateFormDebounced = debounce(key => {
-  actions.validateAddForm(key).catch(err => null);
+  actions.validateAddForm(UICursor, key).catch(err => null);
 }, 500);
 
-@statics({
-  loadData: actions.loadIndex,
-})
 @branch({
   cursors: {
-    form: ["UI", api.plural, "addForm"],
-    errors: ["UI", api.plural, "addFormErrors"],
+    form: ["UI", "monster", "addForm"],
+    errors: ["UI", "monster", "addFormErrors"],
   }
 })
 export default class MonsterAdd extends DeepComponent {
   handleBlur(key) {
-    actions.validateAddForm(key).catch(err => null);
+    actions.validateAddForm(UICursor, key, Monster).catch(err => null);
   }
 
   handleChange(key, data) {
-    actions.updateAddForm(key, data);
+    actions.updateAddForm(UICursor, key, data);
     validateFormDebounced(key);
   }
 
   handleSubmit() {
     actions
-      .validateAddForm("")
-      .then(actions.addItem)
+      .validateAddForm(UICursor, "", Monster)
+      .then(() => {
+        return actions.addItem(DBCursor, UICursor, Monster, api)
+      })
       .then(item => {
         alertActions.addItem({
           message: "Monster added with id: " + item.id,
@@ -57,6 +57,10 @@ export default class MonsterAdd extends DeepComponent {
           category: "error",
         });
       });
+  }
+
+  handleReset() {
+    actions.resetAddForm(UICursor);
   }
 
   render() {
