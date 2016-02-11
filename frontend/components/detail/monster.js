@@ -6,18 +6,26 @@ import DocumentTitle from "react-document-title";
 import api from "shared/api/monster";
 import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
-import actions from "frontend/actions/monster";
+import actions from "frontend/actions/index";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
+import {Monster} from "shared/types";
 
-let UICursor = state.select("UI", api.plural);
+let DBCursor = state.select("DB", "monsters");
+let UICursor = state.select("UI", "monster");
 
 @statics({
-  loadData: actions.establishItem,
+  loadData: function() {
+    let urlParams = state.select("url").get("params");
+    let id = urlParams.id;
+
+    UICursor.set("id", id);
+    return actions.loadItem(DBCursor, UICursor, Monster, api);
+  }
 })
 @branch({
   cursors: {
-    havePendingRequests: ["UI", api.plural, "havePendingRequests"],
-    item: ["UI", api.plural, "currentItem"],
+    havePendingRequests: ["UI", "monsters", "havePendingRequests"],
+    item: ["UI", "monster", "currentItem"],
   }
 })
 export default class MonsterDetail extends DeepComponent {

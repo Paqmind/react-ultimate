@@ -4,21 +4,29 @@ import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import api from "shared/api/robot";
-import {formatQuery} from "shared/helpers/jsonapi";
 import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
-import actions from "frontend/actions/robot";
+import actions from "frontend/actions/index";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
+import {Robot} from "shared/types";
+import {formatQuery} from "shared/helpers/jsonapi";
 
-let UICursor = state.select("UI", api.plural);
+let DBCursor = state.select("DB", "robots");
+let UICursor = state.select("UI", "robot");
 
 @statics({
-  loadData: actions.establishItem,
+  loadData: function() {
+    let urlParams = state.select("url").get("params");
+    let id = urlParams.id;
+
+    UICursor.set("id", id);
+    return actions.loadItem(DBCursor, UICursor, Robot, api);
+  }
 })
 @branch({
   cursors: {
-    havePendingRequests: ["UI", api.plural, "havePendingRequests"],
-    item: ["UI", api.plural, "currentItem"],
+    havePendingRequests: ["UI", "robots", "havePendingRequests"],
+    item: ["UI", "robot", "currentItem"],
   }
 })
 export default class RobotDetail extends DeepComponent {
