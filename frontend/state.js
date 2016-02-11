@@ -9,6 +9,30 @@ import monsterApi from "shared/api/robot";
 
 let monkey = Baobab.monkey;
 
+let getCurrentItems = function(DB, UI) {
+  let {filters, sorts, offset, limit, ids, fullLoad} = UI;
+  let itemsArray = map(id => id && DB[id], ids);
+  return pipe(
+    fullLoad ? filterByAll(filters) : identity,
+    fullLoad ? sortByAll(sorts) : identity,
+    slice(offset, offset + limit),
+    filter(m => m)
+  )(itemsArray);
+};
+let getCurrentItem = function(DB, UI) {
+  return DB[UI.id];
+};
+let getFullLoad = function(total, ids) {
+  let loaded = filter(id => id, ids).length;
+  if (loaded < total) {
+    return false;
+  } else if (loaded == total) {
+    return true;
+  } else {
+    throw Error(`invalid total ${total}`);
+  }
+};
+
 window._state = new Baobab(
   {
     url: {
@@ -31,7 +55,7 @@ window._state = new Baobab(
     UI: {
       robots: {
         total: 0,
-        pagination: [],
+        ids: [],
 
         // INDEX
         filters: ROBOT.index.filters,
@@ -41,13 +65,6 @@ window._state = new Baobab(
         // filterForm ???
         // filterFormErrors ???
 
-        // CRUD
-        id: undefined,
-        addForm: {},
-        addFormErrors: {},
-        editForm: {},
-        editFormErrors: {},
-
         // FACETS
         havePendingRequests: monkey([
           ["ajaxQueue"],
@@ -55,56 +72,41 @@ window._state = new Baobab(
             return ajaxQueueContains(queue, robotApi.indexUrl);
           }
         ]),
-
         fullLoad: monkey([
           ["UI", "robots", "total"],
-          ["UI", "robots", "pagination"],
-          function (total, pagination) {
-            let loaded = filter(id => id, pagination).length;
-            if (loaded < total) {
-              return false;
-            } else if (loaded == total) {
-              return true;
-            } else {
-              throw Error(`invalid total ${total}`);
-            }
+          ["UI", "robots", "ids"],
+          function (total, ids) {
+            return getFullLoad(total, ids);
           }
         ]),
-
-        currentItem: monkey([
-          ["DB", "robots"],
-          ["UI", "robots", "id"],
-          function (items, id) {
-            if (id) {
-              return items[id];
-            } else {
-              return undefined;
-            }
-          }
-        ]),
-
         currentItems: monkey([
           ["DB", "robots"],
-          ["UI", "robots", "filters"],
-          ["UI", "robots", "sorts"],
-          ["UI", "robots", "offset"],
-          ["UI", "robots", "limit"],
-          ["UI", "robots", "pagination"],
-          ["UI", "robots", "fullLoad"],
-          function (items, filters, sorts, offset, limit, pagination, fullLoad) {
-            let itemsArray = map(id => id && items[id], pagination);
-            return pipe(
-              fullLoad ? filterByAll(filters) : identity,
-              fullLoad ? sortByAll(sorts) : identity,
-              slice(offset, offset + limit),
-              filter(m => m)
-            )(itemsArray);
+          ["UI", "robots"],
+          function (DB, UI) {
+            return getCurrentItems(DB, UI);
           }
         ]),
       },
+      robot: {
+        // CRUD
+        id: undefined,
+        addForm: {},
+        addFormErrors: {},
+        editForm: {},
+        editFormErrors: {},
+
+        currentItem: monkey([
+          ["DB", "robots"],
+          ["UI", "robot"],
+          function (DB, UI) {
+            return getCurrentItem(DB, UI);
+          }
+        ]),
+      },
+
       monsters: {
         total: 0,
-        pagination: [],
+        ids: [],
 
         // INDEX
         filters: MONSTER.index.filters,
@@ -114,13 +116,6 @@ window._state = new Baobab(
         // filterForm ???
         // filterFormErrors ???
 
-        // CRUD
-        id: undefined,
-        addForm: {},
-        editForm: {},
-        addFormErrors: {},
-        editFormErrors: {},
-
         // FACETS
         havePendingRequests: monkey([
           ["ajaxQueue"],
@@ -128,50 +123,33 @@ window._state = new Baobab(
             return ajaxQueueContains(queue, monsterApi.indexUrl);
           }
         ]),
-
         fullLoad: monkey([
           ["UI", "monsters", "total"],
-          ["UI", "monsters", "pagination"],
-          function (total, pagination) {
-            let loaded = filter(id => id, pagination).length;
-            if (loaded < total) {
-              return false;
-            } else if (loaded == total) {
-              return true;
-            } else {
-              throw Error(`invalid total ${total}`);
-            }
+          ["UI", "monsters", "ids"],
+          function (total, ids) {
+            return getFullLoad(total, ids);
           }
         ]),
-
-        currentItem: monkey([
-          ["DB", "monsters"],
-          ["UI", "monsters", "id"],
-          function (items, id) {
-            if (id) {
-              return items[id];
-            } else {
-              return undefined;
-            }
-          }
-        ]),
-
         currentItems: monkey([
           ["DB", "monsters"],
-          ["UI", "monsters", "filters"],
-          ["UI", "monsters", "sorts"],
-          ["UI", "monsters", "offset"],
-          ["UI", "monsters", "limit"],
-          ["UI", "monsters", "pagination"],
-          ["UI", "monsters", "fullLoad"],
-          function (items, filters, sorts, offset, limit, pagination, fullLoad) {
-            let itemsArray = map(id => id && items[id], pagination);
-            return pipe(
-              fullLoad ? filterByAll(filters) : identity,
-              fullLoad ? sortByAll(sorts) : identity,
-              slice(offset, offset + limit),
-              filter(m => m)
-            )(itemsArray);
+          ["UI", "monsters"],
+          function (DB, UI) {
+            return getCurrentItems(DB, UI);
+          }
+        ]),
+      },
+      monster: {
+        // CRUD
+        id: undefined,
+        addForm: {},
+        editForm: {},
+        addFormErrors: {},
+        editFormErrors: {},
+        currentItem: monkey([
+          ["DB", "monsters"],
+          ["UI", "monster"],
+          function (DB, UI) {
+            return getCurrentItem(DB, UI);
           }
         ]),
       },
