@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router";
-import actions from "frontend/actions/robot";
+import actions from "frontend/actions/index";
 import {ShallowComponent} from "frontend/components/common";
 
 export default class RobotItem extends ShallowComponent {
