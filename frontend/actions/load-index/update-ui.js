@@ -44,4 +44,4 @@ export default function updateUI(UICursor, settings, {newFilters, newSorts, newO
     }
     UICursor.set("offset", newOffset || settings.index.offset);
   }
-};
+}

@@ -6,7 +6,7 @@ import ajax from "frontend/ajax";
 // Object -> Maybe Type
 export default function editItem(DBCursor, UICursor, Type, api) {
 
-  let data = UICursor.get("editForm")
+  let data = UICursor.get("editForm");
 
   console.debug(api.plural + `.editItem(${data.id})`);
 

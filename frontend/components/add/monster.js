@@ -43,7 +43,7 @@ export default class MonsterAdd extends DeepComponent {
     actions
       .validateAddForm(UICursor, "", Monster)
       .then(() => {
-        return actions.addItem(DBCursor, UICursor, Monster, api)
+        return actions.addItem(DBCursor, UICursor, Monster, api);
       })
       .then(item => {
         alertActions.addItem({
