@@ -5,8 +5,7 @@ import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 
-
-// Filters, Sorts, Offset, Limit -> Maybe [Type]
+// Cursor, Cursor, Type, api -> Promise
 export default function fetchIndex(DBCursor, UICursor, Type, api) {
   console.debug(api.plural + `.fetchIndex(...)`);
 

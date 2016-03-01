@@ -9,9 +9,9 @@ import monsterApi from "shared/api/robot";
 
 let monkey = Baobab.monkey;
 
-let getCurrentItems = function(DB, UI) {
-  let {filters, sorts, offset, limit, ids, fullLoad} = UI;
-  let itemsArray = map(id => id && DB[id], ids);
+let getCurrentItems = function(DBCursor, UICursor) {
+  let {filters, sorts, offset, limit, ids, fullLoad} = UICursor;
+  let itemsArray = map(id => id && DBCursor[id], ids);
   return pipe(
     fullLoad ? filterByAll(filters) : identity,
     fullLoad ? sortByAll(sorts) : identity,
@@ -19,8 +19,8 @@ let getCurrentItems = function(DB, UI) {
     filter(m => m)
   )(itemsArray);
 };
-let getCurrentItem = function(DB, UI) {
-  return DB[UI.id];
+let getCurrentItem = function(DBCursor, UICursor) {
+  return DBCursor[UICursor.id];
 };
 let getFullLoad = function(total, ids) {
   let loaded = filter(id => id, ids).length;
@@ -75,16 +75,12 @@ window._state = new Baobab(
         fullLoad: monkey([
           ["UI", "robots", "total"],
           ["UI", "robots", "ids"],
-          function (total, ids) {
-            return getFullLoad(total, ids);
-          }
+          getFullLoad,
         ]),
         currentItems: monkey([
           ["DB", "robots"],
           ["UI", "robots"],
-          function (DB, UI) {
-            return getCurrentItems(DB, UI);
-          }
+          getCurrentItems,
         ]),
       },
       robot: {
@@ -98,9 +94,7 @@ window._state = new Baobab(
         currentItem: monkey([
           ["DB", "robots"],
           ["UI", "robot"],
-          function (DB, UI) {
-            return getCurrentItem(DB, UI);
-          }
+          getCurrentItem,
         ]),
       },
 
@@ -126,16 +120,12 @@ window._state = new Baobab(
         fullLoad: monkey([
           ["UI", "monsters", "total"],
           ["UI", "monsters", "ids"],
-          function (total, ids) {
-            return getFullLoad(total, ids);
-          }
+          getFullLoad,
         ]),
         currentItems: monkey([
           ["DB", "monsters"],
           ["UI", "monsters"],
-          function (DB, UI) {
-            return getCurrentItems(DB, UI);
-          }
+          getCurrentItems,
         ]),
       },
       monster: {
@@ -148,9 +138,7 @@ window._state = new Baobab(
         currentItem: monkey([
           ["DB", "monsters"],
           ["UI", "monster"],
-          function (DB, UI) {
-            return getCurrentItem(DB, UI);
-          }
+          getCurrentItem,
         ]),
       },
     },
