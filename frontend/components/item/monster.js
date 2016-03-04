@@ -6,7 +6,7 @@ import {ShallowComponent} from "frontend/components/common";
 export default class MonsterItem extends ShallowComponent {
   static propTypes = {
     item: React.PropTypes.object,
-  };
+  }
 
   render() {
     let item = this.props.item;

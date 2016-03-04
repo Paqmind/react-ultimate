@@ -6,7 +6,7 @@ import {ShallowComponent} from "frontend/components/common";
 export default class RobotItem extends ShallowComponent {
   static propTypes = {
     item: React.PropTypes.object,
-  };
+  }
 
   render() {
     let item = this.props.item;
