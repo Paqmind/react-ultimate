@@ -8,16 +8,12 @@ import api from "shared/api/robot";
 import {statics} from "frontend/helpers/react";
 import {recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
-import actions from "frontend/actions/index";
+import actions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/common";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import RobotItem from "frontend/components/item/robot";
-import {ROBOT} from "shared/constants";
-import {Robot} from "shared/types";
 import {indexRouter} from "frontend/router";
 
-let DBCursor = state.select("DB", "robots");
-let UICursor = state.select("UI", "robots");
 
 @statics({
   loadData: function() {
@@ -28,11 +24,14 @@ let UICursor = state.select("UI", "robots");
     let newOffset = urlQuery.offset;
     let newLimit = urlQuery.limit;
 
-    actions.updateUI(UICursor, ROBOT, {newFilters, newSorts, newOffset, newLimit});
+    actions.updateUIFilters(newFilters);
+    actions.updateUISorts(newSorts);
+    actions.updateUIPagination(newOffset, newLimit);
 
     return new Promise((resolve, reject) => {
-      resolve(actions.loadIndex(DBCursor, UICursor, Robot, api));
+      resolve(actions.loadIndex());
     }).then(() => {
+      let UICursor = state.select("UI", "robots");
       let {total, offset, limit} = UICursor.get();
       if (total) {
         let recommendedOffset = recommendOffset(total, offset, limit);

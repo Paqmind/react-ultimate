@@ -5,22 +5,18 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
-import api from "shared/api/robot";
+import {formatTyped} from "shared/formatters";
 import {debounce, hasValues} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
-import {formatTyped} from "shared/formatters";
-import {Robot} from "shared/types";
 import {statics} from "frontend/helpers/react";
-import actions from "frontend/actions/index";
+import actions from "frontend/actions/robot";
 import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 import state from "frontend/state";
 
-let DBCursor = state.select("DB", "robots");
-let UICursor = state.select("UI", "robot");
 
 let validateFormDebounced = debounce(key => {
-  actions.validateAddForm(UICursor, key, Robot).catch(err => null);
+  actions.validateAddForm(key).catch(err => null);
 }, 500);
 
 @branch({
@@ -31,21 +27,23 @@ let validateFormDebounced = debounce(key => {
 })
 export default class RobotAdd extends DeepComponent {
   handleBlur(key) {
-    actions.validateAddForm(UICursor, key, Robot).catch(err => null);
+    actions.validateAddForm(key).catch(err => null);
   }
 
   handleChange(key, data) {
-    actions.updateAddForm(UICursor, key, data);
+    actions.updateAddForm(key, data);
     validateFormDebounced(key);
   }
 
   handleSubmit() {
     actions
-      .validateAddForm(UICursor, "", Robot)
+      .validateAddForm("")
       .then(() => {
-        return actions.addItem(DBCursor, UICursor, Robot, api);
+        return actions.addItem();
       })
-      .then(item => {
+      .then(() => {
+        let UICursor = state.select("UI", "robot");
+        let item = UICursor.get("currentItem");
         alertActions.addItem({
           message: "Robot added with id: " + item.id,
           category: "success",
@@ -60,7 +58,7 @@ export default class RobotAdd extends DeepComponent {
   }
 
   handleReset() {
-    actions.resetAddForm(UICursor);
+    actions.resetAddForm();
   }
 
   render() {
@@ -144,6 +142,7 @@ export default class RobotAdd extends DeepComponent {
 
 class Actions extends ShallowComponent {
   render() {
+    let UICursor = state.select("UI", "robots");
     let query = formatQuery({
       filters: UICursor.get("filters"),
       sorts: UICursor.get("sorts"),

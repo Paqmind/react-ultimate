@@ -5,12 +5,11 @@ import {merge, unflattenObject} from "shared/helpers/common";
 import {formatTyped} from "shared/formatters";
 import {validateData} from "shared/validation";
 import state from "frontend/state";
-import ajax from "frontend/ajax";
 import alertActions from "frontend/actions/alert";
 
-// ProductData -> Maybe Product
-function updateAddForm(UICursor, key, data) {
-  console.log('key:', key);
+
+// Cursor, String, Product -> Maybe Product
+function _updateAddForm(UICursor, key, data) {
   console.debug(`.updateAddForm(${key}, ...)`);
 
   let form = UICursor.get("addForm");
@@ -18,7 +17,8 @@ function updateAddForm(UICursor, key, data) {
   return Promise.resolve(newForm);
 }
 
-function updateEditForm(UICursor, key, data) {
+// Cursor, String, Product -> Maybe Product
+function _updateEditForm(UICursor, key, data) {
   console.debug(`.updateEditForm(${key}, ...)`);
 
   let form = UICursor.get("editForm");
@@ -26,7 +26,8 @@ function updateEditForm(UICursor, key, data) {
   return Promise.resolve(newForm);
 }
 
-function validateAddForm(UICursor, key, Type) {
+// Cursor, String, Type -> Maybe String
+function _validateAddForm(UICursor, key, Type) {
   console.debug(`.validateAddForm(${key})`);
 
   if (!key && !UICursor.select("addForm").get("id")) {
@@ -47,7 +48,8 @@ function validateAddForm(UICursor, key, Type) {
   }
 }
 
-function validateEditForm(UICursor, key, Type) {
+// Cursor, String, Type -> Maybe String
+function _validateEditForm(UICursor, key, Type) {
   console.debug(`.validateEditForm(${key})`);
 
   let {editForm, editFormErrors} = UICursor.get();
@@ -64,20 +66,22 @@ function validateEditForm(UICursor, key, Type) {
   }
 }
 
-function resetAddForm(UICursor) {
+// Cursor
+function _resetAddForm(UICursor) {
   console.debug(`.resetAddForm`);
 
   UICursor.set("addForm", {});
   UICursor.set("addFormErrors", {});
 }
 
-function resetEditForm(UICursor, Type, origin) {
+// Cursor
+function _resetEditForm(UICursor, Type, origin) {
   let form = formatTyped(Type, origin);
   UICursor.set("editForm", form);
   UICursor.set("editFormErrors", {});
 }
 
 export default {
-  updateAddForm, validateAddForm, resetAddForm,
-  updateEditForm, validateEditForm, resetEditForm,
+  _updateAddForm, _validateAddForm, _resetAddForm,
+  _updateEditForm, _validateEditForm, _resetEditForm,
 };

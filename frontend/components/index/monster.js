@@ -8,26 +8,23 @@ import api from "shared/api/monster";
 import {statics} from "frontend/helpers/react";
 import {recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
-import actions from "frontend/actions/index";
+import actions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/common";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import MonsterItem from "frontend/components/item/monster";
-import {MONSTER} from "shared/constants";
-import {Monster} from "shared/types";
 
-let DBCursor = state.select("DB", "monsters");
-let UICursor = state.select("UI", "monsters");
 
 @statics({
   loadData: function() {
     return new Promise((resolve, reject) => {
-      resolve(actions.loadIndex(DBCursor, UICursor, Monster, api));
+      resolve(actions.loadIndex());
     }).then(() => {
+      let UICursor = state.select("UI", "monsters");
       let {total, offset, limit} = UICursor.get();
       if (total) {
         let recommendedOffset = recommendOffset(total, offset, limit);
         if (offset > recommendedOffset) {
-          actions.updateUI(UICursor, MONSTER, {newOffset: recommendedOffset});
+          actions.updateUIPagination(recommendedOffset);
         }
       }
     });
@@ -91,8 +88,8 @@ class MonsterPagination extends ShallowComponent {
     />;
   }
   setOffset(offset) {
-    actions.updateUI(UICursor, MONSTER, {newOffset: offset});
-    actions.loadIndex(DBCursor, UICursor, Monster, api);
+    actions.updateUIPagination(offset);
+    actions.loadIndex();
   }
 }
 
@@ -105,8 +102,8 @@ class MonsterFilters extends ShallowComponent {
     />;
   }
   setFilters(filters) {
-    actions.updateUI(UICursor, MONSTER, {newFilters: filters});
-    actions.loadIndex(DBCursor, UICursor, Monster, api);
+    actions.updateUIFilters(filters);
+    actions.loadIndex();
   }
 }
 
@@ -119,8 +116,8 @@ class MonsterSorts extends ShallowComponent {
     />;
   }
   setSorts(sorts) {
-    actions.updateUI(UICursor, MONSTER, {newSorts: sorts});
-    actions.loadIndex(DBCursor, UICursor, Monster, api);
+    actions.updateUISorts(sorts);
+    actions.loadIndex();
   }
 }
 
@@ -134,6 +131,6 @@ class MonsterPerPage extends ShallowComponent {
   }
   setLimit(limit) {
     actions.updateUI(UICursor, MONSTER, {newLimit: limit});
-    actions.loadIndex(DBCursor, UICursor, Monster, api);
+    actions.loadIndex(UICursor, Monster, api);
   }
 }

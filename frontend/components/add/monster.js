@@ -5,22 +5,18 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
-import api from "shared/api/monster";
+import {formatTyped} from "shared/formatters";
 import {debounce, hasValues} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
-import {formatTyped} from "shared/formatters";
-import {Monster} from "shared/types";
 import {statics} from "frontend/helpers/react";
-import actions from "frontend/actions/index";
+import actions from "frontend/actions/monster";
 import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 import state from "frontend/state";
 
-let DBCursor = state.select("DB", "monsters");
-let UICursor = state.select("UI", "monster");
 
 let validateFormDebounced = debounce(key => {
-  actions.validateAddForm(UICursor, key).catch(err => null);
+  actions.validateAddForm(key).catch(err => null);
 }, 500);
 
 @branch({
@@ -31,21 +27,23 @@ let validateFormDebounced = debounce(key => {
 })
 export default class MonsterAdd extends DeepComponent {
   handleBlur(key) {
-    actions.validateAddForm(UICursor, key, Monster).catch(err => null);
+    actions.validateAddForm(key).catch(err => null);
   }
 
   handleChange(key, data) {
-    actions.updateAddForm(UICursor, key, data);
+    actions.updateAddForm(key, data);
     validateFormDebounced(key);
   }
 
   handleSubmit() {
     actions
-      .validateAddForm(UICursor, "", Monster)
+      .validateAddForm("")
       .then(() => {
-        return actions.addItem(DBCursor, UICursor, Monster, api);
+        return actions.addItem();
       })
-      .then(item => {
+      .then(() => {
+        let UICursor = state.select("UI", "monster");
+        let item = UICursor.get("currentItem");
         alertActions.addItem({
           message: "Monster added with id: " + item.id,
           category: "success",
@@ -60,7 +58,7 @@ export default class MonsterAdd extends DeepComponent {
   }
 
   handleReset() {
-    actions.resetAddForm(UICursor);
+    actions.resetAddForm();
   }
 
   render() {

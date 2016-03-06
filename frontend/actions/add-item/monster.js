@@ -1,10 +1,10 @@
-import _removeItem from "frontend/actions/remove-item/index";
+import _addItem from "frontend/actions/add-item/index";
 import state from "frontend/state";
 import api from "shared/api/monster";
 import {Monster} from "shared/types";
 
 
-export default function removeItem(id) {
+export default function addItem() {
   let UICursor = state.select("UI", "monster");
-  return _removeItem(UICursor, Monster, api, id);
+  return _addItem(UICursor, Monster, api);
 }

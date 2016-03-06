@@ -5,40 +5,34 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
-import api from "shared/api/monster";
 import {debounce, hasValues} from "shared/helpers/common";
-import {Monster} from "shared/types";
 import {statics} from "frontend/helpers/react";
-import actions from "frontend/actions/index";
+import actions from "frontend/actions/monster";
 import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 import state from "frontend/state";
 
-let DBCursor = state.select("DB", "monsters");
-let UICursor = state.select("UI", "monster");
 
 let validateFormDebounced = debounce(key => {
-  actions.validateEditForm(UICursor, key, Monster).catch(err => null);
+  actions.validateEditForm(key).catch(err => null);
 }, 500);
 
 @statics({
   loadData: () => {
     let urlParams = state.select("url").get("params");
-    let id = urlParams.id;
-    UICursor.set("id", id);
-
     actions
-      .loadItem(DBCursor, UICursor, Monster, api)
+      .loadItem(urlParams.id)
       .then(() => {
+        let UICursor = state.select("UI", "monster");
         let model = UICursor.get("currentItem");
         UICursor.set("editForm", model);
-        actions.resetEditForm(UICursor, Monster, model);
+        actions.resetEditForm(model);
       });
   }
 })
 @branch({
   cursors: {
-    havePendingRequests: ["UI", api.plural, "havePendingRequests"],
+    havePendingRequests: ["UI", "monsters", "havePendingRequests"],
     item: ["UI",  "monster", "currentItem"],
     form: ["UI",  "monster", "editForm"],
     errors: ["UI",  "monster", "editFormErrors"],
@@ -46,21 +40,23 @@ let validateFormDebounced = debounce(key => {
 })
 export default class MonsterEdit extends DeepComponent {
   handleBlur(key) {
-    actions.validateEditForm(UICursor, key, Monster).catch(err => null);
+    actions.validateEditForm(key).catch(err => null);
   }
 
   handleChange(key, data) {
-    actions.updateEditForm(UICursor, key, data);
+    actions.updateEditForm(key, data);
     validateFormDebounced(key);
   }
 
   handleSubmit() {
     actions
-      .validateEditForm(UICursor, "", Monster)
+      .validateEditForm("")
       .then(() => {
-        return actions.editItem(DBCursor, UICursor, Monster, api);
+        return actions.editItem();
       })
-      .then(item => {
+      .then(() => {
+        let UICursor = state.select("UI", "monster");
+        let item = UICursor.get("currentItem");
         alertActions.addItem({
           message: "Monster edited with id: " + item.id,
           category: "success",
@@ -75,8 +71,9 @@ export default class MonsterEdit extends DeepComponent {
   }
 
   handleReset() {
+    let UICursor = state.select("UI", "monster");
     let model = UICursor.get("currentItem");
-    actions.resetEditForm(UICursor, Monster, model);
+    actions.resetEditForm(model);
   }
 
   render() {

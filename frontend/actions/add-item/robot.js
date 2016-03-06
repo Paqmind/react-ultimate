@@ -1,10 +1,10 @@
-import _removeItem from "frontend/actions/remove-item/index";
+import _addItem from "frontend/actions/add-item/index";
 import state from "frontend/state";
 import api from "shared/api/robot";
 import {Robot} from "shared/types";
 
 
-export default function removeItem(id) {
+export default function addItem() {
   let UICursor = state.select("UI", "robot");
-  return _removeItem(UICursor, Robot, api, id);
+  return _addItem(UICursor, Robot, api);
 }

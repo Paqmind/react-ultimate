@@ -1,13 +1,14 @@
-import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
+import {parseAs} from "shared/parsers";
 
-// Cursor, Cursor, Type, Api -> Promise
-export default function editItem(DBCursor, UICursor, Type, api) {
 
+// Cursor, Type, Api -> Promise
+export default function _editItem(UICursor, Type, api) {
   let data = UICursor.get("editForm");
+  console.debug(api.singular + `.editItem(${data.id})`);
 
-  console.debug(api.plural + `.editItem(${data.id})`);
+   let DBCursor = state.select("DB", UICursor.get("DBCursorName"));
 
   let item = parseAs(Type, data);
   let id = item.id;
@@ -21,8 +22,10 @@ export default function editItem(DBCursor, UICursor, Type, api) {
       if (response.status.startsWith("2")) {
         if (response.status == "200" && response.data.data) {
           item = DBCursor.set(id, parseAs(Type, response.data.data));
+          DBCursor.set(id, item);
+        } else {
+          // what here?
         }
-        return item;
       } else {
         DBCursor.set(id, oldItem);
         throw Error(response.statusText);

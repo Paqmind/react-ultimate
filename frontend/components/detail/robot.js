@@ -6,20 +6,15 @@ import DocumentTitle from "react-document-title";
 import api from "shared/api/robot";
 import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
-import actions from "frontend/actions/index";
+import actions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
-import {Robot} from "shared/types";
 import {formatQuery} from "shared/helpers/jsonapi";
 
-let DBCursor = state.select("DB", "robots");
-let UICursor = state.select("UI", "robot");
 
 @statics({
   loadData: function() {
     let urlParams = state.select("url").get("params");
-    let id = urlParams.id;
-    UICursor.set("id", id);
-    return actions.loadItem(DBCursor, UICursor, Robot, api);
+    return actions.loadItem(urlParams.id);
   }
 })
 @branch({
@@ -71,6 +66,7 @@ export default class RobotDetail extends DeepComponent {
 class Actions extends ShallowComponent {
   render() {
     let {item} = this.props;
+    let UICursor = state.select("UI", "robots");
     let query = formatQuery({
       filters: UICursor.get("filters"),
       sorts: UICursor.get("sorts"),
