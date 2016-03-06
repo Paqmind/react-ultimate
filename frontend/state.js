@@ -54,6 +54,8 @@ window._state = new Baobab(
 
     UI: {
       robots: {
+        DBCursorName: "robots",
+
         total: 0,
         ids: [],
 
@@ -84,6 +86,8 @@ window._state = new Baobab(
         ]),
       },
       robot: {
+        DBCursorName: "robots",
+
         // CRUD
         id: undefined,
         addForm: {},
@@ -99,6 +103,8 @@ window._state = new Baobab(
       },
 
       monsters: {
+        DBCursorName: "monsters",
+
         total: 0,
         ids: [],
 
@@ -129,6 +135,8 @@ window._state = new Baobab(
         ]),
       },
       monster: {
+        DBCursorName: "monsters",
+
         // CRUD
         id: undefined,
         addForm: {},
