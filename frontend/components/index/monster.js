@@ -66,7 +66,7 @@ export default class MonsterIndex extends DeepComponent {
           <section className="container">
             <h1>Monsters</h1>
             <MonsterPagination offset={offset} limit={limit} total={total}/>
-            {total ?
+            {items.length ?
               <div className="row">
                 {map(item => <MonsterItem item={item} key={item.id}/>, items)}</div> :
                 <p>No monsters exist</p>}

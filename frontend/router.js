@@ -51,7 +51,7 @@ let itemRouter = {
   },
 
   transitionTo(route=undefined, id=undefined) {
-    let [_route, _params] = getCurrentRouteAndParams(route);
+    let [_route, _params] = getCurrentRouteAndParams(route, id);
     window._router.transitionTo(_route, _params);
   },
 

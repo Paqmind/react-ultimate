@@ -1,4 +1,4 @@
-import {append, assoc, reject} from "ramda";
+import {assoc, forEach, reduce} from "ramda";
 import UUID from "node-uuid";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
@@ -17,8 +17,26 @@ export default function _addItem(UICursor, Type, api) {
   let id = item.id;
 
   // Optimistic update
-  DBCursor.set(id, item);
+  let UIListCursors = state.select("UI").get();
+  let oldListIds = reduce((memo, key) => {
+    if (UIListCursors[key].DBCursorName == UICursor.get("DBCursorName") && UIListCursors[key].ids) {
+      memo[key] = UIListCursors[key].ids;
+    }
+    return memo;
+  }, {}, Object.keys(UIListCursors));
+
+  // Set id in item cursor
   UICursor.set("id", id);
+
+  // Reset ids from pagination, coz they should be recalculated after adding new item
+  forEach(key => {
+    let cursor = state.select("UI", key);
+    cursor.set("ids", []);
+    cursor.set("total", 0);
+  }, Object.keys(oldListIds));
+
+  // Add item from DB
+  DBCursor.set(id, item);
 
   return ajax.put(api.itemUrl.replace(":id", id), item)
     .then(response => {
@@ -30,6 +48,13 @@ export default function _addItem(UICursor, Type, api) {
           // what here?
         }
       } else {
+        // Rollback
+        UICursor.set("id", null);
+        forEach(key => {
+          let cursor = state.select("UI", key);
+          cursor.set("total", oldListIds[key].length);
+          cursor.set("ids", oldListIds[key]);
+        }, Object.keys(oldListIds));
         DBCursor.unset(id);
         throw Error(response.statusText);
       }

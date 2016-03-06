@@ -12,6 +12,7 @@ import {statics} from "frontend/helpers/react";
 import actions from "frontend/actions/monster";
 import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
+import {itemRouter} from "frontend/router";
 import state from "frontend/state";
 
 
@@ -48,6 +49,7 @@ export default class MonsterAdd extends DeepComponent {
           message: "Monster added with id: " + item.id,
           category: "success",
         });
+        itemRouter.transitionTo("monster-detail", item.id);
       })
       .catch(error => {
         alertActions.addItem({

@@ -79,7 +79,7 @@ export default class RobotIndex extends DeepComponent {
           <section className="container">
             <h1>Robots</h1>
             <RobotPagination offset={offset} limit={limit} total={total}/>
-            {total ?
+            {items.length ?
               <div className="row">
                 {map(item => <RobotItem item={item} key={item.id}/>, items)}</div> :
                 <p>No robots exist</p>}
