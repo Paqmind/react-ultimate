@@ -5,10 +5,10 @@ import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import api from "shared/api/monster";
 import {statics} from "frontend/helpers/react";
+import {indexRouter} from "frontend/router";
 import state from "frontend/state";
 import actions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
-
 
 
 @statics({
@@ -83,7 +83,7 @@ class Actions extends ShallowComponent {
             <ItemLink to="monster-edit" params={{id: item.id}} className="btn btn-orange" title="Edit">
               <span className="fa fa-edit"></span>
             </ItemLink>
-            <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(item.id)}>
+            <a className="btn btn-red" title="Remove" onClick={() => {actions.removeItem(item.id); indexRouter.transitionTo("monster-index");}}>
               <span className="fa fa-times"></span>
             </a>
           </div>

@@ -16,18 +16,7 @@ import MonsterItem from "frontend/components/item/monster";
 
 @statics({
   loadData: function() {
-    return new Promise((resolve, reject) => {
-      resolve(actions.loadIndex());
-    }).then(() => {
-      let UICursor = state.select("UI", "monsters");
-      let {total, offset, limit} = UICursor.get();
-      if (total) {
-        let recommendedOffset = recommendOffset(total, offset, limit);
-        if (offset > recommendedOffset) {
-          actions.updateUIPagination(recommendedOffset);
-        }
-      }
-    });
+    return actions.loadIndex();
   }
 })
 @branch({
@@ -41,9 +30,18 @@ import MonsterItem from "frontend/components/item/monster";
   }
 })
 export default class MonsterIndex extends DeepComponent {
+  componentWillUpdate(nextProps) {
+    let {offset, limit, total} = nextProps;
+    if (total) {
+      let recommendedOffset = recommendOffset(total, offset, limit);
+      if (offset > recommendedOffset) {
+        actions.updateUIPagination(recommendedOffset);
+        actions.loadIndex();
+      }
+    }
+  }
   render() {
     let {filters, sorts, offset, limit, total, items} = this.props;
-
     return (
       <DocumentTitle title="Monsters">
         <div>
@@ -68,9 +66,10 @@ export default class MonsterIndex extends DeepComponent {
           <section className="container">
             <h1>Monsters</h1>
             <MonsterPagination offset={offset} limit={limit} total={total}/>
-            <div className="row">
-              {map(item => <MonsterItem item={item} key={item.id}/>, items)}
-            </div>
+            {total ?
+              <div className="row">
+                {map(item => <MonsterItem item={item} key={item.id}/>, items)}</div> :
+                <p>No monsters exist</p>}
             <MonsterPagination offset={offset} limit={limit} total={total}/>
           </section>
         </div>
@@ -130,7 +129,7 @@ class MonsterPerPage extends ShallowComponent {
     />;
   }
   setLimit(limit) {
-    actions.updateUI(UICursor, MONSTER, {newLimit: limit});
-    actions.loadIndex(UICursor, Monster, api);
+    actions.updateUIPagination(undefined, limit);
+    actions.loadIndex();
   }
 }

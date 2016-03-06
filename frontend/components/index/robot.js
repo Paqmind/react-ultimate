@@ -28,18 +28,7 @@ import {indexRouter} from "frontend/router";
     actions.updateUISorts(newSorts);
     actions.updateUIPagination(newOffset, newLimit);
 
-    return new Promise((resolve, reject) => {
-      resolve(actions.loadIndex());
-    }).then(() => {
-      let UICursor = state.select("UI", "robots");
-      let {total, offset, limit} = UICursor.get();
-      if (total) {
-        let recommendedOffset = recommendOffset(total, offset, limit);
-        if (offset > recommendedOffset) {
-          indexRouter.transitionTo(undefined, {offset: recommendedOffset});
-        }
-      }
-    });
+    return actions.loadIndex();
   }
 })
 @branch({
@@ -53,6 +42,16 @@ import {indexRouter} from "frontend/router";
   }
 })
 export default class RobotIndex extends DeepComponent {
+  componentWillUpdate(nextProps) {
+    let {offset, limit, total} = nextProps;
+    if (total) {
+      let recommendedOffset = recommendOffset(total, offset, limit);
+      if (offset > recommendedOffset) {
+        console.log('recommendedOffset:', recommendedOffset);
+        indexRouter.transitionTo(undefined, {offset: recommendedOffset});
+      }
+    }
+  }
   render() {
     let {filters, sorts, offset, limit, total, items} = this.props;
 
@@ -80,9 +79,10 @@ export default class RobotIndex extends DeepComponent {
           <section className="container">
             <h1>Robots</h1>
             <RobotPagination offset={offset} limit={limit} total={total}/>
-            <div className="row">
-              {map(item => <RobotItem item={item} key={item.id}/>, items)}
-            </div>
+            {total ?
+              <div className="row">
+                {map(item => <RobotItem item={item} key={item.id}/>, items)}</div> :
+                <p>No robots exist</p>}
             <RobotPagination offset={offset} limit={limit} total={total}/>
           </section>
         </div>
