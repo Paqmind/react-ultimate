@@ -82,7 +82,7 @@ class Actions extends ShallowComponent {
           message: "Robot removed with id: " + item.id,
           category: "success",
         });
-        indexRouter.transitionTo("robot-index")
+        indexRouter.transitionTo("robot-index");
       })
       .catch(error => {
         console.error(error);

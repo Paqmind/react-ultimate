@@ -182,7 +182,7 @@ class Actions extends ShallowComponent {
           message: "Monster removed with id: " + item.id,
           category: "success",
         });
-        indexRouter.transitionTo("monster-index")
+        indexRouter.transitionTo("monster-index");
       })
       .catch(error => {
         console.error(error);
