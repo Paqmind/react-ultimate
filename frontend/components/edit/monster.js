@@ -23,11 +23,18 @@ let validateFormDebounced = debounce(key => {
     let urlParams = state.select("url").get("params");
     actions
       .loadItem(urlParams.id)
-      .then(() => {
+      .then((item) => {
         let UICursor = state.select("UI", "monster");
-        let model = UICursor.get("currentItem");
-        UICursor.set("editForm", model);
-        actions.resetEditForm(model);
+        UICursor.get("id", item.id);
+        UICursor.set("editForm", item);
+        actions.resetEditForm(item);
+      })
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monster: " + error,
+          category: "error",
+        });
       });
   }
 })
@@ -55,15 +62,14 @@ export default class MonsterEdit extends DeepComponent {
       .then(() => {
         return actions.editItem();
       })
-      .then(() => {
-        let UICursor = state.select("UI", "monster");
-        let item = UICursor.get("currentItem");
+      .then((item) => {
         alertActions.addItem({
           message: "Monster edited with id: " + item.id,
           category: "success",
         });
       })
       .catch(error => {
+        console.error(error);
         alertActions.addItem({
           message: "Failed to edit Monster: " + error,
           category: "error",
@@ -168,6 +174,25 @@ export default class MonsterEdit extends DeepComponent {
 }
 
 class Actions extends ShallowComponent {
+  handleRemove(id) {
+    return actions
+      .removeItem(id)
+      .then((item) => {
+        alertActions.addItem({
+          message: "Monster removed with id: " + item.id,
+          category: "success",
+        });
+        indexRouter.transitionTo("monster-index")
+      })
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to remove Monster: " + error,
+          category: "error",
+        });
+      });
+  }
+
   render() {
     let {item} = this.props;
 
@@ -187,7 +212,7 @@ class Actions extends ShallowComponent {
             <ItemLink to="monster-detail" params={{id: item.id}} className="btn btn-blue" title="Detail">
               <span className="fa fa-eye"></span>
             </ItemLink>
-            <a className="btn btn-red" title="Remove" onClick={() => {actions.removeItem(item.id); indexRouter.transitionTo("monster-index");}}>
+            <a className="btn btn-red" title="Remove" onClick={() => this.handleRemove(item.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>

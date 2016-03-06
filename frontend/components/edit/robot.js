@@ -22,13 +22,21 @@ let validateFormDebounced = debounce(key => {
 @statics({
   loadData: () => {
     let urlParams = state.select("url").get("params");
-    actions
+    return actions
       .loadItem(urlParams.id)
-      .then(() => {
+      .then((item) => {
+        console.log('item:', item);
         let UICursor = state.select("UI", "robot");
-        let model = UICursor.get("currentItem");
-        UICursor.set("editForm", model);
-        actions.resetEditForm(model);
+        UICursor.get("id", item.id);
+        UICursor.set("editForm", item);
+        actions.resetEditForm(item);
+      })
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Robot: " + error,
+          category: "error",
+        });
       });
   }
 })
@@ -56,15 +64,15 @@ export default class RobotEdit extends DeepComponent {
       .then(() => {
         return actions.editItem();
       })
-      .then(() => {
-       let UICursor = state.select("UI", "robot");
-       let item = UICursor.get("currentItem");
+      .then((item) => {
+        console.log('item:', item);
         alertActions.addItem({
           message: "Robot edited with id: " + item.id,
           category: "success",
         });
       })
       .catch(error => {
+        console.error(error);
         alertActions.addItem({
           message: "Failed to edit Robot: " + error,
           category: "error",
@@ -169,6 +177,25 @@ export default class RobotEdit extends DeepComponent {
 }
 
 class Actions extends ShallowComponent {
+  handleRemove(id) {
+    return actions
+      .removeItem(id)
+      .then((item) => {
+        alertActions.addItem({
+          message: "Robot removed with id: " + item.id,
+          category: "success",
+        });
+        indexRouter.transitionTo("robot-index")
+      })
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to remove Robot: " + error,
+          category: "error",
+        });
+      });
+  }
+
   render() {
     let {item} = this.props;
     let UICursor = state.select("UI", "robots");
@@ -195,7 +222,7 @@ class Actions extends ShallowComponent {
             <ItemLink to="robot-detail" params={{id: item.id}} className="btn btn-blue" title="Detail">
               <span className="fa fa-eye"></span>
             </ItemLink>
-            <a className="btn btn-red" title="Remove" onClick={() => {actions.removeItem(item.id); indexRouter.transitionTo("robot-index");}}>
+            <a className="btn btn-red" title="Remove" onClick={() => this.handleRemove(item.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>

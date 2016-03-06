@@ -14,7 +14,15 @@ import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/comp
 @statics({
   loadData: function() {
     let urlParams = state.select("url").get("params");
-    return actions.loadItem(urlParams.id);
+    return actions
+      .loadItem(urlParams.id)
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Robot: " + error,
+          category: "error",
+        });
+      });
   }
 })
 @branch({
@@ -64,6 +72,26 @@ export default class MonsterDetail extends DeepComponent {
 }
 
 class Actions extends ShallowComponent {
+
+  handleRemove(id) {
+    return actions
+      .removeItem(id)
+      .then((item) => {
+        alertActions.addItem({
+          message: "Monster removed with id: " + item.id,
+          category: "success",
+        });
+        indexRouter.transitionTo("monster-index")
+      })
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to remove Monster: " + error,
+          category: "error",
+        });
+      });
+  }
+
   render() {
     let {item} = this.props;
 
@@ -83,7 +111,7 @@ class Actions extends ShallowComponent {
             <ItemLink to="monster-edit" params={{id: item.id}} className="btn btn-orange" title="Edit">
               <span className="fa fa-edit"></span>
             </ItemLink>
-            <a className="btn btn-red" title="Remove" onClick={() => {actions.removeItem(item.id); indexRouter.transitionTo("monster-index");}}>
+            <a className="btn btn-red" title="Remove" onClick={() => this.handleRemove(item.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>

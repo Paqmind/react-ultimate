@@ -1,11 +1,30 @@
 import React from "react";
 import {Link} from "react-router";
 import actions from "frontend/actions/robot";
+import alertActions from "frontend/actions/alert";
 import {ShallowComponent} from "frontend/components/common";
 
 export default class RobotItem extends ShallowComponent {
   static propTypes = {
     item: React.PropTypes.object,
+  }
+
+  handleRemove(id) {
+    return actions
+      .removeItem(id)
+      .then((item) => {
+        alertActions.addItem({
+          message: "Robot removed with id: " + item.id,
+          category: "success",
+        });
+      })
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to remove Robot: " + error,
+          category: "error",
+        });
+      });
   }
 
   render() {
@@ -32,7 +51,7 @@ export default class RobotItem extends ShallowComponent {
                   <Link to="robot-edit" params={{id: item.id}} className="btn btn-orange" title="Edit">
                     <span className="fa fa-edit"></span>
                   </Link>
-                  <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(item.id)}>
+                  <a className="btn btn-red" title="Remove" onClick={() => this.handleRemove(item.id)}>
                     <span className="fa fa-times"></span>
                   </a>
                 </div>

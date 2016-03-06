@@ -4,7 +4,7 @@ import state from "frontend/state";
 import api from "shared/api/robot";
 
 
-// Cursor, Api, id -> Promise
+// Cursor, Api, id -> Maybe item
 function removeItem(UICursor, api, id) {
   console.debug(api.singular + `.removeItem()`);
 
@@ -37,7 +37,9 @@ function removeItem(UICursor, api, id) {
 
   return ajax.delete(api.itemUrl.replace(":id", id))
     .then(response => {
-      if (!response.status.startsWith("2")) {
+      if (response.status.startsWith("2")) {
+        return oldItem;
+      } else {
         // Rollback
         UICursor.set("id", id);
         forEach(key => {
@@ -45,8 +47,7 @@ function removeItem(UICursor, api, id) {
           cursor.set("ids", oldListIds[key]);
         }, Object.keys(oldListIds));
         DBCursor.set(id, oldItem);
-
-        alertActions.addItem({message: "Remove Item failed with message " + response.statusText, category: "error"});
+        throw Error(response.statusText);
       }
     });
 }

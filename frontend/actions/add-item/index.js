@@ -5,7 +5,7 @@ import ajax from "frontend/ajax";
 import {parseAs} from "shared/parsers";
 
 
-// Cursor, Type, Api -> Promise
+// Cursor, Type, Api -> Maybe Item
 function addItem(UICursor, Type, api) {
   let data = UICursor.get("addForm");
   console.debug(api.singular + `.addItem(...)`);
@@ -40,11 +40,12 @@ function addItem(UICursor, Type, api) {
   return ajax.put(api.itemUrl.replace(":id", id), item)
     .then(response => {
       if (response.status.startsWith("2")) {
-        if (response.status == "200" && response.data.data) {
+        if (response.data.data) {
           item = DBCursor.set(id, parseAs(Type, response.data.data));
           DBCursor.set(id, item);
+          return item;
         } else {
-          // what here?
+          throw Error(response.statusText);
         }
       } else {
         // Rollback

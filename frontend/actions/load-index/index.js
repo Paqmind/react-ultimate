@@ -14,7 +14,7 @@ function loadIndex(UICursor, Type, api) {
   let {ids, filters, sorts, offset, limit} = UICursor.get();
 
   // if items are already loaded
-  if (inCache(offset, limit, ids)) return Promise.resolve();
+  if (inCache(offset, limit, ids)) return Promise.resolve(UICursor.get("currentItems"));
 
   let DBCursor = state.select("DB", UICursor.get("DBCursorName"));
   let query = formatQueryForAxios({filters, sorts, offset, limit});
@@ -37,6 +37,9 @@ function loadIndex(UICursor, Type, api) {
           }, newIds, Object.keys(newItemsArray)
         );
         UICursor.set("ids", newIds);
+        return newItems;
+      } else {
+        throw Error(response.statusText);
       }
     });
 }

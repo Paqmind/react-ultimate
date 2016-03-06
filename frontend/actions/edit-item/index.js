@@ -4,12 +4,12 @@ import ajax from "frontend/ajax";
 import {parseAs} from "shared/parsers";
 
 
-// Cursor, Type, Api -> Promise
+// Cursor, Type, Api -> Maybe Item
 function editItem(UICursor, Type, api) {
   let data = UICursor.get("editForm");
   console.debug(api.singular + `.editItem(${data.id})`);
 
-   let DBCursor = state.select("DB", UICursor.get("DBCursorName"));
+  let DBCursor = state.select("DB", UICursor.get("DBCursorName"));
 
   let item = parseAs(Type, data);
   let id = item.id;
@@ -36,11 +36,12 @@ function editItem(UICursor, Type, api) {
   return ajax.put(api.itemUrl.replace(":id", id), item)
     .then(response => {
       if (response.status.startsWith("2")) {
-        if (response.status == "200" && response.data.data) {
+        if (response.data.data) {
           item = DBCursor.set(id, parseAs(Type, response.data.data));
           DBCursor.set(id, item);
+          return item;
         } else {
-          // what here?
+          throw Error(response.statusText);
         }
       } else {
          // Rollback

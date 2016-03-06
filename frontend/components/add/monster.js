@@ -42,9 +42,9 @@ export default class MonsterAdd extends DeepComponent {
       .then(() => {
         return actions.addItem();
       })
-      .then(() => {
+      .then((item) => {
         let UICursor = state.select("UI", "monster");
-        let item = UICursor.get("currentItem");
+        UICursor.set("id", item.id);
         alertActions.addItem({
           message: "Monster added with id: " + item.id,
           category: "success",

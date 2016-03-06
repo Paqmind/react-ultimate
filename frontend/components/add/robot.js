@@ -42,9 +42,9 @@ export default class RobotAdd extends DeepComponent {
       .then(() => {
         return actions.addItem();
       })
-      .then(() => {
+      .then((item) => {
         let UICursor = state.select("UI", "robot");
-        let item = UICursor.get("currentItem");
+        UICursor.set("id", item.id);
         alertActions.addItem({
           message: "Robot added with id: " + item.id,
           category: "success",
@@ -52,6 +52,7 @@ export default class RobotAdd extends DeepComponent {
         itemRouter.transitionTo("robot-detail", item.id);
       })
       .catch(error => {
+        console.error(error);
         alertActions.addItem({
           message: "Failed to add Robot: " + error,
           category: "error",

@@ -28,7 +28,15 @@ import {indexRouter} from "frontend/router";
     actions.updateUISorts(newSorts);
     actions.updateUIPagination(newOffset, newLimit);
 
-    return actions.loadIndex();
+    return actions
+      .loadIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Robots: " + error,
+          category: "error",
+        });
+      });
   }
 })
 @branch({

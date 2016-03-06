@@ -5,7 +5,7 @@ import api from "shared/api/robot";
 import {parseAs} from "shared/parsers";
 
 
-//  Cursor, Type, Api -> Promise
+//  Cursor, Type, Api -> Maybe Item
 function loadItem(UICursor, Type, api, id) {
   console.debug(api.singular + `.loadItem()`);
 
@@ -14,13 +14,16 @@ function loadItem(UICursor, Type, api, id) {
   let item = DBCursor.get(id);
 
   // if item is already loaded
-  if (item) return Promise.resolve();
+  if (item) return Promise.resolve(item);
 
   return ajax.get(api.itemUrl.replace(`:id`, id))
     .then(response => {
       if (response.status.startsWith("2")) {
         let item = parseAs(Type, response.data.data);
         DBCursor.set(id, item);
+        return item;
+      } else {
+        throw Error(response.statusText);
       }
     });
 }

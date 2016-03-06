@@ -16,7 +16,15 @@ import MonsterItem from "frontend/components/item/monster";
 
 @statics({
   loadData: function() {
-    return actions.loadIndex();
+    return actions
+      .loadIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monsters: " + error,
+          category: "error",
+        });
+      });
   }
 })
 @branch({
@@ -36,7 +44,15 @@ export default class MonsterIndex extends DeepComponent {
       let recommendedOffset = recommendOffset(ids.length, offset, limit);
       if (offset > recommendedOffset) {
         actions.updateUIPagination(recommendedOffset, limit);
-        actions.loadIndex();
+        return actions
+          .loadIndex()
+          .catch(error => {
+            console.error(error);
+            alertActions.addItem({
+              message: "Failed to load Monsters: " + error,
+              category: "error",
+            });
+          });
       }
     }
   }
@@ -88,7 +104,15 @@ class MonsterPagination extends ShallowComponent {
   }
   setOffset(offset, limit) {
     actions.updateUIPagination(offset, limit);
-    actions.loadIndex();
+    return actions
+      .loadIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monsters: " + error,
+          category: "error",
+        });
+      });
   }
 }
 
@@ -102,7 +126,15 @@ class MonsterFilters extends ShallowComponent {
   }
   setFilters(filters) {
     actions.updateUIFilters(filters);
-    actions.loadIndex();
+    return actions
+      .loadIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monsters: " + error,
+          category: "error",
+        });
+      });
   }
 }
 
@@ -116,7 +148,15 @@ class MonsterSorts extends ShallowComponent {
   }
   setSorts(sorts) {
     actions.updateUISorts(sorts);
-    actions.loadIndex();
+    return actions
+      .loadIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monsters: " + error,
+          category: "error",
+        });
+      });
   }
 }
 
@@ -130,6 +170,14 @@ class MonsterPerPage extends ShallowComponent {
   }
   setLimit(limit) {
     actions.updateUIPagination(undefined, limit);
-    actions.loadIndex();
+    return actions
+      .loadIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monsters: " + error,
+          category: "error",
+        });
+      });
   }
 }
