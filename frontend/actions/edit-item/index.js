@@ -1,3 +1,4 @@
+import {forEach, reduce} from "ramda";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 import {parseAs} from "shared/parsers";
@@ -15,6 +16,22 @@ export default function _editItem(UICursor, Type, api) {
 
   // Optimistic update
   let oldItem = DBCursor.get(id);
+  let UIListCursors = state.select("UI").get();
+  let oldListIds = reduce((memo, key) => {
+    if (UIListCursors[key].DBCursorName == UICursor.get("DBCursorName") && UIListCursors[key].ids) {
+      memo[key] = UIListCursors[key].ids;
+    }
+    return memo;
+  }, {}, Object.keys(UIListCursors));
+
+  // Reset ids from pagination, coz they should be recalculated after editin any item
+  forEach(key => {
+    let cursor = state.select("UI", key);
+    cursor.set("ids", []);
+    cursor.set("total", 0);
+  }, Object.keys(oldListIds));
+
+  // Update item in the DB
   DBCursor.set(id, item);
 
   return ajax.put(api.itemUrl.replace(":id", id), item)
@@ -27,6 +44,12 @@ export default function _editItem(UICursor, Type, api) {
           // what here?
         }
       } else {
+         // Rollback
+        forEach(key => {
+          let cursor = state.select("UI", key);
+          cursor.set("total", oldListIds[key].length);
+          cursor.set("ids", oldListIds[key]);
+        }, Object.keys(oldListIds));
         DBCursor.set(id, oldItem);
         throw Error(response.statusText);
       }
