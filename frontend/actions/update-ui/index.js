@@ -1,7 +1,7 @@
-import {equals} from "ramda";
+import {curry, equals} from "ramda";
 import {recommendOffset} from "frontend/helpers/pagination";
 
-function _updateUIFilters(UICursor, settings, newFilters) {
+function updateUIFilters(UICursor, settings, newFilters) {
   if (!equals(newFilters || settings.index.filters, UICursor.get("filters"))) {
     UICursor.set("filters", newFilters || settings.index.filters);
     if (true || !UICursor.get("fullLoad")) {
@@ -14,7 +14,7 @@ function _updateUIFilters(UICursor, settings, newFilters) {
   }
 }
 
-function _updateUISorts(UICursor, settings, newSorts) {
+function updateUISorts(UICursor, settings, newSorts) {
   if (!equals(newSorts || settings.index.sorts, UICursor.get("sorts"))) {
     UICursor.set("sorts", newSorts || settings.index.sorts);
     if (!UICursor.get("fullLoad")) {
@@ -26,7 +26,7 @@ function _updateUISorts(UICursor, settings, newSorts) {
   }
 }
 
-function _updateUIPagination(UICursor, settings, newOffset, newLimit) {
+function updateUIPagination(UICursor, settings, newOffset, newLimit) {
   let {offset, limit, ids} = UICursor.get();
 
   newOffset = newOffset !== undefined ? newOffset : offset;
@@ -48,7 +48,7 @@ function _updateUIPagination(UICursor, settings, newOffset, newLimit) {
 }
 
 export default {
-  _updateUIFilters,
-  _updateUISorts,
-  _updateUIPagination
+  updateUIFilters: curry(updateUIFilters),
+  updateUISorts: curry(updateUISorts),
+  updateUIPagination: curry(updateUIPagination),
 };

@@ -1,4 +1,4 @@
-import {assoc, map, range, reduce, update} from "ramda";
+import {assoc, curry, map, range, reduce, update} from "ramda";
 import ajax from "frontend/ajax";
 import {inCache} from "frontend/helpers/pagination";
 import state from "frontend/state";
@@ -8,7 +8,7 @@ import {parseAs} from "shared/parsers";
 
 
 // Cursor, Type, Api -> Promise
-export default function _loadIndex(UICursor, Type, api) {
+function loadIndex(UICursor, Type, api) {
   console.debug(api.plural + ".loadIndex()");
 
   let {ids, filters, sorts, offset, limit} = UICursor.get();
@@ -40,3 +40,5 @@ export default function _loadIndex(UICursor, Type, api) {
       }
     });
 }
+
+export default curry(loadIndex);

@@ -1,11 +1,11 @@
-import {forEach, reduce} from "ramda";
+import {curry, forEach, reduce} from "ramda";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 import {parseAs} from "shared/parsers";
 
 
 // Cursor, Type, Api -> Promise
-export default function _editItem(UICursor, Type, api) {
+function editItem(UICursor, Type, api) {
   let data = UICursor.get("editForm");
   console.debug(api.singular + `.editItem(${data.id})`);
 
@@ -53,3 +53,5 @@ export default function _editItem(UICursor, Type, api) {
       }
     });
 }
+
+export default curry(editItem);

@@ -1,11 +1,11 @@
-import {contains, forEach, reduce, reject} from "ramda";
+import {contains, curry, forEach, reduce, reject} from "ramda";
 import ajax from "frontend/ajax";
 import state from "frontend/state";
 import api from "shared/api/robot";
 
 
-// Cursor, Type, Api, id -> Promise
-export default function _removeItem(UICursor, Type, api, id) {
+// Cursor, Api, id -> Promise
+function removeItem(UICursor, api, id) {
   console.debug(api.singular + `.removeItem()`);
 
   let DBCursor = state.select("DB", UICursor.get("DBCursorName"));
@@ -50,3 +50,5 @@ export default function _removeItem(UICursor, Type, api, id) {
       }
     });
 }
+
+export default curry(removeItem);

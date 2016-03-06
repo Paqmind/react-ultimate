@@ -1,3 +1,4 @@
+import {curry} from "ramda";
 import ajax from "frontend/ajax";
 import state from "frontend/state";
 import api from "shared/api/robot";
@@ -5,11 +6,11 @@ import {parseAs} from "shared/parsers";
 
 
 //  Cursor, Type, Api -> Promise
-export default function _loadItem(UICursor, Type, api) {
+function loadItem(UICursor, Type, api, id) {
   console.debug(api.singular + `.loadItem()`);
 
   let DBCursor = state.select("DB", UICursor.get("DBCursorName"));
-  let id = UICursor.get("id");
+  UICursor.set("id", id);
   let item = DBCursor.get(id);
 
   // if item is already loaded
@@ -23,3 +24,5 @@ export default function _loadItem(UICursor, Type, api) {
       }
     });
 }
+
+export default curry(loadItem);

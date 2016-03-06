@@ -35,7 +35,7 @@ export default class MonsterIndex extends DeepComponent {
     if (ids.length) {
       let recommendedOffset = recommendOffset(ids.length, offset, limit);
       if (offset > recommendedOffset) {
-        actions.updateUIPagination(recommendedOffset);
+        actions.updateUIPagination(recommendedOffset, limit);
         actions.loadIndex();
       }
     }
@@ -82,12 +82,12 @@ class MonsterPagination extends ShallowComponent {
   render() {
     let {offset, limit, total} = this.props;
     return <Pagination
-      onClick={_offset => this.setOffset(_offset)}
+      onClick={_offset => this.setOffset(_offset, limit)}
       total={total} offset={offset} limit={limit}
     />;
   }
-  setOffset(offset) {
-    actions.updateUIPagination(offset);
+  setOffset(offset, limit) {
+    actions.updateUIPagination(offset, limit);
     actions.loadIndex();
   }
 }

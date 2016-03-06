@@ -1,4 +1,4 @@
-import {assoc, forEach, reduce} from "ramda";
+import {assoc, curry, forEach, reduce} from "ramda";
 import UUID from "node-uuid";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
@@ -6,7 +6,7 @@ import {parseAs} from "shared/parsers";
 
 
 // Cursor, Type, Api -> Promise
-export default function _addItem(UICursor, Type, api) {
+function addItem(UICursor, Type, api) {
   let data = UICursor.get("addForm");
   console.debug(api.singular + `.addItem(...)`);
 
@@ -58,3 +58,5 @@ export default function _addItem(UICursor, Type, api) {
       }
     });
 }
+
+export default curry(addItem);
