@@ -8,7 +8,6 @@ function _updateUIFilters(UICursor, settings, newFilters) {
       /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
       // Pagination is messed up, do reset
       UICursor.merge({
-        total: 0,
         ids: [],
       });
     }
@@ -21,7 +20,6 @@ function _updateUISorts(UICursor, settings, newSorts) {
     if (!UICursor.get("fullLoad")) {
       // Pagination is messed up, do reset
       UICursor.merge({
-        total: 0,
         ids: [],
       });
     }
@@ -29,7 +27,7 @@ function _updateUISorts(UICursor, settings, newSorts) {
 }
 
 function _updateUIPagination(UICursor, settings, newOffset, newLimit) {
-  let {offset, limit, total} = UICursor.get();
+  let {offset, limit, ids} = UICursor.get();
 
   newOffset = newOffset !== undefined ? newOffset : offset;
   newLimit = newLimit !== undefined ? newLimit : limit;
@@ -39,8 +37,8 @@ function _updateUIPagination(UICursor, settings, newOffset, newLimit) {
   }
 
   if (!equals(newLimit, limit) || !equals(newOffset, offset)) {
-    if (total) {
-      let recommendedOffset = recommendOffset(total, newOffset, newLimit);
+    if (ids.length) {
+      let recommendedOffset = recommendOffset(ids.length, newOffset, newLimit);
       if (newOffset > recommendedOffset) {
         newOffset = recommendedOffset;
       }

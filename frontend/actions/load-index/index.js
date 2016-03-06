@@ -11,10 +11,10 @@ import {parseAs} from "shared/parsers";
 export default function _loadIndex(UICursor, Type, api) {
   console.debug(api.plural + ".loadIndex()");
 
-  let {ids, total, filters, sorts, offset, limit} = UICursor.get();
+  let {ids, filters, sorts, offset, limit} = UICursor.get();
 
   // if items are already loaded
-  if (inCache(offset, limit, total, ids)) return Promise.resolve();
+  if (inCache(offset, limit, ids)) return Promise.resolve();
 
   let DBCursor = state.select("DB", UICursor.get("DBCursorName"));
   let query = formatQueryForAxios({filters, sorts, offset, limit});
@@ -27,7 +27,6 @@ export default function _loadIndex(UICursor, Type, api) {
         DBCursor.merge(newItems);
 
         let newTotal = response.data.meta.page.total;
-        UICursor.set("total", newTotal);
 
         let newIds = ids;
         if (newIds.length != newTotal) {

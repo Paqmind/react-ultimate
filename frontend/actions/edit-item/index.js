@@ -28,7 +28,6 @@ export default function _editItem(UICursor, Type, api) {
   forEach(key => {
     let cursor = state.select("UI", key);
     cursor.set("ids", []);
-    cursor.set("total", 0);
   }, Object.keys(oldListIds));
 
   // Update item in the DB
@@ -47,7 +46,6 @@ export default function _editItem(UICursor, Type, api) {
          // Rollback
         forEach(key => {
           let cursor = state.select("UI", key);
-          cursor.set("total", oldListIds[key].length);
           cursor.set("ids", oldListIds[key]);
         }, Object.keys(oldListIds));
         DBCursor.set(id, oldItem);

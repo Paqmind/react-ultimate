@@ -22,15 +22,9 @@ let getCurrentItems = function(DBCursor, UICursor) {
 let getCurrentItem = function(DBCursor, UICursor) {
   return DBCursor[UICursor.id];
 };
-let getFullLoad = function(total, ids) {
+let getFullLoad = function(ids) {
   let loaded = filter(id => id, ids).length;
-  if (loaded < total) {
-    return false;
-  } else if (loaded == total) {
-    return true;
-  } else {
-    throw Error(`invalid total ${total}`);
-  }
+  return loaded == ids.length;
 };
 
 window._state = new Baobab(
@@ -56,7 +50,6 @@ window._state = new Baobab(
       robots: {
         DBCursorName: "robots",
 
-        total: 0,
         ids: [],
 
         // INDEX
@@ -75,7 +68,6 @@ window._state = new Baobab(
           }
         ]),
         fullLoad: monkey([
-          ["UI", "robots", "total"],
           ["UI", "robots", "ids"],
           getFullLoad,
         ]),
@@ -105,7 +97,6 @@ window._state = new Baobab(
       monsters: {
         DBCursorName: "monsters",
 
-        total: 0,
         ids: [],
 
         // INDEX
@@ -124,7 +115,6 @@ window._state = new Baobab(
           }
         ]),
         fullLoad: monkey([
-          ["UI", "monsters", "total"],
           ["UI", "monsters", "ids"],
           getFullLoad,
         ]),

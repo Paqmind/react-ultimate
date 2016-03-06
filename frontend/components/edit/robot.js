@@ -11,6 +11,7 @@ import {statics} from "frontend/helpers/react";
 import actions from "frontend/actions/robot";
 import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
+import {indexRouter} from "frontend/router";
 import state from "frontend/state";
 
 
@@ -194,7 +195,7 @@ class Actions extends ShallowComponent {
             <ItemLink to="robot-detail" params={{id: item.id}} className="btn btn-blue" title="Detail">
               <span className="fa fa-eye"></span>
             </ItemLink>
-            <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(item.id)}>
+            <a className="btn btn-red" title="Remove" onClick={() => {actions.removeItem(item.id); indexRouter.transitionTo("robot-index");}}>
               <span className="fa fa-times"></span>
             </a>
           </div>

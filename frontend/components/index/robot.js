@@ -37,15 +37,15 @@ import {indexRouter} from "frontend/router";
     sorts: ["UI", api.plural, "sorts"],
     offset: ["UI", api.plural, "offset"],
     limit: ["UI", api.plural, "limit"],
-    total: ["UI", api.plural, "total"],
+    ids: ["UI", api.plural, "ids"],
     items: ["UI", api.plural, "currentItems"],
   }
 })
 export default class RobotIndex extends DeepComponent {
   componentWillUpdate(nextProps) {
-    let {offset, limit, total} = nextProps;
-    if (total) {
-      let recommendedOffset = recommendOffset(total, offset, limit);
+    let {offset, limit, ids} = nextProps;
+    if (ids.length) {
+      let recommendedOffset = recommendOffset(ids.length, offset, limit);
       if (offset > recommendedOffset) {
         console.log('recommendedOffset:', recommendedOffset);
         indexRouter.transitionTo(undefined, {offset: recommendedOffset});
@@ -53,7 +53,7 @@ export default class RobotIndex extends DeepComponent {
     }
   }
   render() {
-    let {filters, sorts, offset, limit, total, items} = this.props;
+    let {filters, sorts, offset, limit, ids, items} = this.props;
 
     return (
       <DocumentTitle title="Robots">
@@ -78,12 +78,12 @@ export default class RobotIndex extends DeepComponent {
           </div>
           <section className="container">
             <h1>Robots</h1>
-            <RobotPagination offset={offset} limit={limit} total={total}/>
+            <RobotPagination offset={offset} limit={limit} total={ids.length}/>
             {items.length ?
               <div className="row">
                 {map(item => <RobotItem item={item} key={item.id}/>, items)}</div> :
-                <p>No robots exist</p>}
-            <RobotPagination offset={offset} limit={limit} total={total}/>
+                <p>No robots</p>}
+            <RobotPagination offset={offset} limit={limit} total={ids.length}/>
           </section>
         </div>
       </DocumentTitle>

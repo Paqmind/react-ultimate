@@ -25,15 +25,15 @@ import MonsterItem from "frontend/components/item/monster";
     sorts: ["UI", api.plural, "sorts"],
     offset: ["UI", api.plural, "offset"],
     limit: ["UI", api.plural, "limit"],
-    total: ["UI", api.plural, "total"],
+    ids: ["UI", api.plural, "ids"],
     items: ["UI", api.plural, "currentItems"],
   }
 })
 export default class MonsterIndex extends DeepComponent {
   componentWillUpdate(nextProps) {
-    let {offset, limit, total} = nextProps;
-    if (total) {
-      let recommendedOffset = recommendOffset(total, offset, limit);
+    let {offset, limit, ids} = nextProps;
+    if (ids.length) {
+      let recommendedOffset = recommendOffset(ids.length, offset, limit);
       if (offset > recommendedOffset) {
         actions.updateUIPagination(recommendedOffset);
         actions.loadIndex();
@@ -41,7 +41,7 @@ export default class MonsterIndex extends DeepComponent {
     }
   }
   render() {
-    let {filters, sorts, offset, limit, total, items} = this.props;
+    let {filters, sorts, offset, limit, ids, items} = this.props;
     return (
       <DocumentTitle title="Monsters">
         <div>
@@ -65,12 +65,12 @@ export default class MonsterIndex extends DeepComponent {
           </div>
           <section className="container">
             <h1>Monsters</h1>
-            <MonsterPagination offset={offset} limit={limit} total={total}/>
+            <MonsterPagination offset={offset} limit={limit} total={ids.length}/>
             {items.length ?
               <div className="row">
                 {map(item => <MonsterItem item={item} key={item.id}/>, items)}</div> :
-                <p>No monsters exist</p>}
-            <MonsterPagination offset={offset} limit={limit} total={total}/>
+                <p>No monsters</p>}
+            <MonsterPagination offset={offset} limit={limit} total={ids.length}/>
           </section>
         </div>
       </DocumentTitle>

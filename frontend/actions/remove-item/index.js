@@ -29,7 +29,6 @@ export default function _removeItem(UICursor, Type, api, id) {
   forEach(key => {
     let cursor = state.select("UI", key);
     cursor.set("ids", reject(_id => _id == id, oldListIds[key]));
-    cursor.set("total", oldListIds[key].length - 1);
   }, Object.keys(oldListIds));
 
 
@@ -43,7 +42,6 @@ export default function _removeItem(UICursor, Type, api, id) {
         UICursor.set("id", id);
         forEach(key => {
           let cursor = state.select("UI", key);
-          cursor.set("total", oldListIds[key].length);
           cursor.set("ids", oldListIds[key]);
         }, Object.keys(oldListIds));
         DBCursor.set(id, oldItem);
