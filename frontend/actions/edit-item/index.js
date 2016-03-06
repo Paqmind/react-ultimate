@@ -2,7 +2,7 @@ import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 
-// Cursor, Cursor, Type, api -> Promise
+// Cursor, Cursor, Type, Api -> Promise
 export default function editItem(DBCursor, UICursor, Type, api) {
 
   let data = UICursor.get("editForm");

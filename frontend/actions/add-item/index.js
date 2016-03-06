@@ -7,7 +7,7 @@ import {router} from "frontend/router";
 
 let urlCursor = state.select("url");
 
-// Cursor, Cursor, Type, api -> Promise
+// Cursor, Cursor, Type, Api -> Promise
 export default function addItem(DBCursor, UICursor, Type, api) {
   console.debug(api.plural + `.addItem(...)`);
 
