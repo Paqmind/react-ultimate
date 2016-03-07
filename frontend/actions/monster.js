@@ -18,6 +18,7 @@ import {Monster} from "shared/types";
 
 let UIMonstersCursor = state.select("UI", "monsters");
 let UIMonsterCursor = state.select("UI", "monster");
+let UIMonstersUSACitizenCursor = state.select("UI", "monstersUSACitizen");
 
 // TODO: syntax can be simplified with re-exports (wait for proper IDE support)
 export default {
@@ -26,6 +27,8 @@ export default {
   updateUIFilters: updateUIFilters(UIMonstersCursor, MONSTER),
   updateUISorts: updateUISorts(UIMonstersCursor, MONSTER),
   updateUIPagination: updateUIPagination(UIMonstersCursor, MONSTER),
+
+  loadIndexUSACitizen: () => loadIndex(UIMonstersUSACitizenCursor, Monster, api),
 
   // CRUD
   loadItem: loadItem(UIMonsterCursor, Monster, api),

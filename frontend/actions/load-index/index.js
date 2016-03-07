@@ -1,4 +1,4 @@
-import {assoc, curry, map, range, reduce, update} from "ramda";
+import {assoc, curry, map, range, reduce, repeat, update} from "ramda";
 import ajax from "frontend/ajax";
 import {inCache} from "frontend/helpers/pagination";
 import state from "frontend/state";
@@ -30,7 +30,7 @@ function loadIndex(UICursor, Type, api) {
 
         let newIds = ids;
         if (newIds.length != newTotal) {
-          newIds = range(0, newTotal).map(() => null); // init ids with empty values
+          newIds = repeat(null, newTotal); // init ids with empty values
         }
         newIds = reduce((memo, i) => {
             return update(offset + parseInt(i), newItemsArray[i].id, memo);

@@ -8,6 +8,7 @@ import api from "shared/api/robot";
 import {statics} from "frontend/helpers/react";
 import {recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
+import alertActions from "frontend/actions/alert";
 import actions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/common";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
@@ -41,12 +42,12 @@ import {indexRouter} from "frontend/router";
 })
 @branch({
   cursors: {
-    filters: ["UI", api.plural, "filters"],
-    sorts: ["UI", api.plural, "sorts"],
-    offset: ["UI", api.plural, "offset"],
-    limit: ["UI", api.plural, "limit"],
-    ids: ["UI", api.plural, "ids"],
-    items: ["UI", api.plural, "currentItems"],
+    filters: ["UI", "robots", "filters"],
+    sorts: ["UI", "robots", "sorts"],
+    offset: ["UI", "robots", "offset"],
+    limit: ["UI", "robots", "limit"],
+    ids: ["UI", "robots", "ids"],
+    items: ["UI", "robots", "currentItems"],
   }
 })
 export default class RobotIndex extends DeepComponent {
@@ -55,7 +56,6 @@ export default class RobotIndex extends DeepComponent {
     if (ids.length) {
       let recommendedOffset = recommendOffset(ids.length, offset, limit);
       if (offset > recommendedOffset) {
-        console.log('recommendedOffset:', recommendedOffset);
         indexRouter.transitionTo(undefined, {offset: recommendedOffset});
       }
     }

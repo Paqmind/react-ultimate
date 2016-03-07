@@ -139,6 +139,34 @@ window._state = new Baobab(
           getCurrentItem,
         ]),
       },
+      monstersUSACitizen: {
+        DBCursorName: "monsters",
+
+        ids: [],
+
+        // INDEX
+        filters: MONSTER.indexUSACitizen.filters,
+        sorts: MONSTER.indexUSACitizen.sorts,
+        offset: MONSTER.indexUSACitizen.offset,
+        limit: MONSTER.indexUSACitizen.limit,
+
+        // FACETS
+        havePendingRequests: monkey([
+          ["ajaxQueue"],
+          function (queue) {
+            return ajaxQueueContains(queue, monsterApi.indexUrl);
+          }
+        ]),
+        fullLoad: monkey([
+          ["UI", "monstersUSACitizen", "ids"],
+          getFullLoad,
+        ]),
+        currentItems: monkey([
+          ["DB", "monsters"],
+          ["UI", "monstersUSACitizen"],
+          getCurrentItems,
+        ]),
+      },
     },
 
     urlQuery: monkey([

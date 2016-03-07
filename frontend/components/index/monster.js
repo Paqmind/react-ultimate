@@ -8,16 +8,19 @@ import api from "shared/api/monster";
 import {statics} from "frontend/helpers/react";
 import {recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
+import alertActions from "frontend/actions/alert";
 import actions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/common";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import MonsterItem from "frontend/components/item/monster";
+import MonsterUSACitizenIndex from "frontend/components/index/monster-usa-citizen";
 
 
 @statics({
   loadData: function() {
     return actions
       .loadIndex()
+      .then(() => actions.loadIndexUSACitizen())
       .catch(error => {
         console.error(error);
         alertActions.addItem({
@@ -29,12 +32,13 @@ import MonsterItem from "frontend/components/item/monster";
 })
 @branch({
   cursors: {
-    filters: ["UI", api.plural, "filters"],
-    sorts: ["UI", api.plural, "sorts"],
-    offset: ["UI", api.plural, "offset"],
-    limit: ["UI", api.plural, "limit"],
-    ids: ["UI", api.plural, "ids"],
-    items: ["UI", api.plural, "currentItems"],
+    filters: ["UI", "monsters", "filters"],
+    sorts: ["UI", "monsters", "sorts"],
+    offset: ["UI", "monsters", "offset"],
+    limit: ["UI", "monsters", "limit"],
+    ids: ["UI", "monsters", "ids"],
+    items: ["UI", "monsters", "currentItems"],
+    itemsUSACitizen: ["UI", "monstersUSACitizen", "currentItems"],
   }
 })
 export default class MonsterIndex extends DeepComponent {
@@ -57,7 +61,7 @@ export default class MonsterIndex extends DeepComponent {
     }
   }
   render() {
-    let {filters, sorts, offset, limit, ids, items} = this.props;
+    let {filters, sorts, offset, limit, ids, items, itemsUSACitizen} = this.props;
     return (
       <DocumentTitle title="Monsters">
         <div>
@@ -88,6 +92,8 @@ export default class MonsterIndex extends DeepComponent {
                 <p>No monsters</p>}
             <MonsterPagination offset={offset} limit={limit} total={ids.length}/>
           </section>
+          <hr/>
+          <MonsterUSACitizenIndex items={itemsUSACitizen}/>
         </div>
       </DocumentTitle>
     );
