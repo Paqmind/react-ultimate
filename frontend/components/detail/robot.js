@@ -4,21 +4,32 @@ import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import api from "shared/api/robot";
-import {formatQuery} from "shared/helpers/jsonapi";
 import {statics} from "frontend/helpers/react";
+import {indexRouter} from "frontend/router";
 import state from "frontend/state";
 import actions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
+import {formatQuery} from "shared/helpers/jsonapi";
 
-let dataCursor = state.select(api.plural);
 
 @statics({
-  loadData: actions.establishItem,
+  loadData: function() {
+    let urlParams = state.select("url").get("params");
+    return actions
+      .loadItem(urlParams.id)
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monster: " + error,
+          category: "error",
+        });
+      });
+  }
 })
 @branch({
   cursors: {
-    havePendingRequests: [api.plural, "havePendingRequests"],
-    item: [api.plural, "currentItem"],
+    havePendingRequests: ["UI", "robots", "havePendingRequests"],
+    item: ["UI", "robot", "currentItem"],
   }
 })
 export default class RobotDetail extends DeepComponent {
@@ -62,13 +73,34 @@ export default class RobotDetail extends DeepComponent {
 }
 
 class Actions extends ShallowComponent {
+
+  handleRemove(id) {
+    return actions
+      .removeItem(id)
+      .then((item) => {
+        alertActions.addItem({
+          message: "Robot removed with id: " + item.id,
+          category: "success",
+        });
+        indexRouter.transitionTo("robot-index");
+      })
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to remove Robot: " + error,
+          category: "error",
+        });
+      });
+  }
+
   render() {
     let {item} = this.props;
+    let UICursor = state.select("UI", "robots");
     let query = formatQuery({
-      filters: dataCursor.get("filters"),
-      sorts: dataCursor.get("sorts"),
-      offset: dataCursor.get("offset"),
-      limit: dataCursor.get("limit"),
+      filters: UICursor.get("filters"),
+      sorts: UICursor.get("sorts"),
+      offset: UICursor.get("offset"),
+      limit: UICursor.get("limit"),
     });
 
     return (
@@ -87,7 +119,7 @@ class Actions extends ShallowComponent {
             <ItemLink to="robot-edit" params={{id: item.id}} className="btn btn-orange" title="Edit">
               <span className="fa fa-edit"></span>
             </ItemLink>
-            <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(item.id)}>
+            <a className="btn btn-red" title="Remove" onClick={() => this.handleRemove(item.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>

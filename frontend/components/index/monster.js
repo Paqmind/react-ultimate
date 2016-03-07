@@ -1,134 +1,189 @@
-import {equals, keys, map} from "ramda";
+import {map} from "ramda";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
 import {branch} from "baobab-react/decorators";
 import {toArray} from "shared/helpers/common";
-import {MONSTER} from "shared/constants";
 import api from "shared/api/monster";
 import {statics} from "frontend/helpers/react";
+import {recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
+import alertActions from "frontend/actions/alert";
 import actions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/common";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import MonsterItem from "frontend/components/item/monster";
+import MonsterUSACitizenIndex from "frontend/components/index/monster-usa-citizen";
 
-let dataCursor = state.select("monsters");
 
 @statics({
-  loadData: actions.loadIndex,
+  loadData: function() {
+    return actions
+      .loadIndex()
+      .then(() => actions.loadIndexUSACitizen())
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monsters: " + error,
+          category: "error",
+        });
+      });
+  }
 })
 @branch({
   cursors: {
-    filters: [api.plural, "filters"],
-    sorts: [api.plural, "sorts"],
-    offset: [api.plural, "offset"],
-    limit: [api.plural, "limit"],
-    total: [api.plural, "total"],
-    items: [api.plural, "currentItems"],
+    filters: ["UI", "monsters", "filters"],
+    sorts: ["UI", "monsters", "sorts"],
+    offset: ["UI", "monsters", "offset"],
+    limit: ["UI", "monsters", "limit"],
+    ids: ["UI", "monsters", "ids"],
+    items: ["UI", "monsters", "currentItems"],
+    itemsUSACitizen: ["UI", "monstersUSACitizen", "currentItems"],
   }
 })
 export default class MonsterIndex extends DeepComponent {
+  componentWillUpdate(nextProps) {
+    let {offset, limit, ids} = nextProps;
+    if (ids.length) {
+      let recommendedOffset = recommendOffset(ids.length, offset, limit);
+      if (offset > recommendedOffset) {
+        actions.updateUIPagination(recommendedOffset, limit);
+        return actions
+          .loadIndex()
+          .catch(error => {
+            console.error(error);
+            alertActions.addItem({
+              message: "Failed to load Monsters: " + error,
+              category: "error",
+            });
+          });
+      }
+    }
+  }
   render() {
-    let {filters, sorts, offset, limit, total, items} = this.props;
-
-    let pagination = <Pagination
-      onClick={_offset => this.setOffset(_offset)}
-      total={total} offset={offset} limit={limit}
-    />;
+    let {filters, sorts, offset, limit, ids, items, itemsUSACitizen} = this.props;
     return (
       <DocumentTitle title="Monsters">
         <div>
-          <Actions {...this.props}/>
+          <div className="actions">
+            <div className="container">
+              <div className="pull-left">
+                <MonsterPerPage limit={limit}/>
+              </div>
+              <div className="pull-left">
+                <MonsterSorts sorts={sorts}/>
+              </div>
+              <div className="pull-left">
+                <MonsterFilters filters={filters}/>
+              </div>
+              <div className="pull-right">
+                <Link to="monster-add" className="btn btn-sm btn-green" title="Add">
+                  <span className="fa fa-plus"></span>
+                </Link>
+              </div>
+            </div>
+          </div>
           <section className="container">
             <h1>Monsters</h1>
-            {pagination}
-            <div className="row">
-              {map(item => <MonsterItem item={item} key={item.id}/>, items)}
-            </div>
-            {pagination}
+            <MonsterPagination offset={offset} limit={limit} total={ids.length}/>
+            {items.length ?
+              <div className="row">
+                {map(item => <MonsterItem item={item} key={item.id}/>, items)}</div> :
+                <p>No monsters</p>}
+            <MonsterPagination offset={offset} limit={limit} total={ids.length}/>
           </section>
+          <hr/>
+          <MonsterUSACitizenIndex items={itemsUSACitizen}/>
         </div>
       </DocumentTitle>
     );
   }
+}
 
-  setOffset(offset) {
-    dataCursor.set("offset", offset || MONSTER.index.offset);
-    actions.loadIndex();
+class MonsterPagination extends ShallowComponent {
+  render() {
+    let {offset, limit, total} = this.props;
+    return <Pagination
+      onClick={_offset => this.setOffset(_offset, limit)}
+      total={total} offset={offset} limit={limit}
+    />;
+  }
+  setOffset(offset, limit) {
+    actions.updateUIPagination(offset, limit);
+    return actions
+      .loadIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monsters: " + error,
+          category: "error",
+        });
+      });
   }
 }
 
-class Actions extends ShallowComponent {
+class MonsterFilters extends ShallowComponent {
   render() {
-    let {filters, sorts, limit} = this.props;
-
-    let perPage = <PerPage
-      options={[5, 10, 12]} current={limit}
-      onClick={_limit => this.setLimit(_limit)}
-    />;
-    let sortBy = <SortBy
-      options={["+name", "-name"]} current={sorts && sorts[0]}
-      onClick={_sorts => this.setSorts(_sorts)}
-    />;
-    let filterBy = <FilterBy field="citizenship"
+    let {filters} = this.props;
+    return <FilterBy field="citizenship"
       options={[undefined, "China", "Russia", "USA"]} current={filters && filters.citizenship}
       onClick={_filters => this.setFilters(_filters)}
     />;
-
-    return (
-      <div className="actions">
-        <div className="container">
-          <div className="pull-left">
-            {perPage}
-          </div>
-          <div className="pull-left">
-            {sortBy}
-          </div>
-          <div className="pull-left">
-            {filterBy}
-          </div>
-          <div className="pull-right">
-            <Link to="monster-add" className="btn btn-sm btn-green" title="Add">
-              <span className="fa fa-plus"></span>
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
   }
-
   setFilters(filters) {
-    if (!equals(filters, dataCursor.get("filters"))) {
-      dataCursor.set("filters", filters);
-      if ((dataCursor.get("pagination").length < dataCursor.get("total")) || true) {
-        /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
-        // not all data loaded or new filters aren't subset of old
-        dataCursor.merge({
-          total: 0,
-          pagination: [],
+    actions.updateUIFilters(filters);
+    return actions
+      .loadIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monsters: " + error,
+          category: "error",
         });
-      }
-    }
-    actions.loadIndex();
+      });
   }
+}
 
+class MonsterSorts extends ShallowComponent {
+  render() {
+    let {sorts} = this.props;
+    return <SortBy
+      options={["+name", "-name"]} current={sorts && sorts[0]}
+      onClick={_sorts => this.setSorts(_sorts)}
+    />;
+  }
   setSorts(sorts) {
-    if (!equals(sorts, dataCursor.get("sorts"))) {
-      dataCursor.set("sorts", sorts);
-      if (dataCursor.get("pagination").length < dataCursor.get("total")) {
-        // not all data loaded
-        dataCursor.merge({
-          total: 0,
-          pagination: [],
+    actions.updateUISorts(sorts);
+    return actions
+      .loadIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monsters: " + error,
+          category: "error",
         });
-      }
-    }
-    actions.loadIndex();
+      });
   }
+}
 
+class MonsterPerPage extends ShallowComponent {
+  render() {
+    let {limit} = this.props;
+    return <PerPage
+      options={[5, 10, 12]} current={limit}
+      onClick={_limit => this.setLimit(_limit)}
+    />;
+  }
   setLimit(limit) {
-    dataCursor.set("limit", limit || MONSTER.index.limit);
-    actions.loadIndex();
+    actions.updateUIPagination(undefined, limit);
+    return actions
+      .loadIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monsters: " + error,
+          category: "error",
+        });
+      });
   }
 }

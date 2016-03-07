@@ -24,7 +24,7 @@ const ROBOT = {
     sorts: ["+name"],
     offset: 0,
     limit: 12,
-  }
+  },
 };
 
 const MONSTER = {
@@ -33,6 +33,14 @@ const MONSTER = {
     sorts: ["+name"],
     offset: 0,
     limit: 12,
+  },
+  indexUSACitizen: {
+    filters: {
+      citizenship: "USA",
+    },
+    sorts: ["+name"],
+    offset: 0,
+    limit: Infinity,
   }
 };
 

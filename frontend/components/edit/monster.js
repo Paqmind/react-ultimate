@@ -5,16 +5,14 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
-import api from "shared/api/monster";
 import {debounce, hasValues} from "shared/helpers/common";
-import {Monster} from "shared/types";
 import {statics} from "frontend/helpers/react";
 import actions from "frontend/actions/monster";
 import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
+import {indexRouter} from "frontend/router";
 import state from "frontend/state";
 
-let dataCursor = state.select(api.plural);
 
 let validateFormDebounced = debounce(key => {
   actions.validateEditForm(key).catch(err => null);
@@ -22,17 +20,30 @@ let validateFormDebounced = debounce(key => {
 
 @statics({
   loadData: () => {
+    let urlParams = state.select("url").get("params");
     actions
-      .establishItem()
-      .then(item => actions.resetEditForm(item.id));
+      .loadItem(urlParams.id)
+      .then((item) => {
+        let UICursor = state.select("UI", "monster");
+        UICursor.get("id", item.id);
+        UICursor.set("editForm", item);
+        actions.resetEditForm(item);
+      })
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monster: " + error,
+          category: "error",
+        });
+      });
   }
 })
 @branch({
   cursors: {
-    havePendingRequests: [api.plural, "havePendingRequests"],
-    item: [api.plural, "currentItem"],
-    form: [api.plural, "editForm"],
-    errors: [api.plural, "editFormErrors"],
+    havePendingRequests: ["UI", "monsters", "havePendingRequests"],
+    item: ["UI",  "monster", "currentItem"],
+    form: ["UI",  "monster", "editForm"],
+    errors: ["UI",  "monster", "editFormErrors"],
   },
 })
 export default class MonsterEdit extends DeepComponent {
@@ -48,14 +59,17 @@ export default class MonsterEdit extends DeepComponent {
   handleSubmit() {
     actions
       .validateEditForm("")
-      .then(actions.editItem)
-      .then(item => {
+      .then(() => {
+        return actions.editItem();
+      })
+      .then((item) => {
         alertActions.addItem({
           message: "Monster edited with id: " + item.id,
           category: "success",
         });
       })
       .catch(error => {
+        console.error(error);
         alertActions.addItem({
           message: "Failed to edit Monster: " + error,
           category: "error",
@@ -64,7 +78,9 @@ export default class MonsterEdit extends DeepComponent {
   }
 
   handleReset() {
-    actions.resetEditForm(this.props.item.id);
+    let UICursor = state.select("UI", "monster");
+    let model = UICursor.get("currentItem");
+    actions.resetEditForm(model);
   }
 
   render() {
@@ -79,7 +95,7 @@ export default class MonsterEdit extends DeepComponent {
               <div className="row">
                 <div className="col-xs-12 col-sm-3">
                   <div className="thumbnail">
-                    <img src={"http://robohash.org/" + item.id + "?size=200x200"} width="200px" height="200px"/>
+                    <img src={"http://robohash.org/" + item.id + "?set=set2&size=200x200"} width="200px" height="200px"/>
                   </div>
                 </div>
                 <div className="col-xs-12 col-sm-9">
@@ -158,6 +174,25 @@ export default class MonsterEdit extends DeepComponent {
 }
 
 class Actions extends ShallowComponent {
+  handleRemove(id) {
+    return actions
+      .removeItem(id)
+      .then((item) => {
+        alertActions.addItem({
+          message: "Monster removed with id: " + item.id,
+          category: "success",
+        });
+        indexRouter.transitionTo("monster-index");
+      })
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to remove Monster: " + error,
+          category: "error",
+        });
+      });
+  }
+
   render() {
     let {item} = this.props;
 
@@ -177,7 +212,7 @@ class Actions extends ShallowComponent {
             <ItemLink to="monster-detail" params={{id: item.id}} className="btn btn-blue" title="Detail">
               <span className="fa fa-eye"></span>
             </ItemLink>
-            <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(item.id)}>
+            <a className="btn btn-red" title="Remove" onClick={() => this.handleRemove(item.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>

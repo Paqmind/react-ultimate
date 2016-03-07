@@ -9,6 +9,24 @@ import monsterApi from "shared/api/robot";
 
 let monkey = Baobab.monkey;
 
+let getCurrentItems = function(DBCursor, UICursor) {
+  let {filters, sorts, offset, limit, ids, fullLoad} = UICursor;
+  let itemsArray = map(id => id && DBCursor[id], ids);
+  return pipe(
+    fullLoad ? filterByAll(filters) : identity,
+    fullLoad ? sortByAll(sorts) : identity,
+    slice(offset, offset + limit),
+    filter(m => m)
+  )(itemsArray);
+};
+let getCurrentItem = function(DBCursor, UICursor) {
+  return DBCursor[UICursor.id];
+};
+let getFullLoad = function(ids) {
+  let loaded = filter(id => id, ids).length;
+  return loaded == ids.length;
+};
+
 window._state = new Baobab(
   {
     url: {
@@ -23,156 +41,132 @@ window._state = new Baobab(
     alertQueue: [],
     alertTimeout: undefined,
 
-    robots: {
-      // DATA
-      total: 0,
-      items: {},
-      pagination: [],
-
-      // INDEX
-      filters: ROBOT.index.filters,
-      sorts: ROBOT.index.sorts,
-      offset: ROBOT.index.offset,
-      limit: ROBOT.index.limit,
-      // filterForm ???
-      // filterFormErrors ???
-
-      // CRUD
-      id: undefined,
-      addForm: {},
-      addFormErrors: {},
-      editForm: {},
-      editFormErrors: {},
-
-      // FACETS
-      havePendingRequests: monkey([
-        ["ajaxQueue"],
-        function (queue) {
-          return ajaxQueueContains(queue, robotApi.indexUrl);
-        }
-      ]),
-
-      fullLoad: monkey([
-        ["robots", "total"],
-        ["robots", "pagination"],
-        function (total, pagination) {
-          let loaded = filter(id => id, pagination).length;
-          if (loaded < total) {
-            return false;
-          } else if (loaded == total) {
-            return true;
-          } else {
-            throw Error(`invalid total ${total}`);
-          }
-        }
-      ]),
-
-      currentItem: monkey([
-        ["robots", "items"],
-        ["robots", "id"],
-        function (items, id) {
-          if (id) {
-            return items[id];
-          } else {
-            return undefined;
-          }
-        }
-      ]),
-
-      currentItems: monkey([
-        ["robots", "filters"],
-        ["robots", "sorts"],
-        ["robots", "offset"],
-        ["robots", "limit"],
-        ["robots", "items"],
-        ["robots", "pagination"],
-        ["robots", "fullLoad"],
-        function (filters, sorts, offset, limit, items, pagination, fullLoad) {
-          let itemsArray = map(id => id && items[id], pagination);
-          return pipe(
-            fullLoad ? filterByAll(filters) : identity,
-            fullLoad ? sortByAll(sorts) : identity,
-            slice(offset, offset + limit),
-            filter(m => m)
-          )(itemsArray);
-        }
-      ]),
+    DB: {
+      robots: {},
+      monsters: {},
     },
 
-    monsters: {
-      // DATA
-      total: 0,
-      items: {},
-      pagination: [],
+    UI: {
+      robots: {
+        DBCursorName: "robots",
 
-      // INDEX
-      filters: MONSTER.index.filters,
-      sorts: MONSTER.index.sorts,
-      offset: MONSTER.index.offset,
-      limit: MONSTER.index.limit,
-      // filterForm ???
-      // filterFormErrors ???
+        ids: [],
 
-      // CRUD
-      id: undefined,
-      addForm: {},
-      editForm: {},
-      addFormErrors: {},
-      editFormErrors: {},
+        // INDEX
+        filters: ROBOT.index.filters,
+        sorts: ROBOT.index.sorts,
+        offset: ROBOT.index.offset,
+        limit: ROBOT.index.limit,
+        // filterForm ???
+        // filterFormErrors ???
 
-      // FACETS
-      havePendingRequests: monkey([
-        ["ajaxQueue"],
-        function (queue) {
-          return ajaxQueueContains(queue, monsterApi.indexUrl);
-        }
-      ]),
-
-      fullLoad: monkey([
-        ["monsters", "total"],
-        ["monsters", "pagination"],
-        function (total, pagination) {
-          let loaded = filter(id => id, pagination).length;
-          if (loaded < total) {
-            return false;
-          } else if (loaded == total) {
-            return true;
-          } else {
-            throw Error(`invalid total ${total}`);
+        // FACETS
+        havePendingRequests: monkey([
+          ["ajaxQueue"],
+          function (queue) {
+            return ajaxQueueContains(queue, robotApi.indexUrl);
           }
-        }
-      ]),
+        ]),
+        fullLoad: monkey([
+          ["UI", "robots", "ids"],
+          getFullLoad,
+        ]),
+        currentItems: monkey([
+          ["DB", "robots"],
+          ["UI", "robots"],
+          getCurrentItems,
+        ]),
+      },
+      robot: {
+        DBCursorName: "robots",
 
-      currentItem: monkey([
-        ["monsters", "items"],
-        ["monsters", "id"],
-        function (items, id) {
-          if (id) {
-            return items[id];
-          } else {
-            return undefined;
+        // CRUD
+        id: undefined,
+        addForm: {},
+        addFormErrors: {},
+        editForm: {},
+        editFormErrors: {},
+
+        currentItem: monkey([
+          ["DB", "robots"],
+          ["UI", "robot"],
+          getCurrentItem,
+        ]),
+      },
+
+      monsters: {
+        DBCursorName: "monsters",
+
+        ids: [],
+
+        // INDEX
+        filters: MONSTER.index.filters,
+        sorts: MONSTER.index.sorts,
+        offset: MONSTER.index.offset,
+        limit: MONSTER.index.limit,
+        // filterForm ???
+        // filterFormErrors ???
+
+        // FACETS
+        havePendingRequests: monkey([
+          ["ajaxQueue"],
+          function (queue) {
+            return ajaxQueueContains(queue, monsterApi.indexUrl);
           }
-        }
-      ]),
+        ]),
+        fullLoad: monkey([
+          ["UI", "monsters", "ids"],
+          getFullLoad,
+        ]),
+        currentItems: monkey([
+          ["DB", "monsters"],
+          ["UI", "monsters"],
+          getCurrentItems,
+        ]),
+      },
+      monster: {
+        DBCursorName: "monsters",
 
-      currentItems: monkey([
-        ["monsters", "filters"],
-        ["monsters", "sorts"],
-        ["monsters", "offset"],
-        ["monsters", "limit"],
-        ["monsters", "items"],
-        ["monsters", "pagination"],
-        ["monsters", "fullLoad"],
-        function (filters, sorts, offset, limit, items, pagination, fullLoad) {
-          let itemsArray = map(id => id && items[id], pagination);
-          return pipe(
-            fullLoad ? filterByAll(filters) : identity,
-            fullLoad ? sortByAll(sorts) : identity,
-            slice(offset, offset + limit),
-            filter(m => m)
-          )(itemsArray);
-        }
-      ]),
+        // CRUD
+        id: undefined,
+        addForm: {},
+        editForm: {},
+        addFormErrors: {},
+        editFormErrors: {},
+        currentItem: monkey([
+          ["DB", "monsters"],
+          ["UI", "monster"],
+          getCurrentItem,
+        ]),
+      },
+      monstersUSACitizen: {
+        DBCursorName: "monsters",
+
+        ids: [],
+
+        // INDEX
+        filters: MONSTER.indexUSACitizen.filters,
+        sorts: MONSTER.indexUSACitizen.sorts,
+        offset: MONSTER.indexUSACitizen.offset,
+        limit: MONSTER.indexUSACitizen.limit,
+
+        // FACETS
+        havePendingRequests: monkey([
+          ["ajaxQueue"],
+          function (queue) {
+            return ajaxQueueContains(queue, monsterApi.indexUrl);
+          }
+        ]),
+        fullLoad: monkey([
+          ["UI", "monstersUSACitizen", "ids"],
+          getFullLoad,
+        ]),
+        currentItems: monkey([
+          ["DB", "monsters"],
+          ["UI", "monstersUSACitizen"],
+          getCurrentItems,
+        ]),
+      },
     },
 
     urlQuery: monkey([

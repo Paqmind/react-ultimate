@@ -1,25 +1,42 @@
 // INDEX
-import establishIndex from "frontend/actions/establish-index/robot";
-import loadIndex from "frontend/actions/load-index/robot";
-import fetchIndex from "frontend/actions/fetch-index/robot";
+import loadIndex from "frontend/actions/load-index/index";
+import {updateUIFilters, updateUISorts, updateUIPagination} from "frontend/actions/update-ui/index";
 
 // CRUD
-import establishItem from "frontend/actions/establish-item/robot";
-import loadItem from "frontend/actions/load-item/robot";
-import fetchItem from "frontend/actions/fetch-item/robot";
-import addItem from "frontend/actions/add-item/robot";
-import editItem from "frontend/actions/edit-item/robot";
-import removeItem from "frontend/actions/remove-item/robot";
-import {updateAddForm, validateAddForm, resetAddForm} from "frontend/actions/form/robot";
-import {updateEditForm, validateEditForm, resetEditForm} from "frontend/actions/form/robot";
+import loadItem from "frontend/actions/load-item/index";
+import addItem from "frontend/actions/add-item/index";
+import editItem from "frontend/actions/edit-item/index";
+import removeItem from "frontend/actions/remove-item/index";
+import {updateAddForm, validateAddForm, resetAddForm,
+        updateEditForm, validateEditForm, resetEditForm} from "frontend/actions/form/index";
+
+import state from "frontend/state";
+import api from "shared/api/robot";
+import {ROBOT} from "shared/constants";
+import {Robot} from "shared/types";
+
+
+let UIRobotsCursor = state.select("UI", "robots");
+let UIRobotCursor = state.select("UI", "robot");
 
 // TODO: syntax can be simplified with re-exports (wait for proper IDE support)
 export default {
   // INDEX
-  establishIndex, loadIndex, fetchIndex,
+  loadIndex: () => loadIndex(UIRobotsCursor, Robot, api),
+  updateUIFilters: updateUIFilters(UIRobotsCursor, ROBOT),
+  updateUISorts: updateUISorts(UIRobotsCursor, ROBOT),
+  updateUIPagination: updateUIPagination(UIRobotsCursor, ROBOT),
 
   // CRUD
-  establishItem, loadItem, fetchItem, addItem, editItem, removeItem,
-  updateAddForm, validateAddForm, resetAddForm,
-  updateEditForm, validateEditForm, resetEditForm,
+  loadItem: loadItem(UIRobotCursor, Robot, api),
+  addItem: () => addItem(UIRobotCursor, Robot, api),
+  editItem: () => editItem(UIRobotCursor, Robot, api),
+  removeItem: removeItem(UIRobotCursor, api),
+
+  updateAddForm: updateAddForm(UIRobotCursor),
+  updateEditForm: updateEditForm(UIRobotCursor),
+  validateAddForm: validateAddForm(UIRobotCursor, Robot),
+  validateEditForm: validateEditForm(UIRobotCursor, Robot),
+  resetAddForm: () => resetAddForm(UIRobotCursor),
+  resetEditForm: resetEditForm(UIRobotCursor, Robot),
 };

@@ -5,17 +5,15 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
-import api from "shared/api/robot";
 import {debounce, hasValues} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
-import {Robot} from "shared/types";
 import {statics} from "frontend/helpers/react";
 import actions from "frontend/actions/robot";
 import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
+import {indexRouter} from "frontend/router";
 import state from "frontend/state";
 
-let dataCursor = state.select(api.plural);
 
 let validateFormDebounced = debounce(key => {
   actions.validateEditForm(key).catch(err => null);
@@ -23,17 +21,31 @@ let validateFormDebounced = debounce(key => {
 
 @statics({
   loadData: () => {
-    actions
-      .establishItem()
-      .then(item => actions.resetEditForm(item.id));
+    let urlParams = state.select("url").get("params");
+    return actions
+      .loadItem(urlParams.id)
+      .then((item) => {
+        console.log('item:', item);
+        let UICursor = state.select("UI", "robot");
+        UICursor.get("id", item.id);
+        UICursor.set("editForm", item);
+        actions.resetEditForm(item);
+      })
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Robot: " + error,
+          category: "error",
+        });
+      });
   }
 })
 @branch({
   cursors: {
-    havePendingRequests: [api.plural, "havePendingRequests"],
-    item: [api.plural, "currentItem"],
-    form: [api.plural, "editForm"],
-    errors: [api.plural, "editFormErrors"],
+    havePendingRequests: ["UI", "robots", "havePendingRequests"],
+    item: ["UI", "robot", "currentItem"],
+    form: ["UI", "robot", "editForm"],
+    errors: ["UI", "robot", "editFormErrors"],
   },
 })
 export default class RobotEdit extends DeepComponent {
@@ -49,14 +61,18 @@ export default class RobotEdit extends DeepComponent {
   handleSubmit() {
     actions
       .validateEditForm("")
-      .then(actions.editItem)
-      .then(item => {
+      .then(() => {
+        return actions.editItem();
+      })
+      .then((item) => {
+        console.log('item:', item);
         alertActions.addItem({
           message: "Robot edited with id: " + item.id,
           category: "success",
         });
       })
       .catch(error => {
+        console.error(error);
         alertActions.addItem({
           message: "Failed to edit Robot: " + error,
           category: "error",
@@ -65,7 +81,9 @@ export default class RobotEdit extends DeepComponent {
   }
 
   handleReset() {
-    actions.resetEditForm(this.props.item.id);
+    let UICursor = state.select("UI", "robot");
+    let model = UICursor.get("currentItem");
+    actions.resetEditForm(model);
   }
 
   render() {
@@ -159,13 +177,33 @@ export default class RobotEdit extends DeepComponent {
 }
 
 class Actions extends ShallowComponent {
+  handleRemove(id) {
+    return actions
+      .removeItem(id)
+      .then((item) => {
+        alertActions.addItem({
+          message: "Robot removed with id: " + item.id,
+          category: "success",
+        });
+        indexRouter.transitionTo("robot-index");
+      })
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to remove Robot: " + error,
+          category: "error",
+        });
+      });
+  }
+
   render() {
     let {item} = this.props;
+    let UICursor = state.select("UI", "robots");
     let query = formatQuery({
-      filters: dataCursor.get("filters"),
-      sorts: dataCursor.get("sorts"),
-      offset: dataCursor.get("offset"),
-      limit: dataCursor.get("limit"),
+      filters: UICursor.get("filters"),
+      sorts: UICursor.get("sorts"),
+      offset: UICursor.get("offset"),
+      limit: UICursor.get("limit"),
     });
 
     return (
@@ -184,7 +222,7 @@ class Actions extends ShallowComponent {
             <ItemLink to="robot-detail" params={{id: item.id}} className="btn btn-blue" title="Detail">
               <span className="fa fa-eye"></span>
             </ItemLink>
-            <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(item.id)}>
+            <a className="btn btn-red" title="Remove" onClick={() => this.handleRemove(item.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>

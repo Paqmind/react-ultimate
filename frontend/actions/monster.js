@@ -1,24 +1,45 @@
 // INDEX
-import loadIndex from "frontend/actions/load-index/monster";
-import fetchIndex from "frontend/actions/fetch-index/monster";
+import loadIndex from "frontend/actions/load-index/index";
+import {updateUIFilters, updateUISorts, updateUIPagination} from "frontend/actions/update-ui/index";
 
 // CRUD
-import establishItem from "frontend/actions/establish-item/monster";
-import loadItem from "frontend/actions/load-item/monster";
-import fetchItem from "frontend/actions/fetch-item/monster";
-import addItem from "frontend/actions/add-item/monster";
-import editItem from "frontend/actions/edit-item/monster";
-import removeItem from "frontend/actions/remove-item/monster";
-import {updateAddForm, validateAddForm, resetAddForm} from "frontend/actions/form/monster";
-import {updateEditForm, validateEditForm, resetEditForm} from "frontend/actions/form/monster";
+import loadItem from "frontend/actions/load-item/index";
+import addItem from "frontend/actions/add-item/index";
+import editItem from "frontend/actions/edit-item/index";
+import removeItem from "frontend/actions/remove-item/index";
+import {updateAddForm, validateAddForm, resetAddForm,
+        updateEditForm, validateEditForm, resetEditForm} from "frontend/actions/form/index";
+
+import state from "frontend/state";
+import api from "shared/api/monster";
+import {MONSTER} from "shared/constants";
+import {Monster} from "shared/types";
+
+
+let UIMonstersCursor = state.select("UI", "monsters");
+let UIMonsterCursor = state.select("UI", "monster");
+let UIMonstersUSACitizenCursor = state.select("UI", "monstersUSACitizen");
 
 // TODO: syntax can be simplified with re-exports (wait for proper IDE support)
 export default {
   // INDEX
-  loadIndex, fetchIndex,
+  loadIndex: () => loadIndex(UIMonstersCursor, Monster, api),
+  updateUIFilters: updateUIFilters(UIMonstersCursor, MONSTER),
+  updateUISorts: updateUISorts(UIMonstersCursor, MONSTER),
+  updateUIPagination: updateUIPagination(UIMonstersCursor, MONSTER),
+
+  loadIndexUSACitizen: () => loadIndex(UIMonstersUSACitizenCursor, Monster, api),
 
   // CRUD
-  establishItem, loadItem, fetchItem, addItem, editItem, removeItem,
-  updateAddForm, validateAddForm, resetAddForm,
-  updateEditForm, validateEditForm, resetEditForm,
+  loadItem: loadItem(UIMonsterCursor, Monster, api),
+  addItem: () => addItem(UIMonsterCursor, Monster, api),
+  editItem: () => editItem(UIMonsterCursor, Monster, api),
+  removeItem: removeItem(UIMonsterCursor, api),
+
+  updateAddForm: updateAddForm(UIMonsterCursor),
+  updateEditForm: updateEditForm(UIMonsterCursor),
+  validateAddForm: validateAddForm(UIMonsterCursor, Monster),
+  validateEditForm: validateEditForm(UIMonsterCursor, Monster),
+  resetAddForm: () => resetAddForm(UIMonsterCursor),
+  resetEditForm: resetEditForm(UIMonsterCursor, Monster),
 };

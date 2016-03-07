@@ -5,6 +5,7 @@ import {getTotalPages} from "frontend/helpers/pagination";
 import IndexLink from "./indexlink";
 import {ShallowComponent} from "./component";
 
+
 let mapIndexed = addIndex(map);
 
 export default class Pagination extends ShallowComponent {

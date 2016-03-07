@@ -5,30 +5,25 @@ import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
-import api from "shared/api/monster";
+import {formatTyped} from "shared/formatters";
 import {debounce, hasValues} from "shared/helpers/common";
 import {formatQuery} from "shared/helpers/jsonapi";
-import {formatTyped} from "shared/formatters";
-import {Monster} from "shared/types";
 import {statics} from "frontend/helpers/react";
 import actions from "frontend/actions/monster";
 import alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
+import {itemRouter} from "frontend/router";
 import state from "frontend/state";
 
-let dataCursor = state.select(api.plural);
 
 let validateFormDebounced = debounce(key => {
   actions.validateAddForm(key).catch(err => null);
 }, 500);
 
-@statics({
-  loadData: actions.loadIndex,
-})
 @branch({
   cursors: {
-    form: [api.plural, "addForm"],
-    errors: [api.plural, "addFormErrors"],
+    form: ["UI", "monster", "addForm"],
+    errors: ["UI", "monster", "addFormErrors"],
   }
 })
 export default class MonsterAdd extends DeepComponent {
@@ -44,12 +39,17 @@ export default class MonsterAdd extends DeepComponent {
   handleSubmit() {
     actions
       .validateAddForm("")
-      .then(actions.addItem)
-      .then(item => {
+      .then(() => {
+        return actions.addItem();
+      })
+      .then((item) => {
+        let UICursor = state.select("UI", "monster");
+        UICursor.set("id", item.id);
         alertActions.addItem({
           message: "Monster added with id: " + item.id,
           category: "success",
         });
+        itemRouter.transitionTo("monster-detail", item.id);
       })
       .catch(error => {
         alertActions.addItem({
@@ -57,6 +57,10 @@ export default class MonsterAdd extends DeepComponent {
           category: "error",
         });
       });
+  }
+
+  handleReset() {
+    actions.resetAddForm();
   }
 
   render() {
