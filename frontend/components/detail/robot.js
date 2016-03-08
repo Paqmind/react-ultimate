@@ -7,7 +7,7 @@ import api from "shared/api/robot";
 import {formatQuery} from "shared/helpers/jsonapi";
 import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
-import actions from "frontend/actions/robot";
+import * as actions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 
 let dataCursor = state.select(api.plural);

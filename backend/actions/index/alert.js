@@ -2,7 +2,7 @@ import {keys, values} from "ramda";
 import Tc from "tcomb";
 import Express from "express";
 import {filterByAll, sortByAll} from "shared/helpers/common";
-import middlewares from "backend/middlewares";
+import * as middlewares from "backend/middlewares";
 import DB from "backend/dbs/alert";
 
 let router = Express.Router();

@@ -4,14 +4,9 @@ import {assoc, map, reduce} from "ramda";
 import {Base64} from "js-base64";
 import Webpack from "webpack";
 import GlobalizePlugin from "globalize-webpack-plugin";
+import {NODE_MODULES_DIR, SHARED_DIR, FRONTEND_DIR, BACKEND_DIR, PUBLIC_DIR} from "shared/constants"
 
 // CONSTANTS =======================================================================================
-const NODE_MODULES_DIR = Path.join(__dirname, "node_modules");
-const SHARED_DIR = Path.join(__dirname, "shared");
-const FRONTEND_DIR = Path.join(__dirname, "frontend");
-const BACKEND_DIR = Path.join(__dirname, "backend");
-const PUBLIC_DIR = Path.join(__dirname, "public");
-
 // Paths to minified library distributions relative to the root node_modules
 const MINIFIED_DEPS = [
   "moment/min/moment.min.js",

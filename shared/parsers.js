@@ -159,7 +159,7 @@ let typeToParser = new Map([
   // [SomeJsonType, JSON.parse], // example
 ]);
 
-export default {
+export {
   parseBoolean,
   parseDate,
   parseInteger,

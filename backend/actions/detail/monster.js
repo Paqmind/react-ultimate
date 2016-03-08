@@ -1,7 +1,7 @@
 import Tc from "tcomb";
 import Express from "express";
 import {Uid} from "shared/types";
-import middlewares from "backend/middlewares";
+import * as middlewares from "backend/middlewares";
 import DB from "backend/dbs/monster";
 
 let router = Express.Router();

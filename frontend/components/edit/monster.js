@@ -9,8 +9,8 @@ import api from "shared/api/monster";
 import {debounce, hasValues} from "shared/helpers/common";
 import {Monster} from "shared/types";
 import {statics} from "frontend/helpers/react";
-import actions from "frontend/actions/monster";
-import alertActions from "frontend/actions/alert";
+import * as actions from "frontend/actions/monster";
+import * as alertActions from "frontend/actions/alert";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 import state from "frontend/state";
 

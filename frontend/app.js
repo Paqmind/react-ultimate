@@ -6,7 +6,7 @@ import React from "react";
 import {create as createRouter, HistoryLocation} from "react-router";
 import {parseDefault} from "shared/parsers";
 import state from "frontend/state";
-import alertActions from "frontend/actions/alert";
+import * as alertActions from "frontend/actions/alert";
 import {processAlertQueue} from "frontend/alerts";
 import {processAjaxQueue} from "frontend/ajax";
 import routes from "frontend/routes";

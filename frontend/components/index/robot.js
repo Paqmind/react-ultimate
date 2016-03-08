@@ -8,7 +8,7 @@ import api from "shared/api/robot";
 import {statics} from "frontend/helpers/react";
 import {indexRouter} from "frontend/router";
 import state from "frontend/state";
-import actions from "frontend/actions/robot";
+import * as actions from "frontend/actions/robot";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/common";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import RobotItem from "frontend/components/item/robot";

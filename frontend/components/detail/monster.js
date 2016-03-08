@@ -6,7 +6,7 @@ import DocumentTitle from "react-document-title";
 import api from "shared/api/monster";
 import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
-import actions from "frontend/actions/monster";
+import * as actions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
 
 let dataCursor = state.select(api.plural);

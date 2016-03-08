@@ -5,7 +5,7 @@ import {recommendOffset} from "frontend/helpers/pagination";
 import state from "frontend/state";
 import {indexRouter} from "frontend/router";
 import ajax from "frontend/ajax";
-import alertActions from "frontend/actions/alert";
+import * as alertActions from "frontend/actions/alert";
 import fetchIndex from "frontend/actions/fetch-index/robot";
 
 let urlCursor = state.select("url");

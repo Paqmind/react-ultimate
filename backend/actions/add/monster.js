@@ -4,7 +4,7 @@ import {merge} from "shared/helpers/common";
 import {Monster} from "shared/types";
 import {parseAs} from "shared/parsers";
 import makeMonster from "shared/makers/monster";
-import middlewares from "backend/middlewares";
+import * as middlewares from "backend/middlewares";
 import DB from "backend/dbs/monster";
 
 let router = Express.Router();

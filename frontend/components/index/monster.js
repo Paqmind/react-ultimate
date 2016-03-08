@@ -8,7 +8,7 @@ import {MONSTER} from "shared/constants";
 import api from "shared/api/monster";
 import {statics} from "frontend/helpers/react";
 import state from "frontend/state";
-import actions from "frontend/actions/monster";
+import * as actions from "frontend/actions/monster";
 import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/common";
 import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import MonsterItem from "frontend/components/item/monster";

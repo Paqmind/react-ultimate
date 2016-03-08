@@ -116,6 +116,6 @@ function getCurrentRouteAndQuery(route, query) {
   return [route || urlRoute, merge(urlQuery, formatQuery(query))];
 }
 
-export default {
+export {
   router, itemRouter, indexRouter,
 };

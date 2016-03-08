@@ -84,7 +84,7 @@ let typeToFormatter = new Map([
   // [SomeJsonType, JSON.stringify], // example
 ]);
 
-export default {
+export {
   formatBoolean,
   formatDate,
   formatInteger,

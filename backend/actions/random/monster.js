@@ -1,7 +1,7 @@
 import Tc from "tcomb";
 import Express from "express";
 import makeMonster from "shared/makers/monster";
-import middlewares from "backend/middlewares";
+import * as middlewares from "backend/middlewares";
 
 let router = Express.Router();
 

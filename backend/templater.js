@@ -1,7 +1,7 @@
 import Path from "path";
 import Globalize from "globalize";
 import Nunjucks from "nunjucks";
-import constants from "shared/constants";
+import * as constants from "shared/constants";
 
 const TEMPLATE_DIR = Path.join(__dirname, "/templates");
 

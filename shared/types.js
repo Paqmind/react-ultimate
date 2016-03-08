@@ -40,6 +40,6 @@ let Monster = Tc.struct({
   birthDate: Tc.Date,
 }, "Monster");
 
-export default {
+export {
   Uid, Alert, Robot, Monster,
 };

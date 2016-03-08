@@ -29,7 +29,7 @@ function validateData(data, type, key) {
   return {valid, errors, value};
 }
 
-export default {
+export {
   validateValue, // validate business value
   validateData,  // validate raw data (form / file)
 };

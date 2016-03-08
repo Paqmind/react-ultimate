@@ -8,7 +8,7 @@ import {formatTyped} from "shared/formatters";
 import {validateData} from "shared/validation";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
-import alertActions from "frontend/actions/alert";
+import * as alertActions from "frontend/actions/alert";
 import addItem from "frontend/actions/add-item/robot";
 
 let dataCursor = state.select(api.plural);
@@ -81,7 +81,7 @@ function resetEditForm(id) {
   dataCursor.set("editFormErrors", {});
 }
 
-export default {
+export {
   updateAddForm, validateAddForm, resetAddForm,
   updateEditForm, validateEditForm, resetEditForm,
 };

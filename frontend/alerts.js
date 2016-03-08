@@ -5,7 +5,7 @@ import state from "frontend/state";
 let alertQueueCursor = state.select("alertQueue");
 let alertTimeoutCursor = state.select("alertTimeout");
 
-function processAlertQueue() {
+export function processAlertQueue() {
   if (!alertTimeoutCursor.get()) {
     let alertQueue = alertQueueCursor.get();
     let expirableAlerts = filter(m => m.expire, alertQueue);
@@ -21,8 +21,4 @@ function processAlertQueue() {
       setTimeout(processAlertQueue, ALERT.throttleTimeoutMs);
     }
   }
-}
-
-export default {
-  processAlertQueue
 };

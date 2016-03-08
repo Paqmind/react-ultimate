@@ -13,7 +13,7 @@ import {updateAddForm, validateAddForm, resetAddForm} from "frontend/actions/for
 import {updateEditForm, validateEditForm, resetEditForm} from "frontend/actions/form/monster";
 
 // TODO: syntax can be simplified with re-exports (wait for proper IDE support)
-export default {
+export {
   // INDEX
   loadIndex, fetchIndex,
 

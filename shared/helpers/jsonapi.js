@@ -82,6 +82,6 @@ function formatQueryForAxios(query) {
   return result;
 }
 
-export default {
+export {
   parseQuery, formatQuery, formatQueryForAxios
 };
