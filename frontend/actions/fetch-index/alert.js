@@ -8,7 +8,7 @@ import ajax from "frontend/ajax";
 
 let alertQueueCursor = state.select("alertQueue");
 
-// Filters, Sorts, Offset, Limit -> Maybe [Alert]
+// Filters, Sorts, Offset, Limit -> Promise [Alert]
 export default function fetchIndex(filters, sorts, offset, limit) {
   console.debug(api.plural + ".fetchIndex(...)");
 

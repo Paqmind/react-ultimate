@@ -7,7 +7,7 @@ import ajax from "frontend/ajax";
 let dataCursor = state.select(api.plural);
 let itemsCursor = dataCursor.select("items");
 
-// Object -> Maybe Robot
+// Object -> Promise Robot
 export default function editItem(data) {
   console.debug(api.plural + `.editItem(${data.id})`);
 

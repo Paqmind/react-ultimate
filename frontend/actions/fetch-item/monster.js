@@ -6,7 +6,7 @@ import ajax from "frontend/ajax";
 let dataCursor = state.select(api.plural);
 let itemsCursor = dataCursor.select("items");
 
-// Id -> Maybe Monster
+// Id -> Promise Monster
 export default function fetchItem(id) {
   console.debug(api.plural + `.fetchItem(${id})`);
 

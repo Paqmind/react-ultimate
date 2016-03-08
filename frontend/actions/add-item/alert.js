@@ -7,7 +7,7 @@ import state from "frontend/state";
 
 let alertQueueCursor = state.select("alertQueue");
 
-// Object -> Maybe Alert
+// Object -> Promise Alert
 export default function addItem(data) {
   data = assoc("id", data.id || UUID.v4(), data);
   if (data.closable === undefined) {

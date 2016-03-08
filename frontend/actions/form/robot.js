@@ -14,7 +14,7 @@ import addItem from "frontend/actions/add-item/robot";
 let dataCursor = state.select(api.plural);
 let itemsCursor = dataCursor.select("items");
 
-// ProductData -> Maybe Product
+// ProductData -> Promise Product
 function updateAddForm(key, data) {
   console.debug(api.plural + `.updateAddForm(${key}, ...)`);
 

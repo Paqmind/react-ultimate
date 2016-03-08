@@ -11,7 +11,7 @@ let urlCursor = state.select("url");
 let dataCursor = state.select(api.plural);
 let itemsCursor = dataCursor.select("items");
 
-// Id -> Maybe Monster
+// Id -> Promise Monster
 export default function removeItem(id) {
   console.debug(api.plural + `.removeItem(${id})`);
 

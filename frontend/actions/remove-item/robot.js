@@ -12,7 +12,7 @@ let urlCursor = state.select("url");
 let dataCursor = state.select(api.plural);
 let itemsCursor = dataCursor.select("items");
 
-// Id -> Maybe Robot
+// Id -> Promise Robot
 export default function removeItem(id) {
   console.debug(api.plural + `.removeItem(${id})`);
 

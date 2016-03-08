@@ -11,7 +11,7 @@ let reduceIndexed = addIndex(reduce);
 let dataCursor = state.select(api.plural);
 let itemsCursor = dataCursor.select("items");
 
-// Filters, Sorts, Offset, Limit -> Maybe [Monster]
+// Filters, Sorts, Offset, Limit -> Promise [Monster]
 export default function fetchIndex(filters, sorts, offset, limit) {
   console.debug(api.plural + `.fetchIndex(...)`);
 

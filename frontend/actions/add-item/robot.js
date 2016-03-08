@@ -11,7 +11,7 @@ let urlCursor = state.select("url");
 let dataCursor = state.select(api.plural);
 let itemsCursor = dataCursor.select("items");
 
-// Object -> Maybe Robot
+// Object -> Promise Robot
 export default function addItem(data) {
   console.debug(api.plural + `.addItem(...)`);
 

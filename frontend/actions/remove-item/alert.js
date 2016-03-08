@@ -5,7 +5,7 @@ import {processAlertQueue} from "frontend/alerts";
 let alertQueueCursor = state.select("alertQueue");
 let alertTimeoutCursor = state.select("alertTimeout");
 
-// Id -> Maybe Alert
+// Id -> Promise Alert
 export default function removeItem(id) {
   let alertQueue = alertQueueCursor.get();
   let i = findIndex(m => m.id == id, alertQueue);
