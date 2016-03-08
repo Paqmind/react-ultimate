@@ -19,8 +19,8 @@ export default function establishIndex() {
 
   let {filters, sorts} = dataCursor.get();
 
-  if (!equals(urlFilters || ROBOT.index.filters, filters)) {
-    dataCursor.set("filters", urlFilters || ROBOT.index.filters);
+  if (!equals(urlFilters || ROBOT.index.defaultFilters, filters)) {
+    dataCursor.set("filters", urlFilters || ROBOT.index.defaultFilters);
     if (true || !dataCursor.get("fullLoad")) {
       /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
       // Pagination is messed up, do reset
@@ -30,8 +30,8 @@ export default function establishIndex() {
       });
     }
   }
-  if (!equals(urlSorts || ROBOT.index.sorts, sorts)) {
-    dataCursor.set("sorts", urlSorts || ROBOT.index.sorts);
+  if (!equals(urlSorts || ROBOT.index.defaultSorts, sorts)) {
+    dataCursor.set("sorts", urlSorts || ROBOT.index.defaultSorts);
     if (!dataCursor.get("fullLoad")) {
       // Pagination is messed up, do reset
       dataCursor.merge({
@@ -40,8 +40,8 @@ export default function establishIndex() {
       });
     }
   }
-  dataCursor.set("offset", urlOffset || ROBOT.index.offset);
-  dataCursor.set("limit", urlLimit || ROBOT.index.limit);
+  dataCursor.set("offset", urlOffset || 0);
+  dataCursor.set("limit", urlLimit || ROBOT.index.defaultLimit);
 
   return loadIndex();
 }

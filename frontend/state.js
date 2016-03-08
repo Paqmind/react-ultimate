@@ -30,10 +30,10 @@ window._state = new Baobab(
       pagination: [],
 
       // INDEX
-      filters: ROBOT.index.filters,
-      sorts: ROBOT.index.sorts,
-      offset: ROBOT.index.offset,
-      limit: ROBOT.index.limit,
+      filters: ROBOT.index.defaultFilters,
+      sorts: ROBOT.index.defaultSorts,
+      offset: 0,
+      limit: ROBOT.index.defaultLimit,
       // filterForm ???
       // filterFormErrors ???
 
@@ -106,10 +106,10 @@ window._state = new Baobab(
       pagination: [],
 
       // INDEX
-      filters: MONSTER.index.filters,
-      sorts: MONSTER.index.sorts,
-      offset: MONSTER.index.offset,
-      limit: MONSTER.index.limit,
+      filters: MONSTER.index.defaultFilters,
+      sorts: MONSTER.index.defaultSorts,
+      offset: 0,
+      limit: MONSTER.index.defaultLimit,
       // filterForm ???
       // filterFormErrors ???
 

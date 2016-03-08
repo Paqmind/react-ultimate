@@ -54,7 +54,7 @@ export default class MonsterIndex extends DeepComponent {
   }
 
   setOffset(offset) {
-    dataCursor.set("offset", offset || MONSTER.index.offset);
+    dataCursor.set("offset", offset || 0);
     actions.loadIndex();
   }
 }
@@ -128,7 +128,7 @@ class Actions extends ShallowComponent {
   }
 
   setLimit(limit) {
-    dataCursor.set("limit", limit || MONSTER.index.limit);
+    dataCursor.set("limit", limit || MONSTER.index.defaultLimit);
     actions.loadIndex();
   }
 }

@@ -27,18 +27,16 @@ export const ALERT = {
 
 export const ROBOT = {
   index: {
-    filters: undefined,
-    sorts: ["+name"],
-    offset: 0,
-    limit: 12,
+    defaultFilters: undefined,
+    defaultSorts: ["+name"],
+    defaultLimit: 12,
   }
 };
 
 export const MONSTER = {
   index: {
-    filters: undefined,
-    sorts: ["+name"],
-    offset: 0,
-    limit: 12,
+    defaultFilters: undefined,
+    defaultSorts: ["+name"],
+    defaultLimit: 12,
   }
 };
