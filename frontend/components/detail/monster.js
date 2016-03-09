@@ -12,7 +12,17 @@ import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/comp
 let dataCursor = state.select(api.plural);
 
 @statics({
-  loadData: actions.establishItem,
+  loadData: () => {
+    return actions
+      .establishItem()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monster: " + error,
+          category: "error",
+        });
+      });
+  }
 })
 @branch({
   cursors: {
@@ -61,6 +71,18 @@ export default class MonsterDetail extends DeepComponent {
 }
 
 class Actions extends ShallowComponent {
+  handleRemove(id) {
+    return actions
+      .removeItem(id)
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to remove Monster: " + error,
+          category: "error",
+        });
+      });
+  }
+
   render() {
     let {item} = this.props;
 
@@ -80,7 +102,7 @@ class Actions extends ShallowComponent {
             <ItemLink to="monster-edit" params={{id: item.id}} className="btn btn-orange" title="Edit">
               <span className="fa fa-edit"></span>
             </ItemLink>
-            <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(item.id)}>
+            <a className="btn btn-red" title="Remove" onClick={() => this.handleRemove(item.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>

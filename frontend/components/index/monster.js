@@ -16,7 +16,17 @@ import MonsterItem from "frontend/components/item/monster";
 let dataCursor = state.select("monsters");
 
 @statics({
-  loadData: actions.loadIndex,
+  loadData: () => {
+    return actions
+      .loadIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monsters: " + error,
+          category: "error",
+        });
+      });
+  }
 })
 @branch({
   cursors: {
@@ -55,7 +65,15 @@ export default class MonsterIndex extends DeepComponent {
 
   setOffset(offset) {
     dataCursor.set("offset", offset || 0);
-    actions.loadIndex();
+    return actions
+      .loadIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monsters: " + error,
+          category: "error",
+        });
+      });
   }
 }
 
@@ -110,7 +128,15 @@ class Actions extends ShallowComponent {
         });
       }
     }
-    actions.loadIndex();
+    return actions
+      .loadIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monsters: " + error,
+          category: "error",
+        });
+      });
   }
 
   setSorts(sorts) {
@@ -124,11 +150,27 @@ class Actions extends ShallowComponent {
         });
       }
     }
-    actions.loadIndex();
+    return actions
+      .loadIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monsters: " + error,
+          category: "error",
+        });
+      });
   }
 
   setLimit(limit) {
     dataCursor.set("limit", limit || MONSTER.index.defaultLimit);
-    actions.loadIndex();
+    return actions
+      .loadIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Monsters: " + error,
+          category: "error",
+        });
+      });
   }
 }

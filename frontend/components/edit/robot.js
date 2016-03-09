@@ -18,14 +18,23 @@ import state from "frontend/state";
 let dataCursor = state.select(api.plural);
 
 let validateFormDebounced = debounce(key => {
-  actions.validateEditForm(key).catch(err => null);
+  return actions
+    .validateEditForm(key)
+    .catch(error => null);
 }, 500);
 
 @statics({
   loadData: () => {
-    actions
+    return actions
       .establishItem()
-      .then(item => actions.resetEditForm(item.id));
+      .then(item => actions.resetEditForm(item.id))
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Robot: " + error,
+          category: "error",
+        });
+      });
   }
 })
 @branch({
@@ -38,16 +47,26 @@ let validateFormDebounced = debounce(key => {
 })
 export default class RobotEdit extends DeepComponent {
   handleBlur(key) {
-    actions.validateEditForm(key).catch(err => null);
+    return actions
+      .validateEditForm(key)
+      .catch(error => null);
   }
 
   handleChange(key, data) {
-    actions.updateEditForm(key, data);
-    validateFormDebounced(key);
+    return actions
+      .updateEditForm(key, data)
+      .then(() => validateFormDebounced(key))
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to update form: " + error,
+          category: "error",
+        });
+      });
   }
 
   handleSubmit() {
-    actions
+    return actions
       .validateEditForm("")
       .then(actions.editItem)
       .then(item => {
@@ -57,6 +76,7 @@ export default class RobotEdit extends DeepComponent {
         });
       })
       .catch(error => {
+        console.error(error);
         alertActions.addItem({
           message: "Failed to edit Robot: " + error,
           category: "error",
@@ -65,7 +85,15 @@ export default class RobotEdit extends DeepComponent {
   }
 
   handleReset() {
-    actions.resetEditForm(this.props.item.id);
+    return actions
+      .resetEditForm(this.props.item.id)
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to reset form: " + error,
+          category: "error",
+        });
+      });
   }
 
   render() {
@@ -159,6 +187,18 @@ export default class RobotEdit extends DeepComponent {
 }
 
 class Actions extends ShallowComponent {
+  handleRemove(id) {
+    return actions
+      .removeItem(id)
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to remove Robot: " + error,
+          category: "error",
+        });
+      });
+  }
+
   render() {
     let {item} = this.props;
     let query = formatQuery({
@@ -184,7 +224,7 @@ class Actions extends ShallowComponent {
             <ItemLink to="robot-detail" params={{id: item.id}} className="btn btn-blue" title="Detail">
               <span className="fa fa-eye"></span>
             </ItemLink>
-            <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(item.id)}>
+            <a className="btn btn-red" title="Remove" onClick={() => this.handleRemove(item.id)}>
               <span className="fa fa-times"></span>
             </a>
           </div>
