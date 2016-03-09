@@ -71,6 +71,7 @@
     "react-proxy-loader": "^0.3.4",
     "react-router": "^0.13.2",
     "readable-stream": "^1.1.13",
+    "rx": "^4.1.0",
     "style-loader": "^0.12.3",
     "tcomb": "^2.5.0",
     "tcomb-validation": "^2.2.0",
