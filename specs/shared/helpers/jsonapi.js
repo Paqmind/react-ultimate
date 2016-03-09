@@ -1,14 +1,16 @@
-import {expect} from "chai";
+import assert from "assert";
 import {parseQuery, formatQuery, formatQueryForAxios} from "shared/helpers/jsonapi";
+
+let assertEq = assert.deepStrictEqual;
 
 // SPECS ===========================================================================================
 describe("parseQuery()", function () {
   it("should handle single param", function () {
-    expect(parseQuery({filter: {foo: "bar"}})).eql({filters: {foo: "bar"}});
-    expect(parseQuery({sort: "+name,-age"})).eql({sorts: ["+name", "-age"]});
-    expect(parseQuery({page: {offset: 100}})).eql({offset: 100});
-    expect(parseQuery({page: {limit: 10}})).eql({limit: 10});
-    expect(parseQuery({reset: true})).eql({reset: true});
+    assertEq(parseQuery({filter: {foo: "bar"}}), {filters: {foo: "bar"}});
+    assertEq(parseQuery({sort: "+name,-age"}), {sorts: ["+name", "-age"]});
+    assertEq(parseQuery({page: {offset: 100}}), {offset: 100});
+    assertEq(parseQuery({page: {limit: 10}}), {limit: 10});
+    assertEq(parseQuery({reset: true}), {reset: true});
   });
 
   it("should handle multiple params", function () {
@@ -25,17 +27,17 @@ describe("parseQuery()", function () {
       limit: 10,
       reset: true
     };
-    expect(parseQuery(unparsedQuery)).eql(parsedQuery);
+    assertEq(parseQuery(unparsedQuery), parsedQuery);
   });
 });
 
 describe("formatQuery()", function () {
   it("should handle single param", function () {
-    expect(formatQuery({filters: {foo: "bar"}})).eql({filter: {foo: "bar"}});
-    expect(formatQuery({sorts: ["+name", "-age"]})).eql({sort: "+name,-age"});
-    expect(formatQuery({offset: 100})).eql({page: {offset: 100}});
-    expect(formatQuery({limit: 10})).eql({page: {limit: 10}});
-    expect(formatQuery({reset: true})).eql({reset: true});
+    assertEq(formatQuery({filters: {foo: "bar"}}), {filter: {foo: "bar"}});
+    assertEq(formatQuery({sorts: ["+name", "-age"]}), {sort: "+name,-age"});
+    assertEq(formatQuery({offset: 100}), {page: {offset: 100}});
+    assertEq(formatQuery({limit: 10}), {page: {limit: 10}});
+    assertEq(formatQuery({reset: true}), {reset: true});
   });
 
   it("should handle multiple params", function () {
@@ -52,7 +54,7 @@ describe("formatQuery()", function () {
       page: {offset: 100, limit: 10},
       reset: true
     };
-    expect(formatQuery(unformattedQuery)).eql(formattedQuery);
+    assertEq(formatQuery(unformattedQuery), formattedQuery);
   });
 });
 
@@ -72,6 +74,6 @@ describe("formatQueryForAxios()", function () {
       "page[limit]": 10,
       "reset": true
     };
-    expect(formatQueryForAxios(unformattedQuery)).eql(formattedForAxiosQuery);
+    assertEq(formatQueryForAxios(unformattedQuery), formattedForAxiosQuery);
   });
 });

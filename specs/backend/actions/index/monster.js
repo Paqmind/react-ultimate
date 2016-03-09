@@ -1,9 +1,11 @@
 import {keys} from "ramda";
-import {expect} from "chai";
+import assert from "assert";
 import Axios from "axios";
 import DB, {makeDB} from "backend/dbs/monster";
 import app from "backend/app";
 import "backend/server";
+
+let assertEq = assert.deepStrictEqual;
 
 // VARS =================================================`===========================================
 let apiRootURL = "http://localhost:" + process.env.HTTP_PORT + "/api";
@@ -38,15 +40,15 @@ describe("/api/monsters GET", function () {
   });
 
   it("should not change DB length", function () {
-    expect(keys(DB).length).eql(total);
+    assertEq(keys(DB).length, total);
   });
 
   it("should respond with 200 status", function () {
-    expect(status).eql(200);
+    assertEq(status, 200);
   });
 
   it("should respond with valid body", function () {
-    expect(body).to.have.property("data");
-    expect(body.data).is.instanceof(Array);
+    assert(body.data);
+    assert(body.data instanceof Array);
   });
 });

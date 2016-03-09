@@ -1,8 +1,8 @@
-import {expect} from "chai";
+import assert from "assert";
 
 describe("sanity", function () {
   it("should work", function () {
-    expect(true).eql(true);
-    expect(false).eql(false);
+    assert.equal(true, true);
+    assert.equal(false, false);
   });
 });

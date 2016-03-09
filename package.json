@@ -17,7 +17,7 @@
     "release-major": "git checkout master && npm version major && git push origin master --tags",
     "release-as-lib": "git checkout master && npm run build && git commit -am 'Distribute' && npm version major && git push origin master --tags",
     "mocha": "source .testing; mocha --opts specs/mocha.opts specs",
-    "test": "npm run mocha -s"
+    "test": "npm run mocha"
   },
   "dependencies": {
     "autoprefixer-loader": "^3.1.0",

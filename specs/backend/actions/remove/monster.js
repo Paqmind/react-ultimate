@@ -1,10 +1,12 @@
 import {keys} from "ramda";
-import {expect} from "chai";
+import assert from "assert";
 import Axios from "axios";
 import makeMonster from "shared/makers/monster";
 import DB, {makeDB} from "backend/dbs/monster";
 import app from "backend/app";
 import "backend/server";
+
+let assertEq = assert.deepStrictEqual;
 
 // VARS ============================================================================================
 let apiRootURL = "http://localhost:" + process.env.HTTP_PORT + "/api";
@@ -40,11 +42,11 @@ describe("/api/monsters/:id DELETE", function () {
     });
 
     it("should not change DB length", function () {
-      expect(keys(DB).length).eql(total);
+      assertEq(keys(DB).length, total);
     });
 
     it("should respond with 404 status", function () {
-      expect(status).eql(404);
+      assertEq(status, 404);
     });
   });
 
@@ -67,19 +69,19 @@ describe("/api/monsters/:id DELETE", function () {
     });
 
     it("should change DB length", function () {
-      expect(keys(DB).length).eql(total - 1);
+      assertEq(keys(DB).length, total - 1);
     });
 
     it("should delete model", function () {
-      expect(DB[id]).eql(undefined);
+      assertEq(DB[id], undefined);
     });
 
     it("should respond with 204 status", function () {
-      expect(status).eql(204);
+      assertEq(status, 204);
     });
 
     it("should respond with valid body", function () {
-      expect(body).eql("");
+      assertEq(body, "");
     });
   });
 });

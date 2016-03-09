@@ -1,14 +1,16 @@
-import {expect} from "chai";
+import assert from "assert";
 import Axios from "axios";
 import app from "backend/app";
 import "backend/server";
 
+let assertEq = assert.deepStrictEqual;
+
 // SPECS ===========================================================================================
 describe("app", function () {
   it("should exist", function () {
-    expect(app).to.be.an("Function");
-    expect(app).to.have.property("request");
-    expect(app).to.have.property("response");
+    assertEq(typeof app, "function");
+    assert(app.request);
+    assert(app.response);
   });
 
   it("should listen localhost:" + process.env.HTTP_PORT, function (cb) {
@@ -16,7 +18,7 @@ describe("app", function () {
       .then(response => response.status)
       .catch(response => response.status)
       .then(status => {
-        expect(status).eql(404);
+        assertEq(status, 404);
       })
       .then(cb).catch(cb);
   });

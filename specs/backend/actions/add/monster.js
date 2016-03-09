@@ -1,5 +1,5 @@
 import {assoc, dissoc, keys} from "ramda";
-import {expect} from "chai";
+import assert from "assert";
 import Axios from "axios";
 import api from "shared/api/monster";
 import {Monster} from "shared/types";
@@ -8,6 +8,8 @@ import {parseAs} from "shared/parsers";
 import DB, {makeDB} from "backend/dbs/monster";
 import app from "backend/app";
 import "backend/server";
+
+let assertEq = assert.deepStrictEqual;
 
 let apiHost = "http://localhost:" + process.env.HTTP_PORT;
 
@@ -41,17 +43,17 @@ describe(api.indexUrl + " POST", function () {
     });
 
     it("should create an item", function () {
-      expect(DB[id]).eql(item);
-      expect(keys(DB).length).eql(total + 1);
+      assertEq(DB[id], item);
+      assertEq(keys(DB).length, total + 1);
     });
 
     it("should respond with 201 status", function () {
-      expect(status).eql(201);
+      assertEq(status, 201);
     });
 
     it("should respond with valid body", function () {
-      expect(body).to.have.property("data");
-      expect(parseAs(Monster, body.data)).eql(item);
+      assert(body.data);
+      assertEq(parseAs(Monster, body.data), item);
     });
   });
 
@@ -76,12 +78,12 @@ describe(api.indexUrl + " POST", function () {
     });
 
     it("should not create an item", function () {
-      expect(DB[id]).eql(undefined);
-      expect(keys(DB).length).eql(total);
+      assertEq(DB[id], undefined);
+      assertEq(keys(DB).length, total);
     });
 
     it("should respond with 400 status", function () {
-      expect(status).eql(400);
+      assertEq(status, 400);
     });
 
     //it("body ???", function () {

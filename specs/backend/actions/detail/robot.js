@@ -1,5 +1,5 @@
 import {keys} from "ramda";
-import {expect} from "chai";
+import assert from "assert";
 import Axios from "axios";
 import api from "shared/api/robot";
 import {Robot} from "shared/types";
@@ -8,6 +8,8 @@ import {parseAs} from "shared/parsers";
 import DB, {makeDB} from "backend/dbs/robot";
 import app from "backend/app";
 import "backend/server";
+
+let assertEq = assert.deepStrictEqual;
 
 // VARS ============================================================================================
 let apiHost = "http://localhost:" + process.env.HTTP_PORT;
@@ -41,7 +43,7 @@ describe(api.itemUrl + " GET", function () {
     });
 
     it("should respond with 400 status", function () {
-      expect(status).eql(400);
+      assertEq(status, 400);
     });
   });
 
@@ -63,11 +65,11 @@ describe(api.itemUrl + " GET", function () {
     });
 
     it("should not change DB length", function () {
-      expect(keys(DB).length).eql(total);
+      assertEq(keys(DB).length, total);
     });
 
     it("should respond with 404 status", function () {
-      expect(status).eql(404);
+      assertEq(status, 404);
     });
   });
 
@@ -90,16 +92,16 @@ describe(api.itemUrl + " GET", function () {
     });
 
     it("should not change DB length", function () {
-      expect(keys(DB).length).eql(total);
+      assertEq(keys(DB).length, total);
     });
 
     it("should respond with 200 status", function () {
-      expect(status).eql(200);
+      assertEq(status, 200);
     });
 
     it("should respond with valid body", function () {
-      expect(body).to.have.property("data");
-      expect(parseAs(Robot, body.data)).eql(model);
+      assert(body.data);
+      assertEq(parseAs(Robot, body.data), model);
     });
   });
 });
