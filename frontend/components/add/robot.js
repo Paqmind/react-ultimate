@@ -19,11 +19,23 @@ import state from "frontend/state";
 let dataCursor = state.select(api.plural);
 
 let validateFormDebounced = debounce(key => {
-  actions.validateAddForm(key).catch(err => null);
+  return actions
+    .validateAddForm(key)
+    .catch(error => null);
 }, 500);
 
 @statics({
-  loadData: actions.loadIndex,
+  loadData: () => {
+    return actions
+      .loadIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Robot: " + error,
+          category: "error",
+        });
+      });
+  }
 })
 @branch({
   cursors: {
@@ -33,16 +45,26 @@ let validateFormDebounced = debounce(key => {
 })
 export default class RobotAdd extends DeepComponent {
   handleBlur(key) {
-    actions.validateAddForm(key).catch(err => null);
+    return actions
+      .validateAddForm(key)
+      .catch(error => null);
   }
 
   handleChange(key, data) {
-    actions.updateAddForm(key, data);
-    validateFormDebounced(key);
+    return actions
+      .updateAddForm(key, data)
+      .then(() => validateFormDebounced(key))
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to update form: " + error,
+          category: "error",
+        });
+      });
   }
 
   handleSubmit() {
-    actions
+    return actions
       .validateAddForm("")
       .then(actions.addItem)
       .then(item => {
@@ -52,6 +74,7 @@ export default class RobotAdd extends DeepComponent {
         });
       })
       .catch(error => {
+        console.error(error);
         alertActions.addItem({
           message: "Failed to add Robot: " + error,
           category: "error",

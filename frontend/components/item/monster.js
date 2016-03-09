@@ -8,6 +8,18 @@ export default class MonsterItem extends ShallowComponent {
     item: React.PropTypes.object,
   }
 
+  handleRemove(id) {
+    return actions
+      .removeItem(id)
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to remove Monster: " + error,
+          category: "error",
+        });
+      });
+  }
+
   render() {
     let item = this.props.item;
 
@@ -32,7 +44,7 @@ export default class MonsterItem extends ShallowComponent {
                   <Link to="monster-edit" params={{id: item.id}} className="btn btn-orange" title="Edit">
                     <span className="fa fa-edit"></span>
                   </Link>
-                  <a className="btn btn-red" title="Remove" onClick={() => actions.removeItem(item.id)}>
+                  <a className="btn btn-red" title="Remove" onClick={() => this.handleRemove(item.id)}>
                     <span className="fa fa-times"></span>
                   </a>
                 </div>

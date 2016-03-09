@@ -14,7 +14,17 @@ import {FilterBy, SortBy, PerPage} from "frontend/components/form";
 import RobotItem from "frontend/components/item/robot";
 
 @statics({
-  loadData: actions.establishIndex,
+  loadData: () => {
+    return actions
+      .establishIndex()
+      .catch(error => {
+        console.error(error);
+        alertActions.addItem({
+          message: "Failed to load Robots: " + error,
+          category: "error",
+        });
+    });
+  }
 })
 @branch({
   cursors: {
