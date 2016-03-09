@@ -22,14 +22,13 @@ export default function removeItem(id) {
   let oldIndex = indexOf(id, pagination);
 
   itemsCursor.unset(id);
-  dataCursor.apply("total", t => t ? t - 1 : t);
   dataCursor.apply("pagination", ps => reject(_id => _id == id, ps));
 
   if (urlCursor.get("route") == api.singular + "-index") {
     setImmediate(() => {
-      let {total, offset, limit} = dataCursor.get();
+      let {offset, limit} = dataCursor.get();
 
-      let recommendedOffset = recommendOffset(total, offset, limit);
+      let recommendedOffset = recommendOffset(pagination.length, offset, limit);
       if (offset > recommendedOffset) {
         indexRouter.transitionTo(undefined, {offset: recommendedOffset});
       }
@@ -49,7 +48,6 @@ export default function removeItem(id) {
         return oldItem;
       } else {
         itemsCursor.set(id, oldItem);
-        dataCursor.apply("total", t => t + 1);
         if (oldIndex != -1) {
           dataCursor.apply("pagination", ps => insert(oldIndex, id, ps));
         }

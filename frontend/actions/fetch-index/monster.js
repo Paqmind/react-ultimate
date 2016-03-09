@@ -23,7 +23,6 @@ export default function fetchIndex(filters, sorts, offset, limit) {
         let newItemsArray = map(m => parseAs(Monster, m), response.data.data);
         let newItems = toObject(newItemsArray);
         itemsCursor.merge(newItems);
-        dataCursor.set("total", response.data.meta.page.total);
         dataCursor.apply("pagination", ps => {
           return reduceIndexed((memo, m, i) => {
               return insert(offset + i, m.id, memo);

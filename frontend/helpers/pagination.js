@@ -4,7 +4,7 @@ import {chunked, filterByAll, sortByAll} from "shared/helpers/common";
 export function inCache(offset, limit, total, pagination) {
   let cache = filter(v => v, slice(offset, offset + limit, pagination));
   if (cache.length) {
-    if (offset == recommendOffset(total, total, limit)) {
+    if (offset == recommendOffset(total, offset, limit)) {
       // last page
       let totalPages = getTotalPages(total, limit);
       return cache.length >= limit - ((totalPages * limit) - total);

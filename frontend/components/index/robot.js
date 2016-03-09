@@ -22,18 +22,17 @@ import RobotItem from "frontend/components/item/robot";
     sorts: [api.plural, "sorts"],
     offset: [api.plural, "offset"],
     limit: [api.plural, "limit"],
-    total: [api.plural, "total"],
     items: [api.plural, "currentItems"],
   }
 })
 export default class RobotIndex extends DeepComponent {
   render() {
-    let {filters, sorts, offset, limit, total, items} = this.props;
+    let {filters, sorts, offset, limit, pagination, items} = this.props;
 
     let pagination = <Pagination
       makeHref={_offset => this.showOffset(_offset)}
       onClick={_offset => this.setOffset(_offset)}
-      total={total} offset={offset} limit={limit}
+      total={pagination.length} offset={offset} limit={limit}
     />;
     return (
       <DocumentTitle title="Robots">

@@ -9,6 +9,30 @@ import monsterApi from "shared/api/robot";
 
 let monkey = Baobab.monkey;
 
+
+function fullLoad(pagination) {
+  let loaded = filter(id => id, pagination).length;
+  return loaded == pagination.length;
+}
+
+function currentItem(items, id) {
+  if (id) {
+    return items[id];
+  } else {
+    return undefined;
+  }
+}
+
+function currentItems(filters, sorts, offset, limit, items, pagination, fullLoad) {
+  let itemsArray = map(id => id && items[id], pagination);
+  return pipe(
+    fullLoad ? filterByAll(filters) : identity,
+    fullLoad ? sortByAll(sorts) : identity,
+    slice(offset, offset + limit),
+    filter(m => m)
+  )(itemsArray);
+}
+
 window._state = new Baobab(
   {
     url: {
@@ -25,7 +49,6 @@ window._state = new Baobab(
 
     robots: {
       // DATA
-      total: 0,
       items: {},
       pagination: [],
 
@@ -53,30 +76,14 @@ window._state = new Baobab(
       ]),
 
       fullLoad: monkey([
-        ["robots", "total"],
         ["robots", "pagination"],
-        function (total, pagination) {
-          let loaded = filter(id => id, pagination).length;
-          if (loaded < total) {
-            return false;
-          } else if (loaded == total) {
-            return true;
-          } else {
-            throw Error(`invalid total ${total}`);
-          }
-        }
+        fullLoad,
       ]),
 
       currentItem: monkey([
         ["robots", "items"],
         ["robots", "id"],
-        function (items, id) {
-          if (id) {
-            return items[id];
-          } else {
-            return undefined;
-          }
-        }
+        currentItem,
       ]),
 
       currentItems: monkey([
@@ -87,21 +94,12 @@ window._state = new Baobab(
         ["robots", "items"],
         ["robots", "pagination"],
         ["robots", "fullLoad"],
-        function (filters, sorts, offset, limit, items, pagination, fullLoad) {
-          let itemsArray = map(id => id && items[id], pagination);
-          return pipe(
-            fullLoad ? filterByAll(filters) : identity,
-            fullLoad ? sortByAll(sorts) : identity,
-            slice(offset, offset + limit),
-            filter(m => m)
-          )(itemsArray);
-        }
+        currentItems,
       ]),
     },
 
     monsters: {
       // DATA
-      total: 0,
       items: {},
       pagination: [],
 
@@ -129,30 +127,14 @@ window._state = new Baobab(
       ]),
 
       fullLoad: monkey([
-        ["monsters", "total"],
         ["monsters", "pagination"],
-        function (total, pagination) {
-          let loaded = filter(id => id, pagination).length;
-          if (loaded < total) {
-            return false;
-          } else if (loaded == total) {
-            return true;
-          } else {
-            throw Error(`invalid total ${total}`);
-          }
-        }
+        fullLoad,
       ]),
 
       currentItem: monkey([
         ["monsters", "items"],
         ["monsters", "id"],
-        function (items, id) {
-          if (id) {
-            return items[id];
-          } else {
-            return undefined;
-          }
-        }
+        currentItem,
       ]),
 
       currentItems: monkey([
@@ -163,15 +145,7 @@ window._state = new Baobab(
         ["monsters", "items"],
         ["monsters", "pagination"],
         ["monsters", "fullLoad"],
-        function (filters, sorts, offset, limit, items, pagination, fullLoad) {
-          let itemsArray = map(id => id && items[id], pagination);
-          return pipe(
-            fullLoad ? filterByAll(filters) : identity,
-            fullLoad ? sortByAll(sorts) : identity,
-            slice(offset, offset + limit),
-            filter(m => m)
-          )(itemsArray);
-        }
+        currentItems,
       ]),
     },
 
