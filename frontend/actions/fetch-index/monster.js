@@ -20,14 +20,13 @@ export default function fetchIndex(filters, sorts, offset, limit) {
   return ajax.get(api.indexUrl, {params: query})
     .then(response => {
       if (response.status.startsWith("2")) {
-        let newItemsArray = map(m => parseAs(Monster, m), response.data.data);
+        let newItemsArray = map(data => parseAs(Monster, data), response.data.data);
         let newItems = toObject(newItemsArray);
         itemsCursor.merge(newItems);
-        dataCursor.set("total", response.data.meta.page.total);
-        dataCursor.apply("pagination", ps => {
+        dataCursor.apply("ids", ids => {
           return reduceIndexed((memo, m, i) => {
               return insert(offset + i, m.id, memo);
-            }, ps, newItemsArray
+            }, ids, newItemsArray
           );
         });
         return newItems;

@@ -20,17 +20,15 @@ export default function addItem(data) {
   let id = item.id;
 
   // Optimistic update
-  dataCursor.apply("total", t => t + 1);
   itemsCursor.set(id, item);
 
   if (dataCursor.get("fullLoad")) {
     // Inject new id at whatever place
-    dataCursor.apply("pagination", ps => append(id, ps));
+    dataCursor.apply("ids", ids => append(id, ids));
   } else {
     // Pagination is messed up, do reset
     dataCursor.merge({
-      total: 0,
-      pagination: [],
+      ids: [],
     });
   }
 
@@ -42,7 +40,7 @@ export default function addItem(data) {
 
   return ajax.put(api.itemUrl.replace(":id", id), item)
     .then(response => {
-      let {total, items, pagination} = dataCursor.get();
+      let ids = dataCursor.get("ids");
       if (response.status.startsWith("2")) {
         if (response.status == "200" && response.data.data) {
           item = itemsCursor.set(id, parseAs(Monster, response.data.data));
@@ -50,8 +48,7 @@ export default function addItem(data) {
         return item;
       } else {
         itemsCursor.unset(id);
-        dataCursor.apply("total", t => t ? t - 1 : t);
-        dataCursor.apply("pagination", ps => reject(id => id == item.id, ps));
+        dataCursor.apply("ids", ids => reject(id => id == item.id, ids));
         throw Error(response.statusText);
       }
     });

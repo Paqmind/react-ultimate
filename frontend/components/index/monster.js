@@ -24,17 +24,16 @@ let dataCursor = state.select("monsters");
     sorts: [api.plural, "sorts"],
     offset: [api.plural, "offset"],
     limit: [api.plural, "limit"],
-    total: [api.plural, "total"],
     items: [api.plural, "currentItems"],
   }
 })
 export default class MonsterIndex extends DeepComponent {
   render() {
-    let {filters, sorts, offset, limit, total, items} = this.props;
+    let {filters, sorts, offset, limit, ids, items} = this.props;
 
     let pagination = <Pagination
       onClick={_offset => this.setOffset(_offset)}
-      total={total} offset={offset} limit={limit}
+      total={ids.length} offset={offset} limit={limit}
     />;
     return (
       <DocumentTitle title="Monsters">
@@ -101,14 +100,11 @@ class Actions extends ShallowComponent {
   setFilters(filters) {
     if (!equals(filters, dataCursor.get("filters"))) {
       dataCursor.set("filters", filters);
-      if ((dataCursor.get("pagination").length < dataCursor.get("total")) || true) {
-        /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
-        // not all data loaded or new filters aren't subset of old
-        dataCursor.merge({
-          total: 0,
-          pagination: [],
-        });
-      }
+      /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
+      // not all data loaded or new filters aren't subset of old
+      dataCursor.merge({
+        ids: [],
+      });
     }
     actions.loadIndex();
   }
@@ -116,11 +112,10 @@ class Actions extends ShallowComponent {
   setSorts(sorts) {
     if (!equals(sorts, dataCursor.get("sorts"))) {
       dataCursor.set("sorts", sorts);
-      if (dataCursor.get("pagination").length < dataCursor.get("total")) {
+      if (!dataCursor.get("fullLoad")) {
         // not all data loaded
         dataCursor.merge({
-          total: 0,
-          pagination: [],
+          ids: [],
         });
       }
     }

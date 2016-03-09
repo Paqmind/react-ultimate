@@ -21,4 +21,4 @@ export function processAlertQueue() {
       setTimeout(processAlertQueue, ALERT.throttleTimeoutMs);
     }
   }
-};
+}

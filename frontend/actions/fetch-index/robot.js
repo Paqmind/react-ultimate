@@ -23,11 +23,10 @@ export default function fetchIndex(filters, sorts, offset, limit) {
         let newItemsArray = map(data => parseAs(Robot, data), response.data.data);
         let newItems = toObject(newItemsArray);
         itemsCursor.merge(newItems);
-        dataCursor.set("total", response.data.meta.page.total);
-        dataCursor.apply("pagination", ps => {
+        dataCursor.apply("ids", ids => {
           return reduceIndexed((memo, m, i) => {
               return insert(offset + i, m.id, memo);
-            }, ps, newItemsArray
+            }, ids, newItemsArray
           );
         });
         return newItems;

@@ -1,10 +1,10 @@
 import {append, keys, filter, find, map, pipe, slice, range, reject, reverse, values} from "ramda";
 import {chunked, filterByAll, sortByAll} from "shared/helpers/common";
 
-export function inCache(offset, limit, total, pagination) {
-  let cache = filter(v => v, slice(offset, offset + limit, pagination));
+export function inCache(offset, limit, total, ids) {
+  let cache = filter(v => v, slice(offset, offset + limit, ids));
   if (cache.length) {
-    if (offset == recommendOffset(total, total, limit)) {
+    if (offset == recommendOffset(total, offset, limit)) {
       // last page
       let totalPages = getTotalPages(total, limit);
       return cache.length >= limit - ((totalPages * limit) - total);
