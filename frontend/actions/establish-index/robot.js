@@ -25,7 +25,7 @@ export default function establishIndex() {
       /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
       // Pagination is messed up, do reset
       dataCursor.merge({
-        pagination: [],
+        ids: [],
       });
     }
   }
@@ -34,7 +34,7 @@ export default function establishIndex() {
     if (!dataCursor.get("fullLoad")) {
       // Pagination is messed up, do reset
       dataCursor.merge({
-        pagination: [],
+        ids: [],
       });
     }
   }

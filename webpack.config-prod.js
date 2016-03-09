@@ -6,7 +6,7 @@ import Webpack from "webpack";
 import GlobalizePlugin from "globalize-webpack-plugin";
 import CommonsChunkPlugin from "webpack/lib/optimize/CommonsChunkPlugin";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
-import {NODE_MODULES_DIR, SHARED_DIR, FRONTEND_DIR, BACKEND_DIR, PUBLIC_DIR} from "shared/constants"
+import {NODE_MODULES_DIR, SHARED_DIR, FRONTEND_DIR, BACKEND_DIR, PUBLIC_DIR} from "shared/constants";
 
 // CONSTANTS =======================================================================================
 // Paths to minified library distributions relative to the root node_modules

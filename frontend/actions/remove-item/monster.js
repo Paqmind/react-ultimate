@@ -15,20 +15,20 @@ let itemsCursor = dataCursor.select("items");
 export default function removeItem(id) {
   console.debug(api.plural + `.removeItem(${id})`);
 
-  let {items, pagination} = dataCursor.get();
+  let {items, ids} = dataCursor.get();
 
   // Optimistic update
   let oldItem = items[id];
-  let oldIndex = indexOf(id, pagination);
+  let oldIndex = indexOf(id, ids);
 
   itemsCursor.unset(id);
-  dataCursor.apply("pagination", ps => reject(_id => _id == id, ps));
+  dataCursor.apply("ids", ids => reject(_id => _id == id, ids));
 
   if (urlCursor.get("route") == api.singular + "-index") {
     setImmediate(() => {
-      let {offset, limit} = dataCursor.get();
+      let {ids, offset, limit} = dataCursor.get();
 
-      let recommendedOffset = recommendOffset(pagination.length, offset, limit);
+      let recommendedOffset = recommendOffset(ids.length, offset, limit);
       if (offset > recommendedOffset) {
         indexRouter.transitionTo(undefined, {offset: recommendedOffset});
       }
@@ -37,11 +37,11 @@ export default function removeItem(id) {
 
   return ajax.delete(api.itemUrl.replace(":id", id))
     .then(response => {
-      let {filters, sorts, offset, limit, pagination} = dataCursor.get();
+      let {filters, sorts, offset, limit, ids} = dataCursor.get();
 
       if (response.status.startsWith("2")) {
         if (urlCursor.get("route") == api.singular + "-index") {
-          if (!pagination[offset + limit - 1]) {
+          if (!ids[offset + limit - 1]) {
             fetchIndex(filters, sorts, offset + limit - 1, 1);
           }
         }
@@ -49,7 +49,7 @@ export default function removeItem(id) {
       } else {
         itemsCursor.set(id, oldItem);
         if (oldIndex != -1) {
-          dataCursor.apply("pagination", ps => insert(oldIndex, id, ps));
+          dataCursor.apply("ids", ids => insert(oldIndex, id, ids));
         }
         alertActions.addItem({message: "Remove Monster failed with message " + response.statusText, category: "error"});
         return undefined;

@@ -10,9 +10,9 @@ import monsterApi from "shared/api/robot";
 let monkey = Baobab.monkey;
 
 
-function fullLoad(pagination) {
-  let loaded = filter(id => id, pagination).length;
-  return loaded == pagination.length;
+function fullLoad(ids) {
+  let loaded = filter(id => id, ids).length;
+  return loaded == ids.length;
 }
 
 function currentItem(items, id) {
@@ -23,8 +23,8 @@ function currentItem(items, id) {
   }
 }
 
-function currentItems(filters, sorts, offset, limit, items, pagination, fullLoad) {
-  let itemsArray = map(id => id && items[id], pagination);
+function currentItems(filters, sorts, offset, limit, items, ids, fullLoad) {
+  let itemsArray = map(id => id && items[id], ids);
   return pipe(
     fullLoad ? filterByAll(filters) : identity,
     fullLoad ? sortByAll(sorts) : identity,
@@ -50,7 +50,7 @@ window._state = new Baobab(
     robots: {
       // DATA
       items: {},
-      pagination: [],
+      ids: [],
 
       // INDEX
       filters: ROBOT.index.defaultFilters,
@@ -76,7 +76,7 @@ window._state = new Baobab(
       ]),
 
       fullLoad: monkey([
-        ["robots", "pagination"],
+        ["robots", "ids"],
         fullLoad,
       ]),
 
@@ -92,7 +92,7 @@ window._state = new Baobab(
         ["robots", "offset"],
         ["robots", "limit"],
         ["robots", "items"],
-        ["robots", "pagination"],
+        ["robots", "ids"],
         ["robots", "fullLoad"],
         currentItems,
       ]),
@@ -101,7 +101,7 @@ window._state = new Baobab(
     monsters: {
       // DATA
       items: {},
-      pagination: [],
+      ids: [],
 
       // INDEX
       filters: MONSTER.index.defaultFilters,
@@ -127,7 +127,7 @@ window._state = new Baobab(
       ]),
 
       fullLoad: monkey([
-        ["monsters", "pagination"],
+        ["monsters", "ids"],
         fullLoad,
       ]),
 
@@ -143,7 +143,7 @@ window._state = new Baobab(
         ["monsters", "offset"],
         ["monsters", "limit"],
         ["monsters", "items"],
-        ["monsters", "pagination"],
+        ["monsters", "ids"],
         ["monsters", "fullLoad"],
         currentItems,
       ]),

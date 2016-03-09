@@ -1,5 +1,6 @@
 import api from "shared/api/monster";
 import {Monster} from "shared/types";
+import {parseAs} from "shared/parsers";
 import state from "frontend/state";
 import ajax from "frontend/ajax";
 
@@ -13,7 +14,8 @@ export default function fetchItem(id) {
   return ajax.get(api.itemUrl.replace(":id", id))
     .then(response => {
       if (response.status.startsWith("2")) {
-        let item = Monster(response.data.data);
+        let data = response.data.data;
+        let item = parseAs(Monster, data);
         itemsCursor.set(id, item);
         return item;
       } else {

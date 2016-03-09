@@ -4,7 +4,7 @@ import {assoc, map, reduce} from "ramda";
 import {Base64} from "js-base64";
 import Webpack from "webpack";
 import GlobalizePlugin from "globalize-webpack-plugin";
-import {NODE_MODULES_DIR, SHARED_DIR, FRONTEND_DIR, BACKEND_DIR, PUBLIC_DIR} from "shared/constants"
+import {NODE_MODULES_DIR, SHARED_DIR, FRONTEND_DIR, BACKEND_DIR, PUBLIC_DIR} from "shared/constants";
 
 // CONSTANTS =======================================================================================
 // Paths to minified library distributions relative to the root node_modules

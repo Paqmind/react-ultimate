@@ -29,11 +29,11 @@ let dataCursor = state.select("monsters");
 })
 export default class MonsterIndex extends DeepComponent {
   render() {
-    let {filters, sorts, offset, limit, pagination, items} = this.props;
+    let {filters, sorts, offset, limit, ids, items} = this.props;
 
     let pagination = <Pagination
       onClick={_offset => this.setOffset(_offset)}
-      total={pagination.length} offset={offset} limit={limit}
+      total={ids.length} offset={offset} limit={limit}
     />;
     return (
       <DocumentTitle title="Monsters">
@@ -103,7 +103,7 @@ class Actions extends ShallowComponent {
       /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
       // not all data loaded or new filters aren't subset of old
       dataCursor.merge({
-        pagination: [],
+        ids: [],
       });
     }
     actions.loadIndex();
@@ -115,7 +115,7 @@ class Actions extends ShallowComponent {
       if (!dataCursor.get("fullLoad")) {
         // not all data loaded
         dataCursor.merge({
-          pagination: [],
+          ids: [],
         });
       }
     }
