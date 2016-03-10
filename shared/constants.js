@@ -1,42 +1,44 @@
-import Path from "path";
+"use strict";
 
-export const PROJECT_DIR = Path.dirname(__dirname);
+let Path = require("path");
 
-export const NODE_MODULES_DIR = Path.join(PROJECT_DIR, "node_modules");
+exports.PROJECT_DIR = Path.dirname(__dirname);
 
-export const SHARED_DIR = Path.join(PROJECT_DIR, "shared");
+exports.NODE_MODULES_DIR = Path.join(exports.PROJECT_DIR, "node_modules");
 
-export const FRONTEND_DIR = Path.join(PROJECT_DIR, "frontend");
+exports.SHARED_DIR = Path.join(exports.PROJECT_DIR, "shared");
 
-export const BACKEND_DIR = Path.join(PROJECT_DIR, "backend");
+exports.FRONTEND_DIR = Path.join(exports.PROJECT_DIR, "frontend");
 
-export const MESSAGES_DIR = Path.join(PROJECT_DIR, "messages");
+exports.BACKEND_DIR = Path.join(exports.PROJECT_DIR, "backend");
 
-export const PUBLIC_DIR = Path.join(PROJECT_DIR, "public");
+exports.MESSAGES_DIR = Path.join(exports.PROJECT_DIR, "messages");
 
-export const UPLOADS_DIR = Path.join(PUBLIC_DIR, "uploads");
+exports.PUBLIC_DIR = Path.join(exports.PROJECT_DIR, "public");
 
-export const AJAX = {
-  throttleTimeoutMs: 500,
-};
+exports.UPLOADS_DIR = Path.join(exports.PUBLIC_DIR, "uploads");
 
-export const ALERT = {
-  throttleTimeoutMs: 100,
-  expire: 5000,
-};
-
-export const ROBOT = {
-  index: {
-    defaultFilters: undefined,
-    defaultSorts: ["+name"],
-    defaultLimit: 12,
-  }
-};
-
-export const MONSTER = {
-  index: {
-    defaultFilters: undefined,
-    defaultSorts: ["+name"],
-    defaultLimit: 12,
-  }
-};
+// export const AJAX = {
+//   throttleTimeoutMs: 500,
+// };
+//
+// export const ALERT = {
+//   throttleTimeoutMs: 100,
+//   expire: 5000,
+// };
+//
+// export const ROBOT = {
+//   index: {
+//     defaultFilters: undefined,
+//     defaultSorts: ["+name"],
+//     defaultLimit: 12,
+//   }
+// };
+//
+// export const MONSTER = {
+//   index: {
+//     defaultFilters: undefined,
+//     defaultSorts: ["+name"],
+//     defaultLimit: 12,
+//   }
+// };

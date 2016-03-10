@@ -1,9 +1,7 @@
 import Fs from "fs";
 import Path from "path";
 import {assoc, map, reduce} from "ramda";
-import {Base64} from "js-base64";
 import Webpack from "webpack";
-import GlobalizePlugin from "globalize-webpack-plugin";
 import {NODE_MODULES_DIR, SHARED_DIR, FRONTEND_DIR, BACKEND_DIR, PUBLIC_DIR} from "shared/constants"
 
 // CONSTANTS =======================================================================================
@@ -12,16 +10,9 @@ const MINIFIED_DEPS = [
   "moment/min/moment.min.js",
 ];
 
-const API_AUTH = process.env.hasOwnProperty("API_USER_NAME") && process.env.hasOwnProperty("API_USER_PASS")
-  ? "Basic " + Base64.encode(process.env.API_USER_NAME + ":" + process.env.API_USER_PASS)
-  : undefined;
-
 const DEFINE = {
   "process.env": {
     "NODE_ENV": JSON.stringify(process.env.NODE_ENV),
-  },
-  "config": {
-    "api-auth": JSON.stringify(API_AUTH),
   },
 };
 
@@ -133,13 +124,6 @@ export default {
     new Webpack.IgnorePlugin(/^vertx$/),
     new Webpack.DefinePlugin(DEFINE),
     new Webpack.optimize.DedupePlugin(),
-    new GlobalizePlugin({
-			production: false,
-			developmentLocale: "en",
-			supportedLocales: ["en", "ru"],
-			messages: "messages/[locale].json",
-			output: "i18n/[locale].[hash].js"
-		})
   ],
 
   devServer: {
