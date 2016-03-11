@@ -1,14 +1,4 @@
-/*
-  IDEAS
-
-  1. Render VDOM on every stateUI & facetsUI change,
-     skip DB updates (unlike Baobab we CAN do it here!),
-     and the best thing would be to bind this with router somehow...
-
-  ...
-*/
-
-let {append} = require("ramda");
+let {append, curry, merge} = require("ramda");
 let {Observable} = require("rx");
 let createElement = require("virtual-dom/create-element");
 let diff = require("virtual-dom/diff");
@@ -17,31 +7,32 @@ let {always} = require("./helpers");
 let {defaults: defaultUI} = require("./state.ui");
 let updateDB = require("./update.db");
 let updateUI = require("./update.ui");
-let facetsUI = require("./facets.ui");
+let stateUI = require("./state.ui");
 let views = require("./views");
 
-let redraw = Observable
-  .combineLatest(
-    facetsUI.robotIndex, facetsUI.newRobotIndex, facetsUI.monsterIndex,
-    (robots, newRobots, monsters) => {
-      return {robots, newRobots, monsters};
-    }
-  );
+let main = curry(() => {
+  return {
+    DOM: Observable
+      .combineLatest(
+        stateUI.robotIndex, stateUI.newRobotIndex, stateUI.monsterIndex,
+        (robots, newRobots, monsters) => {
+          return views.home({robots, newRobots, monsters});
+        }
+      )
+  };
+});
 
 let vtree = null;
 let rootNode = null;
 
-redraw.subscribe((viewState) => {
-  if (!vtree) {
-    vtree = views.home(viewState);       // initial tree
-    rootNode = createElement(vtree);     // initial root DOM node
-    document.body.appendChild(rootNode); // should be in the document
+main().DOM.subscribe((newVtree) => {
+  if (vtree) {
+    rootNode = patch(rootNode, diff(vtree, newVtree)); // affects document.body
   } else {
-    let vtree2 = views.home(viewState);
-    let vtreeDiff = diff(vtree, vtree2);
-    rootNode = patch(rootNode, vtreeDiff);
-    vtree = vtree2;
+    rootNode = createElement(newVtree);
+    document.body.appendChild(rootNode);
   }
+  vtree = newVtree;
 });
 
 // TEST-DRIVE ==========================================================================================================
@@ -90,3 +81,23 @@ setTimeout(() => {
   console.log("\n7) add robot #0");
   updateDB.robots.data.onNext(append({id: "0", "new": true}));
 }, 7000 * 5);
+
+// sinks.need.subscribe((need) => {
+  // foreach need request HTTP if it's =really= required
+  // pipe each response to appropriate state place
+  // questions: loading indicator is global because data load is global?!
+  //            diff between HAVE NOT and NOT LOADED in view
+  //            last page in pagination
+  //            have too few newRobots (constant requests)
+// });
+
+// let need = [];
+// if (robots.length < 10) {
+//   need = append(`/robots/?offset=${robots.length}&limit=${10 - robots.length}`, need);
+// }
+// if (newRobots.length < 10) {
+//   need = append(`/robots/new/?offset=${newRobots.length}&limit=${10 - newRobots.length}`, need);
+// }
+// if (monsters.length < 10)  {
+//   need = append(`/monsters/?offset=${monsters.length}&limit=${10 - monsters.length}`, need);
+// }

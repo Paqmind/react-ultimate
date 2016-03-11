@@ -3,7 +3,6 @@
 /ignore/
 /logs/
 /test*.js
-.tmp-globalize-webpack
 
 # EXCLUDE BY MASK
 .development

@@ -1,6 +1,7 @@
 let {Observable} = require("rx");
-let {store} = require("./lib");     // state lib of state helpers
-let update = require("./update.ui");
+let {indexView, store} = require("./lib");
+let updateUI = require("./update.ui");
+let stateDB = require("./state.db");
 
 let defaults = {
   robotIndex: {
@@ -22,14 +23,14 @@ let defaults = {
   },
 };
 
-module.exports = {
+let stateUI = {
   defaults,
 
   robotIndex: {
-    filters: store(defaults.robotIndex.filters, update.robotIndex.filters),
-    sort: store(defaults.robotIndex.sort, update.robotIndex.sort),
-    offset: store(0, update.robotIndex.offset),
-    limit: store(defaults.robotIndex.limit, update.robotIndex.limit),
+    filters: store(defaults.robotIndex.filters, updateUI.robotIndex.filters),
+    sort: store(defaults.robotIndex.sort, updateUI.robotIndex.sort),
+    offset: store(0, updateUI.robotIndex.offset),
+    limit: store(defaults.robotIndex.limit, updateUI.robotIndex.limit),
   },
 
   newRobotIndex: {
@@ -40,9 +41,16 @@ module.exports = {
   },
 
   monsterIndex: {
-    filters: store(defaults.monsterIndex.filters, update.monsterIndex.filters),
-    sort: store(defaults.monsterIndex.sort, update.monsterIndex.sort),
-    offset: store(0, update.monsterIndex.offset),
-    limit: store(defaults.monsterIndex.limit, update.monsterIndex.limit),
+    filters: store(defaults.monsterIndex.filters, updateUI.monsterIndex.filters),
+    sort: store(defaults.monsterIndex.sort, updateUI.monsterIndex.sort),
+    offset: store(0, updateUI.monsterIndex.offset),
+    limit: store(defaults.monsterIndex.limit, updateUI.monsterIndex.limit),
   },
 };
+
+stateUI.robotIndex = indexView(stateDB.robots.data, stateUI.robotIndex);
+stateUI.newRobotIndex = indexView(stateDB.robots.data, stateUI.newRobotIndex);
+stateUI.monsterIndex = indexView(stateDB.monsters.data, stateUI.monsterIndex);
+
+module.exports = stateUI;
+

@@ -10,49 +10,6 @@ import Path from "path";
 import Express from "express";
 import {MESSAGES_DIR} from "shared/constants";
 
-// GLOBALIZE =======================================================================================
-import Globalize from "globalize";
-
-import CldrLikelySubtags from "cldr-data/supplemental/likelySubtags";
-import CldrPlurals from "cldr-data/supplemental/plurals";
-import CldrTimeData from "cldr-data/supplemental/timeData";
-import CldrWeekData from "cldr-data/supplemental/weekData";
-import CldrCurrencyData from "cldr-data/supplemental/currencyData";
-
-import CldrGregorianEn from "cldr-data/main/en/ca-gregorian";
-import CldrCurrenciesEn from "cldr-data/main/en/currencies";
-import CldrDateFieldsEn from "cldr-data/main/en/dateFields";
-import CldrNumbersEn from "cldr-data/main/en/numbers";
-
-// locale-independent
-Globalize.load(
-  CldrLikelySubtags,
-  CldrPlurals,
-  CldrTimeData,
-  CldrWeekData,
-  CldrCurrencyData
-);
-
-// locale-dependent
-Globalize.load(
-	CldrGregorianEn,
-  CldrCurrenciesEn,
-  CldrDateFieldsEn,
-  CldrNumbersEn
-);
-
-function readMessages(path) {
-  if (!Fs.existsSync(path) || !Fs.statSync(path).isFile()) {
-    console.warn("Unable to find message file: `" + path + "`");
-    return null;
-  }
-  return JSON.parse(Fs.readFileSync(path));
-}
-
-Globalize.loadMessages(readMessages(Path.join(MESSAGES_DIR, "en.json")));
-
-Globalize.locale("en");
-
 // APP =============================================================================================
 import {PUBLIC_DIR} from "shared/constants";
 

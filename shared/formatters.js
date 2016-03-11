@@ -1,6 +1,5 @@
 import {curry, identity, keys, map, reduce} from "ramda";
 import Tc from "tcomb";
-import Globalize from "globalize";
 import {isArray, isPlainObject} from "shared/helpers/common";
 
 function formatBoolean(value) {
@@ -42,7 +41,7 @@ function formatDate(value) {
   if (value === undefined || value === null) {
     return "";
   } else {
-    return Globalize.formatDate(value);
+    return String(value); // Globalize.formatDate(value);
   }
 }
 

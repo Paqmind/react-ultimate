@@ -1,4 +1,3 @@
-import Globalize from "globalize";
 import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
@@ -44,7 +43,7 @@ export default class MonsterDetail extends DeepComponent {
                     <dt>Manufacturer</dt>
                     <dd>{item.manufacturer}</dd>
                     <dt>Birth Date</dt>
-                    <dd>{Globalize.formatDate(item.birthDate)}</dd>
+                    <dd>{item.birthDate}</dd>
                   </dl>
                 </div>
               </div>

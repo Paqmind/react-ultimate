@@ -28,7 +28,6 @@ export default class Tech extends Component {
             <ul>
               <li><a href="https://nodejs.org/en/">NodeJS</a>: event-driven environment</li>
               <li><a href="http://expressjs.com/">Express</a>: backend framework, REST API</li>
-              <li><a href="http://mozilla.github.io/nunjucks/">Nunjucks</a>: template engine</li>
               <li><a href="https://github.com/eleith/emailjs">EmailJS</a>: SMTP client</li>
               <li><a href="https://github.com/marak/Faker.js/">Faker</a>: fake data generation</li>
             </ul>
@@ -36,7 +35,6 @@ export default class Tech extends Component {
             <h3>Shared</h3>
             <ul>
               <li><a href="http://ramdajs.com/">Ramda</a>: functional library</li>
-              <li><a href="https://github.com/jquery/globalize">Globalize</a>: I18n, L10n</li>
               <li><a href="https://github.com/gcanti/tcomb">Tcomb</a>: type checking and DDD</li>
               <li><a href="https://github.com/gcanti/tcomb-validation">Tcomb-Validation</a>: tcomb-based validation</li>
               <li><a href="http://mochajs.org/">Mocha</a>: unit tests</li>

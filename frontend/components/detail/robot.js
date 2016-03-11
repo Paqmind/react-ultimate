@@ -1,4 +1,3 @@
-import Globalize from "globalize";
 import {branch} from "baobab-react/decorators";
 import React from "react";
 import {Link} from "react-router";
@@ -45,7 +44,7 @@ export default class RobotDetail extends DeepComponent {
                     <dt>Manufacturer</dt>
                     <dd>{item.manufacturer}</dd>
                     <dt>Assembly Date</dt>
-                    <dd>{Globalize.formatDate(item.assemblyDate)}</dd>
+                    <dd>{item.assemblyDate}</dd>
                   </dl>
                 </div>
               </div>

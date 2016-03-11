@@ -10,6 +10,8 @@ let index = curry((models) => {
   ]);
 });
 
+exports.index = index;
+
 let home = curry(({robots, newRobots, monsters}) => {
   return div([
     h2("Robots"),
@@ -23,7 +25,4 @@ let home = curry(({robots, newRobots, monsters}) => {
   ]);
 });
 
-module.exports = {
-  index,
-  home,
-};
+exports.home = home;

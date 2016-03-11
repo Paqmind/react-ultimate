@@ -1,5 +1,4 @@
 import {clone, map} from "ramda";
-import Globalize from "globalize";
 import Class from "classnames";
 import {branch} from "baobab-react/decorators";
 import React from "react";

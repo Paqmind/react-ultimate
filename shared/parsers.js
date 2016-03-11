@@ -1,6 +1,5 @@
 import {curry, identity, keys, map, reduce} from "ramda";
 import Tc from "tcomb";
-import Globalize from "globalize";
 import {isArray, isPlainObject} from "shared/helpers/common";
 
 function parseBoolean(value) {
@@ -30,7 +29,7 @@ function parseDate(value, options) {
     //}
     let date = new Date(value);
     if (date.toString(date) == "Invalid Date") {
-      let parsedDate = Globalize.parseDate(value, options);
+      let parsedDate = new Date(value); // Globalize.parseDate(value, options);
       return parsedDate ? parsedDate : value;
     } else {
       return date;

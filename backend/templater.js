@@ -1,5 +1,4 @@
 import Path from "path";
-import Globalize from "globalize";
 import Nunjucks from "nunjucks";
 import * as constants from "shared/constants";
 
@@ -23,8 +22,6 @@ export default function (app) {
 
   env.addGlobal("JSON", JSON);
   env.addGlobal("Math", Math);
-
-  env.addGlobal("Globalize", Globalize);
 
   env.addGlobal("constants", constants);
 
