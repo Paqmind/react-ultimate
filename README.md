@@ -88,7 +88,6 @@ on your business priorities. Secondary components will always be URL-unbound.
 
 ---
 
-## Disclaimer
+## Notes
 
-React and React ecosystem failed our demands. We're switching to [CycleJS](http://cycle.js.org/) and urge you so.<br/>
-See [**Cycle-Ultimate**](https://github.com/Paqmind/cycle-ultimate) for a revamped version of this project.
+See [**Cycle-Ultimate**](https://github.com/Paqmind/cycle-ultimate) for a revamped, [CycleJS](http://cycle.js.org)-based version of this project.
