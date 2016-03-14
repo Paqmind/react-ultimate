@@ -69,47 +69,6 @@ TodoApps have similar issues: very specific, single page only, unrealistic model
 no backend, no validation, no users, etc. We want to approach this differently – provide application
 which is closer to production (not saying enterprise) level.
 
-### Absolute imports
-
-One of the most annoying NodeJS limitation is the absence of absolute imports. By "absolute" we
-mean imports relative to the project root or some top-level folder.
-
-Your imports look like `import "foo"` for libraries but turn into `import "../../../../foo";` mess for app code.
-It's a well known problem because such statements are very hard to read and support.
-They tend to break every time you move files between folder.
-
-Fortunately absolute imports can be emulated with some amount of twist. The requirement here is to keep IDE navigation and autocompletion features working.
-Script **bin/install** add symlinks for every project entry point like `frontend` or `backend` in **node_modules**.
-Browserify requires to keep `package.json` for every such entrypoint but Webpack is free of this limitation.
-
-This project is 100% relative-imports free.
-
-### Flux vs Baobab
-
-We don't use Flux. Check [this](https://github.com/acdlite/flummox/issues/63) and
-[this](http://christianalfoni.github.io/javascript/2015/02/06/plant-a-baobab-tree-in-your-flux-application.html)
-for a shallow answer to *why*.
-
-### Immutable
-
-We experimented with most popular libs: [ImmutableJS](https://github.com/facebook/immutable-js), [Mori](https://github.com/swannodette/mori)
-and [Seamless-Immutable](https://github.com/rtfeldman/seamless-immutable).
-We tried our best, but the resulting code was really messy and bug-prone all the time.
-So we decided to switch to [Ramda](http://ramdajs.com/) which is API incompatible with all of the
-above. It does not enforce immutability, but encourage it, having zero mutable operations in toolkit.
-
-### Builds
-
-Webpack TODO describe
-
-### Live and Hot Reloads
-
-TODO describe
-
-## Architecture in Depth
-
-Read this only after a look on the code.
-
 ### URL-bound vs URL-unbound components
 
 All stateful components can be divided to URL-bound and URL-unbound.
@@ -127,8 +86,9 @@ which means redraw of the Root component which hurts rendering performance ().
 To sum up: make primary (content) components either URL-bound or URL-unbound depending
 on your business priorities. Secondary components will always be URL-unbound.
 
-## Links
+---
 
-[React-Sandbox](https://github.com/Paqmind/react-sandbox) provides simplified boilerplate for experiments with React.
+## Disclaimer
 
-[Cycle-Ultimate](https://github.com/Paqmind/cycle-ultimate) revamped React-Ultimate. This time CycleJS based.
+React and React ecosystem failed our demands. We're switching to [CycleJS](http://cycle.js.org/) and urge you so.<br/>
+See [**Cycle-Ultimate**](https://github.com/Paqmind/cycle-ultimate) for a revamped version of this project.
