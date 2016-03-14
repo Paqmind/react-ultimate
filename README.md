@@ -129,7 +129,6 @@ on your business priorities. Secondary components will always be URL-unbound.
 
 ## Links
 
-[Wiki](https://github.com/Paqmind/react-starter/wiki) contains more information about this project.
-
 [React-Sandbox](https://github.com/Paqmind/react-sandbox) provides simplified boilerplate for experiments with React.
 
+[Cycle-Ultimate](https://github.com/Paqmind/cycle-ultimate) revamped React-Ultimate. This time CycleJS based.
