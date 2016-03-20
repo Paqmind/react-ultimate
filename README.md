@@ -19,49 +19,28 @@ React is not a final answer. Reactivity probably is.
 
 ## Install
 
-```
-$ wget https://github.com/Paqmind/react-ultimate/archive/master.zip; unzip master.zip -d react-ultimate; rm master.zip
-$ cd react-ultimate
-$ cd react-ultimate-master
-$ npm install; bin/install
-```
+1. Download and unzip repo
+2. Go to unzipped folder
+3. Install static server with `$ npm install http-server -g`
+4. Install packages with `$ npm install`
+5. Apply required hacks (ES6) with `$ bin/install`
 
 ## Run
 
-Production
-```
-$ npm run build
-$ npm run node
-```
-
-Development
-```
-$ npm run dev     [terminal #1]
-$ npm run nodemon [terminal #2]
-```
+1. Run webpack with `$ npm run dev` (terminal #1)
+2. Run nodemon with `$ npm run nodemon` (terminal #2)
+3. See `localhost:8080`
 
 ## Lint
 
-```
-$ npm run lint -s (mute node output)
-```
+1. Run `$ npm run lint -s` (`-s` mutes node default trash)
 
 ## Test
 
-All tests
-```
-$ npm test -s
-```
+1. Run all tests with `$ npm test -s`
+2. Run specific tests with `$ npm test -- --grep "api/robots POST" -s` (`--` is an NPM syntax to pass arguments)
 
-Specific tests (`--` is an NPM syntax to pass arguments)
-```
-$ npm test -- --grep "api/robots POST" -s
-```
-
-Refer to [Mocha](https://github.com/mochajs/mocha) and [Chai](https://github.com/chaijs/chai)
-for more details.
-
-## Architecture FAQ
+## Notes
 
 All React starters / tutorials suffer from being oversimplified.
 They don't show any architecture (the most complex part), only a basic file layouts at their best.
@@ -88,7 +67,8 @@ This project is 100% relative-imports free.
 
 We don't use Flux. Check [this](https://github.com/acdlite/flummox/issues/63) and
 [this](http://christianalfoni.github.io/javascript/2015/02/06/plant-a-baobab-tree-in-your-flux-application.html)
-for a shallow answer to *why*.
+for a shallow answer to *why*. See [#98](https://github.com/Paqmind/react-ultimate/issues/98) for additional
+insides.
 
 ### Immutable
 
@@ -97,18 +77,6 @@ and [Seamless-Immutable](https://github.com/rtfeldman/seamless-immutable).
 We tried our best, but the resulting code was really messy and bug-prone all the time.
 So we decided to switch to [Ramda](http://ramdajs.com/) which is API incompatible with all of the
 above. It does not enforce immutability, but encourage it, having zero mutable operations in toolkit.
-
-### Builds
-
-Webpack TODO describe
-
-### Live and Hot Reloads
-
-TODO describe
-
-## Architecture in Depth
-
-Read this only after a look on the code.
 
 ### URL-bound vs URL-unbound components
 
@@ -131,5 +99,4 @@ on your business priorities. Secondary components will always be URL-unbound.
 
 [Wiki](https://github.com/Paqmind/react-starter/wiki) contains more information about this project.
 
-[React-Sandbox](https://github.com/Paqmind/react-sandbox) provides simplified boilerplate for experiments with React.
-
+[Cycle-Ultimate](https://github.com/Paqmind/cycle-ultimate) is a newer version of this project built with CycleJS.
