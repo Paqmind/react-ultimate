@@ -29,7 +29,7 @@ React is not a final answer. Reactivity probably is.
 
 1. Run webpack with `$ npm run dev` (terminal #1)
 2. Run nodemon with `$ npm run nodemon` (terminal #2)
-3. See `localhost:8080`
+3. See `localhost:3000`
 
 ## Lint
 
