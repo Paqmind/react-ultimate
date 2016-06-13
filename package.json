@@ -8,15 +8,15 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "build": "source .production; webpack --config webpack.config-prod.js --progress --profile --colors",
-    "dev": "source .development; webpack-dev-server --config webpack.config-dev.js --progress --colors --port 2992 --inline",
-    "node": "source .production; babel-node backend/server.js",
-    "nodemon": "source .development; nodemon backend/server.js",
+    "build": ". ./.production; webpack --config webpack.config-prod.js --progress --profile --colors",
+    "dev": ". ./.development; webpack-dev-server --config webpack.config-dev.js --progress --colors --port 2992 --inline",
+    "node": ". ./.production; babel-node backend/server.js",
+    "nodemon": ". ./.development; nodemon backend/server.js",
     "release-patch": "git checkout master && npm version patch && git push origin master --tags",
     "release-minor": "git checkout master && npm version minor && git push origin master --tags",
     "release-major": "git checkout master && npm version major && git push origin master --tags",
     "release-as-lib": "git checkout master && npm run build && git commit -am 'Distribute' && npm version major && git push origin master --tags",
-    "mocha": "source .testing; mocha --opts specs/mocha.opts specs",
+    "mocha": ". ./.testing; mocha --opts specs/mocha.opts specs",
     "test": "npm run mocha"
   },
   "dependencies": {
