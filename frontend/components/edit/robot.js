@@ -95,8 +95,7 @@ export default class RobotEdit extends DeepComponent {
                         value={form.name}
                         onBlur={() => this.handleBlur("name")}
                         onChange={event => this.handleChange("name", event.currentTarget.value)}
-                        id="name" ref="name"
-                        className="form-control"/>
+                        id="name" className="form-control"/>
                       <div className={Class("help", {
                         error: Boolean(errors.name),
                       })}>
@@ -113,8 +112,7 @@ export default class RobotEdit extends DeepComponent {
                         value={form.manufacturer}
                         onBlur={() => this.handleBlur("manufacturer")}
                         onChange={event => this.handleChange("manufacturer", event.currentTarget.value)}
-                        id="manufacturer" ref="manufacturer"
-                        className="form-control"/>
+                        id="manufacturer" className="form-control"/>
                       <div className={Class("help", {
                         error: Boolean(errors.manufacturer),
                       })}>
@@ -131,8 +129,7 @@ export default class RobotEdit extends DeepComponent {
                         value={form.assemblyDate}
                         onBlur={() => this.handleBlur("assemblyDate")}
                         onChange={event => this.handleChange("assemblyDate", event.currentTarget.value)}
-                        id="assemblyDate" ref="assemblyDate"
-                        className="form-control"/>
+                        id="assemblyDate" className="form-control"/>
                       <div className={Class("help", {
                         error: Boolean(errors.assemblyDate),
                       })}>

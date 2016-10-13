@@ -94,8 +94,7 @@ export default class MonsterEdit extends DeepComponent {
                         value={form.name}
                         onBlur={() => this.handleBlur("name")}
                         onChange={event => this.handleChange("name", event.currentTarget.value)}
-                        id="name" ref="name"
-                        className="form-control"/>
+                        id="name" className="form-control"/>
                       <div className={Class("help", {
                         error: Boolean(errors.name),
                       })}>
@@ -112,8 +111,7 @@ export default class MonsterEdit extends DeepComponent {
                         value={form.citizenship}
                         onBlur={() => this.handleBlur("citizenship")}
                         onChange={event => this.handleChange("citizenship", event.currentTarget.value)}
-                        id="citizenship" ref="citizenship"
-                        className="form-control"/>
+                        id="citizenship" className="form-control"/>
                       <div className={Class("help", {
                         error: Boolean(errors.citizenship),
                       })}>
@@ -130,8 +128,7 @@ export default class MonsterEdit extends DeepComponent {
                         value={form.birthDate}
                         onBlur={() => this.handleBlur("birthDate")}
                         onChange={event => this.handleChange("birthDate", event.currentTarget.value)}
-                        id="birthDate" ref="birthDate"
-                        className="form-control"/>
+                        id="birthDate" className="form-control"/>
                       <div className={Class("help", {
                         error: Boolean(errors.birthDate),
                       })}>
