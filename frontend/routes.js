@@ -1,17 +1,17 @@
-import React from "react";
+import React from "react"
 
 // Eager Components
-import {Route, DefaultRoute, NotFoundRoute} from "react-router";
-import Body from "frontend/components/body";
-import {About, Tech, Credits} from "frontend/components/page";
-import {NotFound} from "frontend/components/common";
+import {Route, DefaultRoute, NotFoundRoute} from "react-router"
+import Body from "frontend/components/body"
+import {About, Tech, Credits} from "frontend/components/page"
+import {NotFound} from "frontend/components/common"
 
 //Lazy Components
-//import {RobotIndex, RobotAdd, RobotDetail, RobotEdit} from "react-proxy!frontend/components/robot";
-//import {MonsterIndex, MonsterAdd, MonsterDetail, MonsterEdit} from "react-proxy!frontend/components/monster";
+//import {RobotIndex, RobotAdd, RobotDetail, RobotEdit} from "react-proxy!frontend/components/robot"
+//import {MonsterIndex, MonsterAdd, MonsterDetail, MonsterEdit} from "react-proxy!frontend/components/monster"
 //Not compatible. Check for React-Router to allow metadata passing!
-import {RobotIndex, RobotAdd, RobotDetail, RobotEdit} from "frontend/components/robot";
-import {MonsterIndex, MonsterAdd, MonsterDetail, MonsterEdit} from "frontend/components/monster";
+import {RobotIndex, RobotAdd, RobotDetail, RobotEdit} from "frontend/components/robot"
+import {MonsterIndex, MonsterAdd, MonsterDetail, MonsterEdit} from "frontend/components/monster"
 
 export default (
   <Route path="/" handler={Body}>
@@ -30,4 +30,4 @@ export default (
     <Route path="/monsters/:id" name="monster-detail" handler={MonsterDetail}/>
     <Route path="/monsters/:id/edit" name="monster-edit" handler={MonsterEdit}/>
   </Route>
-);
+)

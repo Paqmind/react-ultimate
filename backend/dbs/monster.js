@@ -1,13 +1,14 @@
-import {range, reduce} from "ramda";
-import makeMonster from "shared/makers/monster";
+let {range, reduce} = require("ramda")
+let makeMonster = require("common/makers/monster")
 
-// FAKE DB =========================================================================================
-export function makeDB() {
+// FAKE Db =========================================================================================
+function makeDb() {
   return reduce(db => {
-    let item = makeMonster();
-    db[item.id] = item;
-    return db;
-  }, {}, range(0, 50));
+    let item = makeMonster()
+    db[item.id] = item
+    return db
+  }, {}, range(0, 50))
 }
 
-export default makeDB();
+exports.makeDb = makeDb
+exports.db = makeDb()

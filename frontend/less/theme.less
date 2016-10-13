@@ -1,175 +1,175 @@
 // VARIABLES =======================================================================================
-@import "~bootstrap/less/variables";
-@import "~bootstrap-ext/less/variables";
-@import "~frontend/less/variables";
+@import "~bootstrap/less/variables"
+@import "~bootstrap-ext/less/variables"
+@import "~frontend/less/variables"
 
 // MIXINS ==========================================================================================
-@import "~bootstrap/less/mixins";
-@import "~bootstrap-ext/less/mixins";
+@import "~bootstrap/less/mixins"
+@import "~bootstrap-ext/less/mixins"
 
-@import "~bootstrap/less/mixins/alerts";
-@import "~bootstrap/less/mixins/border-radius";
-@import "~bootstrap/less/mixins/center-block";
-@import "~bootstrap/less/mixins/clearfix";
-@import "~bootstrap/less/mixins/forms";
-@import "~bootstrap/less/mixins/grid";
-@import "~bootstrap/less/mixins/grid-framework";
-@import "~bootstrap/less/mixins/hide-text";
-@import "~bootstrap/less/mixins/opacity";
-@import "~bootstrap/less/mixins/nav-divider";
-@import "~bootstrap/less/mixins/nav-vertical-align";
-@import "~bootstrap/less/mixins/reset-filter";
-@import "~bootstrap/less/mixins/tab-focus";
-@import "~bootstrap/less/mixins/vendor-prefixes";
+@import "~bootstrap/less/mixins/alerts"
+@import "~bootstrap/less/mixins/border-radius"
+@import "~bootstrap/less/mixins/center-block"
+@import "~bootstrap/less/mixins/clearfix"
+@import "~bootstrap/less/mixins/forms"
+@import "~bootstrap/less/mixins/grid"
+@import "~bootstrap/less/mixins/grid-framework"
+@import "~bootstrap/less/mixins/hide-text"
+@import "~bootstrap/less/mixins/opacity"
+@import "~bootstrap/less/mixins/nav-divider"
+@import "~bootstrap/less/mixins/nav-vertical-align"
+@import "~bootstrap/less/mixins/reset-filter"
+@import "~bootstrap/less/mixins/tab-focus"
+@import "~bootstrap/less/mixins/vendor-prefixes"
 
 // MODULES =========================================================================================
-@import "~bootstrap/less/scaffolding";
-@import "~bootstrap-ext/less/scaffolding";
+@import "~bootstrap/less/scaffolding"
+@import "~bootstrap-ext/less/scaffolding"
 
 // Normalize (3-rd part lib)
-@import "~bootstrap/less/normalize";
+@import "~bootstrap/less/normalize"
 
 // Utility classes
-@import "~bootstrap/less/utilities";
-@import "~bootstrap-ext/less/utilities";
-@import "~bootstrap/less/responsive-utilities";
+@import "~bootstrap/less/utilities"
+@import "~bootstrap-ext/less/utilities"
+@import "~bootstrap/less/responsive-utilities"
 
 // Type
-@import "~bootstrap/less/type";
-@import "~bootstrap-ext/less/type";
+@import "~bootstrap/less/type"
+@import "~bootstrap-ext/less/type"
 
 // Grid
-@import "~bootstrap/less/grid";
+@import "~bootstrap/less/grid"
 
 // Forms
-@import "~bootstrap/less/forms";
-@import "~bootstrap-ext/less/forms";
-@import "~frontend/less/form";
+@import "~bootstrap/less/forms"
+@import "~bootstrap-ext/less/forms"
+@import "~frontend/less/form"
 
 // Badges
-@import "~bootstrap/less/badges";
-@import "~bootstrap-ext/less/badges";
+@import "~bootstrap/less/badges"
+@import "~bootstrap-ext/less/badges"
 
 // Labels
-@import "~bootstrap/less/labels";
-@import "~bootstrap-ext/less/labels";
+@import "~bootstrap/less/labels"
+@import "~bootstrap-ext/less/labels"
 
 // Buttons
-@import "~bootstrap/less/buttons";
-@import "~bootstrap/less/button-groups";
-@import "~bootstrap-ext/less/buttons";
+@import "~bootstrap/less/buttons"
+@import "~bootstrap/less/button-groups"
+@import "~bootstrap-ext/less/buttons"
 
 // Panels
-@import "~bootstrap/less/panels";
-@import "~bootstrap-ext/less/panels";
+@import "~bootstrap/less/panels"
+@import "~bootstrap-ext/less/panels"
 
 // Navs
-@import "~bootstrap/less/navs";
+@import "~bootstrap/less/navs"
 
 // Thumbnails
-@import "~bootstrap/less/thumbnails";
+@import "~bootstrap/less/thumbnails"
 
 // Layout
-@import "~frontend/less/layout";
+@import "~frontend/less/layout"
 
 // Font Awesome
-@import "~font-awesome/less/font-awesome";
+@import "~font-awesome/less/font-awesome"
 
-@import "~bootstrap/less/dropdowns";
-@import "~bootstrap-ext/less/dropdowns";
+@import "~bootstrap/less/dropdowns"
+@import "~bootstrap-ext/less/dropdowns"
 
-@import "~bootstrap/less/navbar";
+@import "~bootstrap/less/navbar"
 
-@import "~bootstrap/less/utilities";
+@import "~bootstrap/less/utilities"
 
-@import "~bootstrap/less/alerts";
-@import "~bootstrap-ext/less/alerts";
+@import "~bootstrap/less/alerts"
+@import "~bootstrap-ext/less/alerts"
 
-@import "~bootstrap/less/close";
+@import "~bootstrap/less/close"
 
-@import "~bootstrap/less/pagination";
+@import "~bootstrap/less/pagination"
 
 // EFFECTS =========================================================================================
-@import "~frontend/less/effects/animation";
-@import "~frontend/less/effects/brackets";
-@import "~frontend/less/effects/index";
+@import "~frontend/less/effects/animation"
+@import "~frontend/less/effects/brackets"
+@import "~frontend/less/effects/index"
 
 // THEME ===========================================================================================
 .thumbnail {
-  width: 100%;
-  height: 200px;
-  padding: 0;
+  width: 100%
+  height: 200px
+  padding: 0
 }
 
 .actions {
-  padding-top: @line-height-computed / 2;
-  padding-bottom: @line-height-computed / 2;
-  background: @gray-lighter;
-  border-bottom: 1px solid darken(@gray-lighter, 10%);
+  padding-top: @line-height-computed / 2
+  padding-bottom: @line-height-computed / 2
+  background: @gray-lighter
+  border-bottom: 1px solid darken(@gray-lighter, 10%)
 }
 
 .headroom {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  min-height: @header-height;
-  padding-top: @line-height-computed;
-  padding-bottom: @line-height-computed;
-  background-image: url(~frontend/images/header.png);
-  background-color: @metalic;
-  color: @white;
-  font-family: @font-family-serif;
-  transition: @transition-base;
-  box-shadow: 0 0 1px rgba(0,0,0,0.15);
-  z-index: @zindex-navbar-fixed;
+  position: fixed
+  top: 0
+  width: 100%
+  min-height: @header-height
+  padding-top: @line-height-computed
+  padding-bottom: @line-height-computed
+  background-image: url(~frontend/images/header.png)
+  background-color: @metalic
+  color: @white
+  font-family: @font-family-serif
+  transition: @transition-base
+  box-shadow: 0 0 1px rgba(0,0,0,0.15)
+  z-index: @zindex-navbar-fixed
   &.navbar-up {
-    top: -@header-height;
+    top: -@header-height
   }
 }
 
 .navbar-default {
-  border-radius: 0;
-  border-top: 0;
-  border-right: 0;
-  border-left: 0;
-  font-size: @font-size-base * 1.2;
+  border-radius: 0
+  border-top: 0
+  border-right: 0
+  border-left: 0
+  font-size: @font-size-base * 1.2
   .navbar-text,
   .navbar-nav > li > a, .navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
-    color: @white;
+    color: @white
   }
   .navbar-toggle {
-    padding-right: 0;
-    padding-left: 0;
-    padding-bottom: 0;
-    border: 0;
-    background-color: transparent!important;
+    padding-right: 0
+    padding-left: 0
+    padding-bottom: 0
+    border: 0
+    background-color: transparent!important
   }
   .navbar-collapse.collapse.in {
-    overflow-y: auto;
+    overflow-y: auto
   }
   .navbar-brand {
-    @color: @white;
-    margin-right: @line-height-computed * 2;
-    color: @color;
-    font-family: @logo-font-family;
-    font-size: @font-size-base * 2.5;
+    @color: @white
+    margin-right: @line-height-computed * 2
+    color: @color
+    font-family: @logo-font-family
+    font-size: @font-size-base * 2.5
     .light {
-      font-weight: 300;
+      font-weight: 300
     }
     &:focus, &:hover {
-      color: @color;
+      color: @color
     }
   }
   .navbar-collapse,
   .navbar-form {
-    border-color: @metalic;
+    border-color: @metalic
   }
   @media (max-width: @screen-sm-min) {
     .navbar-brand {
-      font-size: @font-size-base * 2;
+      font-size: @font-size-base * 2
     }
     .navbar-toggle {
-      margin-top: 0;
+      margin-top: 0
     }
   }
 }
@@ -184,110 +184,110 @@
   .nav {
     li {
       a {
-        padding-top: 14px;
-        padding-bottom: 14px;
+        padding-top: 14px
+        padding-bottom: 14px
       }
     }
   }
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: @footer-height;
-  padding: @line-height-computed 0;
-  background-color: @footer-bg;
-  font-size: @font-size-base * 0.9;
-  color: @white;
+  position: absolute
+  bottom: 0
+  width: 100%
+  height: @footer-height
+  padding: @line-height-computed 0
+  background-color: @footer-bg
+  font-size: @font-size-base * 0.9
+  color: @white
   a {
-    color: @white;
+    color: @white
   }
 }
 
 .special-layer {
-  position: fixed;
-  z-index: @zindex-modal;
+  position: fixed
+  z-index: @zindex-modal
   &.top-right {
-    top: @line-height-computed / 2;
-    right: @line-height-computed;
+    top: @line-height-computed / 2
+    right: @line-height-computed
   }
   &.top-left {
-    top: @line-height-computed / 2;
-    left: @line-height-computed;
+    top: @line-height-computed / 2
+    left: @line-height-computed
   }
   &.bottom-left {
-    bottom: @line-height-computed / 2;
-    left: @line-height-computed;
+    bottom: @line-height-computed / 2
+    left: @line-height-computed
   }
   &.bottom-right {
-    bottom: @line-height-computed / 2;
-    right: @line-height-computed;
+    bottom: @line-height-computed / 2
+    right: @line-height-computed
   }
   .item {
-    position: relative;
-    margin: @line-height-computed / 2;
+    position: relative
+    margin: @line-height-computed / 2
   }
 }
 
 .gear {
-  @size: 12em;
-  margin: 0 auto;
-  color: @gray-light;
-  font-size: @size;
-  text-align: center;
+  @size: 12em
+  margin: 0 auto
+  color: @gray-light
+  font-size: @size
+  text-align: center
   @media (max-width: @screen-sm-min) {
-    font-size: @size * 0.75;
+    font-size: @size * 0.75
   }
   @media (max-width: @screen-xs-min) {
-    font-size: @size * 0.5;
+    font-size: @size * 0.5
   }
   &.lg {
-    @size: 15em;
-    font-size: @size;
+    @size: 15em
+    font-size: @size
   }
   &.sm {
-    @size: 8em;
-    font-size: @size;
+    @size: 8em
+    font-size: @size
   }
   &.xs {
-    @size: 5em;
-    font-size: @size;
+    @size: 5em
+    font-size: @size
   }
   &.fa-stack {
-    display: block;
+    display: block
   }
 }
 
 #goog-fixurl {
-    .clearfix;
-    margin-bottom: @line-height-computed * 1.5;
+    .clearfix
+    margin-bottom: @line-height-computed * 1.5
     .other-things {
-        .h2;
+        .h2
         b {
-            font-weight: normal;
+            font-weight: normal
         }
     }
     #goog-wm {
         ul {
-            padding-left: 0;
-            list-style: none;
+            padding-left: 0
+            list-style: none
         }
     }
     #goog-wm-qt {
-        .form-control;
-        .form-group-lg;
-        float: left;
-        margin-right: @line-height-computed / 3;
+        .form-control
+        .form-group-lg
+        float: left
+        margin-right: @line-height-computed / 3
     }
     #goog-wm-sb {
-        .btn;
-        .btn-green;
-        float: left;
+        .btn
+        .btn-green
+        float: left
     }
     .search-goog {
         form {
-            .form-inline;
+            .form-inline
         }
     }
 }

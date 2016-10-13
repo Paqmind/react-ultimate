@@ -1,6 +1,6 @@
-import React from "react";
-import DocumentTitle from "react-document-title";
-import {Component} from "./component";
+import React from "react"
+import DocumentTitle from "react-document-title"
+import {Component} from "./component"
 
 export default class NotFound extends Component {
   render() {
@@ -18,8 +18,8 @@ export default class NotFound extends Component {
               </ul>
               <p>But you can always start from <a href="/">home page</a>.</p>
               <script>
-                var GOOG_FIXURL_LANG = (navigator.language || '').slice(0,2);
-                var GOOG_FIXURL_SITE = location.host;
+                var GOOG_FIXURL_LANG = (navigator.language || '').slice(0,2)
+                var GOOG_FIXURL_SITE = location.host
               </script>
               <script src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js"></script>
             </div>
@@ -34,6 +34,6 @@ export default class NotFound extends Component {
           </div>
         </div>
       </DocumentTitle>
-    );
+    )
   }
 }

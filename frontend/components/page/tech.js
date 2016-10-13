@@ -1,6 +1,6 @@
-import React from "react";
-import DocumentTitle from "react-document-title";
-import {Component, TextHolder} from "frontend/components/common";
+import React from "react"
+import DocumentTitle from "react-document-title"
+import {Component, TextHolder} from "frontend/components/common"
 
 export default class Tech extends Component {
   render() {
@@ -47,6 +47,6 @@ export default class Tech extends Component {
           </section>
         </TextHolder>
       </DocumentTitle>
-    );
+    )
   }
 }

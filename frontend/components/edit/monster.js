@@ -1,30 +1,30 @@
-import {clone, map} from "ramda";
-import Globalize from "globalize";
-import Class from "classnames";
-import {branch} from "baobab-react/decorators";
-import React from "react";
-import {Link} from "react-router";
-import DocumentTitle from "react-document-title";
-import api from "shared/api/monster";
-import {debounce, hasValues} from "shared/helpers/common";
-import {Monster} from "shared/types";
-import {statics} from "frontend/helpers/react";
-import * as actions from "frontend/actions/monster";
-import * as alertActions from "frontend/actions/alert";
-import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
-import state from "frontend/state";
+import {clone, map} from "ramda"
+import Globalize from "globalize"
+import Class from "classnames"
+import {branch} from "baobab-react/decorators"
+import React from "react"
+import {Link} from "react-router"
+import DocumentTitle from "react-document-title"
+import api from "common/api/monster"
+import {debounce, hasValues} from "common/helpers/common"
+import {Monster} from "common/types"
+import {statics} from "frontend/helpers/react"
+import * as actions from "frontend/actions/monster"
+import * as alertActions from "frontend/actions/alert"
+import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common"
+import state from "frontend/state"
 
-let dataCursor = state.select(api.plural);
+let dataCursor = state.select(api.plural)
 
 let validateFormDebounced = debounce(key => {
-  actions.validateEditForm(key).catch(err => null);
-}, 500);
+  actions.validateEditForm(key).catch(err => null)
+}, 500)
 
 @statics({
   loadData: () => {
     actions
       .establishItem()
-      .then(item => actions.resetEditForm(item.id));
+      .then(item => actions.resetEditForm(item.id))
   }
 })
 @branch({
@@ -37,12 +37,12 @@ let validateFormDebounced = debounce(key => {
 })
 export default class MonsterEdit extends DeepComponent {
   handleBlur(key) {
-    actions.validateEditForm(key).catch(err => null);
+    actions.validateEditForm(key).catch(err => null)
   }
 
   handleChange(key, data) {
-    actions.updateEditForm(key, data);
-    validateFormDebounced(key);
+    actions.updateEditForm(key, data)
+    validateFormDebounced(key)
   }
 
   handleSubmit() {
@@ -53,22 +53,22 @@ export default class MonsterEdit extends DeepComponent {
         alertActions.addItem({
           message: "Monster edited with id: " + item.id,
           category: "success",
-        });
+        })
       })
       .catch(error => {
         alertActions.addItem({
           message: "Failed to edit Monster: " + error,
           category: "error",
-        });
-      });
+        })
+      })
   }
 
   handleReset() {
-    actions.resetEditForm(this.props.item.id);
+    actions.resetEditForm(this.props.item.id)
   }
 
   render() {
-    let {havePendingRequests, item, form, errors} = this.props;
+    let {havePendingRequests, item, form, errors} = this.props
 
     if (item) {
       return (
@@ -145,18 +145,18 @@ export default class MonsterEdit extends DeepComponent {
             </section>
           </div>
         </DocumentTitle>
-      );
+      )
     } else if (havePendingRequests) {
-      return null;
+      return null
     } else {
-      return <NotFound/>;
+      return <NotFound/>
     }
   }
 }
 
 class Actions extends ShallowComponent {
   render() {
-    let {item} = this.props;
+    let {item} = this.props
 
     return (
       <div className="actions">
@@ -180,6 +180,6 @@ class Actions extends ShallowComponent {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }

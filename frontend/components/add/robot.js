@@ -1,26 +1,26 @@
-import {clone, map} from "ramda";
-import Globalize from "globalize";
-import Class from "classnames";
-import {branch} from "baobab-react/decorators";
-import React from "react";
-import {Link} from "react-router";
-import DocumentTitle from "react-document-title";
-import api from "shared/api/robot";
-import {debounce, hasValues} from "shared/helpers/common";
-import {formatQuery} from "shared/helpers/jsonapi";
-import {formatTyped} from "shared/formatters";
-import {Robot} from "shared/types";
-import {statics} from "frontend/helpers/react";
-import * as actions from "frontend/actions/robot";
-import * as alertActions from "frontend/actions/alert";
-import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
-import state from "frontend/state";
+import {clone, map} from "ramda"
+import Globalize from "globalize"
+import Class from "classnames"
+import {branch} from "baobab-react/decorators"
+import React from "react"
+import {Link} from "react-router"
+import DocumentTitle from "react-document-title"
+import api from "common/api/robot"
+import {debounce, hasValues} from "common/helpers/common"
+import {formatQuery} from "common/helpers/jsonapi"
+import {formatTyped} from "common/formatters"
+import {Robot} from "common/types"
+import {statics} from "frontend/helpers/react"
+import * as actions from "frontend/actions/robot"
+import * as alertActions from "frontend/actions/alert"
+import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common"
+import state from "frontend/state"
 
-let dataCursor = state.select(api.plural);
+let dataCursor = state.select(api.plural)
 
 let validateFormDebounced = debounce(key => {
-  actions.validateAddForm(key).catch(err => null);
-}, 500);
+  actions.validateAddForm(key).catch(err => null)
+}, 500)
 
 @statics({
   loadData: actions.loadIndex,
@@ -33,12 +33,12 @@ let validateFormDebounced = debounce(key => {
 })
 export default class RobotAdd extends DeepComponent {
   handleBlur(key) {
-    actions.validateAddForm(key).catch(err => null);
+    actions.validateAddForm(key).catch(err => null)
   }
 
   handleChange(key, data) {
-    actions.updateAddForm(key, data);
-    validateFormDebounced(key);
+    actions.updateAddForm(key, data)
+    validateFormDebounced(key)
   }
 
   handleSubmit() {
@@ -49,18 +49,18 @@ export default class RobotAdd extends DeepComponent {
         alertActions.addItem({
           message: "Robot added with id: " + item.id,
           category: "success",
-        });
+        })
       })
       .catch(error => {
         alertActions.addItem({
           message: "Failed to add Robot: " + error,
           category: "error",
-        });
-      });
+        })
+      })
   }
 
   render() {
-    let {form, errors} = this.props;
+    let {form, errors} = this.props
 
     return (
       <DocumentTitle title={"Add Robot"}>
@@ -131,7 +131,7 @@ export default class RobotAdd extends DeepComponent {
           </section>
         </div>
       </DocumentTitle>
-    );
+    )
   }
 }
 
@@ -142,7 +142,7 @@ class Actions extends ShallowComponent {
       sorts: dataCursor.get("sorts"),
       offset: dataCursor.get("offset"),
       limit: dataCursor.get("limit")
-    });
+    })
 
     return (
       <div className="actions">
@@ -155,6 +155,6 @@ class Actions extends ShallowComponent {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }

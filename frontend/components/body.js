@@ -1,48 +1,48 @@
-import Class from "classnames";
-import React from "react";
-import {Link} from "react-router";
-import {RouteHandler} from "react-router";
-import {root} from "baobab-react/decorators";
-import state from "frontend/state";
-import {Component, Loading, Menu, Header, Footer} from "frontend/components/common";
-import AlertIndex from "frontend/components/index/alert";
+import Class from "classnames"
+import React from "react"
+import {Link} from "react-router"
+import {RouteHandler} from "react-router"
+import {root} from "baobab-react/decorators"
+import state from "frontend/state"
+import {Component, Loading, Menu, Header, Footer} from "frontend/components/common"
+import AlertIndex from "frontend/components/index/alert"
 
 @root(state)
 export default class Body extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       menuCollapse: false
-    };
+    }
   }
 
   hideMenu() {
-    this.setState({menuCollapse: false});
+    this.setState({menuCollapse: false})
   }
 
   onClickOnNavbarToggle(event) {
-    event.stopPropagation();
-    event.nativeEvent.stopImmediatePropagation();
-    this.setState({menuCollapse: !this.state.menuCollapse});
+    event.stopPropagation()
+    event.nativeEvent.stopImmediatePropagation()
+    this.setState({menuCollapse: !this.state.menuCollapse})
   }
 
   documentClickHandler() {
-    if (!this.state.menuCollapse) { return undefined; }
+    if (!this.state.menuCollapse) { return undefined }
 
     // Menu should collapsed on any click (on link, on toogler or outside the block)
-    this.hideMenu();
+    this.hideMenu()
   }
 
   componentDidMount() {
-    document.addEventListener("click", this.documentClickHandler);
+    document.addEventListener("click", this.documentClickHandler)
   }
 
   componentWillUnmount() {
-    document.removeEventListener("click", this.documentClickHandler);
+    document.removeEventListener("click", this.documentClickHandler)
   }
 
   render() {
-    let headerToggleClasses = {visible: "navbar-down", hidden: "navbar-up"};
+    let headerToggleClasses = {visible: "navbar-down", hidden: "navbar-up"}
     return (
       <div>
          <Header component="header" className="navbar navbar-default headroom" toggleClasses={headerToggleClasses}>
@@ -66,6 +66,6 @@ export default class Body extends Component {
         <Loading size="xs"/>
         <AlertIndex/>
       </div>
-    );
+    )
   }
 }

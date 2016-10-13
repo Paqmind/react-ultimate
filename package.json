@@ -7,12 +7,13 @@
     "npm": "2.14.7"
   },
   "scripts": {
+    "postinstall": "bin/postinstall.sh",
     "eslint": "eslint .",
     "webpack": "webpack --progress --profile",
     "webpack-server": "webpack-dev-server --config webpack.server.js --progress --port 2992 --inline",
-    "node": "babel-node backend/server.js",
+    "node": "node backend/server.js",
     "nodemon": "nodemon backend/server.js",
-    "mocha": "mocha --opts specs/mocha.opts specs"
+    "mocha": "mocha --opts tests/mocha.opts tests"
   },
   "dependencies": {
     "autoprefixer-loader": "^3.1.0",

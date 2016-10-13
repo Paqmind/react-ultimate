@@ -1,13 +1,14 @@
-import {range, reduce} from "ramda";
-import makeRobot from "shared/makers/robot";
+let {range, reduce} = require("ramda")
+let makeRobot = require("common/makers/robot")
 
-// FAKE DB =========================================================================================
-export function makeDB() {
+// FAKE Db =========================================================================================
+function makeDb() {
   return reduce(db => {
-    let item = makeRobot();
-    db[item.id] = item;
-    return db;
-  }, {}, range(0, 50));
+    let item = makeRobot()
+    db[item.id] = item
+    return db
+  }, {}, range(0, 50))
 }
 
-export default makeDB();
+exports.makeDb = makeDb
+exports.db = makeDb()

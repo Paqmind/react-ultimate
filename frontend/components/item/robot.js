@@ -1,7 +1,7 @@
-import React from "react";
-import {Link} from "react-router";
-import * as actions from "frontend/actions/robot";
-import {ShallowComponent} from "frontend/components/common";
+import React from "react"
+import {Link} from "react-router"
+import * as actions from "frontend/actions/robot"
+import {ShallowComponent} from "frontend/components/common"
 
 export default class RobotItem extends ShallowComponent {
   static propTypes = {
@@ -9,7 +9,7 @@ export default class RobotItem extends ShallowComponent {
   }
 
   render() {
-    let item = this.props.item;
+    let item = this.props.item
 
     if (item) {
       return (
@@ -40,9 +40,9 @@ export default class RobotItem extends ShallowComponent {
             </div>
           </div>
         </div>
-      );
+      )
     } else {
-      return null;
+      return null
     }
   }
 }

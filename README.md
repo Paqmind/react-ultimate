@@ -1,5 +1,7 @@
 # React Ultimate
 
+**Since 2016-10-13 repo is under full reload and won't run out of the box for a while**
+
 Tired of **React Starters** reexplaining another helloworld?
 
 Dreamed of something closer to the industry?

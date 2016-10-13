@@ -1,19 +1,19 @@
-import Tc from "tcomb";
-import Express from "express";
-import makeRobot from "shared/makers/robot";
-import * as middlewares from "backend/middlewares";
+let Tc = require("tcomb")
+let Express = require("express")
+let makeRobot = require("common/makers/robot")
+let middlewares = require("backend/middlewares")
 
-let router = Express.Router();
+let router = Express.Router()
 
 router.get("/random",
   middlewares.createParseQuery(Tc.Any),
   function handler(req, res, cb) {
-    let item = makeRobot();
+    let item = makeRobot()
     let payload = {
       data: item,
-    };
-    return res.status(200).send(payload); // Status: ok
+    }
+    return res.status(200).send(payload) // Status: ok
   }
-);
+)
 
-export default router;
+module.exports = router

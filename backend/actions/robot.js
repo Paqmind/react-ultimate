@@ -1,15 +1,15 @@
-import indexRouter from "./index/robot";
-import addRouter from "./add/robot";
-import addOrEditRouter from "./add-or-edit/robot";
-import removeRouter from "./remove/robot";
-import randomRouter from "./random/robot";
-import detailRouter from "./detail/robot";
+let indexRouter = require("./index/robot")
+let addRouter = require("./add/robot")
+let addOrEditRouter = require("./add-or-edit/robot")
+let removeRouter = require("./remove/robot")
+let randomRouter = require("./random/robot")
+let detailRouter = require("./detail/robot")
 
-export default [
+module.exports = [
   indexRouter,
   addRouter,
   addOrEditRouter,
   removeRouter,
   randomRouter,
   detailRouter
-];
+]

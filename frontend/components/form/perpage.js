@@ -1,9 +1,9 @@
-import {addIndex, map} from "ramda";
-import Class from "classnames";
-import React from "react";
-import {ShallowComponent} from "frontend/components/common";
+import {addIndex, map} from "ramda"
+import Class from "classnames"
+import React from "react"
+import {ShallowComponent} from "frontend/components/common"
 
-let mapIndexed = addIndex(map);
+let mapIndexed = addIndex(map)
 
 export default class PerPage extends ShallowComponent {
   static propTypes = {
@@ -15,40 +15,40 @@ export default class PerPage extends ShallowComponent {
 
   constructor(props) {
     if (!props.route && !props.onClick) {
-      throw Error("either route or onClick must be set");
+      throw Error("either route or onClick must be set")
     }
-    super();
+    super()
     this.state = {
       expanded: false
-    };
+    }
   }
 
   hideDropdown() {
-    this.setState({expanded: false});
+    this.setState({expanded: false})
   }
 
   toggle(event) {
-    event.stopPropagation();
-    event.nativeEvent.stopImmediatePropagation();
-    this.setState({expanded: !this.state.expanded});
+    event.stopPropagation()
+    event.nativeEvent.stopImmediatePropagation()
+    this.setState({expanded: !this.state.expanded})
   }
 
   componentDidMount() {
-    document.addEventListener("click", this.hideDropdown);
+    document.addEventListener("click", this.hideDropdown)
   }
 
   componentWillUnmount() {
-    document.removeEventListener("click", this.hideDropdown);
+    document.removeEventListener("click", this.hideDropdown)
   }
 
   onClick(event, limit) {
-    event.preventDefault();
-    this.hideDropdown();
-    this.props.onClick(limit);
+    event.preventDefault()
+    this.hideDropdown()
+    this.props.onClick(limit)
   }
 
   render() {
-    let {makeHref, options, current} = this.props;
+    let {makeHref, options, current} = this.props
 
     return (
       <div className={"dropdown" + (this.state.expanded ? " open" : "")}>
@@ -66,10 +66,10 @@ export default class PerPage extends ShallowComponent {
                   {limit || "Any"}
                 </a>
               </li>
-            );
+            )
           }, options)}
         </ul>
       </div>
-    );
+    )
   }
 }

@@ -1,19 +1,19 @@
-import Fs from "fs";
-import Path from "path";
-import {assoc, map, reduce} from "ramda";
-import {Base64} from "js-base64";
-import Webpack from "webpack";
-import GlobalizePlugin from "globalize-webpack-plugin";
-import {NODE_MODULES_DIR, SHARED_DIR, FRONTEND_DIR, BACKEND_DIR, PUBLIC_DIR} from "shared/constants"
+let Fs = require("fs")
+let Path = require("path")
+let {assoc, map, reduce} = require("ramda")
+let {Base64} = require("js-base64")
+let Webpack = require("webpack")
+let GlobalizePlugin = require("globalize-webpack-plugin")
+let {NODE_MODULES_DIR, COMMON_DIR, FRONTEND_DIR, BACKEND_DIR, PUBLIC_DIR} = require("common/constants")
 
 // Paths to minified library distributions relative to the root node_modules
 const MINIFIED_DEPS = [
   "moment/min/moment.min.js",
-];
+]
 
 const API_AUTH = process.env.hasOwnProperty("API_USER_NAME") && process.env.hasOwnProperty("API_USER_PASS")
   ? "Basic " + Base64.encode(process.env.API_USER_NAME + ":" + process.env.API_USER_PASS)
-  : undefined;
+  : undefined
 
 const DEFINE = {
   "process.env": {
@@ -22,9 +22,9 @@ const DEFINE = {
   "config": {
     "api-auth": JSON.stringify(API_AUTH),
   },
-};
+}
 
-export default {
+module.exports = {
   // http://webpack.github.io/docs/configuration.html#target
   target: "web",
 
@@ -60,7 +60,7 @@ export default {
   // http://webpack.github.io/docs/configuration.html#module
   module: {
     noParse: map(dep => {
-      return Path.resolve(NODE_MODULES_DIR, dep);
+      return Path.resolve(NODE_MODULES_DIR, dep)
     }, MINIFIED_DEPS),
 
     // http://webpack.github.io/docs/loaders.html
@@ -105,8 +105,8 @@ export default {
     modulesDirectories: ["web_modules", "node_modules"],
 
     alias: reduce((memo, dep) => {
-      let depPath = Path.resolve(NODE_MODULES_DIR, dep);
-      return assoc(dep.split(Path.sep)[0], depPath, memo);
+      let depPath = Path.resolve(NODE_MODULES_DIR, dep)
+      return assoc(dep.split(Path.sep)[0], depPath, memo)
     }, {}, MINIFIED_DEPS),
   },
 
@@ -133,4 +133,4 @@ export default {
   devServer: {
     headers: {"Access-Control-Allow-Origin": "*"},
   }
-};
+}

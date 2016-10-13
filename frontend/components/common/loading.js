@@ -1,8 +1,8 @@
-import Class from "classnames";
-import React from "react";
-import DocumentTitle from "react-document-title";
-import {branch} from "baobab-react/decorators";
-import {Component} from "./component";
+import Class from "classnames"
+import React from "react"
+import DocumentTitle from "react-document-title"
+import {branch} from "baobab-react/decorators"
+import {Component} from "./component"
 
 @branch({
   cursors: {
@@ -19,7 +19,7 @@ export default class Loading extends Component {
   }
 
   render() {
-    let {ajaxQueue} = this.props;
+    let {ajaxQueue} = this.props
 
     if (ajaxQueue.length) {
       return (
@@ -28,9 +28,9 @@ export default class Loading extends Component {
             <i className="fa fa-cog fa-spin"></i>
           </div>
         </div>
-      );
+      )
     } else {
-      return <div/>;
+      return <div/>
     }
   }
 }

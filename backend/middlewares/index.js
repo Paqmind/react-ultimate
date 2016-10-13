@@ -1,9 +1,9 @@
-import createParseBody from "backend/middlewares/parse-body";
-import createParseParams from "backend/middlewares/parse-params";
-import createParseQuery from "backend/middlewares/parse-query";
+let createParseBody = require("backend/middlewares/parse-body")
+let createParseParams = require("backend/middlewares/parse-params")
+let createParseQuery = require("backend/middlewares/parse-query")
 
-export {
+module.exports = {
   createParseBody,
   createParseParams,
   createParseQuery,
-};
+}

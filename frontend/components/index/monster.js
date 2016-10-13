@@ -1,19 +1,19 @@
-import {equals, keys, map} from "ramda";
-import React from "react";
-import {Link} from "react-router";
-import DocumentTitle from "react-document-title";
-import {branch} from "baobab-react/decorators";
-import {toArray} from "shared/helpers/common";
-import {MONSTER} from "shared/constants";
-import api from "shared/api/monster";
-import {statics} from "frontend/helpers/react";
-import state from "frontend/state";
-import * as actions from "frontend/actions/monster";
-import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/common";
-import {FilterBy, SortBy, PerPage} from "frontend/components/form";
-import MonsterItem from "frontend/components/item/monster";
+import {equals, keys, map} from "ramda"
+import React from "react"
+import {Link} from "react-router"
+import DocumentTitle from "react-document-title"
+import {branch} from "baobab-react/decorators"
+import {toArray} from "common/helpers/common"
+import {MONSTER} from "common/constants"
+import api from "common/api/monster"
+import {statics} from "frontend/helpers/react"
+import state from "frontend/state"
+import * as actions from "frontend/actions/monster"
+import {ShallowComponent, DeepComponent, Pagination} from "frontend/components/common"
+import {FilterBy, SortBy, PerPage} from "frontend/components/form"
+import MonsterItem from "frontend/components/item/monster"
 
-let dataCursor = state.select("monsters");
+let dataCursor = state.select("monsters")
 
 @statics({
   loadData: actions.loadIndex,
@@ -30,12 +30,12 @@ let dataCursor = state.select("monsters");
 })
 export default class MonsterIndex extends DeepComponent {
   render() {
-    let {filters, sorts, offset, limit, total, items} = this.props;
+    let {filters, sorts, offset, limit, total, items} = this.props
 
     let pagination = <Pagination
       onClick={_offset => this.setOffset(_offset)}
       total={total} offset={offset} limit={limit}
-    />;
+    />
     return (
       <DocumentTitle title="Monsters">
         <div>
@@ -50,31 +50,31 @@ export default class MonsterIndex extends DeepComponent {
           </section>
         </div>
       </DocumentTitle>
-    );
+    )
   }
 
   setOffset(offset) {
-    dataCursor.set("offset", offset || 0);
-    actions.loadIndex();
+    dataCursor.set("offset", offset || 0)
+    actions.loadIndex()
   }
 }
 
 class Actions extends ShallowComponent {
   render() {
-    let {filters, sorts, limit} = this.props;
+    let {filters, sorts, limit} = this.props
 
     let perPage = <PerPage
       options={[5, 10, 12]} current={limit}
       onClick={_limit => this.setLimit(_limit)}
-    />;
+    />
     let sortBy = <SortBy
       options={["+name", "-name"]} current={sorts && sorts[0]}
       onClick={_sorts => this.setSorts(_sorts)}
-    />;
+    />
     let filterBy = <FilterBy field="citizenship"
       options={[undefined, "China", "Russia", "USA"]} current={filters && filters.citizenship}
       onClick={_filters => this.setFilters(_filters)}
-    />;
+    />
 
     return (
       <div className="actions">
@@ -95,40 +95,40 @@ class Actions extends ShallowComponent {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   setFilters(filters) {
     if (!equals(filters, dataCursor.get("filters"))) {
-      dataCursor.set("filters", filters);
+      dataCursor.set("filters", filters)
       if ((dataCursor.get("pagination").length < dataCursor.get("total")) || true) {
         /* TODO replace true with __newFilters_are_not_subset_of_oldFilters__ */
         // not all data loaded or new filters aren't subset of old
         dataCursor.merge({
           total: 0,
           pagination: [],
-        });
+        })
       }
     }
-    actions.loadIndex();
+    actions.loadIndex()
   }
 
   setSorts(sorts) {
     if (!equals(sorts, dataCursor.get("sorts"))) {
-      dataCursor.set("sorts", sorts);
+      dataCursor.set("sorts", sorts)
       if (dataCursor.get("pagination").length < dataCursor.get("total")) {
         // not all data loaded
         dataCursor.merge({
           total: 0,
           pagination: [],
-        });
+        })
       }
     }
-    actions.loadIndex();
+    actions.loadIndex()
   }
 
   setLimit(limit) {
-    dataCursor.set("limit", limit || MONSTER.index.defaultLimit);
-    actions.loadIndex();
+    dataCursor.set("limit", limit || MONSTER.index.defaultLimit)
+    actions.loadIndex()
   }
 }

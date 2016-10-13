@@ -1,6 +1,6 @@
-import React from "react";
-import DocumentTitle from "react-document-title";
-import {Component, TextHolder} from "frontend/components/common";
+import React from "react"
+import DocumentTitle from "react-document-title"
+import {Component, TextHolder} from "frontend/components/common"
 
 export default class About extends Component {
   render() {
@@ -74,7 +74,7 @@ export default class About extends Component {
             <p>
               Text fields are validated after input is stopped to provide immediate feedback
               about errors. Validations "on blur" and "on submit" are also available, of course.
-              Validation rules are shared between frontend and backend.
+              Validation rules are common between frontend and backend.
             </p>
 
             <h4>Index Backlinks</h4>
@@ -100,6 +100,6 @@ export default class About extends Component {
           </section>
         </TextHolder>
       </DocumentTitle>
-    );
+    )
   }
 }

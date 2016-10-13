@@ -1,13 +1,13 @@
-import {filter, find, forEach, identity, keys, map, pipe, propEq, slice, sortBy, tap, values} from "ramda";
-import Baobab from "baobab";
-import throttle from "lodash.throttle";
-import {filterByAll, sortByAll} from "shared/helpers/common";
-import {parseQuery} from "shared/helpers/jsonapi";
-import {ALERT, ROBOT, MONSTER} from "shared/constants";
-import robotApi from "shared/api/robot";
-import monsterApi from "shared/api/robot";
+import {filter, find, forEach, identity, keys, map, pipe, propEq, slice, sortBy, tap, values} from "ramda"
+import Baobab from "baobab"
+import throttle from "lodash.throttle"
+import {filterByAll, sortByAll} from "common/helpers/common"
+import {parseQuery} from "common/helpers/jsonapi"
+import {ALERT, ROBOT, MONSTER} from "common/constants"
+import robotApi from "common/api/robot"
+import monsterApi from "common/api/robot"
 
-let monkey = Baobab.monkey;
+let monkey = Baobab.monkey
 
 window._state = new Baobab(
   {
@@ -48,7 +48,7 @@ window._state = new Baobab(
       havePendingRequests: monkey([
         ["ajaxQueue"],
         function (queue) {
-          return ajaxQueueContains(queue, robotApi.indexUrl);
+          return ajaxQueueContains(queue, robotApi.indexUrl)
         }
       ]),
 
@@ -56,13 +56,13 @@ window._state = new Baobab(
         ["robots", "total"],
         ["robots", "pagination"],
         function (total, pagination) {
-          let loaded = filter(id => id, pagination).length;
+          let loaded = filter(id => id, pagination).length
           if (loaded < total) {
-            return false;
+            return false
           } else if (loaded == total) {
-            return true;
+            return true
           } else {
-            throw Error(`invalid total ${total}`);
+            throw Error(`invalid total ${total}`)
           }
         }
       ]),
@@ -72,9 +72,9 @@ window._state = new Baobab(
         ["robots", "id"],
         function (items, id) {
           if (id) {
-            return items[id];
+            return items[id]
           } else {
-            return undefined;
+            return undefined
           }
         }
       ]),
@@ -88,13 +88,13 @@ window._state = new Baobab(
         ["robots", "pagination"],
         ["robots", "fullLoad"],
         function (filters, sorts, offset, limit, items, pagination, fullLoad) {
-          let itemsArray = map(id => id && items[id], pagination);
+          let itemsArray = map(id => id && items[id], pagination)
           return pipe(
             fullLoad ? filterByAll(filters) : identity,
             fullLoad ? sortByAll(sorts) : identity,
             slice(offset, offset + limit),
             filter(m => m)
-          )(itemsArray);
+          )(itemsArray)
         }
       ]),
     },
@@ -124,7 +124,7 @@ window._state = new Baobab(
       havePendingRequests: monkey([
         ["ajaxQueue"],
         function (queue) {
-          return ajaxQueueContains(queue, monsterApi.indexUrl);
+          return ajaxQueueContains(queue, monsterApi.indexUrl)
         }
       ]),
 
@@ -132,13 +132,13 @@ window._state = new Baobab(
         ["monsters", "total"],
         ["monsters", "pagination"],
         function (total, pagination) {
-          let loaded = filter(id => id, pagination).length;
+          let loaded = filter(id => id, pagination).length
           if (loaded < total) {
-            return false;
+            return false
           } else if (loaded == total) {
-            return true;
+            return true
           } else {
-            throw Error(`invalid total ${total}`);
+            throw Error(`invalid total ${total}`)
           }
         }
       ]),
@@ -148,9 +148,9 @@ window._state = new Baobab(
         ["monsters", "id"],
         function (items, id) {
           if (id) {
-            return items[id];
+            return items[id]
           } else {
-            return undefined;
+            return undefined
           }
         }
       ]),
@@ -164,13 +164,13 @@ window._state = new Baobab(
         ["monsters", "pagination"],
         ["monsters", "fullLoad"],
         function (filters, sorts, offset, limit, items, pagination, fullLoad) {
-          let itemsArray = map(id => id && items[id], pagination);
+          let itemsArray = map(id => id && items[id], pagination)
           return pipe(
             fullLoad ? filterByAll(filters) : identity,
             fullLoad ? sortByAll(sorts) : identity,
             slice(offset, offset + limit),
             filter(m => m)
-          )(itemsArray);
+          )(itemsArray)
         }
       ]),
     },
@@ -178,18 +178,18 @@ window._state = new Baobab(
     urlQuery: monkey([
       ["url", "query"],
       function (query) {
-        let {filters, sorts, offset, limit} = parseQuery(query);
-        return {filters, sorts, offset, limit};
+        let {filters, sorts, offset, limit} = parseQuery(query)
+        return {filters, sorts, offset, limit}
       }
     ]),
   },
   { // OPTIONS
     immutable: process.env.NODE_ENV != "production",
   }
-);
+)
 
 function ajaxQueueContains(queue, url) {
-  return Boolean(filter(pendindRequest => pendindRequest.url.startsWith(url), queue).length);
+  return Boolean(filter(pendindRequest => pendindRequest.url.startsWith(url), queue).length)
 }
 
-export default window._state;
+export default window._state

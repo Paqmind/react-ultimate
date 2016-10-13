@@ -1,5 +1,5 @@
-import indexRouter from "./index/alert";
+let indexRouter = require("./index/alert")
 
-export default [
+module.exports = [
   indexRouter,
-];
+]

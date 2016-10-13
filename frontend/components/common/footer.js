@@ -1,6 +1,6 @@
-import React from "react";
-import throttle from "lodash.throttle";
-import {Component} from "./component";
+import React from "react"
+import throttle from "lodash.throttle"
+import {Component} from "./component"
 
 export default class Footer extends Component {
   render() {
@@ -15,6 +15,6 @@ export default class Footer extends Component {
           <span className="fa fa-copyright margin-right-xs"></span> <a href="http://paqmind.com" target="_blank">paqmind.com</a>
         </p>
       </footer>
-    );
+    )
   }
 }

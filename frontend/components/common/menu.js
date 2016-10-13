@@ -1,6 +1,6 @@
-import React from "react";
-import {Link} from "react-router";
-import {Component} from "./component";
+import React from "react"
+import {Link} from "react-router"
+import {Component} from "./component"
 
 export default class Menu extends Component {
   render() {
@@ -14,6 +14,6 @@ export default class Menu extends Component {
           <li><Link to="credits">Credits</Link></li>
         </ul>
       </nav>
-    );
+    )
   }
 }

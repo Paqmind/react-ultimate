@@ -1,15 +1,15 @@
-import Globalize from "globalize";
-import {branch} from "baobab-react/decorators";
-import React from "react";
-import {Link} from "react-router";
-import DocumentTitle from "react-document-title";
-import api from "shared/api/monster";
-import {statics} from "frontend/helpers/react";
-import state from "frontend/state";
-import * as actions from "frontend/actions/monster";
-import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common";
+import Globalize from "globalize"
+import {branch} from "baobab-react/decorators"
+import React from "react"
+import {Link} from "react-router"
+import DocumentTitle from "react-document-title"
+import api from "common/api/monster"
+import {statics} from "frontend/helpers/react"
+import state from "frontend/state"
+import * as actions from "frontend/actions/monster"
+import {ShallowComponent, DeepComponent, ItemLink, NotFound} from "frontend/components/common"
 
-let dataCursor = state.select(api.plural);
+let dataCursor = state.select(api.plural)
 
 @statics({
   loadData: actions.establishItem,
@@ -22,7 +22,7 @@ let dataCursor = state.select(api.plural);
 })
 export default class MonsterDetail extends DeepComponent {
   render() {
-    let {havePendingRequests, item} = this.props;
+    let {havePendingRequests, item} = this.props
 
     if (item) {
       return (
@@ -51,18 +51,18 @@ export default class MonsterDetail extends DeepComponent {
             </section>
           </div>
         </DocumentTitle>
-      );
+      )
     } else if (havePendingRequests) {
-      return null;
+      return null
     } else {
-      return <NotFound/>;
+      return <NotFound/>
     }
   }
 }
 
 class Actions extends ShallowComponent {
   render() {
-    let {item} = this.props;
+    let {item} = this.props
 
     return (
       <div className="actions">
@@ -86,6 +86,6 @@ class Actions extends ShallowComponent {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }

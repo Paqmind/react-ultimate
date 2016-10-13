@@ -1,6 +1,6 @@
 {
   "execMap": {
-    "js": "babel-node --stage 0"
+    "js": "node --use_strict"
   },
   "ext": "js html",
   "ignore": [
@@ -10,6 +10,7 @@
   "verbose": true,
   "watch": [
     "backend/",
-    "shared/"
+    "common/",
+    "public/errors/"
   ]
 }
