@@ -8,7 +8,6 @@ import CommonsChunkPlugin from "webpack/lib/optimize/CommonsChunkPlugin";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
 import {NODE_MODULES_DIR, SHARED_DIR, FRONTEND_DIR, BACKEND_DIR, PUBLIC_DIR} from "shared/constants"
 
-// CONSTANTS =======================================================================================
 // Paths to minified library distributions relative to the root node_modules
 const MINIFIED_DEPS = [
   "moment/min/moment.min.js",
@@ -29,12 +28,11 @@ const DEFINE = {
 
 const AUTOPREFIXER = "autoprefixer?{browsers: ['> 5%']}";
 
-// CONFIG ==========================================================================================
 export default {
-  // Compilation target: http://webpack.github.io/docs/configuration.html#target
+  // http://webpack.github.io/docs/configuration.html#target
   target: "web",
 
-  // Entry files: http://webpack.github.io/docs/configuration.html#entry
+  // http://webpack.github.io/docs/configuration.html#entry
   entry: {
     bundle: "./frontend/app",
 
@@ -49,28 +47,28 @@ export default {
 		],
   },
 
-  // Output files: http://webpack.github.io/docs/configuration.html#output
+  // http://webpack.github.io/docs/configuration.html#output
   output: {
-    // Abs. path to output directory: http://webpack.github.io/docs/configuration.html#output-path
+    // http://webpack.github.io/docs/configuration.html#output-path
     path: PUBLIC_DIR,
 
-    // Filename of an entry chunk: http://webpack.github.io/docs/configuration.html#output-filename
+    // http://webpack.github.io/docs/configuration.html#output-filename
     filename: "[name].js?[chunkhash]",
 
-    // Web path (used to prefix URLs): http://webpack.github.io/docs/configuration.html#output-publicpath
+    // http://webpack.github.io/docs/configuration.html#output-publicpath
     publicPath: "/public/",
 
-    // Include pathinfo in output (like `require(/*./test*/23)`): http://webpack.github.io/docs/configuration.html#output-pathinfo
+    // http://webpack.github.io/docs/configuration.html#output-pathinfo
     pathinfo: false,
   },
 
-  // Debug mode: http://webpack.github.io/docs/configuration.html#debug
+  // http://webpack.github.io/docs/configuration.html#debug
   debug: false,
 
-  // Enhance debugging: http://webpack.github.io/docs/configuration.html#devtool
+  // http://webpack.github.io/docs/configuration.html#devtool
   devtool: null,
 
-  // Capture timing information: http://webpack.github.io/docs/configuration.html#profile
+  // http://webpack.github.io/docs/configuration.html#profile
   profile: false,
 
   // http://webpack.github.io/docs/configuration.html#module
@@ -81,17 +79,20 @@ export default {
 
     // http://webpack.github.io/docs/loaders.html
     loaders: [
-      // JS https://github.com/babel/babel-loader
+      // https://github.com/babel/babel-loader
       {test: /\.(js(\?.*)?)$/, loaders: ["babel?stage=0"], exclude: /node_modules/},
 
-      // JSON https://github.com/webpack/json-loader
+      // https://github.com/webpack/json-loader
       {test: /\.(json(\?.*)?)$/,  loaders: ["json"]},
       {test: /\.(json5(\?.*)?)$/, loaders: ["json5"]},
 
-      // RAW https://github.com/webpack/raw-loader
-      {test: /\.(txt(\?.*)?)$/, loaders: ["raw"]},
+      // https://github.com/webpack/css-loader
+      {test: /\.(css(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css!${AUTOPREFIXER}`)},
 
-      // URL: https://github.com/webpack/url-loader
+      // https://github.com/webpack/less-loader
+      {test: /\.(less(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css!${AUTOPREFIXER}!less`)},
+
+      // https://github.com/webpack/url-loader
       {test: /\.(jpg(\?.*)?)$/,   loaders: ["url?limit=10000"]},
       {test: /\.(jpeg(\?.*)?)$/,  loaders: ["url?limit=10000"]},
       {test: /\.(png(\?.*)?)$/,   loaders: ["url?limit=10000"]},
@@ -100,44 +101,31 @@ export default {
       {test: /\.(woff(\?.*)?)$/,  loaders: ["url?limit=100000"]},
       {test: /\.(woff2(\?.*)?)$/, loaders: ["url?limit=100000"]},
 
-      // FILE: https://github.com/webpack/file-loader
+      // https://github.com/webpack/file-loader
       {test: /\.(ttf(\?.*)?)$/, loaders: ["file"]},
       {test: /\.(eot(\?.*)?)$/, loaders: ["file"]},
       {test: /\.(wav(\?.*)?)$/, loaders: ["file"]},
       {test: /\.(mp3(\?.*)?)$/, loaders: ["file"]},
 
-      // HTML
-      {test: /\.(html(\?.*)?)$/, loaders: ["html"]},
-
-      // MARKDOWN
-      {test: /\.(md(\?.*)?)$/, loaders: ["html", "markdown"]},
-
-      // CSS: https://github.com/webpack/css-loader
-      {test: /\.(css(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css!${AUTOPREFIXER}`)},
-
-      // LESS: https://github.com/webpack/less-loader
-      {test: /\.(less(\?.*)?)$/, loader: ExtractTextPlugin.extract(`css!${AUTOPREFIXER}!less`)},
+      // https://github.com/webpack/raw-loader
+      {test: /\.(txt(\?.*)?)$/, loaders: ["raw"]},
     ],
   },
 
-  // Module resolving: http://webpack.github.io/docs/configuration.html#resolve
+  // http://webpack.github.io/docs/configuration.html#resolve
   resolve: {
-    // Abs. path with modules
     root: FRONTEND_DIR,
 
-    // Additional folders
     modulesDirectories: ["web_modules", "node_modules"],
 
-    // ???
     alias: reduce((memo, dep) => {
       let depPath = Path.resolve(NODE_MODULES_DIR, dep);
       return assoc(dep.split(Path.sep)[0], depPath, memo);
     }, {}, MINIFIED_DEPS),
   },
 
-  // Loader resolving: http://webpack.github.io/docs/configuration.html#resolveloader
+  // http://webpack.github.io/docs/configuration.html#resolveloader
   resolveLoader: {
-    // Abs. path with loaders
     root: NODE_MODULES_DIR,
   },
 
