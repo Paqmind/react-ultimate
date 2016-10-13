@@ -9,9 +9,9 @@ node_modules
 npm-debug.log
 .tmp-globalize-webpack
 /public/*
-.development
-.production
-.testing
+.conf-dev
+.conf-prod
+.conf-test
 
 # INCLUDE EXACT
 !/public/errors/

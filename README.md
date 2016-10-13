@@ -25,20 +25,28 @@ React is not a final answer. Reactivity probably is.
 4. Install packages with `$ npm install`
 5. Apply required hacks (ES6) with `$ bin/install`
 
-## Run
+## Dev Run
 
-1. Run webpack with `$ npm run dev` (terminal #1)
-2. Run nodemon with `$ npm run nodemon` (terminal #2)
-3. See `localhost:3000`
+1. Copy `.conf-demo` into `.conf-dev` with `$ cp .conf-demo .conf-dev`
+2. Run Webpack-Server with `$ . .conf-dev ; npm run webpack-server` (terminal #1)
+3. Run Nodemon with `$ . .conf-dev ; npm run nodemon` (terminal #2)
+4. See `localhost:3000` (set port in `.conf-dev`)
+
+## Prod run
+
+1. Copy `.conf-demo` into `.conf-dev` with `$ cp .conf-demo .conf-prod`
+2. Run Webpack with `$ . .conf-prod ; npm run webpack` (terminal #1)
+3. Run Node with `$ . .conf-prod ; npm run node` (terminal #2)
+4. See `//yoursite.com:8080` (set port in `.conf-prod`)
 
 ## Lint
 
-1. Run `$ npm run lint -s` (`-s` mutes node default trash)
+1. Run `$ npm run eslint -s`
 
 ## Test
 
-1. Run all tests with `$ npm test -s`
-2. Run specific tests with `$ npm test -- --grep "api/robots POST" -s` (`--` is an NPM syntax to pass arguments)
+1. Run all tests with `$ . .conf-test ; npm mocha -s`
+2. Run specific tests with `$ . .conf-test ; npm test -- --grep "api/robots POST" -s` (`--` is an NPM syntax to pass arguments)
 
 ## Notes
 
