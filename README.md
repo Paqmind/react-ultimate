@@ -36,7 +36,7 @@ React is not a final answer. Reactivity probably is.
 
 ## Prod run
 
-1. Copy `.conf-demo` into `.conf-dev` with `$ cp .conf-demo .conf-prod`
+1. Copy `.conf-demo` into `.conf-prod` with `$ cp .conf-demo .conf-prod`
 2. Run Webpack with `$ . .conf-prod ; npm run webpack` (terminal #1)
 3. Run Node with `$ . .conf-prod ; npm run node` (terminal #2)
 4. See `//yoursite.com:8080` (set port in `.conf-prod`)
