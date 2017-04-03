@@ -1,20 +1,20 @@
-@import "~bootstrap-ext/less/variables"
+@import "~bootstrap-ext/less/variables";
 
 .animated {
-  transition: all @transition-slower-speed ease-in
+  transition: all @transition-slower-speed ease-in;
   &.fadeUp-enter{
-    opacity: 0
-    transform: translate3d(0, 100%, 0)
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
     &.fadeUp-enter-active {
-      opacity: 1
-      transform: none
+      opacity: 1;
+      transform: none;
     }
   }
   &.fadeUp-leave {
-    opacity: 1
+    opacity: 1;
     &.fadeUp-leave-active {
-      opacity: 0
-      transform: translate3d(0, -100%, 0)
+      opacity: 0;
+      transform: translate3d(0, -100%, 0);
     }
   }
 }

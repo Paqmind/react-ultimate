@@ -1,28 +1,28 @@
 .effect.brackets {
   a::before,
   a::after {
-    display: inline-block
-    opacity: 0
-    transition: transform 0.3s, opacity 0.2s
+    display: inline-block;
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.2s;
   }
 
   a::before {
-    margin-right: 10px
-    content: '['
-    transform: translateX(20px)
+    margin-right: 10px;
+    content: '[';
+    transform: translateX(20px);
   }
 
   a::after {
-    margin-left: 10px
-    content: ']'
-    transform: translateX(-20px)
+    margin-left: 10px;
+    content: ']';
+    transform: translateX(-20px);
   }
 
   a:hover::before,
   a:hover::after,
   a:focus::before,
   a:focus::after {
-    opacity: 1
-    transform: translateX(0px)
+    opacity: 1;
+    transform: translateX(0px);
   }
 }
