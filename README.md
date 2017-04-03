@@ -25,7 +25,7 @@ React is not a final answer. Reactivity probably is.
 2. Go to unzipped folder
 3. Install static server with `$ npm install http-server -g`
 4. Install packages with `$ npm install`
-5. Apply required hacks (ES6) with `$ bin/install`
+5. Apply required hacks (ES6) with `$ bin/postinstall`
 
 ## Dev Run
 

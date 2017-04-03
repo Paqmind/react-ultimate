@@ -16,7 +16,7 @@ exports.MESSAGES_DIR = Path.join(PROJECT_DIR, "messages")
 
 exports.PUBLIC_DIR = Path.join(PROJECT_DIR, "public")
 
-exports.UPLOADS_DIR = Path.join(PUBLIC_DIR, "uploads")
+exports.UPLOADS_DIR = Path.join(exports.PUBLIC_DIR, "uploads")
 
 exports.AJAX = {
   throttleTimeoutMs: 500,
