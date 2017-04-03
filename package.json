@@ -57,7 +57,7 @@
     "nunjucks": "^2.1.0",
     "paqmind.data-lens": "^0.6.0",
     "paqmind.tcomb-lens": "^0.2.0",
-    "ramda": "^0.17.1",
+    "ramda": "^0.23.0",
     "raw-loader": "^0.5.1",
     "react": "^0.13.3",
     "react-document-title": "^2.0.1",
