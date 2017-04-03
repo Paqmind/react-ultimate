@@ -3,7 +3,6 @@ let Path = require("path")
 let {assoc, map, reduce} = require("ramda")
 let {Base64} = require("js-base64")
 let Webpack = require("webpack")
-let GlobalizePlugin = require("globalize-webpack-plugin")
 let CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin")
 let ExtractTextPlugin = require("extract-text-webpack-plugin")
 let {NODE_MODULES_DIR, COMMON_DIR, FRONTEND_DIR, BACKEND_DIR, PUBLIC_DIR} = require("common/constants")
@@ -143,13 +142,6 @@ module.exports = {
     new Webpack.optimize.CommonsChunkPlugin("vendors", "vendors.js?[chunkhash]"),
     new Webpack.optimize.UglifyJsPlugin({mangle: {except: ["$", "window", "document", "console"]}}),
     new ExtractTextPlugin("[name].css?[contenthash]"),
-    new GlobalizePlugin({
-			production: true,
-			developmentLocale: "en",
-			supportedLocales: ["en", "ru"],
-			messages: "messages/[locale].json",
-			output: "i18n/[locale].[hash].js"
-		}),
     function () {
       this.plugin("done", function (stats) {
         let jsonStats = stats.toJson({

@@ -40,8 +40,6 @@
     "flat": "^1.5.1",
     "font-awesome": "^4.3.0",
     "glob": "^5.0.9",
-    "globalize": "^1.1.0-rc.2",
-    "globalize-webpack-plugin": "^0.1.1",
     "html-loader": "^0.3.0",
     "js-base64": "^2.1.8",
     "json-loader": "^0.5.2",

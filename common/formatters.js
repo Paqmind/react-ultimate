@@ -1,6 +1,5 @@
 let {curry, identity, keys, map, reduce} = require("ramda")
 let Tc = require("tcomb")
-let Globalize = require("globalize")
 let {isArray, isPlainObject} = require("common/helpers/common")
 
 function formatBoolean(value) {
@@ -19,7 +18,6 @@ function formatString(value) {
   }
 }
 
-// TODO use GLOBALIZE
 function formatInteger(value) {
   if (value === undefined || value === null) {
     return ""
@@ -28,7 +26,6 @@ function formatInteger(value) {
   }
 }
 
-// TODO use GLOBALIZE
 function formatFloat(value) {
   if (value === undefined || value === null) {
     return ""
@@ -37,12 +34,11 @@ function formatFloat(value) {
   }
 }
 
-// TODO use GLOBALIZE
 function formatDate(value) {
   if (value === undefined || value === null) {
     return ""
   } else {
-    return Globalize.formatDate(value)
+    return value // TODO: add formating, here was globalize
   }
 }
 

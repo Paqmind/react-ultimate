@@ -1,6 +1,5 @@
 let {curry, identity, keys, map, reduce} = require("ramda")
 let Tc = require("tcomb")
-let Globalize = require("globalize")
 let {isArray, isPlainObject} = require("common/helpers/common")
 
 function parseBoolean(value) {
@@ -26,11 +25,11 @@ function parseDate(value, options) {
     //try {
     //  return Moment(value).toDate()
     //} catch (err) {
-    //  return Globalize.parseDate(value, options)
+    //  return value, options // TODO: add formating, here was globalize
     //}
     let date = new Date(value)
     if (date.toString(date) == "Invalid Date") {
-      let parsedDate = Globalize.parseDate(value, options)
+      let parsedDate = parseDate(value, options) // TODO: add formating, here was globalize
       return parsedDate ? parsedDate : value
     } else {
       return date

@@ -1,7 +1,6 @@
 import "babel/polyfill"
 import "common/shims"
 import {filter, forEach, keys, map, pipe} from "ramda"
-import Globalize from "globalize"
 import React from "react"
 import {create as createRouter, HistoryLocation} from "react-router"
 import {parseDefault} from "common/parsers"

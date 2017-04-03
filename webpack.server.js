@@ -3,7 +3,6 @@ let Path = require("path")
 let {assoc, map, reduce} = require("ramda")
 let {Base64} = require("js-base64")
 let Webpack = require("webpack")
-let GlobalizePlugin = require("globalize-webpack-plugin")
 let {NODE_MODULES_DIR, COMMON_DIR, FRONTEND_DIR, BACKEND_DIR, PUBLIC_DIR} = require("common/constants")
 
 // Paths to minified library distributions relative to the root node_modules
@@ -121,13 +120,6 @@ module.exports = {
     new Webpack.IgnorePlugin(/^vertx$/),
     new Webpack.DefinePlugin(DEFINE),
     new Webpack.optimize.DedupePlugin(),
-    new GlobalizePlugin({
-			production: false,
-			developmentLocale: "en",
-			supportedLocales: ["en", "ru"],
-			messages: "messages/[locale].json",
-			output: "i18n/[locale].[hash].js"
-		})
   ],
 
   devServer: {

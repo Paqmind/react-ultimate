@@ -1,5 +1,4 @@
 let Path = require("path")
-let Globalize = require("globalize")
 let Nunjucks = require("nunjucks")
 let constants = require("common/constants")
 
@@ -23,8 +22,6 @@ module.exports = function (app) {
 
   env.addGlobal("JSON", JSON)
   env.addGlobal("Math", Math)
-
-  env.addGlobal("Globalize", Globalize)
 
   env.addGlobal("constants", constants)
 
