@@ -9,7 +9,7 @@ import Footer from "./footer"
 import Menu from "./menu"
 import Pagination from "./pagination"
 
-export default {
+export {
   Component, DeepComponent, ShallowComponent, TextHolder,
   IndexLink, ItemLink, Loading, NotFound,
   Header, Footer, Menu, Pagination,

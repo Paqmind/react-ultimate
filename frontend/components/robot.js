@@ -4,6 +4,6 @@ import RobotEdit from "./edit/robot"
 import RobotIndex from "./index/robot"
 import RobotItem from "./item/robot"
 
-export default {
+export {
   RobotAdd, RobotDetail, RobotEdit, RobotIndex, RobotItem
 }

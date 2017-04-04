@@ -65,7 +65,7 @@ module.exports = {
     // http://webpack.github.io/docs/loaders.html
     loaders: [
       // https://github.com/babel/babel-loader
-      {test: /\.(js(\?.*)?)$/, loaders: ["babel?stage=0"], exclude: /node_modules/},
+      {test: /\.(js(\?.*)?)$/, loaders: ["babel-loader"], exclude: /node_modules/},
 
       // https://github.com/webpack/json-loader
       {test: /\.(json(\?.*)?)$/,  loaders: ["json"]},

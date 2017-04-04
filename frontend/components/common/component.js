@@ -17,7 +17,7 @@ class DeepComponent extends Component {
   shouldComponentUpdate = deepCompare
 }
 
-export default {
+export {
   Component, ShallowComponent, DeepComponent,
 }
 

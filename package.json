@@ -18,9 +18,20 @@
   "dependencies": {
     "autoprefixer-loader": "^3.1.0",
     "axios": "^0.7.0",
-    "babel": "^5.4.7",
-    "babel-core": "^5.4.7",
-    "babel-loader": "^5.1.3",
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-transform-class-properties": "^6.23.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-react": "^6.23.0",
+    "babel-preset-latest": "^6.24.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "babel-preset-stage-1": "^6.22.0",
+    "babel-preset-stage-2": "^6.22.0",
+    "babel-preset-stage-3": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
     "baobab": "^2.0.0",
     "baobab-react": "^1.0.0",
     "body-parser": "^1.12.4",
@@ -83,5 +94,21 @@
     "eslint": "^1.5.1",
     "mocha": "^2.2.5",
     "nodemon": "^1.3.7"
+  },
+  "babel": {
+    "plugins": [
+      "transform-class-properties",
+      "transform-decorators-legacy",
+      "transform-object-assign",
+      "transform-object-rest-spread"
+    ],
+    "presets": [
+      "stage-3",
+      "stage-2",
+      "stage-1",
+      "stage-0",
+      "react",
+      "latest"
+    ]
   }
 }

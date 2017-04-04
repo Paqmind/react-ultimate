@@ -4,6 +4,6 @@ import MonsterEdit from "./edit/monster"
 import MonsterIndex from "./index/monster"
 import MonsterItem from "./item/monster"
 
-export default {
+export {
   MonsterAdd, MonsterDetail, MonsterEdit, MonsterIndex, MonsterItem
 }

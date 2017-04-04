@@ -1,4 +1,4 @@
-import "babel/polyfill"
+import "babel-polyfill" // TODO: do we need it?
 import "common/shims"
 import {filter, forEach, keys, map, pipe} from "ramda"
 import React from "react"
