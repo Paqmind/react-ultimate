@@ -60,8 +60,8 @@ let publicRouter = Express.static("public", {etag: false})
 app.use("/", appRouter)
 app.use("/public", publicRouter)
 // forEach(router => app.use("/api/alerts/", router), alertRouters)
-// forEach(router => app.use("/api/robots/", router), robotRouters)
-// forEach(router => app.use("/api/monsters/", router), monsterRouters)
+forEach(router => app.use("/api/robots/", router), robotRouters)
+forEach(router => app.use("/api/monsters/", router), monsterRouters)
 
 app.use((req, res, cb) => {
   res.status(404).sendFile(Path.join(PUBLIC_DIR, "errors/404.html"))
