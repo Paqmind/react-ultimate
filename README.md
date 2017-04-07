@@ -1,7 +1,5 @@
 # React Ultimate
 
-**Since 2016-10-13 repo is under full reload and won't run out of the box for a while**
-
 Tired of **React Starters** reexplaining another helloworld?
 
 Dreamed of something closer to the industry?
@@ -29,17 +27,17 @@ React is not a final answer. Reactivity probably is.
 
 ## Dev Run
 
-1. Copy `.conf-demo` into `.conf-dev` with `$ cp .conf-demo .conf-dev`
-2. Run Webpack-Server with `$ . .conf-dev ; npm run webpack-server` (terminal #1)
-3. Run Nodemon with `$ . .conf-dev ; npm run nodemon` (terminal #2)
-4. See `localhost:3000` (set port in `.conf-dev`)
+1. Check dev.env and load it into SHELL via `$ . dev.env`.
+2. Run Webpack-Server via `$ npm run webpack-server` (terminal #1)
+3. Run Nodemon with `$ npm start` (terminal #2)
+4. See `localhost:8080` (or with other port you've set in `dev.env`)
 
 ## Prod run
 
-1. Copy `.conf-demo` into `.conf-prod` with `$ cp .conf-demo .conf-prod`
-2. Run Webpack with `$ . .conf-prod ; npm run webpack` (terminal #1)
-3. Run Node with `$ . .conf-prod ; npm run node` (terminal #2)
-4. See `//yoursite.com:8080` (set port in `.conf-prod`)
+1. Create prod.env (see sample.env) and load it into SHELL via `$ . prod.env`.
+2. Run Webpack via `$ npm run webpack` (terminal #1)
+3. Run Node with `$ npm run node` (terminal #2)
+4. See `http://yoursite.com:8080` (or with other port you've set in `prod.env`)
 
 ## Lint
 

@@ -4,7 +4,7 @@ let app = require("backend/app")
 
 let server = Http.createServer(app)
 server.on("error", onError)
-server.on("listening", onListening)
+server.on("listening", () => logger.info("Listening on port " + process.env.HTTP_PORT))
 server.listen(process.env.HTTP_PORT)
 
 function onError(error) {
@@ -23,8 +23,4 @@ function onError(error) {
     default:
       throw error
   }
-}
-
-function onListening() {
-  logger.info("Listening on port " + process.env.HTTP_PORT)
 }

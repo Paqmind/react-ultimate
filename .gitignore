@@ -1,17 +1,8 @@
-# EXCLUDE EXACT
-/ignore/
-
-# EXCLUDE BY MASK
 *.iml
 .idea
 .DS_Store
 node_modules
 npm-debug.log
-.tmp-globalize-webpack
+/*.env
+/ignore/
 /public/*
-.conf-dev
-.conf-prod
-.conf-test
-
-# INCLUDE EXACT
-!/public/errors/

@@ -7,12 +7,12 @@
     "npm": "2.14.7"
   },
   "scripts": {
-    "postinstall": "bin/postinstall.sh",
+    "postinstall": "bin/postinstall ; cp sample.env dev.env",
     "eslint": "eslint .",
     "webpack": "webpack --progress --profile",
     "webpack-server": "webpack-dev-server --config webpack.server.js --progress --port 2992 --inline",
     "node": "node backend/server.js",
-    "nodemon": "nodemon backend/server.js",
+    "start": "nodemon",
     "mocha": "mocha --opts tests/mocha.opts tests"
   },
   "dependencies": {
