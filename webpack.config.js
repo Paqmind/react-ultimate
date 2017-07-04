@@ -128,6 +128,12 @@ module.exports = {
     root: NODE_MODULES_DIR,
   },
 
+  externals: {
+    'react/lib/ExecutionEnvironment': true,
+    'react/addons': true,
+    'react/lib/ReactContext': true
+  },
+
   // http://webpack.github.io/docs/list-of-plugins.html
   plugins: [
     new Webpack.NoErrorsPlugin(),

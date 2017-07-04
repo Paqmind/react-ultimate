@@ -1,4 +1,4 @@
-import UUID from "node-uuid"
+  import UUID from "node-uuid"
 import Lens from "paqmind.data-lens"
 import TcLens from "paqmind.tcomb-lens"
 import {merge, unflattenObject} from "common/helpers/common"

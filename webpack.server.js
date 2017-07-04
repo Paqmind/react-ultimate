@@ -1,9 +1,12 @@
+//DEV server config
+
 let Fs = require("fs")
 let Path = require("path")
 let {assoc, map, reduce} = require("ramda")
 let {Base64} = require("js-base64")
 let Webpack = require("webpack")
 let {NODE_MODULES_DIR, COMMON_DIR, FRONTEND_DIR, BACKEND_DIR, PUBLIC_DIR} = require("common/constants")
+let ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 // Paths to minified library distributions relative to the root node_modules
 const MINIFIED_DEPS = [
@@ -47,11 +50,8 @@ module.exports = {
     pathinfo: true,
   },
 
-  // http://webpack.github.io/docs/configuration.html#debug
-  debug: true,
-
   // http://webpack.github.io/docs/configuration.html#devtool
-  devtool: null,
+  devtool: false,
 
   // http://webpack.github.io/docs/configuration.html#profile
   profile: false,
@@ -63,45 +63,48 @@ module.exports = {
     }, MINIFIED_DEPS),
 
     // http://webpack.github.io/docs/loaders.html
-    loaders: [
+    rules: [
       // https://github.com/babel/babel-loader
-      {test: /\.(js(\?.*)?)$/, loaders: ["babel-loader"], exclude: /node_modules/},
+      {test: /\.(js(\?.*)?)$/, loader: "babel-loader", exclude: /node_modules/},
 
       // https://github.com/webpack/json-loader
-      {test: /\.(json(\?.*)?)$/,  loaders: ["json"]},
-      {test: /\.(json5(\?.*)?)$/, loaders: ["json5"]},
+      //{test: /\.(json(\?.*)?)$/,  loader: "json-loader"},
+      {test: /\.(json5(\?.*)?)$/, loader: "json5-loader"},
 
       // https://github.com/webpack/css-loader
-      {test: /\.(css(\?.*)?)$/, loaders: ["style", "css?sourceMap"]},
+      {test: /\.(css(\?.*)?)$/, use: [{ loader: "style-loader", options: { sourceMap: true } }] },
 
       // https://github.com/webpack/less-loader
-      {test: /\.(less(\?.*)?)$/, loaders: ["style", "css?sourceMap", "less?sourceMap"]},
+      {test: /\.(less(\?.*)?)$/, use: ["style-loader", "css-loader", "less-loader"] },
+      //{test: /\.(less(\?.*)?)$/, use: [{ loader: "less-loader", options: { sourceMap: true } }] },
 
       // https://github.com/webpack/url-loader
-      {test: /\.(jpg(\?.*)?)$/,   loaders: ["url?limit=10000"]},
-      {test: /\.(jpeg(\?.*)?)$/,  loaders: ["url?limit=10000"]},
-      {test: /\.(png(\?.*)?)$/,   loaders: ["url?limit=10000"]},
-      {test: /\.(gif(\?.*)?)$/,   loaders: ["url?limit=10000"]},
-      {test: /\.(svg(\?.*)?)$/,   loaders: ["url?limit=10000"]},
-      {test: /\.(woff(\?.*)?)$/,  loaders: ["url?limit=100000"]},
-      {test: /\.(woff2(\?.*)?)$/, loaders: ["url?limit=100000"]},
+      {test: /\.(jpg(\?.*)?)$/,   use: [{loader: "url-loader", options: { limit: 10000 } }]},
+      {test: /\.(jpeg(\?.*)?)$/,  use: [{loader: "url-loader", options: { limit: 10000 } }]},
+      {test: /\.(png(\?.*)?)$/,   use: [{loader: "url-loader", options: { limit: 10000 } }]},
+      {test: /\.(gif(\?.*)?)$/,   use: [{loader: "url-loader", options: { limit: 10000 } }]},
+      {test: /\.(svg(\?.*)?)$/,   use: [{loader: "url-loader", options: { limit: 10000 } }]},
+      {test: /\.(woff(\?.*)?)$/,  use: [{loader: "url-loader", options: { limit: 100000 } }]},
+      {test: /\.(woff2(\?.*)?)$/, use: [{loader: "url-loader", options: { limit: 100000 } }]},
 
       // https://github.com/webpack/file-loader
-      {test: /\.(ttf(\?.*)?)$/, loaders: ["file"]},
-      {test: /\.(eot(\?.*)?)$/, loaders: ["file"]},
-      {test: /\.(wav(\?.*)?)$/, loaders: ["file"]},
-      {test: /\.(mp3(\?.*)?)$/, loaders: ["file"]},
+      {test: /\.(ttf(\?.*)?)$/, loader: "file-loader"},
+      {test: /\.(eot(\?.*)?)$/, loader: "file-loader"},
+      {test: /\.(wav(\?.*)?)$/, loader: "file-loader"},
+      {test: /\.(mp3(\?.*)?)$/, loader: "file-loader"},
 
       // https://github.com/webpack/raw-loader
-      {test: /\.(txt(\?.*)?)$/, loaders: ["raw"]},
+      {test: /\.(txt(\?.*)?)$/, loader: "raw-loader"},
     ],
   },
 
   // http://webpack.github.io/docs/configuration.html#resolve
   resolve: {
-    root: FRONTEND_DIR,
-
-    modulesDirectories: ["web_modules", "node_modules"],
+    modules: [
+      FRONTEND_DIR,
+      "web_modules",
+      "node_modules"
+    ],
 
     alias: reduce((memo, dep) => {
       let depPath = Path.resolve(NODE_MODULES_DIR, dep)
@@ -111,15 +114,16 @@ module.exports = {
 
   // http://webpack.github.io/docs/configuration.html#resolveloader
   resolveLoader: {
-    root: NODE_MODULES_DIR,
+    //root: NODE_MODULES_DIR,
   },
 
   // http://webpack.github.io/docs/list-of-plugins.html
   plugins: [
-    new Webpack.NoErrorsPlugin(),
+    new Webpack.NoEmitOnErrorsPlugin(),
     new Webpack.IgnorePlugin(/^vertx$/),
     new Webpack.DefinePlugin(DEFINE),
-    new Webpack.optimize.DedupePlugin(),
+    new Webpack.LoaderOptionsPlugin({debug: true}),
+    //new Webpack.optimize.DedupePlugin(),
   ],
 
   devServer: {

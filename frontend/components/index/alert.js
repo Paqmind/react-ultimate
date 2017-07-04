@@ -1,11 +1,9 @@
 import {map} from "ramda"
 import React from "react"
-import ReactAddons from "react/addons"
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import {branch} from "baobab-react/decorators"
 import {DeepComponent} from "frontend/components/common"
 import AlertItem from "frontend/components/item/alert"
-
-let CSSTransitionGroup = ReactAddons.addons.CSSTransitionGroup
 
 @branch({
   cursors: {

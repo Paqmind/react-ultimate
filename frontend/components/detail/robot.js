@@ -1,5 +1,6 @@
 import {branch} from "baobab-react/decorators"
 import React from "react"
+import ReactDOM from "react-dom"
 import {Link} from "react-router"
 import DocumentTitle from "react-document-title"
 import api from "common/api/robot"
@@ -23,6 +24,7 @@ let dataCursor = state.select(api.plural)
 export default class RobotDetail extends DeepComponent {
   render() {
     let {havePendingRequests, item} = this.props
+    
 
     if (item) {
       return (
@@ -44,7 +46,7 @@ export default class RobotDetail extends DeepComponent {
                     <dt>Manufacturer</dt>
                     <dd>{item.manufacturer}</dd>
                     <dt>Assembly Date</dt>
-                    <dd>{item.assemblyDate}</dd>
+                    <dd>{item.assemblyDate.toString()}</dd>
                   </dl>
                 </div>
               </div>

@@ -43,7 +43,7 @@ export default class MonsterDetail extends DeepComponent {
                     <dt>Manufacturer</dt>
                     <dd>{item.manufacturer}</dd>
                     <dt>Birth Date</dt>
-                    <dd>{item.birthDate}</dd>
+                    <dd>{item.birthDate.toString()}</dd>
                   </dl>
                 </div>
               </div>

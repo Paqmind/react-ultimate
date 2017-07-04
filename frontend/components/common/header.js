@@ -1,4 +1,5 @@
 import React from "react"
+import ReactDOM from "react-dom"
 import throttle from "lodash.throttle"
 import {Component} from "./component"
 
@@ -49,7 +50,7 @@ export default class Header extends Component {
     this.deltaHeight = this.props.deltaHeight ? this.props.deltaHeight : 5
     this.delay = this.props.delay ? this.props.delay : 250
     this.lastScrollTop = 0
-    this.elementHeight = React.findDOMNode(this).offsetHeight
+    this.elementHeight = ReactDOM.findDOMNode(this).offsetHeight
 
     // Add event handler on scroll
     window.addEventListener("scroll", throttle(this.hasScrolled, this.delay), false)

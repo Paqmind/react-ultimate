@@ -1,5 +1,6 @@
 import {filter} from "ramda"
 import React from "react"
+import ReactDOM from "react-dom"
 import {Component, ShallowComponent} from "./component"
 
 export default class TextHolder extends ShallowComponent {
@@ -13,7 +14,7 @@ export default class TextHolder extends ShallowComponent {
   }
 
   updateMaxWidth() {
-    let sectionNode = React.findDOMNode(this)
+    let sectionNode = ReactDOM.findDOMNode(this)
 
     // http://www.pearsonified.com/2012/01/characters-per-line.php
     let lettersPerRow = this.props.lettersPerRow || 80

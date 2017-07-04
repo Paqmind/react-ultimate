@@ -30,4 +30,4 @@ function validateData(data, type, key) {
 }
 
 exports.validateValue = validateValue // validate business value
-exports.validateData = exports        // validate raw data (form / file)
+exports.validateData = validateData //exports        // validate raw data (form / file) -- fixes `not a fn` issue
