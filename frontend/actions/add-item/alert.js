@@ -1,5 +1,5 @@
 import {assoc} from "ramda"
-import UUID from "node-uuid"
+import UUID from "uuid"
 import {ALERT} from "common/constants"
 import {Alert} from "common/types"
 import {parseAs} from "common/parsers"

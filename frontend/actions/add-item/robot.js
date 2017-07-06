@@ -1,5 +1,5 @@
 import {append, assoc, reject} from "ramda"
-import UUID from "node-uuid"
+import UUID from "uuid"
 import api from "common/api/robot"
 import {Robot} from "common/types"
 import {parseAs} from "common/parsers"
