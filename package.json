@@ -7,7 +7,7 @@
     "npm": "2.14.7"
   },
   "scripts": {
-    "postinstall": "bin/postinstall ; cp sample.env dev.env",
+    "postinstall": "bash ./bin/postinstall ; cp sample.env dev.env",
     "eslint": "eslint .",
     "webpack": "webpack --progress --profile",
     "webpack-server": "webpack-dev-server --config webpack.server.js --progress --port 2992 --inline",
@@ -31,7 +31,6 @@
     "babel-preset-stage-1": "^6.22.0",
     "babel-preset-stage-2": "^6.22.0",
     "babel-preset-stage-3": "^6.22.0",
-    "babel-preset-stage-0": "^6.22.0",
     "baobab": "^2.0.0",
     "baobab-react": "^1.0.0",
     "body-parser": "^1.12.4",
@@ -90,7 +89,6 @@
   "devDependencies": {
     "babel-eslint": "^4.1.3",
     "chai": "^3.3.0",
-    "cldr-data": "^28.0.2",
     "eslint": "^1.5.1",
     "mocha": "^2.2.5",
     "nodemon": "^1.3.7"
