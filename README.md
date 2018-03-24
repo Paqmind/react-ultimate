@@ -1,5 +1,10 @@
 # React Ultimate
 
+**This repo is not maintained. Check [Unredux](https://github.com/ivan-kleshnin/unredux) where
+our recent React experiments occur.**
+
+---
+
 Tired of **React Starters** reexplaining another helloworld?
 
 Dreamed of something closer to the industry?
@@ -23,18 +28,19 @@ React is not a final answer. Reactivity probably is.
 2. Go to unzipped folder
 3. Install static server with `$ npm install http-server -g`
 4. Install packages with `$ npm install`
-5. Apply required hacks (ES6) with `$ bin/postinstall`
+
+Note: Windows users should have Bash shell installed ([instructions](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/)).
 
 ## Dev Run
 
-1. Check dev.env and load it into SHELL via `$ . dev.env`.
+1. Check dev.env and load it into SHELL via `$ . dev.env`
 2. Run Webpack-Server via `$ npm run webpack-server` (terminal #1)
 3. Run Nodemon with `$ npm start` (terminal #2)
 4. See `localhost:8080` (or with other port you've set in `dev.env`)
 
 ## Prod run
 
-1. Create prod.env (see sample.env) and load it into SHELL via `$ . prod.env`.
+1. Create prod.env (see sample.env) and load it into SHELL via `$ . prod.env`
 2. Run Webpack via `$ npm run webpack` (terminal #1)
 3. Run Node with `$ npm run node` (terminal #2)
 4. See `http://yoursite.com:8080` (or with other port you've set in `prod.env`)
