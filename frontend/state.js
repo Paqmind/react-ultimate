@@ -12,8 +12,8 @@ let monkey = Baobab.monkey
 window._state = new Baobab(
   {
     url: {
-      route: undefined,
-      path: undefined,
+      route: '/public',
+      path: 'http://localhost:3000/public/',
       params: {},
       query: {},
     },
